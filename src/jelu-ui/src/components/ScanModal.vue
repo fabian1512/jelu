@@ -77,33 +77,7 @@ const isIosDevice = () => {
   return /iPad|iPhone|iPod/.test(ua) || (ua.includes("Macintosh") && "ontouchend" in document);
 };
 
-const getScannerOverride = () => {
-  const params = new URLSearchParams(window.location.search);
-  const queryOverride = params.get("scanner");
-  if (queryOverride === "zxing" || queryOverride === "vue") {
-    return queryOverride;
-  }
-
-  const storageOverride = window.localStorage.getItem("jeluScanner");
-  if (storageOverride === "zxing" || storageOverride === "vue") {
-    return storageOverride;
-  }
-
-  return null;
-};
-
-const shouldUseZxing = () => {
-  const override = getScannerOverride();
-  if (override === "zxing") {
-    return true;
-  }
-
-  if (override === "vue") {
-    return false;
-  }
-
-  return isIosDevice();
-};
+const shouldUseZxing = () => isIosDevice();
 
 const acceptBarcode = () => {
   emit("decoded", decodedText.value);
@@ -148,7 +122,7 @@ const startZxingScanner = async () => {
       }
 
       if (error && error.name !== "NotFoundException") {
-        console.debug("[zxing]", error.name, error.message);
+        // non-fatal decode errors are ignored during continuous scanning
       }
     });
 
@@ -191,9 +165,8 @@ const onDecode = (detectedBarcodes: Array<DetectedBarcode>) => {
   acceptBarcode();
 };
 
-const onError = (error: EmittedError) => {
-  console.log("barcode reader error");
-  console.log(error);
+const onError = (_error: EmittedError) => {
+  // handled by scanner UI state
 };
 
 watch(
