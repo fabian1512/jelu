@@ -11,7 +11,7 @@ enum class LuceneEntity(
     val id: String,
     val defaultFields: Array<String>,
 ) {
-    Book("book", "book_id", arrayOf("title", "isbn")),
+    Book("book", "book_id", arrayOf("title", "isbn", "author")),
     Author("author", "author_id", arrayOf("name")),
     ;
 
