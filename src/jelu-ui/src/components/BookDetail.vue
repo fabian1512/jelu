@@ -1125,7 +1125,7 @@ getBook()
               </p>
             </div>
             <button
-              class="sm:hidden btn btn-xs btn-circle btn-outline mb-0 border-0"
+              class="btn btn-xs btn-circle btn-outline mb-0 border-0"
               @click="toggleReadingEventModal(event, true)"
             >
               <i class="mdi mdi-pencil mdi-18px" />
@@ -1199,7 +1199,7 @@ getBook()
               </p>
             </div>
             <button
-              class="sm:hidden btn btn-xs btn-circle btn-outline mb-0 border-0"
+              class="btn btn-xs btn-circle btn-outline mb-0 border-0"
               @click="toggleReadingEventModal(event, true)"
             >
               <i class="mdi mdi-pencil mdi-18px" />
