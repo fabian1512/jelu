@@ -105,5 +105,9 @@ const editReview = async (reviewId: string) => {
 </template>
 
 <style lang="scss" scoped>
+.github-markdown-body {
+  padding: 16px;
+}
+
 
 </style>
