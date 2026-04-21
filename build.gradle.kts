@@ -164,6 +164,5 @@ tasks.register<Sync>("copyWebDist") {
     dependsOn("npmBuild")
     from("${layout.buildDirectory.get()}/npm-output")
     into("$projectDir/src/main/resources/public/")
-    
 }
 tasks.named("processResources") { dependsOn("copyWebDist") }
