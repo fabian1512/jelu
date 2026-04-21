@@ -449,4 +449,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply cursor-text!;
 }
 
+.github-markdown-body {
+  padding: 16px !important;
+}
 }
