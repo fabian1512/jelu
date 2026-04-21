@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  jelu:
+    image: ghcr.io/fabian1512/jelu:latest
+    container_name: jelu
+    ports:
+      - "11111:11111"
+    volumes:
+      - ./database:/database
+      - ./config:/config
+      - ./files/images:/files/images
+      - ./files/imports:/files/imports
+    environment:
+      - TZ=Europe/Berlin
+    restart: unless-stopped
