@@ -7,7 +7,7 @@
     "build": "vite build",
     "serve": "vite preview --debug",
     "tsc": "vue-tsc --noEmit",
-    "install-build": "npm ci && vite build"
+    "install-build": "npm install && vite build"
   },
   "dependencies": {
     "@kangc/v-md-editor": "2.3.18",
