@@ -51,7 +51,7 @@ const editReview = async (reviewId: string) => {
         </div>
         {{ username }} :
       </div>
-      <div class="ml-7">
+      <div class="ms-0">
         <v-md-preview
           class="text-justify text-base"
           :text="props.review.text"
