@@ -373,7 +373,7 @@ function scanModalClosed() {
                   v-model="searchQuery"
                   type="text"
                   :placeholder="t('labels.search_query')"
-                  class="input input-accent join-item w-full"
+                  class="input input-accent join-item flex-1"
                   @focus="showAdvanced = true"
                   @blur="hideAdvanced"
                   @keyup.enter="search"
