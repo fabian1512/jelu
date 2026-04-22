@@ -321,7 +321,7 @@ function scanModalClosed() {
           /></svg></label>
           <div
             tabindex="0"
-            class="dropdown-content mt-2-left-10 w-svw"
+            class="dropdown-content mt-2 ml-10 w-full"
           >
             <div
               class="form-control w-full"
