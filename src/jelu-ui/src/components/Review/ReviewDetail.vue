@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router';
 import { Book } from "../../model/Book";
 import { Review } from "../../model/Review";
 import dataService from "../../services/DataService";
-import BookDataCard from "./BookDataCard.vue";
+import BookDataCard from "../Book/BookDataCard.vue";
 import ReviewCard from "./ReviewCard.vue";
 
 const route = useRoute()
