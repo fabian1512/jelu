@@ -6,7 +6,7 @@ import { Book } from "../../model/Book";
 import { BookQuote } from "../../model/BookQuote";
 import dataService from "../../services/DataService";
 import BookDataCard from "./BookDataCard.vue";
-import BookQuoteCard from "./BookQuoteCard.vue";
+import BookQuoteCard from "../Global/BookQuoteCard.vue";
 
 const route = useRoute()
 
