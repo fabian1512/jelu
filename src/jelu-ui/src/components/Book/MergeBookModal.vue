@@ -937,7 +937,7 @@ const { typographyClasses } = useTypography()
 
             <figure>
               <img v-if="book.image" :src="'/files/' + book.image" alt="Book Image" class="max-h-96" />
-              <img v-else src="../assets/placeholder_asset.jpg" class="max-h-96"/>
+              <img v-else src="../../assets/placeholder_asset.jpg" class="max-h-96"/>
             </figure>
           </div>
         </div>

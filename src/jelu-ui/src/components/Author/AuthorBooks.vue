@@ -367,7 +367,7 @@ getBooks()
           >
           <img
             v-else
-            src="../assets/placeholer_author.jpg"
+            src="../../assets/placeholer_author.jpg"
             alt="cover placeholder"
           >
         </figure>

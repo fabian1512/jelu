@@ -269,7 +269,7 @@ try {
             >
             <img
               v-else
-              src="../assets/placeholer_author.jpg"
+              src="../../assets/placeholer_author.jpg"
               alt="cover placeholder"
               class="max-h-80"
             >

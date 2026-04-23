@@ -125,7 +125,7 @@ const currentTimestamp = ObjectUtils.timestamp()
           >
           <img
             v-else
-            src="../assets/placeholder_asset.jpg"
+            src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
             class="h-72 object-fill"
           >
@@ -145,7 +145,7 @@ const currentTimestamp = ObjectUtils.timestamp()
           >
           <img
             v-else
-            src="../assets/placeholder_asset.jpg"
+            src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
             class="h-72 object-fill"
           >

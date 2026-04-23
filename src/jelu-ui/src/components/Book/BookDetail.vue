@@ -731,7 +731,7 @@ getBook()
           >
           <img
             v-else
-            src="../assets/placeholder_asset.jpg"
+            src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
           >
         </figure>
