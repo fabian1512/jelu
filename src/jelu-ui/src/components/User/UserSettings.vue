@@ -3,7 +3,6 @@ import { useLocalStorage, useTitle } from '@vueuse/core'
 import { themeChange } from 'theme-change'
 import { computed, inject, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import StyledTitle from './StyledTitle.vue'
 
 useTitle('Jelu | User settings')
 

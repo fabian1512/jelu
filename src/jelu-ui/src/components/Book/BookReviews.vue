@@ -6,7 +6,7 @@ import { Book } from "../../model/Book";
 import { Review } from "../../model/Review";
 import dataService from "../../services/DataService";
 import BookDataCard from "./BookDataCard.vue";
-import ReviewCard from "./ReviewCard.vue";
+import ReviewCard from "../Global/ReviewCard.vue";
 import { useStore } from 'vuex'
 import { key } from '../../store'
 
