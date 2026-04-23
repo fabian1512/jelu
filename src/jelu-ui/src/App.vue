@@ -8,7 +8,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import ScanModal from "./components/ScanModal.vue";
-import UserShelvesModal from './components/UserShelvesModal.vue';
+import UserShelvesModal from './components/User/UserShelvesModal.vue';
 import dataService from "./services/DataService";
 import { key } from './store';
 import { StringUtils } from './utils/StringUtils';
