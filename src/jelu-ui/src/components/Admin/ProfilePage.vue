@@ -3,7 +3,7 @@ import { useTitle } from '@vueuse/core'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ProfileDetail from "./ProfileDetail.vue"
-import UserShelves from "./UserShelves.vue"
+import UserShelves from "../User/UserShelves.vue"
 import CustomLists from '../List/CustomLists.vue'
 
 const { t } = useI18n({
