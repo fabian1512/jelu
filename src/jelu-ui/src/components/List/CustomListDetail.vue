@@ -8,7 +8,7 @@ import { Book } from "../../model/Book";
 import { CustomList } from '../../model/custom-list';
 import dataService from "../../services/DataService";
 import { ObjectUtils } from '../../utils/ObjectUtils';
-import BookCard from "./BookCard.vue";
+import BookCard from '../Global/BookCard.vue';
 import useBulkEdition from '../../composables/bulkEdition';
 import { useI18n } from 'vue-i18n';
 import useTypography from '../../composables/typography';

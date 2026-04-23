@@ -10,9 +10,9 @@ import { ServerSettings } from "../../model/ServerSettings";
 import dataService from "../../services/DataService";
 import { key } from '../../store';
 import { StringUtils } from "../../utils/StringUtils";
-import MetadataDetail from "./MetadataDetail.vue";
-import MetadataPluginsModal from "./MetadataPluginsModal.vue";
-import ScanModal from "./ScanModal.vue";
+import MetadataDetail from '../Metadata/MetadataDetail.vue';
+import MetadataPluginsModal from '../Metadata/MetadataPluginsModal.vue';
+import ScanModal from '../Book/ScanModal.vue';
 import useTypography from "../../composables/typography";
 
 const { t } = useI18n({

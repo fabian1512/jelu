@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import useDates from '../../composables/dates'
 import { ObjectUtils } from "../../utils/ObjectUtils";
 import { useI18n } from 'vue-i18n'
-import FormField from "./FormField.vue";
+import FormField from '../Global/FormField.vue';
 import { Role } from "../../model/Role"
 import useTypography from "../../composables/typography"
 

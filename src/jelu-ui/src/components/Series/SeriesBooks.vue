@@ -11,8 +11,8 @@ import { Book } from '../../model/Book';
 import { LibraryFilter } from "../../model/LibraryFilter";
 import dataService from "../../services/DataService";
 import { ObjectUtils } from '../../utils/ObjectUtils';
-import BookCard from "./BookCard.vue";
-import SortFilterBarVue from "./SortFilterBar.vue";
+import BookCard from '../Global/BookCard.vue';
+import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import { Series } from '../../model/Series';
 import SeriesModalVue from './SeriesModal.vue'
 import { useOruga } from "@oruga-ui/oruga-next"

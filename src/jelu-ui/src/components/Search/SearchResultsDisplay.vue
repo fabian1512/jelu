@@ -10,8 +10,8 @@ import { Book } from '../../model/Book';
 import { LibraryFilter } from '../../model/LibraryFilter';
 import dataService from "../../services/DataService";
 import { ObjectUtils } from '../../utils/ObjectUtils';
-import BookCard from "./BookCard.vue";
-import SortFilterBarVue from "./SortFilterBar.vue";
+import BookCard from '../Global/BookCard.vue';
+import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import { ReadingEventType } from '../../model/ReadingEvent';
 
 const { t } = useI18n({

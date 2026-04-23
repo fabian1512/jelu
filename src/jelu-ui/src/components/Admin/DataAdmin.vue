@@ -2,8 +2,8 @@
 import { useTitle } from '@vueuse/core'
 import { ref } from "vue"
 import { useI18n } from 'vue-i18n'
-import SeriesAdmin from "./SeriesAdmin.vue"
-import TagsAdmin from "./TagsAdmin.vue"
+import SeriesAdmin from '../Series/SeriesAdmin.vue'
+import TagsAdmin from '../Tag/TagsAdmin.vue'
 import AdminAuthors from '../Author/AdminAuthors.vue'
 import AuthorsAdmin from '../Author/AuthorsAdmin.vue'
 

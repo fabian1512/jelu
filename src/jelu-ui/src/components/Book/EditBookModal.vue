@@ -15,10 +15,10 @@ import { Tag } from "../../model/Tag";
 import dataService from "../../services/DataService";
 import { ObjectUtils } from "../../utils/ObjectUtils";
 import { StringUtils } from "../../utils/StringUtils";
-import ImagePickerModal from "./ImagePickerModal.vue";
-import SeriesCompleteInput from "./SeriesCompleteInput.vue";
-import ClosableBadge from "./ClosableBadge.vue";
-import FormField from "./FormField.vue";
+import ImagePickerModal from '../Misc/ImagePickerModal.vue';
+import SeriesCompleteInput from '../Series/SeriesCompleteInput.vue';
+import ClosableBadge from '../Global/ClosableBadge.vue';
+import FormField from '../Global/FormField.vue';
 import { Role } from "../../model/Role";
 
 const { t } = useI18n({

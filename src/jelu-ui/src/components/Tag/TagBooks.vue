@@ -12,8 +12,8 @@ import { LibraryFilter } from "../../model/LibraryFilter";
 import { Tag } from '../../model/Tag';
 import dataService from "../../services/DataService";
 import { ObjectUtils } from '../../utils/ObjectUtils';
-import BookCard from "./BookCard.vue";
-import SortFilterBarVue from "./SortFilterBar.vue";
+import BookCard from '../Global/BookCard.vue';
+import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import { ReadingEventType } from '../../model/ReadingEvent';
 import useTypography from '../../composables/typography';
 

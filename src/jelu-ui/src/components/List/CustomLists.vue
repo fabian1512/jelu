@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { CustomList } from '../../model/custom-list'
 import { Tag } from "../../model/Tag"
 import dataService from "../../services/DataService"
-import ClosableBadge from "./ClosableBadge.vue"
+import ClosableBadge from '../Global/ClosableBadge.vue'
 import useTypography from '../../composables/typography'
 
 const { t } = useI18n({

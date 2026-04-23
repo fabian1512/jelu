@@ -4,8 +4,8 @@ import { useI18n } from 'vue-i18n';
 import { DirectoryListing, Path } from "../../model/DirectoryListing";
 import { Metadata } from "../../model/Metadata";
 import dataService from "../../services/DataService";
-import MetadataDetail from "./MetadataDetail.vue";
-import FilePickerElement from "./FilePickerElement.vue";
+import MetadataDetail from '../Metadata/MetadataDetail.vue';
+import FilePickerElement from '../Global/FilePickerElement.vue';
 import useTypography from "../../composables/typography";
 
 const { t } = useI18n({

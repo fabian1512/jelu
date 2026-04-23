@@ -10,7 +10,7 @@ import { CreateReadingEvent, ReadingEvent, ReadingEventType, ReadingEventWithUse
 import { Review } from "../../model/Review"
 import dataService from "../../services/DataService"
 import { key } from '../../store'
-import BookCard from "./BookCard.vue"
+import BookCard from '../Global/BookCard.vue'
 import QuotesDisplay from '../Quotes/QuotesDisplay.vue'
 import ReadingEventModalVue from './ReadingEventModal.vue'
 import ReadProgressModal from '../Book/ReadProgressModal.vue'

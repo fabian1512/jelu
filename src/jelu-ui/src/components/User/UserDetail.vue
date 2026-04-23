@@ -10,7 +10,7 @@ import { ReadingEventType, ReadingEventWithUserBook } from '../../model/ReadingE
 import { Review } from '../../model/Review';
 import { User } from '../../model/User';
 import dataService from "../../services/DataService";
-import BookCard from "./BookCard.vue";
+import BookCard from '../Global/BookCard.vue';
 import ReviewBookCard from '../Global/ReviewBookCard.vue';
 import useTypography from '../../composables/typography';
 

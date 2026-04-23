@@ -9,7 +9,7 @@ import { SeriesOrder } from "../../model/Series";
 import { Tag } from "../../model/Tag";
 import dataService from "../../services/DataService";
 import { ObjectUtils } from "../../utils/ObjectUtils";
-import SeriesCompleteInput from "./SeriesCompleteInput.vue";
+import SeriesCompleteInput from '../Series/SeriesCompleteInput.vue';
 import { Role } from "../../model/Role";
 import useTypography from "../../composables/typography";
 

@@ -9,8 +9,8 @@ import useSort from "../../composables/sort";
 import { UserBook } from "../../model/Book";
 import { ReadingEventType } from "../../model/ReadingEvent";
 import dataService from "../../services/DataService";
-import BookCard from "./BookCard.vue";
-import SortFilterBarVue from "./SortFilterBar.vue";
+import BookCard from '../Global/BookCard.vue';
+import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import useTypography from '../../composables/typography';
 
 const { t } = useI18n({

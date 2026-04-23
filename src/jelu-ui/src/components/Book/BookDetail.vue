@@ -17,8 +17,8 @@ import { User } from '../../model/User'
 import dataService from "../../services/DataService"
 import { key } from '../../store'
 import { ObjectUtils } from '../../utils/ObjectUtils'
-import AutoImportFormModalVue from "./AutoImportFormModal.vue"
-import BookQuoteCard from "./BookQuoteCard.vue"
+import AutoImportFormModalVue from '../Admin/AutoImportFormModal.vue'
+import BookQuoteCard from '../Global/BookQuoteCard.vue'
 import BookQuoteModalVue from './BookQuoteModal.vue'
 import MergeBookModal from './MergeBookModal.vue'
 import ReadingEventModalVue from '../Misc/ReadingEventModal.vue'

@@ -8,7 +8,7 @@ import useSort from "../../composables/sort";
 import { Author } from '../../model/Author';
 import { Role } from '../../model/Role';
 import dataService from "../../services/DataService";
-import SortFilterBarVue from "./SortFilterBar.vue";
+import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import useTypography from '../../composables/typography';
 
 const { t } = useI18n({

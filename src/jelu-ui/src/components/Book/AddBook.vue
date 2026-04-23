@@ -17,12 +17,12 @@ import dataService from "../../services/DataService";
 import { key } from '../../store';
 import { ObjectUtils } from "../../utils/ObjectUtils";
 import { StringUtils } from "../../utils/StringUtils";
-import AutoImportFileModalVue from "./AutoImportFileModal.vue";
-import AutoImportFormModalVue from "./AutoImportFormModal.vue";
-import ImagePickerModal from "./ImagePickerModal.vue";
-import SeriesCompleteInput from "./SeriesCompleteInput.vue";
-import ClosableBadge from "./ClosableBadge.vue";
-import FormField from "./FormField.vue";
+import AutoImportFileModalVue from '../Admin/AutoImportFileModal.vue';
+import AutoImportFormModalVue from '../Admin/AutoImportFormModal.vue';
+import ImagePickerModal from '../Misc/ImagePickerModal.vue';
+import SeriesCompleteInput from '../Series/SeriesCompleteInput.vue';
+import ClosableBadge from '../Global/ClosableBadge.vue';
+import FormField from '../Global/FormField.vue';
 import { Role } from "../../model/Role";
 import useTypography from "../../composables/typography";
 

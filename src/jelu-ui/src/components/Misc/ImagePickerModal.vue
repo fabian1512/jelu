@@ -3,7 +3,7 @@ import { Ref, ref } from "vue";
 import { useI18n } from 'vue-i18n';
 import { DirectoryListing, Path } from "../../model/DirectoryListing";
 import dataService from "../../services/DataService";
-import FilePickerElement from "./FilePickerElement.vue";
+import FilePickerElement from '../Global/FilePickerElement.vue';
 import useTypography from "../../composables/typography";
 
 const { t } = useI18n({

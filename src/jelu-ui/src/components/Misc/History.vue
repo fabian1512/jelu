@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import usePagination from '../../composables/pagination';
 import { ReadingEventType, ReadingEventWithUserBook } from '../../model/ReadingEvent';
 import dataService from "../../services/DataService";
-import BookCard from "./BookCard.vue";
+import BookCard from '../Global/BookCard.vue';
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import useTypography from '../../composables/typography';
 
