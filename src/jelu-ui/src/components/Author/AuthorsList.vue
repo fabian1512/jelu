@@ -227,7 +227,7 @@ try {
       </button>
     </div>
     <h2
-      class="text-3xl capitalize"
+      class="text-xl sm:text-2xl md:text-3xl capitalize"
       :class="typographyClasses"
     >
       <span class="icon">
@@ -247,13 +247,12 @@ try {
   />
   <div
     v-if="authors.length > 0"
-    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-0 my-3 shrink-0 grow-0 mt-2"
+    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 my-3 shrink-0 grow-0 mt-2"
   >
     <TransitionGroup name="list">
       <div
         v-for="author in authors"
         :key="author.id"
-        class="m-1"
       >
         <div class="card bg-base-100 shadow-sm">
           <figure>

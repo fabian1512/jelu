@@ -116,6 +116,10 @@ const createInitialUser = async () => {
 
 const oauth2Login = (provider: OAuth2ClientDto) => {
 const url = `${urls.BASE_URL}/oauth2/authorization/${provider.registrationId}`
+      if (window.innerWidth < 768) {
+        window.location.href = url;
+        return;
+      }
       const height = 600
       const width = 600
       const y = window.top!.outerHeight / 2 + window.top!.screenY - (height / 2)
@@ -205,7 +209,7 @@ getOauthproviders()
           class="control"
         >
           <button
-            class="btn btn-warning mt-4 uppercase"
+            class="btn btn-warning mt-4 uppercase w-full"
             :disabled="progress"
             @click="createInitialUser"
           >
@@ -221,7 +225,7 @@ getOauthproviders()
           class="control"
         >
           <button
-            class="btn btn-success mt-4 capitalize"
+            class="btn btn-success mt-4 capitalize w-full"
             :disabled="progress"
             @click="logUser"
           >
@@ -246,7 +250,7 @@ getOauthproviders()
           <button
             v-for="provider in providers"
             :key="provider.name"
-            class="btn btn-info m-2 capitalize"
+            class="btn btn-info m-2 capitalize w-full"
             :disabled="displayInitialSetup"
             @click="oauth2Login(provider)"
           >

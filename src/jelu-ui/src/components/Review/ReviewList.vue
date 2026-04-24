@@ -72,7 +72,7 @@ const { typographyClasses } = useTypography()
 <template>
   <div class="flex flex-row mb-2 justify-center">
     <h2
-      class="text-3xl capitalize"
+      class="text-xl sm:text-2xl md:text-3xl capitalize"
       :class="typographyClasses"
     >
       <span class="icon">
@@ -109,7 +109,7 @@ const { typographyClasses } = useTypography()
   </div>
   <div
     v-else-if="getBookIsLoading"
-    class="flex flex-row justify-center justify-items-center gap-3"
+    class="flex flex-row flex-wrap justify-center justify-items-center gap-3"
   >
     <o-skeleton
       class="justify-self-center basis-36"
@@ -122,7 +122,7 @@ const { typographyClasses } = useTypography()
       :animated="true"
     />
     <o-skeleton
-      class="justify-self-center basis-36"
+      class="justify-self-center basis-36 hidden sm:block"
       height="250px"
       :animated="true"
     />

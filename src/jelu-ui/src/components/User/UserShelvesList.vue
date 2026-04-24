@@ -105,7 +105,7 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <div class="w-fit flex flex-col sm:flex-row-reverse">
+  <div class="w-full flex flex-col sm:flex-row-reverse">
     <div
       v-if="props.allowCreate"
       class="sm:mx-1 w-full sm:w-fit"
@@ -215,7 +215,7 @@ const { typographyClasses } = useTypography()
             </h3>
             <button
               v-if="props.allowDelete"
-              class="btn btn-sm"
+              class="btn"
               @click="deleteShelf(shelf)"
             >
               <svg

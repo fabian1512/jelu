@@ -200,9 +200,9 @@ const { typographyClasses } = useTypography()
             </template>
           </datepicker>
         </div>
-        <div class="mt-3">
+        <div class="flex gap-2 mt-3">
           <button
-            class="btn btn-secondary mr-2 uppercase"
+            class="btn btn-secondary flex-1 uppercase"
             @click="update"
           >
             <span class="icon">
@@ -211,7 +211,7 @@ const { typographyClasses } = useTypography()
             <span>{{ t('labels.submit') }}</span>
           </button>
           <button
-            class="btn btn-error uppercase"
+            class="btn btn-error flex-1 uppercase"
             @click="deleteEvent"
           >
             <span class="icon">

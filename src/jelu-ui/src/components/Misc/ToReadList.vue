@@ -312,8 +312,8 @@ const { typographyClasses } = useTypography()
       </div>
     </template>
   </sort-filter-bar-vue>
-  <div class="flex flex-row justify-between mb-2">
-    <div class="flex flex-row gap-1 order-last sm:order-first">
+  <div class="flex flex-row flex-wrap justify-between mb-2">
+    <div class="flex flex-row flex-wrap gap-1 order-last sm:order-first">
       <button
         class="btn btn-outline btn-success"
         @click="open = !open"
@@ -353,7 +353,7 @@ const { typographyClasses } = useTypography()
       </button>
     </div>
     <h2
-      class="text-3xl capitalize"
+      class="text-xl sm:text-2xl md:text-3xl capitalize truncate"
       :class="typographyClasses"
     >
       {{ message }} :
@@ -370,7 +370,7 @@ const { typographyClasses } = useTypography()
   />
   <div
     v-if="books.length > 0"
-    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-0 my-3"
+    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 my-3"
   >
     <div
       v-for="book in books"

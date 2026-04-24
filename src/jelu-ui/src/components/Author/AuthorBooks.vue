@@ -277,7 +277,7 @@ getBooks()
           {{ author.name }}
         </h2>
         <button
-          class="btn btn-circle btn-xs bg-transparent border-0 hover:bg-accent/30"
+          class="btn btn-circle btn-sm bg-transparent border-0 hover:bg-accent/30"
           @click="editAuthor"
         >
           <i class="mdi mdi-24px mdi-pencil" />
@@ -312,8 +312,8 @@ getBooks()
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
             y="0px"
-            width="100"
-            height="40"
+            width="24"
+            height="24"
             viewBox="0 0 48 48"
           >
             <path
@@ -347,7 +347,7 @@ getBooks()
         ><i class="mdi mdi-24px mdi-instagram" /></a>
       </div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-10">
       <div class="justify-self-center sm:justify-self-end">
         <figure class="image">
           <img

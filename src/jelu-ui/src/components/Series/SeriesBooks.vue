@@ -228,8 +228,8 @@ const { typographyClasses } = useTypography()
       </div>
     </template>
   </sort-filter-bar-vue>
-  <div class="flex flex-row justify-between">
-    <div class="flex flex-row gap-1 order-last sm:order-first">
+  <div class="flex flex-row flex-wrap justify-between">
+    <div class="flex flex-row flex-wrap gap-1 order-last sm:order-first">
       <button
         class="btn btn-outline btn-success"
         @click="open = !open"
@@ -269,7 +269,7 @@ const { typographyClasses } = useTypography()
       </button>
     </div>
     <h2
-      class="text-3xl"
+      class="text-xl sm:text-2xl md:text-3xl truncate"
       :class="typographyClasses"
     >
       <span class="icon">
@@ -323,7 +323,7 @@ const { typographyClasses } = useTypography()
     :per-page="perPage"
     @change="updatePage"
   />
-  <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-1 my-3">
+  <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 my-3">
     <div
       v-for="book in convertedBooks"
       :key="book.book.id"
