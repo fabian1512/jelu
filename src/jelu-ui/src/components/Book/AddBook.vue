@@ -473,13 +473,13 @@ const displayDatepicker = computed(() => {
   <section>
     <div class="grid">
       <div class="grid sm:grid-cols-3 mb-4 sm:w-10/12 justify-center justify-items-center justify-self-center">
-        <div />
+        <div class="hidden sm:block" />
         <h1
-          class="text-2xl capitalize"
+          class="text-2xl capitalize text-center"
           :class="typographyClasses">
           {{ t('nav.add_book') }}
         </h1>
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2 justify-center">
           <button
             v-tooltip="t('labels.auto_fill_doc')"
             class="btn btn-success button uppercase"
@@ -517,7 +517,7 @@ const displayDatepicker = computed(() => {
           </svg>
         </div>
       </div>
-      <div class="sm:w-8/12 justify-self-center">
+      <div class="sm:w-8/12 justify-self-center px-2 sm:px-0">
         <FormField
           v-model="form.title"
           :legend="t('book.title')"
@@ -830,7 +830,7 @@ const displayDatepicker = computed(() => {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6 hover:cursor-pointer"
+              class="size-8 hover:cursor-pointer"
               @click="form.pageCount = null; form.currentPageNumber = null"
             >
               <path
@@ -937,7 +937,7 @@ const displayDatepicker = computed(() => {
             class="textarea focus:textarea-accent w-full"
           />
         </fieldset>
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <fieldset class="fieldset">
             <legend class="fieldset-legend capitalize">
               {{ t('book.owned') }}
@@ -996,7 +996,7 @@ const displayDatepicker = computed(() => {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6 hover:cursor-pointer"
+              class="size-8 hover:cursor-pointer"
               @click="form.price = null"
             >
               <path
@@ -1027,7 +1027,7 @@ const displayDatepicker = computed(() => {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6 hover:cursor-pointer"
+              class="size-8 hover:cursor-pointer"
               @click="form.currentPageNumber = null"
             >
               <path
@@ -1111,7 +1111,7 @@ const displayDatepicker = computed(() => {
               {{ t('labels.upload_cover') }}
             </legend>
             <div class="">
-              <label class="label cursor-pointer justify-center gap-2 flex flex-wrap">
+            <label class="label cursor-pointer justify-start sm:justify-center gap-3 sm:gap-2 flex flex-wrap">
                 <div>
                   <input
                     v-model="uploadType"
@@ -1185,7 +1185,7 @@ const displayDatepicker = computed(() => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-6 hover:cursor-pointer"
+                class="size-8 hover:cursor-pointer"
                 @click="clearImageField"
               >
                 <path
@@ -1245,7 +1245,7 @@ const displayDatepicker = computed(() => {
         </div>
         <div class="field">
           <button
-            class="btn btn-success mb-3 uppercase"
+            class="btn btn-success mb-3 uppercase w-full sm:w-auto"
             :disabled="!StringUtils.isNotBlank(form.title)"
             :class="{'btn-disabled' : progress}"
             @click="importBook"
