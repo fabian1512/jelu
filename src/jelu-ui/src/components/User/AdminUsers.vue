@@ -19,8 +19,6 @@ const oruga = useOruga()
 const form = ref({'login' : '', 'password' : '', 'password_confirm': '', 'admin': false})
 
 async function createUser() {
-  console.log("create user")
-  console.log(form)
   try {
     await dataService.createUser({"login" : form.value.login, "password": form.value.password, "isAdmin" : form.value.admin})
     ObjectUtils.toast(oruga, "success", t('admin_user.user_saved', {name : form.value.login}), 4000)
@@ -29,8 +27,6 @@ async function createUser() {
     form.value.login = ''
     form.value.admin = false
   } catch (err: any) {
-    console.log('error creating user')
-    console.log(err)
   }
 }
 

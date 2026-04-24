@@ -23,10 +23,8 @@ const emit = defineEmits<{
 
 const sortOrder = ref(props.order)
 
-console.log('order ' + sortOrder.value)
 
 watch(sortOrder, (newVal, oldVal) => {
-  console.log("bar sort order " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
       emit("update:sortOrder", newVal)
   }

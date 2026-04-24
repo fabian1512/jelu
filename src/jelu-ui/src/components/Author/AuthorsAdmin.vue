@@ -112,7 +112,6 @@ const getAuthor = async (selected: Author) => {
   try {
     author.value = await dataService.getAuthorById(selected.id as string)
   } catch (error) {
-    console.log("failed get author : " + error);
   }
 }
 

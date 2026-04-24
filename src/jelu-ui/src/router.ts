@@ -1,19 +1,21 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import store from './store'
 import AdminBaseVue from './components/Admin/AdminBase.vue'
 import urls from './urls'
 
-const isLogged = () => {
+const isLogged = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     if (!store.getters.getLogged) {
-        console.log("is not logged")
-        return false
+        next({ name: 'login' })
+    } else {
+        next()
     }
 }
 
-const isAdmin = () => {
+const isAdmin = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     if (!store.getters.isAdmin) {
-        console.log("is not admin")
-        return false
+        next({ name: 'login' })
+    } else {
+        next()
     }
 }
 
@@ -155,11 +157,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log(`to : ${to.name?.toString()}`)
-    console.log(to)
-    console.log(`from : ${from.name?.toString()}`)
-    console.log(from)
-    console.log(store.getters.getLogged)
     
     if (window.opener !== null &&
     window.name === 'oauth2Login' &&
@@ -177,9 +174,6 @@ router.beforeEach((to, from, next) => {
   }
     if (from.name == undefined 
         && from.matched.length < 1) {
-        console.log('undefined wanting to go to ' + to.name?.toString())
-        console.log('undefined wanting to go to ' + to.query['page'])
-        console.log(to.query)
         if (to.name !== 'login') {
             // store.commit('entryPoint', to.path)
             store.commit('route', to)

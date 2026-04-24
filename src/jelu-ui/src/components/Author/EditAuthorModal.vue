@@ -18,7 +18,6 @@ const props = defineProps<{
 }>()
 
 const currentAuthor: Ref<Author> = ref(props.author)
-console.log(currentAuthor.value)
 const progress: Ref<boolean> = ref(false)
 const deleteImage: Ref<boolean> = ref(false)
 const uploadFromWeb = ref(true);
@@ -67,7 +66,6 @@ const update = () => {
   }
   dataService.updateAuthor(currentAuthor.value, file.value, (event: { loaded: number; total: number }) => {
           const percent = Math.round((100 * event.loaded) / event.total);
-          console.log("percent " + percent);
           uploadPercentage.value = percent;
         })
     .then(res => {
@@ -83,7 +81,6 @@ const search = () => {
   progress.value = true
   dataService.wikipediaSearch(currentAuthor.value.name, searchlanguage.value)
   .then(res => {
-    console.log(res)
     progress.value = false
     searchResult.value = res
   })

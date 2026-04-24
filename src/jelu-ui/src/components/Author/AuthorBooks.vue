@@ -48,16 +48,12 @@ const open = ref(false)
 const getBooksIsLoading: Ref<boolean> = ref(false)
 
 watch([() => route.params.authorId, page, sortQuery, libraryFilter, roleFilter], (newVal, oldVal) => {
-  console.log(page.value)
-  console.log(newVal + " " + oldVal)
-  console.log(route.name)
   if (newVal !== oldVal && route.name === name) {
     getBooks()
   }
 })
 
 watch(() => route.params.authorId, (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.authorId !== undefined) {
     getAuthor()
   }
@@ -68,7 +64,6 @@ const getAuthor = async () => {
     author.value = await dataService.getAuthorById(route.params.authorId as string)
     useTitle('Jelu | ' + author.value.name)
   } catch (error) {
-    console.log("failed get author : " + error);
   }
 };
 
@@ -78,7 +73,6 @@ const getBooks = () => {
     pageAsNumber.value - 1, perPage.value, sortQuery.value,
     libraryFilter.value, roleFilter.value)
     .then(res => {
-        console.log(res)
           total.value = res.totalElements
           authorBooks.value = res.content
         if (! res.empty) {
@@ -101,17 +95,14 @@ const getBooks = () => {
 const convertedBooks = computed(() => authorBooks.value?.map(b => ObjectUtils.toUserBook(b)))
 
 function modalClosed() {
-  console.log("modal closed")
   getBooks()
 }
 
 function authorModalClosed() {
-  console.log("author modal closed")
   getAuthor()
 }
 
 const editAuthor = () => {
-  console.log(author.value)
   authorEdit.value = !authorEdit.value
   oruga.modal.open({
     parent: this,

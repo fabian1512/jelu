@@ -98,7 +98,6 @@ const currentSeries = computed(() => {
 })
 
 watch(checked, (newVal, oldVal) => {
-  console.log(props.book.id != null ? props.book.id : props.book.book.id + " " + checked.value)
   emit("update:checked", props.book.id != null ? props.book.id as string : props.book.book.id as string , checked.value)
 })
 

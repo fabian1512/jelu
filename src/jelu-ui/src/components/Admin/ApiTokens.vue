@@ -47,7 +47,6 @@ async function loadTokens() {
   try {
     tokens.value = await dataService.getApiTokens()
   } catch (err: any) {
-    console.log('error loading tokens', err)
     ObjectUtils.toast(oruga, "danger", t('api_tokens.load_error'), 4000)
   } finally {
     loading.value = false
@@ -58,7 +57,6 @@ async function loadScopes() {
   try {
     scopes.value = await dataService.getApiTokenScopes()
   } catch (err: any) {
-    console.log('error loading scopes', err)
   }
 }
 
@@ -97,7 +95,6 @@ async function createToken() {
 
     ObjectUtils.toast(oruga, "success", t('api_tokens.created'), 4000)
   } catch (err: any) {
-    console.log('error creating token', err)
     ObjectUtils.toast(oruga, "danger", t('api_tokens.create_error'), 4000)
   }
 }
@@ -112,7 +109,6 @@ async function revokeToken(token: ApiToken) {
     await loadTokens()
     ObjectUtils.toast(oruga, "success", t('api_tokens.revoked'), 4000)
   } catch (err: any) {
-    console.log('error revoking token', err)
     ObjectUtils.toast(oruga, "danger", t('api_tokens.revoke_error'), 4000)
   }
 }
@@ -123,7 +119,6 @@ async function toggleTokenActive(token: ApiToken) {
     await loadTokens()
     ObjectUtils.toast(oruga, "success", token.isActive ? t('api_tokens.deactivated') : t('api_tokens.activated'), 4000)
   } catch (err: any) {
-    console.log('error updating token', err)
     ObjectUtils.toast(oruga, "danger", t('api_tokens.update_error'), 4000)
   }
 }

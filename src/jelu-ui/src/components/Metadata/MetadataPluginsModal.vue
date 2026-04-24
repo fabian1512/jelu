@@ -21,7 +21,6 @@ const emit = defineEmits<{
 
 const plugins: Ref<Array<PluginInfoOrder>> = ref([])
 for (const elem of store.getters.getSettings.metadataPlugins) {
-  console.log('elem' + elem)
   plugins.value.push({name: elem.name, order: elem.order, enabled: true})
 
 }
@@ -29,11 +28,7 @@ plugins.value.sort((a, b) => b.order - a.order)
 const progress: Ref<boolean> = ref(false)
 
  const submit =async () => {
-  console.log("plugins")
-  console.log(plugins.value)
   let finalPlugins = plugins.value.filter(p => p.enabled).map((pluginInfo, idx) => newPlugin(pluginInfo, idx, plugins.value.length))
-  console.log("new plugins")
-  console.log(finalPlugins)
   emit('plugins', finalPlugins)
   emit('close')
 }
@@ -52,8 +47,6 @@ function getKey(item: PluginInfo) {
 
 /** move item to the bottom if disabled */
 const checkState = (element: PluginInfoOrder) => {
-  console.log("state")
-  console.log(element)
   if (element.enabled === false) {
     plugins.value = [...plugins.value.filter(a => a !== element), element]
   } else {

@@ -29,11 +29,9 @@ const quoteText = ref(props.edit != null && props.edit === true && props.bookQuo
 const position = ref(props.edit != null && props.edit === true && props.bookQuote?.position != null ? props.bookQuote?.position : "")
 
 watch(visibility, (newVal, oldVal) => {
-  console.log("visibilty " + visibility.value)
 })
 
 const submit = () => {
-  console.log("submit ")
   if (props.book.id != null) {
     progress.value = true
     dataService.saveBookQuote({
@@ -48,13 +46,11 @@ const submit = () => {
       })
       .catch(err => {
         progress.value = false
-        console.log(err)
       })
   }
 }
 
 const editBookQuote = () => {
-  console.log("edit ")
   if (props.book.id != null && props.bookQuote?.id != null) {
     progress.value = true
     dataService.updateBookQuote(props.bookQuote.id, {
@@ -68,7 +64,6 @@ const editBookQuote = () => {
       })
       .catch(err => {
         progress.value = false
-        console.log(err)
       })
   }
 }

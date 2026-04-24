@@ -27,7 +27,6 @@ const getUsers = async () => {
   try {
     users.value = await dataService.getUsers()
   } catch (error) {
-    console.log("failed get users : " + error);
   }
 };
 
@@ -58,7 +57,6 @@ const deleteUser = async (user: User) => {
             getUsers()
     })
     .catch(err => {
-      console.log(err)
     })
     }
 }

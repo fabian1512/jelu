@@ -111,7 +111,6 @@ const getTag = async (selected: Tag) => {
   try {
     tag.value = await dataService.getTagById(selected.id as string)
   } catch (error) {
-    console.log("failed get tag : " + error);
   }
 }
 

@@ -42,14 +42,12 @@ const books: Ref<Array<Book>> = ref([]);
 const getBooksIsLoading: Ref<boolean> = ref(false)
 
 watch([() => route.params.seriesId, page, sortQuery, libraryFilter], (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.seriesId !== undefined) {
     throttledGetBooks()
   }
 })
 
 watch(() => route.params.seriesId, (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.seriesId !== undefined) {
     getSeries()
   }
@@ -60,7 +58,6 @@ const getSeries = async () => {
     series.value = await dataService.getSeriesById(route.params.seriesId as string)
     useTitle('Jelu | ' + series.value.name)
   } catch (error) {
-    console.log("failed get series : " + error);
   }
 };
 
@@ -70,7 +67,6 @@ const getBooks = () => {
       pageAsNumber.value - 1, perPage.value, sortQuery.value,
       libraryFilter.value)
       .then(res => {
-        console.log(res)
             total.value = res.totalElements
             books.value = res.content
           if (! res.empty) {
@@ -96,12 +92,10 @@ const throttledGetBooks = useThrottleFn(() => {
 const convertedBooks = computed(() => books.value?.map(b => ObjectUtils.toUserBook(b)))
 
 function modalClosed() {
-  console.log("modal closed")
   throttledGetBooks()
 }
 
 function seriesModalClosed() {
-  console.log("series modal closed")
   getSeries()
 }
 

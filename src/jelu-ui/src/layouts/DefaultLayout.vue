@@ -101,7 +101,6 @@ function toggleShelvesModal() {
 }
 
 function scanModalClosed() {
-  console.log("scan modal closed");
 }
 
 const logout = () => {

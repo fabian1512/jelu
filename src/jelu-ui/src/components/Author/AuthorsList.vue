@@ -54,7 +54,6 @@ watch(sortOrder, (newVal) => {
 });
 
 watch([page, role, sortQuery, search_query], (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetAuthors()
   }
@@ -64,7 +63,6 @@ const getAuthors = () => {
   getBookIsLoading.value = true
   dataService.findAuthorByCriteria(role.value, search_query.value, pageAsNumber.value -1, perPage.value, sortQuery.value)
   .then(res => {
-        console.log(res)
           total.value = res.totalElements
           authors.value = res.content
         if (! res.empty) {
@@ -89,7 +87,6 @@ const throttledGetAuthors = useThrottleFn(() => {
 }, 100, false)
 
 onMounted(() => {
-  console.log("Component is mounted!");
 });
 
 const { typographyClasses } = useTypography()
@@ -97,7 +94,6 @@ const { typographyClasses } = useTypography()
 try {
   getAuthors();
 } catch (error) {
-  console.log("failed get authors : " + error);
 }
 
 </script>

@@ -60,8 +60,6 @@ const importData = async () => {
     // with an isbn already set. And we don't want to warn in that case
     if (isbnHasChanged()) {
       let alreadyExisting = await dataService.checkIsbnExists(book.value.isbn10, book.value.isbn13)
-      console.log('already existing')
-      console.log(alreadyExisting)
       if (alreadyExisting != null) {
         saveBook = false
         await ObjectUtils.swalYesNoMixin.fire({
@@ -77,7 +75,6 @@ const importData = async () => {
         })
       }
     }
-    console.log(`save book ${saveBook}`)
     if (!saveBook) {
       progress.value = false
       return
@@ -99,7 +96,6 @@ const importData = async () => {
         })
         .catch(err => {
           progress.value = false
-          console.log(err)
         })
   }
 }
@@ -108,18 +104,14 @@ function beforeAdd(item: Author | string) {
   let shouldAdd = true
   if (item instanceof Object) {
     book.value.authors?.forEach(author => {
-      console.log(`author ${author.name}`)
       if (author.name === item.name) {
-        console.log(`author ${author.name} item ${item.name}`)
         shouldAdd = false;
       }
     });
   }
   else {
     book.value.authors?.forEach(author => {
-      console.log(`author ${author.name}`)
       if (author.name === item) {
-        console.log(`author ${author.name} item ${item}`)
         shouldAdd = false;
       }
     });
@@ -131,18 +123,14 @@ function beforeAddTag(item: Tag | string) {
   let shouldAdd = true
   if (item instanceof Object) {
     book.value.tags?.forEach(tag => {
-      console.log(`tag ${tag.name}`)
       if (tag.name === item.name) {
-        console.log(`tag ${tag.name} item ${item.name}`)
         shouldAdd = false;
       }
     });
   }
   else {
     book.value.tags?.forEach(tag => {
-      console.log(`tag ${tag.name}`)
       if (tag.name === item) {
-        console.log(`tag ${tag.name} item ${item}`)
         shouldAdd = false;
       }
     });
@@ -159,7 +147,6 @@ function createTag(item: Tag | string) {
 }
 
 function getFilteredAuthors(text: string) {
-  console.log("option " + text)
   dataService.findAuthorByCriteria(Role.ANY, text).then((data) => {
     filteredAuthors.value.splice(filteredAuthors.value.length)
     data.content.forEach(a => filteredAuthors.value.push(ObjectUtils.wrapForOptions(a)))
@@ -179,54 +166,34 @@ function tagAdded(item: string|Tag) {
 }
 
 function itemAdded(item: string|Author|Tag, target: Array<Author|Tag>) {
-  console.log("added")
-  console.log(item)
-  console.log(book.value.authors)
-  console.log(authors.value)
     if (typeof item === 'string') {
-      console.log("item is string : " + item)
       target.push({"name": item})
     } else {
-      console.log("item is author")
-      console.log(item)
       target.push(item)
     }
-  console.log(book.value.authors)
 }
 
 function authorRemoved(item: string|Author) {
-  console.log("removed")
-  console.log(item)
   if (typeof item === 'string') {
-    console.log("type string")
     const toKeep = book.value.authors?.filter(a => a.name !== item)
     book.value.authors = toKeep
   } else {
-    console.log('type author')
     const toKeep = book.value.authors?.filter(a => a.id !== item.id)
     book.value.authors = toKeep
   }
-  console.log(book.value.authors)
 }
 
 function tagRemoved(item: string|Tag) {
-  console.log("removed")
-  console.log(item)
   if (typeof item === 'string') {
-    console.log("type string")
     const toKeep = book.value.tags?.filter(a => a.name !== item)
     book.value.tags = toKeep
   } else {
-    console.log('type tag')
     const toKeep = book.value.tags?.filter(a => a.id !== item.id)
     book.value.tags = toKeep
   }
-  console.log(book.value.tags)
 }
 
 book.value.authors?.forEach(a => authors.value.push(a.name))
-console.log("authors")
-console.log(authors.value)
 book.value.tags?.forEach(t => tags.value.push(t.name))
 
 const { typographyClasses } = useTypography()

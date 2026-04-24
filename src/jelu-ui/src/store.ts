@@ -23,7 +23,6 @@ const store = createStore<State>({
       isLogged: false,
       isInitialSetup : false,
       user: null,
-      state: null,
       route: null,
       serverSettings: {
         metadataFetchEnabled: false,
@@ -61,8 +60,6 @@ const store = createStore<State>({
       async getUser({commit}) {
         try {
           const auth: UserAuthentication = await dataService.getUser()
-          console.log('store auth')
-          console.log(auth)
           commit('login', true)
           commit('user', auth.user)
         } catch (error) {
@@ -73,8 +70,6 @@ const store = createStore<State>({
       async authenticate({dispatch, commit, state}, payload) {
         try {
           const user: User = await dataService.authenticateUser(payload.user, payload.password)
-          console.log('store authenticate')
-          console.log(user)
           commit('login', true)
           commit('user', user)
           dispatch('getServerSettings')
@@ -82,7 +77,6 @@ const store = createStore<State>({
             await router.push(state.route)
           }
           else {
-            console.log("route is null")
           }
         } catch (error) {
           commit('login', false)
@@ -91,8 +85,6 @@ const store = createStore<State>({
       },
       async createInitialUser({dispatch, commit, state}, payload) {
         const user: User = await dataService.createInitialUser(payload.user, payload.password)
-        console.log('created')
-        console.log(user)
         await dispatch('authenticate', {"user" : payload.user, "password" : payload.password})
         await dispatch('setupStatus')
       },
@@ -104,7 +96,6 @@ const store = createStore<State>({
       async getServerSettings({commit}) {
         dataService.serverSettings()
           .then(res => {
-            console.log(res)
             commit('serverSettings', res)
           })
           .catch(err => {
@@ -145,7 +136,7 @@ const store = createStore<State>({
       return (getters.getInitialSetup && !getters.getLdapEnabled)
     },
   },
-  plugins : [createLogger()],
+  plugins : import.meta.env.DEV ? [createLogger()] : [],
   strict: true
 })
 

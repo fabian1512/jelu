@@ -23,7 +23,6 @@ const reviews: Ref<Array<Review>> = ref([])
 const book: Ref<Book> = ref({title:""})
 
 watch(() => route.params.bookId, (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.bookId !== undefined) {
     getBook()
     getReviews()
@@ -34,7 +33,6 @@ const getBook = async () => {
   try {
     book.value = await dataService.findBookById(route.params.bookId as string)
   } catch (error) {
-    console.log("failed get book : " + error);
   }
 };
 
@@ -46,7 +44,7 @@ const getReviews = async () => {
             reviews.value = res.content
         }
     })
-    .catch(err => console.log(err))
+    
 };
 
 getBook()

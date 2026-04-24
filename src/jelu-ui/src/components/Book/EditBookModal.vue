@@ -48,8 +48,6 @@ function copyInput(book: UserBook | null): any {
     return {}
   }
   const b = ObjectUtils.deepCopy(book)
-  console.log("copy")
-  console.log(b)
   return b
 }
 
@@ -94,8 +92,6 @@ const seriesCopy: Array<SeriesOrder> = userbook.value.book.series ?? []
 
 const importBook = () => {
   userbook.value.book.series = seriesCopy.filter(s => s.name != null && s.name.trim().length > 0)
-  console.log("import")
-  console.log(userbook)
   if (!props.canAddEvent || userbook.value.lastReadingEvent === ReadingEventType.NONE) {
     userbook.value.lastReadingEvent = null
   }
@@ -112,8 +108,6 @@ const importBook = () => {
     }
   }
 
-  console.log(`push book ` + userbook.value);
-  console.log(userbook.value);
   let promise: Promise<UserBook>
   progress.value = true
   // no id on userbook -> we have a book and save the userbook
@@ -123,7 +117,6 @@ const importBook = () => {
       file.value,
       (event: { loaded: number; total: number }) => {
         const percent = Math.round((100 * event.loaded) / event.total);
-        console.log("percent " + percent);
         uploadPercentage.value = percent;
       }
     )
@@ -135,14 +128,12 @@ const importBook = () => {
       file.value,
       (event: { loaded: number; total: number }) => {
         const percent = Math.round((100 * event.loaded) / event.total);
-        console.log("percent " + percent);
         uploadPercentage.value = percent;
       }
     )
   }
   promise
     .then(res => {
-      console.log(`update book ${res.book.title}`);
       progress.value = false
       ObjectUtils.toast(oruga, "success", t('labels.book_title_updated', { title : res.book.title}), 4000);
       emit('close')
@@ -177,18 +168,14 @@ function beforeAdd(item: Author | string, target: Array<Author>) {
   let shouldAdd = true
   if (item instanceof Object) {
     target.forEach(author => {
-      console.log(`author ${author.name}`)
       if (author.name === item.name) {
-        console.log(`author ${author.name} item ${item.name}`)
         shouldAdd = false;
       }
     });
   }
   else {
     target.forEach(author => {
-      console.log(`author ${author.name}`)
       if (author.name === item) {
-        console.log(`author ${author.name} item ${item}`)
         shouldAdd = false;
       }
     });
@@ -200,18 +187,14 @@ function beforeAddTag(item: Tag | string) {
   let shouldAdd = true
   if (item instanceof Object) {
     userbook.value.book?.tags?.forEach(tag => {
-      console.log(`tag ${tag.name}`)
       if (tag.name === item.name) {
-        console.log(`tag ${tag.name} item ${item.name}`)
         shouldAdd = false;
       }
     });
   }
   else {
     userbook.value.book?.tags?.forEach(tag => {
-      console.log(`tag ${tag.name}`)
       if (tag.name === item) {
-        console.log(`tag ${tag.name} item ${item}`)
         shouldAdd = false;
       }
     });
@@ -238,8 +221,6 @@ const toggleImagePickerModal = () => {
     scroll: 'keep',
     events: {
       choose: (path: Path) => {
-        console.log("received path")
-        console.log(path)
         imagePath.value = path.path
       }
     },
@@ -248,7 +229,6 @@ const toggleImagePickerModal = () => {
 }
 
 function modalClosed() {
-  console.log("modal closed")
 }
 
 function toggleRemoveImage() {

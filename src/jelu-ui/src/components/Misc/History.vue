@@ -32,7 +32,6 @@ const getYears = () => {
     currentYear.value = res[res.length - 1]
     })
   .catch(e => {
-    console.log(e)
   })
 
 }
@@ -54,7 +53,6 @@ const eventsForYear = () => {
         updatePageLoading(false)
     })
     .catch(e => {
-      console.log(e)
       loading.value = false
       updatePageLoading(false)
     })
@@ -67,7 +65,6 @@ const years: Ref<Array<number>> = ref([])
 const currentYear: Ref<number|null> = ref(null)
 
 watch(currentYear, (newVal, oldVal) => {
-  console.log("year " + newVal + " " + oldVal)
   eventsForYear()
 })
 
@@ -80,7 +77,6 @@ const throttledGetEvents = useThrottleFn(() => {
 }, 100, false)
 
 watch(page, (newVal, oldVal) => {
-  console.log("page " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetEvents()
   }
@@ -101,7 +97,6 @@ const eventsByMonth: Ref<Map<number, Array<ReadingEventWithUserBook>>> = compute
       monthEvents.set(month, existing)
     }
   })
-  console.log(monthEvents)
   return monthEvents
 })
 
@@ -199,7 +194,7 @@ getYears()
             >
               <template #date>
                 <div class="badge badge-accent absolute bottom-0 left-1">
-                  {{ d(event.endDate!!, 'short') }}
+                  {{ d(event.endDate ?? '', 'short') }}
                 </div>
               </template>
             </book-card>

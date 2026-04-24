@@ -22,12 +22,10 @@ const getQuotes = async () => {
       quotes.value = await dataService.randomQuotes()
     }
   } catch (error) {
-    console.log("failed get books : " + error);
   }
 };
 
 onMounted(() => {
-  console.log("Component is mounted!");
 
 });
 
@@ -37,7 +35,6 @@ try {
   getQuotes()
 }
 catch (err) {
-  console.log("failed get quotes : " + err);
 }
 
 </script>

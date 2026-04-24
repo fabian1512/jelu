@@ -12,7 +12,6 @@ const { t, locale, availableLocales } = useI18n({
     })
 
 availableLocales.forEach(locale => {
-      console.log(`${locale} locale `)
     })
 
 const themes = [
@@ -59,7 +58,6 @@ onMounted(() => {
 });
 
 watch(() => locale.value,(newValue, oldValue) => {
-  console.log('locale changed: ' + newValue + " " + oldValue)
   const storedLanguage = useLocalStorage("jelu_language", oldValue)
   storedLanguage.value = newValue
 })
@@ -71,7 +69,6 @@ if (saved != null) {
 }
 
 watch(() => currency.value, (newVal, oldVal) => {
-  console.log('currency changed ' + currency.value)
   if (currency.value.length === 3) {
     localStorage.setItem("JL_CURRENCY", currency.value)
   }

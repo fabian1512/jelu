@@ -29,11 +29,9 @@ const rating = ref(props.edit != null && props.edit === true && props.review?.ra
 const reviewText = ref(props.edit != null && props.edit === true && props.review?.text != null ? props.review?.text : "")
 
 watch(visibility, (newVal, oldVal) => {
-  console.log("visibilty " + visibility.value)
 })
 
 watch(rating, (newVal, oldVal) => {
-  console.log("visibilty " + newVal + " " + oldVal)
 })
 
 const classFor = (n: number) => {
@@ -47,7 +45,6 @@ const classFor = (n: number) => {
 }
 
 const submit = () => {
-  console.log("submit ")
   if (props.book.id != null) {
     progress.value = true
     dataService.saveReview({
@@ -63,13 +60,11 @@ const submit = () => {
       })
       .catch(err => {
         progress.value = false
-        console.log(err)
       })
   }
 }
 
 const editReview = () => {
-  console.log("edit ")
   if (props.book.id != null && props.review?.id != null) {
     progress.value = true
     dataService.updateReview(props.review.id, {
@@ -83,7 +78,6 @@ const editReview = () => {
       })
       .catch(err => {
         progress.value = false
-        console.log(err)
       })
   }
 }

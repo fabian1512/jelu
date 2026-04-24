@@ -52,19 +52,16 @@ const importFile = async () => {
         file.value,
         (event: { loaded: number; total: number }) => {
           const percent = Math.round((100 * event.loaded) / event.total);
-          console.log("percent " + percent);
           uploadPercentage.value = percent;
         })
         .then(res => {
           ObjectUtils.toast(oruga, "success", t('csv_import.import_ok'), 6000);
         })
         .catch(err => {
-          console.log(err)
         })
 }
 
 const exportFile =async () => {
-  console.log("export requested")
   try {
     await dataService.exportCsv()
     exportMessage.value = t('csv_import.export_ok')
@@ -82,9 +79,6 @@ const fetchCoversDisabled = computed(() => {
 })
 
 watch(file, (newVal, oldVal) => {
-  console.log("file ")
-  console.log(newVal)
-  console.log(oldVal)
 })
 
 const { typographyClasses } = useTypography()

@@ -28,7 +28,6 @@ const list: Ref<CustomList|null> = ref(null)
 const books: Ref<Array<Book>> = ref([]);
 
 function modalClosed() {
-  console.log("modal closed")
 }
 
 watch(() => route.params.listId, (newVal, oldVal) => {
@@ -38,7 +37,6 @@ watch(() => route.params.listId, (newVal, oldVal) => {
 })
 
 watch([page, sortQuery], (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetBooks()
   }
@@ -75,12 +73,10 @@ const throttledGetBooks = useThrottleFn(() => {
 
 const getList = async () => {
   try {
-    console.log("get list " + route.params.listId)
     list.value = await dataService.findCustomListById(route.params.listId as string)
     useTitle('Jelu | ' + list.value.name)
     getBooks(list.value.id as string)
   } catch (error) {
-    console.log("failed get list : " + error);
   }
 }
 
@@ -94,9 +90,6 @@ const remove = async () => {
       }
     }
   })
-  console.log("removing tags from books")
-  console.log(tagsId)
-  console.log(checkedCards.value)
   dataService.removeBooksFromList({tags: tagsId, books: checkedCards.value})
   .then(res => {
     getList()

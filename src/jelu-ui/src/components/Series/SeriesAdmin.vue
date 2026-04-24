@@ -111,7 +111,6 @@ const getSeries = async (selected: Series) => {
   try {
     series.value = await dataService.getSeriesById(selected.id as string)
   } catch (error) {
-    console.log("failed get series : " + error);
   }
 }
 

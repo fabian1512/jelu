@@ -18,8 +18,6 @@ const props = defineProps<{
 
 const currentEvent: Ref<ReadingEvent> = ref(props.readingEvent)
 const currentCreateEvent: Ref<CreateReadingEvent> = ref(props.readingEvent)
-console.log(currentEvent.value)
-console.log(currentCreateEvent.value)
 
 watch(() => currentCreateEvent.value.eventType, (newValue, oldValue) => {
   if (currentCreateEvent.value.eventType == ReadingEventType.CURRENTLY_READING) {

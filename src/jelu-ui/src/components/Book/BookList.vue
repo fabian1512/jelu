@@ -102,7 +102,6 @@ const getUsername = async () => {
 getUsername()
 
 watch([page, eventTypes, toRead, owned, borrowed, sortQuery], (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetBooks()
   }
@@ -155,7 +154,6 @@ const getBooks = () => {
   toReadAsBool.value, ownedAsBool.value, borrowedAsBool.value,
   pageAsNumber.value - 1, perPage.value, sortQuery.value)
   .then(res => {
-        console.log(res)
           total.value = res.totalElements
           books.value = res.content
         if (! res.empty) {
@@ -189,11 +187,9 @@ const throttledGetBooks = useThrottleFn(() => {
 }, 100, false)
 
 onMounted(() => {
-  console.log("Component is mounted!");
 });
 
 function modalClosed() {
-  console.log("modal closed")
   throttledGetBooks()
 }
 
@@ -202,7 +198,6 @@ const { typographyClasses } = useTypography()
 try {
   getBooks();
 } catch (error) {
-  console.log("failed get books : " + error);
 }
 
 </script>

@@ -31,7 +31,6 @@ const getYears = () => {
     currentYear.value = res[res.length - 1]
     })
   .catch(e => {
-    console.log(e)
   })
 
 }
@@ -80,7 +79,6 @@ const getAllStats = () => {
       loading.value = false
   })
   .catch(e => {
-    console.log(e)
     loading.value = false
   })
 }
@@ -135,7 +133,6 @@ const getYearStats = () => {
     })
     .catch(e => {
       loading.value = false
-      console.log(e)
     })
   }
 }
@@ -143,7 +140,7 @@ const getYearStats = () => {
 const totalStats = () => {
   dataService.totalsStats()
   .then( data => totals.value = data)
-  .catch(e => console.log(e))
+  
 }
 
 const loading = ref(false)
@@ -196,7 +193,6 @@ const currentYear: Ref<number|null> = ref(null)
 const totals: Ref<TotalsStats> = ref({"read": 0, "unread": 0, "dropped": 0, "total" : 0, "price": 0})
 
 watch(currentYear, (newVal, oldVal) => {
-  console.log("year " + newVal + " " + oldVal)
   getYearStats()
 
 })

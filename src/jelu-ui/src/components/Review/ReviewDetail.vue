@@ -14,7 +14,6 @@ const review: Ref<Review|null> = ref(null)
 const book: Ref<Book|null> = ref(null)
 
 watch(() => route.params.reviewId, (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.reviewId !== undefined) {
     getReview()
   }
@@ -26,7 +25,6 @@ const getReview = async () => {
     book.value = await dataService.findBookById(review.value.book)
     useTitle('Jelu | Review')
   } catch (error) {
-    console.log("failed get review : " + error);
   }
 };
 

@@ -22,15 +22,12 @@ const props = defineProps<{
 }>()
 
 const form = ref({'password' : '', 'password_confirm': ''})
-console.log(props.currentUser)
 
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
 async function editUser() {
-  console.log("edit user")
-  console.log(form)
   if (props.currentUser.id != null) {
     try {
       const modified = await dataService.updateUser(props.currentUser.id, {"isAdmin": undefined, "password": form.value.password})
@@ -38,8 +35,6 @@ async function editUser() {
       ObjectUtils.toast(oruga, "success", t('admin_user.user_updated', {name : props.currentUser.login}), 2500)
       emit('close')
     } catch (err: any) {
-      console.log('failed to edit user')
-      console.log(err)
     }
   }
 }

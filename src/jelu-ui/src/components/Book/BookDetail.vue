@@ -75,7 +75,6 @@ const getBook = async () => {
     getBookQuotesForBook()
     getAllSeriesInfo()
   } catch (error) {
-    console.log("failed get book : " + error);
     getBookIsLoading.value = false
   }
 };
@@ -90,11 +89,9 @@ const getUserReviewsForBook = async() => {
   await until(user.value).not.toBeNull()
   dataService.findReviews(user.value.id, book.value?.book.id, null, null, null, 0, 20)
   .then(res => {
-    console.log(res)
     userReviews.value = res.content
   })
   .catch(err => {
-    console.log(err)
   })
 }
 
@@ -102,16 +99,13 @@ const getBookQuotesForBook = async() => {
   await until(user.value).not.toBeNull()
   dataService.findBookQuotes(user.value.id, book.value?.book.id, null, 0, 20)
   .then(res => {
-    console.log(res)
     bookQuotes.value = res.content
   })
   .catch(err => {
-    console.log(err)
   })
 }
 
 watch(() => props.bookId, (newValue, oldValue) => {
-  console.log('The new bookId is: ' + props.bookId)
 })
 
 const sortedEvents = computed(() => {
@@ -134,18 +128,15 @@ const hasExternalLink = computed(() => book.value?.book.amazonId != null
   || book.value?.book.inventaireId != null)
 
 function modalClosed() {
-  console.log("modal closed")
   currentTimestamp = ObjectUtils.timestamp()
   getBook()
 }
 
 function reviewModalClosed() {
-  console.log("review modal closed")
   getUserReviewsForBook()
 }
 
 function bookQuoteModalClosed() {
-  console.log("book quote modal closed")
     getBookQuotesForBook()
 }
 
@@ -231,8 +222,6 @@ const toggleFetchMetadataModal = (currentBook: Book|undefined) => {
       },
     events: {
       metadataReceived: (modalMetadata: Metadata) => {
-        console.log("received metadata")
-        console.log(modalMetadata)
         toggleMergeBookModal(currentBook, modalMetadata)
       }
     },
@@ -311,7 +300,6 @@ const deleteBook = async () => {
   if (abort) {
     return
   }
-  console.log(`delete for user only ${deleteForUserOnly}`)
   let promise
   if (deleteForUserOnly) {
     if (book.value?.id) {
@@ -420,7 +408,6 @@ function copyToClipboard(content: string) {
 }
 
 const deleteReview = async (reviewId: string) => {
-  console.log("delete " + reviewId)
   let abort = false
   await ObjectUtils.swalYesNoMixin.fire({
       html: `<p>${t('reviews.delete_review')}</p>`,
@@ -436,7 +423,6 @@ const deleteReview = async (reviewId: string) => {
         return;
       }
     })
-    console.log("abort " + abort)
     if (abort) {
       return
     }
@@ -445,12 +431,10 @@ const deleteReview = async (reviewId: string) => {
       getUserReviewsForBook()
     })
     .catch(err => {
-      console.log(err)
     })
 }
 
 const deleteBookQuote = async (bookQuoteId: string) => {
-  console.log("delete " + bookQuoteId)
   let abort = false
   await ObjectUtils.swalYesNoMixin.fire({
       html: `<p>${t('book_quotes.delete_quote')}</p>`,
@@ -466,7 +450,6 @@ const deleteBookQuote = async (bookQuoteId: string) => {
         return;
       }
     })
-    console.log("abort " + abort)
     if (abort) {
       return
     }
@@ -475,7 +458,6 @@ const deleteBookQuote = async (bookQuoteId: string) => {
       getBookQuotesForBook()
     })
     .catch(err => {
-      console.log(err)
     })
 }
 
@@ -487,7 +469,6 @@ const fetchSeries = async (seriesId: string) => {
         seriesmap.set(seriesId, data)
     })
     .catch(e => {
-        console.log("fetching series error")
     })
 }
 
@@ -674,7 +655,7 @@ getBook()
               <button
                 v-tooltip="t('labels.set_progress')"
                 class="btn btn-circle btn-outline border-none"
-                @click="toggleReadProgressModal(book?.id!!, book?.book.pageCount ?? null, book?.percentRead ?? null, book?.currentPageNumber ?? null)"
+                @click="toggleReadProgressModal(book?.id ?? '', book?.book.pageCount ?? null, book?.percentRead ?? null, book?.currentPageNumber ?? null)"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -829,7 +810,7 @@ getBook()
         </p>
         <p v-if="book?.book?.publishedDate">
           <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
-          {{ d(stringToDate(book.book.publishedDate)!!, 'short') }}
+          {{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}
         </p>
         <p v-if="book?.book?.series && book?.book?.series != null && book?.book?.series.length > 0">
           <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>
@@ -1108,7 +1089,7 @@ getBook()
                 {{ eventLabel(event.eventType) }}&nbsp;-
               </p>
               <h3 class="font-semibold">
-                {{ d(event.startDate!!, 'short') }}
+                {{ d(event.startDate ?? '', 'short') }}
               </h3>
               <p class="capitalize">
                 {{ t('reading_events.started') }}
@@ -1116,7 +1097,7 @@ getBook()
             </div>
             <div v-else>
               <h3 class="font-semibold">
-                {{ d(event.startDate!!, 'short') }}
+                {{ d(event.startDate ?? '', 'short') }}
               </h3>
               <p class="capitalize">
                 {{ eventLabel(event.eventType) }}
@@ -1182,7 +1163,7 @@ getBook()
                 {{ eventLabel(event.eventType) }}&nbsp;-
               </p>
               <h3 class="font-semibold">
-                {{ d(event.startDate!!, 'short') }}
+                {{ d(event.startDate ?? '', 'short') }}
               </h3>
               <p class="capitalize">
                 {{ t('reading_events.started') }}
@@ -1190,7 +1171,7 @@ getBook()
             </div>
             <div v-else>
               <h3 class="font-semibold">
-                {{ d(event.startDate!!, 'short') }}
+                {{ d(event.startDate ?? '', 'short') }}
               </h3>
               <p class="capitalize">
                 {{ eventLabel(event.eventType) }}

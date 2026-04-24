@@ -42,14 +42,12 @@ const open = ref(false)
 const getBooksIsLoading: Ref<boolean> = ref(false)
 
 watch([() => route.params.tagId, page, sortQuery, libraryFilter, eventTypes], (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.tagId !== undefined) {
     throttledGetBooks()
   }
 })
 
 watch(() => route.params.tagId, (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.tagId !== undefined) {
     getTag()
   }
@@ -60,7 +58,6 @@ const getTag = async () => {
     tag.value = await dataService.getTagById(route.params.tagId as string)
     useTitle('Jelu | #' + tag.value.name)
   } catch (error) {
-    console.log("failed get tag : " + error);
   }
 };
 
@@ -70,7 +67,6 @@ const getBooks = () => {
       pageAsNumber.value - 1, perPage.value, sortQuery.value,
       libraryFilter.value, eventTypes.value)
       .then(res => {
-        console.log(res)
             total.value = res.totalElements
             tagBooks.value = res.content
           if (! res.empty) {
@@ -96,7 +92,6 @@ const throttledGetBooks = useThrottleFn(() => {
 const convertedBooks = computed(() => tagBooks.value?.map(b => ObjectUtils.unwrapUserBook(b)))
 
 function modalClosed() {
-  console.log("modal closed")
   throttledGetBooks()
 }
 

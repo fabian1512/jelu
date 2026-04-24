@@ -23,7 +23,6 @@ const getBook = async () => {
     const res = await dataService.findBookById(props.review.book)
     book.value = res
   } catch (error) {
-    console.log("failed get book : " + error)
   }
 };
 

@@ -52,8 +52,6 @@ const leftDeleteImage: Ref<boolean> = ref(false)
 
 
 function dispatchAuthor(author: Author) {
-  console.log(author)
-  console.log(`step ${activeStep.value}`)
   // we receive from oruga weird events while nothing is selected
   // so try to get rid of those null data we receive
   if (author != null) {
@@ -79,18 +77,15 @@ function save() {
     isMerging.value = true
     dataService.mergeAuthors(leftAuthor.value.id, rightAuthor.value.id, leftAuthor.value)
       .then(res => {
-        console.log("merged author " + res)
         isMerging.value = false
         router.push({ name: 'author-detail', params: { authorId: leftAuthor.value.id } })
       })
       .catch(err => {
-        console.log("merge failure " + err)
         isMerging.value = false
         ObjectUtils.toast(oruga, "danger", `Error ` + err.message, 4000)
       })
   }
   else {
-    console.log("missing ids on authors")
   }
 }
 

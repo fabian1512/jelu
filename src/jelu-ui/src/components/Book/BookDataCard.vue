@@ -28,7 +28,6 @@ const props = defineProps<{
 
 const router = useRouter()
 const oruga = useOruga();
-console.log(oruga)
 
 const { stringToDate } = useDates()
 
@@ -49,7 +48,6 @@ const bookCanBeAdded: Ref<boolean> = ref(false)
 const getUserbookId = async () => {
   bookCanBeAdded.value = false
   await until(props.book.id).not.toBeNull()
-  console.log("book id " + props.book.id)
   dataService.findUserBookByCriteria(null, props.book.id, null, null, null, null, 0, 10)
   .then(res => {
     if (!res.empty) {
@@ -72,8 +70,6 @@ const publisherQuery = computed(() => {
 })
 
 watch(() => props.book.id, (newVal, oldVal) => {
-  console.log("props.book.id ")
-  console.log(newVal + " " + oldVal)
   bookCanBeAdded.value = false
   if (props.addBook && newVal !== oldVal && props.book.id != null) {
     getUserbookId()
@@ -82,8 +78,6 @@ watch(() => props.book.id, (newVal, oldVal) => {
 
 const toggleEdit = (book: UserBook) => {
   if (book.id == null) {
-    console.log("book")
-    console.log(book)
     oruga.modal.open({
             component: EditBookModal,
             trapFocus: true,
@@ -100,7 +94,6 @@ const toggleEdit = (book: UserBook) => {
 }
 
 function modalClosed() {
-  console.log("modal closed from data card")
   router.push({ name: 'book-reviews', params: { bookId: props.book.id } })
 }
 
@@ -269,7 +262,7 @@ const { typographyClasses } = useTypography()
         </p>
         <p v-if="props.book.publishedDate">
           <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
-          {{ d(stringToDate(props.book.publishedDate)!!, 'short') }}
+          {{ d(stringToDate(props.book.publishedDate) ?? '', 'short') }}
         </p>
         <div v-if="props.book.series && props.book.series.length > 0">
           <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>

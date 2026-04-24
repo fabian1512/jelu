@@ -19,7 +19,7 @@ const directories = (root: string|undefined) => {
     .then(res => {
       directoryListing.value = res
     })
-    .catch(err => console.log(err))
+    
   }
 }
 

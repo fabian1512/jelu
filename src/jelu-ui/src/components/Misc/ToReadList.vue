@@ -76,7 +76,6 @@ const getToRead = async () => {
     updatePageLoading(false)
     removeIds()
   } catch (error) {
-    console.log("failed get books : " + error);
     getToReadIsLoading.value = false
     updatePageLoading(false)
   }
@@ -135,14 +134,12 @@ const throttledGetToRead = useThrottleFn(() => {
 }, 100, false)
 
 watch([page, eventTypes, sortQuery, owned], (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetToRead()
   }
 })
 
 function modalClosed() {
-  console.log("modal closed")
   throttledGetToRead()
 }
 

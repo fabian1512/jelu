@@ -26,7 +26,7 @@ const handleFileUpload = (event: any) => {
           metadata.value = res
           displayMetadata.value = true
         })
-        .catch(e => console.log(e))
+        
 };
 
 const fromServer = ref(false);
@@ -39,7 +39,7 @@ const directories = (root: string|undefined) => {
     .then(res => {
       directoryListing.value = res
     })
-    .catch(err => console.log(err))
+    
   }
 }
 
@@ -70,7 +70,7 @@ const selectPath = (elem: Path) => {
         metadata.value = res
         displayMetadata.value = true
       })
-      .catch(err => console.log(err))
+      
   }
 }
 

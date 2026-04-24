@@ -46,14 +46,13 @@ function toggleUserModal() {
 }
 
 function modalClosed() {
-  console.log("modal closed")
   store.dispatch('getUser')
 }
 
 const fetchHistoryInfo = async () => {
   dataService.userLoginHistory()
     .then( res => loginHistoryInfo.value = res)
-    .catch(err => console.log(err))
+    
 }
 
 fetchHistoryInfo()

@@ -33,7 +33,6 @@ const recentEventsIsLoading: Ref<boolean> = ref(false)
 const getToReadIsLoading: Ref<boolean> = ref(false)
 
 watch(() => route.params.userId, (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.userId !== undefined) {
     getUser()
   }
@@ -44,7 +43,6 @@ const getUser = async () => {
     user.value = await dataService.getUserById(route.params.userId as string)
     useTitle('Jelu | User')
   } catch (error) {
-    console.log("failed get user : " + error);
   }
 };
 const getCurrentlyReading = async () => {
@@ -54,7 +52,6 @@ const getCurrentlyReading = async () => {
     currentlyReading.value = res.content
     currentlyReadingIsLoading.value = false
   } catch (error) {
-    console.log("failed get books : " + error)
     currentlyReadingIsLoading.value = false
   }
 };
@@ -68,7 +65,6 @@ const getReadEvents = async () => {
     events.value = res.content
     recentEventsIsLoading.value = false
   } catch (error) {
-    console.log("failed get events : " + error)
     recentEventsIsLoading.value = false
   }
 };
@@ -83,7 +79,6 @@ const getToRead = async () => {
     toRead.value = res.content
     getToReadIsLoading.value = false
   } catch (error) {
-    console.log("failed get books : " + error);
     getToReadIsLoading.value = false
   }
 };
@@ -96,7 +91,6 @@ const getUserReviews = async () => {
     0, 20, null)
     userReviews.value = res.content
   } catch (error) {
-    console.log("failed get reviews : " + error);
   }
 };
 

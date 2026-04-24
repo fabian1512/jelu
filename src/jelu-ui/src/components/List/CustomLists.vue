@@ -53,10 +53,9 @@ function getCustomLists() {
 function deleteList(list: CustomList) {
   dataService.deleteCustomList(list.id as string)
   .then(res => {
-    console.log("deleted list " + list.id)
     getCustomLists()
     })
-  .catch(err => console.log("failed to delete list " + list.id))
+  
 }
 
 function createList() {
@@ -66,7 +65,6 @@ function createList() {
       getCustomLists()
     })
     .catch(err => {
-      console.log("failed to create list")
       resetList()
     })
 }
@@ -75,18 +73,14 @@ function beforeAddTag(item: Tag | string) {
   let shouldAdd = true
   if (item instanceof Object) {
     currentListTags.value.forEach(tag => {
-      console.log(`tag ${tag}`)
       if (tag === item.name) {
-        console.log(`tag ${tag} item ${item.name}`)
         shouldAdd = false;
       }
     });
   }
   else {
     currentListTags.value.forEach(tag => {
-      console.log(`tag ${tag}`)
       if (tag === item) {
-        console.log(`tag ${tag} item ${item}`)
         shouldAdd = false;
       }
     });

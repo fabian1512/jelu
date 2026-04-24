@@ -50,11 +50,9 @@ const progress: Ref<boolean> = ref(false)
 let plugins: Array<PluginInfo> = []
 
 const fetchMetadata = async () => {
-    console.log("fetch metadata")
     progress.value = true
     dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: plugins})
     .then(res => {
-        console.log(res)
         progress.value = false
         metadata.value = res
         displayForm.value = false
@@ -93,7 +91,6 @@ function toggleScanModal() {
       },
       events: {
         decoded: (barcode: string|null) => {
-          console.log("barcode " + barcode)
           if (barcode != null) {
             form.isbn = barcode
           }
@@ -117,8 +114,6 @@ function togglePluginsModal() {
       },
       events: {
         plugins: (received: Array<PluginInfo>) => {
-          console.log("plugins ")
-          console.log(received)
           plugins = received
       }
     },
@@ -127,11 +122,9 @@ function togglePluginsModal() {
 }
 
 function scanModalClosed() {
-  console.log("scan modal closed")
 }
 
 function pluginsModalClosed() {
-  console.log("plugins modal closed")
 }
 
 const { typographyClasses } = useTypography()

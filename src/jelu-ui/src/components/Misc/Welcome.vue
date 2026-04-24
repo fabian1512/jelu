@@ -59,7 +59,6 @@ const getCurrentlyReading = async () => {
     }
     currentlyReadingIsLoading.value = false
   } catch (error) {
-    console.log("failed get books : " + error)
     currentlyReadingIsLoading.value = false
   }
 
@@ -75,7 +74,6 @@ const getMyEvents = async () => {
     events.value = notCurrentlyReading
     recentEventsIsLoading.value = false
   } catch (error) {
-    console.log("failed get events : " + error)
     recentEventsIsLoading.value = false
   }
 };
@@ -88,7 +86,6 @@ const getUserReviews = async () => {
     0, 20, null)
     userReviews.value = res.content
   } catch (error) {
-    console.log("failed get reviews : " + error);
   }
 };
 
@@ -98,25 +95,21 @@ if (isLogged.value) {
       getMyEvents()
       getUserReviews()
   } catch (error) {
-    console.log("failed get books : " + error);
   }
 }
 
 watch(() => isLogged.value, (newValue, oldValue) => {
-  console.log('logged changed ' + isLogged.value)
   if (initialLoad.value && isLogged.value) {
     try {
       initialLoad.value = false
       getCurrentlyReading()
       getMyEvents()
   } catch (error) {
-    console.log("failed get books : " + error);
   }
   }
 })
 
 function modalClosed() {
-  console.log("modal closed")
   getCurrentlyReading()
 }
 
@@ -192,14 +185,14 @@ const { typographyClasses } = useTypography()
               <span
                 v-tooltip="t('labels.mark_read_or_drop')"
                 class="icon text-info"
-                @click.prevent="toggleReadingEventModal(defaultCreateEvent(book.book.id!!), false)"
+                @click.prevent="toggleReadingEventModal(defaultCreateEvent(book.book.id ?? ''), false)"
               >
                 <i class="mdi mdi-check-circle mdi-18px" />
               </span>
               <span
                 v-tooltip="t('labels.set_progress')"
                 class="icon text-info"
-                @click.prevent="toggleReadProgressModal(book.id!!, book.book.pageCount ?? null, book.percentRead ?? null, book.currentPageNumber ?? null)"
+                @click.prevent="toggleReadProgressModal(book.id ?? '', book.book.pageCount ?? null, book.percentRead ?? null, book.currentPageNumber ?? null)"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -46,7 +46,6 @@ const getShelves = () => {
   dataService.shelves(undefined, undefined,
   pageAsNumber.value - 1, perPage.value, sortQuery.value)
   .then(res => {
-        console.log(res)
           total.value = res.totalElements
           shelves.value = res.content
         if (! res.empty) {
@@ -68,11 +67,10 @@ const getShelves = () => {
 function deleteShelf(shelf: Shelf) {
   dataService.deleteShelf(shelf.id)
   .then(res => {
-    console.log("deleted shelf " + shelf.id)
     emit('shelves-changed')
     getShelves()
     })
-  .catch(err => console.log("failed to delete shelf " + shelf.id))
+  
 }
 
 const options = computed(() => {
@@ -80,26 +78,22 @@ const options = computed(() => {
 })
 
 function createShelfFromTag(tag: Tag) {
-  console.log(tag)
   // we receive from oruga weird events while nothing is selected
   // so try to get rid of those null data we receive
   if (tag != null && tag.id != null) {
     dataService.saveShelf({name: tag.name, targetId: tag.id ?? ""})
       .then(res => {
-        console.log("saved shelf " + res.name)
         // store.dispatch('getUserShelves')
         filteredTags.value = []
         getShelves()
       })
       .catch(err => {
-        console.log("failed to save shelf " + tag.name + " " + err)
         ObjectUtils.toast(oruga, "danger", t('labels.error_message'), 4000)
     })
   }
 }
 
 watch([page, sortQuery], (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     getShelves()
   }

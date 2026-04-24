@@ -130,11 +130,8 @@ function toggleRemoveImage() {
 }
 
 const importBook = async () => {
-  console.log("import book");
   if (StringUtils.isNotBlank(form.title)) {
     const alreadyExisting = await dataService.checkIsbnExists(form.isbn10, form.isbn13)
-    console.log('already existing')
-    console.log(alreadyExisting)
     let saveBook = true
     if (alreadyExisting != null) {
       saveBook = false
@@ -151,7 +148,6 @@ const importBook = async () => {
         }
       })
     }
-    console.log(`save book ${saveBook}`)
     if (!saveBook) {
       return
     }
@@ -187,20 +183,16 @@ const importBook = async () => {
       userBook.lastReadingEventDate = eventDate.value?.toISOString()
     }
     try {
-      console.log(`push book ` + userBook);
-      console.log(userBook);
       progress.value = true
       const res: UserBook = await dataService.saveUserBookImage(
         userBook,
         file.value,
         (event: { loaded: number; total: number }) => {
           const percent = Math.round((100 * event.loaded) / event.total);
-          console.log("percent " + percent);
           uploadPercentage.value = percent;
         }
       );
       progress.value = false
-      console.log(`saved book ${res.book.title}`);
       ObjectUtils.toast(oruga, "success", t('labels.book_title_saved', {title : res.book.title}), 4000)
       clearForm();
       await router.push({name: 'my-books'})
@@ -320,18 +312,14 @@ function beforeAdd(item: Author | string, target: Array<Author>) {
   let shouldAdd = true
   if (item instanceof Object) {
     target.forEach(author => {
-      console.log(`author ${author.name}`)
       if (author.name === item.name) {
-        console.log(`author ${author.name} item ${item.name}`)
         shouldAdd = false;
       }
     });
   }
   else {
     target.forEach(author => {
-      console.log(`author ${author.name}`)
       if (author.name === item) {
-        console.log(`author ${author.name} item ${item}`)
         shouldAdd = false;
       }
     });
@@ -343,18 +331,14 @@ function beforeAddTag(item: Tag | string) {
   let shouldAdd = true
   if (item instanceof Object) {
     tags.value.forEach(tag => {
-      console.log(`tag ${tag.name}`)
       if (tag.name === item.name) {
-        console.log(`tag ${tag.name} item ${item.name}`)
         shouldAdd = false;
       }
     });
   }
   else {
     tags.value.forEach(tag => {
-      console.log(`tag ${tag.name}`)
       if (tag.name === item) {
-        console.log(`tag ${tag.name} item ${item}`)
         shouldAdd = false;
       }
     });
@@ -384,8 +368,6 @@ const toggleModal = (file: boolean) => {
       },
     events: {
       metadataReceived: (modalMetadata: Metadata) => {
-        console.log("received metadata")
-        console.log(modalMetadata)
         metadata.value = modalMetadata
         mergeMetadata()
       }
@@ -405,8 +387,6 @@ const toggleImagePickerModal = () => {
     scroll: 'keep',
     events: {
       choose: (path: Path) => {
-        console.log("received path")
-        console.log(path)
         imagePath.value = path.path
       }
     },
@@ -415,13 +395,10 @@ const toggleImagePickerModal = () => {
 }
 
 function modalClosed() {
-  console.log("modal closed")
 }
 
 const mergeMetadata = () => {
   for (const key in metadata.value) {
-    console.log("key")
-    console.log(key)
     if (key in form) {
       const castKey = key as (keyof typeof metadata.value & keyof typeof form);
       (form[castKey] as any) = metadata.value[castKey];

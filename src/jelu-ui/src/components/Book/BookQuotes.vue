@@ -15,7 +15,6 @@ const quotes: Ref<Array<BookQuote>> = ref([])
 const book: Ref<Book> = ref({title:""})
 
 watch(() => route.params.bookId, (newVal, oldVal) => {
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal && route.params.bookId !== undefined) {
     getBook()
     getBookQuotes()
@@ -26,7 +25,6 @@ const getBook = async () => {
   try {
     book.value = await dataService.findBookById(route.params.bookId as string)
   } catch (error) {
-    console.log("failed get book : " + error);
   }
 };
 
@@ -38,7 +36,7 @@ const getBookQuotes = async () => {
             quotes.value = res.content
         }
     })
-    .catch(err => console.log(err))
+    
 };
 
 getBook()

@@ -59,7 +59,6 @@ const logUser = async () => {
       progress.value = false
     } catch (error: any) {
       progress.value = false
-      console.log('failed to auth user ' + error)
       errorMessage.value = error.message
     }
   }
@@ -109,8 +108,6 @@ const createInitialUser = async () => {
       progress.value = false
     } catch (error: any) {
       progress.value = false
-      console.log('failed to create user ' + error)
-      console.log(`failed to create user ${error.message}`)
   
       errorMessage.value = error.message
     }

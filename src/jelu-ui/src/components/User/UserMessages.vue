@@ -29,7 +29,6 @@ const getMessages = () => {
   getMessagesIsLoading.value = true
   dataService.messages(categories.value, read.value, pageAsNumber.value - 1, perPage.value, undefined)
   .then(res => {
-    console.log(res)
     total.value = res.totalElements
     messages.value = res.content
     if (! res.empty) {
@@ -51,11 +50,9 @@ const updateMessage = (message: UserMessage, read: boolean) => {
   if (message.id !== undefined) {
     dataService.updateUserMessage(message.id, {read: read, message: "Message 5 updated"})
     .then(res => {
-      console.log(`message ${message.id} read : ${read}`)
       getMessages()
     })
     .catch(e => {
-      console.log(`error : message ${message.id} read : ${read}`)
     })
   }
 }
@@ -85,7 +82,6 @@ function icon(cat: MessageCategory) {
 }
 
 watch(page, (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetMessages()
   }
@@ -97,11 +93,9 @@ const throttledGetMessages = useThrottleFn(() => {
 }, 100, false)
 
 onMounted(() => {
-  console.log("Component is mounted!");
   try {
     getMessages();
   } catch (error) {
-    console.log("failed get messages : " + error);
   }
 });
 

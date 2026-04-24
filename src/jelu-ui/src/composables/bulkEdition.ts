@@ -12,7 +12,6 @@ export default function useBulkEdition(onModalClosed: VoidFunc) {
     const checkedCards: Ref<Array<string>> = ref([])
 
     const cardChecked = (id: string | null, checked: boolean) => {
-        console.log(`received ${id}, checked ? ${checked}`)
         if (id != null) {
             if (checked) {
                 if (!checkedCards.value.includes(id)) {
@@ -24,18 +23,14 @@ export default function useBulkEdition(onModalClosed: VoidFunc) {
                 });
             }
         }
-        console.log(`ids ${checkedCards.value}`)
     }
 
     function modalClosed() {
-        console.log("modal closed from bulk composable")
         onModalClosed()
     }
 
     const toggleEdit = (ids: Array<string>) => {
         if (ids != null) {
-          console.log("ids")
-          console.log(ids)
           oruga.modal.open({
                   component: BulkEditModal,
                   trapFocus: true,

@@ -27,7 +27,6 @@ const description = ref(props.edit != null && props.edit === true && props.serie
 const rating = ref(props.edit != null && props.edit === true && props.series.userRating != null ? props.series.userRating : undefined)
 
 watch(rating, (newval, oldval) => {
-    console.log("rating changed " + newval)
     if (newval != null && newval > 10) {
         rating.value = 10
     }
@@ -37,7 +36,6 @@ watch(rating, (newval, oldval) => {
 })
 
 const editSeries = () => {
-  console.log("submit ")
   if (props.series.id != null) {
     progress.value = true
     dataService.updateSeries(props.series.id, {
@@ -51,7 +49,6 @@ const editSeries = () => {
       })
       .catch(err => {
         progress.value = false
-        console.log(err)
       })
   }
 }
@@ -68,7 +65,6 @@ const classFor = (n: number, rating: number | undefined) => {
 }
 
 const submit = () => {
-    console.log("not implemented yet")
 }
 
 const { typographyClasses } = useTypography()

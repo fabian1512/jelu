@@ -11,8 +11,6 @@ const { t } = useI18n({
     })
 const model = defineModel<Array<SeriesOrder>>()
 
-console.log("init")
-console.log(model.value)
 
 let currentInput = ref("")
 

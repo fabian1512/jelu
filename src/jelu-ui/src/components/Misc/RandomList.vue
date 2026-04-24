@@ -75,7 +75,6 @@ const getRandom = async () => {
     getRandomIsLoading.value = false
     updatePageLoading(false)
   } catch (error) {
-    console.log("failed get books : " + error);
     getRandomIsLoading.value = false
     updatePageLoading(false)
   }
@@ -88,14 +87,12 @@ const throttledGetRandom = useThrottleFn(() => {
 }, 100, false)
 
 watch([page, eventTypes, sortQuery, owned], (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetRandom()
   }
 })
 
 function modalClosed() {
-  console.log("modal closed")
   throttledGetRandom()
 }
 

@@ -25,7 +25,6 @@ const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('reviewDate,d
 const getBookIsLoading: Ref<boolean> = ref(false)
 
 watch([page, sortQuery], (newVal, oldVal) => {
-  console.log("all " + newVal + " " + oldVal)
   if (newVal !== oldVal) {
     throttledGetReviews()
   }
@@ -37,7 +36,6 @@ const getReviews = () => {
   null, null,
   pageAsNumber.value - 1, perPage.value, sortQuery.value)
   .then(res => {
-        console.log(res)
           total.value = res.totalElements
           reviews.value = res.content
         if (! res.empty) {
@@ -66,7 +64,6 @@ const throttledGetReviews = useThrottleFn(() => {
 try {
   getReviews();
 } catch (error) {
-  console.log("failed get reviews : " + error);
 }
 
 const { typographyClasses } = useTypography()

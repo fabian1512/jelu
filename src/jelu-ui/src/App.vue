@@ -54,7 +54,7 @@ store.dispatch('getUser')
       return
     }
     initialLoad.value = false
-    router.push({ name: 'login' }).then(() => { console.log("ok nav") }).catch(() => { console.log("error nav") })
+    router.push({ name: 'login' })
   })
 
 onMounted(() => {

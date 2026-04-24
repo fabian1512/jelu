@@ -38,10 +38,7 @@ function getFilteredTags(text: string) {
 }
 
 function manageTag(tag: Tag) {
-  console.log("tag")
-  console.log(tag)
   if (tag != null && tag.id != null) {
-    console.log("received tag : " + tag.id + "/" + tag.name)
     if (add.value) {
       if (addTags.value.findIndex(elem => tag.id === elem.id) === -1) {
         addTags.value.push(tag)
@@ -62,11 +59,9 @@ function removeTag(tag: Tag, tagList: Array<Tag>) {
 }
 
 watch(owned, (newVal, oldVal) => {
-  console.log("owned " + owned.value)
 })
 
 watch(toRead, (newVal, oldVal) => {
-  console.log("toRead " + toRead.value)
 })
 
 const addTags: Ref<Array<Tag>> = ref([])
@@ -83,7 +78,6 @@ const submit = () => {
     }).then(res => {
       emit('close')
     }).catch(err => {
-      console.log("error " + err)
       ObjectUtils.toast(oruga, "danger", t('labels.error_message', {msg : err.message}), 4000)
     })
   }

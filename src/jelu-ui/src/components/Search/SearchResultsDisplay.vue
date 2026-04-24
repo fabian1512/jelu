@@ -88,7 +88,6 @@ const search = () => {
     .then(res => {
       progress.value = false
       updatePageLoading(false)
-        console.log(res)
           total.value = res.totalElements
           books.value = res.content
         if (! res.empty) {
@@ -106,8 +105,6 @@ const search = () => {
 }
 
 watch([page, sortQuery, libraryFilter, eventTypes, toRead, owned, borrowed], (newVal, oldVal) => {
-  console.log(page.value)
-  console.log(newVal + " " + oldVal)
   if (newVal !== oldVal) {
     search()
   }
@@ -116,7 +113,6 @@ watch([page, sortQuery, libraryFilter, eventTypes, toRead, owned, borrowed], (ne
 const convertedBooks = computed(() => books.value?.map(b => ObjectUtils.toUserBook(b)))
 
 function modalClosed() {
-  console.log("modal closed")
   search()
 }
 
