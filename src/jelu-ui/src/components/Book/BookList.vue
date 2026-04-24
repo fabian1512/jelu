@@ -474,7 +474,7 @@ try {
       </button>
     </div>
     <h2
-      class="text-3xl capitalize"
+      class="text-xl sm:text-2xl md:text-3xl capitalize truncate min-w-0 flex-1"
       :class="typographyClasses"
     >
       <span class="icon">
@@ -486,6 +486,7 @@ try {
   </div>
   <o-pagination
     v-if="books.length > 0 && pageCount > 1"
+    class="hidden sm:block"
     :current="pageAsNumber"
     :total="total"
     order="centered"
@@ -494,13 +495,12 @@ try {
   />
   <div
     v-if="books.length > 0"
-    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-0 my-3 shrink-0 grow-0 mt-2"
+    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 my-3 shrink-0 grow-0 mt-2"
   >
     <TransitionGroup name="list">
       <div
         v-for="book in books"
         :key="book.id"
-        class="m-1"
       >
         <book-card
           :book="book"
@@ -517,7 +517,7 @@ try {
   </div>
   <div
     v-else-if="getBookIsLoading"
-    class="flex flex-row justify-center justify-items-center gap-3"
+    class="flex flex-row flex-wrap justify-center justify-items-center gap-3"
   >
     <o-skeleton
       class="justify-self-center basis-36"
@@ -525,19 +525,19 @@ try {
       :animated="true"
     />
     <o-skeleton
-      class="justify-self-center basis-36"
+      class="justify-self-center basis-36 hidden sm:block"
       height="250px"
       :animated="true"
     />
     <o-skeleton
-      class="justify-self-center basis-36"
+      class="justify-self-center basis-36 hidden md:block"
       height="250px"
       :animated="true"
     />
   </div>
-  <div v-else>
+  <div v-else class="flex flex-col items-center justify-center py-16 text-center">
     <h2
-      class="text-3xl capitalize"
+      class="text-xl sm:text-2xl md:text-3xl capitalize mb-4"
       :class="typographyClasses"
     >
       {{ t('labels.library_empty') }}
