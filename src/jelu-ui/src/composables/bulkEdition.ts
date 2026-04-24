@@ -1,6 +1,6 @@
 import { useOruga } from "@oruga-ui/oruga-next";
 import { Ref, ref } from 'vue';
-import BulkEditModal from "../components/BulkEditModal.vue";
+import BulkEditModal from "../components/Global/BulkEditModal.vue";
 
 type VoidFunc = () => void;
 
