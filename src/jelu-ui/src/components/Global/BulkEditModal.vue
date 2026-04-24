@@ -111,7 +111,7 @@ const { typographyClasses } = useTypography()
             <span class="label-text font-semibold">{{ t('bulk.owned') }} :</span>
           </label>
 
-          <div class="flex gap-2">
+          <div class="flex flex-wrap gap-2">
             <label>{{ t('labels.yes') }}</label>
             <input
               v-model="owned"
@@ -139,7 +139,7 @@ const { typographyClasses } = useTypography()
           <label class="label">
             <span class="label-text font-semibold first-letter:capitalize">{{ t('bulk.toRead') }} :</span>
           </label>
-          <div class="flex gap-2">
+          <div class="flex flex-wrap gap-2">
             <label>{{ t('labels.yes') }}</label>
             <input
               v-model="toRead"

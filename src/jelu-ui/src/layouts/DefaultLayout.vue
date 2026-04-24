@@ -177,7 +177,7 @@ const logout = () => {
           <div tabindex="0" class="dropdown-content mt-2 w-full">
             <div class="form-control w-full">
               <div class="join w-full">
-                <input v-model="searchQuery" type="text" :placeholder="t('labels.search_query')" class="input input-accent join-item w-1/2" @focus="showAdvanced = true" @blur="hideAdvanced" @keyup.enter="search">
+                <input v-model="searchQuery" type="text" :placeholder="t('labels.search_query')" class="input input-accent join-item flex-1 min-w-0" @focus="showAdvanced = true" @blur="hideAdvanced" @keyup.enter="search">
                 <button class="btn btn-square btn-outline join-item" @click="search">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
