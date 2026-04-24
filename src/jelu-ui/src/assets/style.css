@@ -467,10 +467,20 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply bg-primary text-primary-content font-medium;
 }
 
+/* Sidebar startet unter dem Header */
+.drawer-side {
+  @apply top-16;
+}
+
 /* Sidebar auf Mobile: Volle Höhe */
 @media (max-width: 1023px) {
   .drawer-side {
     @apply h-full;
+  }
+  
+  /* Kein Link-Offset auf Mobile */
+  .drawer-content {
+    @apply pl-0;
   }
 }
 

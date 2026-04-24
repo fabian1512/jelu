@@ -93,7 +93,7 @@ const logout = () => {
     </div>
 
     <!-- Sidebar -->
-    <div class="drawer-side z-40">
+    <div class="drawer-side z-40 top-16">
       <label
         class="drawer-overlay"
         @click="sidebarOpen = false"
