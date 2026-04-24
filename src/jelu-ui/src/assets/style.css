@@ -478,9 +478,20 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     @apply h-full;
   }
   
-  /* Kein Link-Offset auf Mobile */
+  /* Kein Link-Offset auf Mobile - alle DaisyUI Drawer Styles überschreiben */
   .drawer-content {
-    @apply pl-0;
+    @apply pl-0 ml-0;
+    transform: none !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+  
+  /* Checkbox-basiertes System: Wenn nicht angehakt, kein Offset */
+  .drawer:not(:checked) > .drawer-content {
+    @apply pl-0 ml-0;
+    transform: none !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
   }
 }
 

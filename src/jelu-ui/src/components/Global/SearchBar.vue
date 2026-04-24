@@ -18,7 +18,7 @@ const isLogged = computed(() => store.getters.getLogged)
 
 const searchQuery = ref('')
 
-const showSearchBar = computed(() => route.name === 'home' || route.name === 'my-books' || route.name === 'search')
+const showSearchBar = computed(() => route.name === 'home' || route.name === 'my-books')
 
 const search = () => {
   if (StringUtils.isNotBlank(searchQuery.value)) {
