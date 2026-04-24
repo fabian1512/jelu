@@ -152,7 +152,7 @@ getOauthproviders()
 <template>
   <div class="flex flex-row justify-center items-center content-center">
     <div>
-      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-full max-w-xs border p-4">
         <legend class="fieldset-legend capitalize">
           {{ t('login.login') }}
         </legend>
