@@ -149,6 +149,8 @@ const currentLayout = computed(() => {
   outline: none;
   margin-right: 5px;
   border-radius: 2px;
-  padding: 3px 10px;
+  padding: 8px 16px;
+  min-height: 44px;
+  font-size: 14px;
 }
 </style>

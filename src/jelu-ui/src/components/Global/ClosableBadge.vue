@@ -20,7 +20,7 @@ const emit = defineEmits<{
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="size-6 hover:cursor-pointer"
+      class="size-8 hover:cursor-pointer"
       @click="emit('closed')"
     >
       <path

@@ -262,7 +262,7 @@ const logout = () => {
       <div class="navbar-end">
         <div v-if="isLogged" class="">
           <div>
-            <span class="h-fit" @click="toggleShelvesModal"><i class="mdi mdi-bookshelf mdi-24px" /></span>
+            <button class="btn btn-ghost btn-sm" @click="toggleShelvesModal"><i class="mdi mdi-bookshelf mdi-24px" /></button>
           </div>
         </div>
         <div class="dropdown dropdown-end">
