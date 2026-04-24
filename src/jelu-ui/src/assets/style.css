@@ -245,12 +245,12 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .edit-modal {
-    margin: 30px;
-    width: min(900px, 88vw);
+    margin: max(12px, 30px);
+    width: min(900px, calc(100vw - 24px));
 }
 
 .event-modal {
-  margin: 30px;
+  margin: max(12px, 30px);
   height: min(600px, 70vh);
 }
 

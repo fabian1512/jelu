@@ -419,7 +419,7 @@ if (userbook.value.book.publisher != null) {
             class="textarea focus:textarea-accent w-full"
           />
         </fieldset>
-        <fieldset class="fieldset grid grid-cols-2">
+        <fieldset class="fieldset grid grid-cols-1 sm:grid-cols-2">
           <legend class="fieldset-legend capitalize">
             {{ t('book.isbn') }}
           </legend>
@@ -526,13 +526,13 @@ if (userbook.value.book.publisher != null) {
           </legend>
           <!-- eslint-disable -->
             <datepicker v-model="publishedDate as Date"
-              class="input input-primary w-11/12"
+              class="input input-primary w-full"
               :typeable="true"
               :clearable="true"
             >
             <!-- eslint-enable -->
             <template #clear="{ onClear }">
-              <button @click="onClear">
+              <button class="p-2" @click="onClear">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -568,7 +568,7 @@ if (userbook.value.book.publisher != null) {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6 hover:cursor-pointer"
+              class="size-8 hover:cursor-pointer"
               @click="userbook.book.pageCount = null; userbook.currentPageNumber = null"
             >
               <path
@@ -655,7 +655,7 @@ if (userbook.value.book.publisher != null) {
             class="textarea focus:textarea-accent w-full"
           />
         </fieldset>
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3">
           <fieldset class="fieldset">
             <legend class="fieldset-legend capitalize">
               {{ t('book.owned') }}
@@ -714,7 +714,7 @@ if (userbook.value.book.publisher != null) {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6 hover:cursor-pointer"
+              class="size-8 hover:cursor-pointer"
               @click="userbook.price = null"
             >
               <path
@@ -745,7 +745,7 @@ if (userbook.value.book.publisher != null) {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6 hover:cursor-pointer"
+              class="size-8 hover:cursor-pointer"
               @click="userbook.currentPageNumber = null"
             >
               <path
@@ -896,7 +896,7 @@ if (userbook.value.book.publisher != null) {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-6 hover:cursor-pointer"
+                class="size-8 hover:cursor-pointer"
                 @click="clearImageField"
               >
                 <path
@@ -952,9 +952,9 @@ if (userbook.value.book.publisher != null) {
           </fieldset>
         </div>
       </div>
-      <div class="flex flex-row justify-center pt-6">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-6">
         <button
-          class="btn btn-primary uppercase"
+          class="btn btn-primary uppercase w-full sm:w-auto"
           :class="{'btn-disabled' : progress}"
           @click="importBook"
         >
