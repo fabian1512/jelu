@@ -373,8 +373,8 @@ if (searchQuery.value != null) {
       </div>
     </template>
   </sort-filter-bar-vue>
-  <div class="flex flex-row sm:justify-between justify-center justify-items-center w-11/12 pb-2">
-    <div class="flex flex-row gap-1 order-last sm:order-first">
+  <div class="flex flex-row sm:justify-between justify-center justify-items-center w-full px-2 pb-2">
+    <div class="flex flex-row flex-wrap gap-1 order-last sm:order-first">
       <button
         class="btn btn-outline btn-success"
         @click="open = !open"
@@ -552,11 +552,10 @@ if (searchQuery.value != null) {
     :per-page="perPage"
     @change="updatePage"
   />
-  <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-1 my-4">
+  <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 my-4">
     <div
       v-for="book in convertedBooks"
       :key="book.book.id"
-      class="m-1"
     >
       <book-card
         :book="book"
@@ -570,7 +569,15 @@ if (searchQuery.value != null) {
       />
     </div>
   </div>
+  <div
+    v-if="convertedBooks.length === 0 && !getPageIsLoading"
+    class="flex flex-col items-center justify-center py-16 text-base-content/50"
+  >
+    <i class="mdi mdi-book-open-variant text-6xl mb-4" />
+    <p class="text-lg">{{ t('labels.library_empty') }}</p>
+  </div>
   <o-pagination
+    v-if="pageCount > 1"
     v-model:current="pageAsNumber"
     :total="total"
     order="centered"

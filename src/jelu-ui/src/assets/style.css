@@ -122,7 +122,8 @@
 /* oruga customization with daisyui */
 
 .o-sidebar__content.o-sidebar__content--left {
-  @apply bg-base-100 w-fit overflow-y-auto;
+  @apply bg-base-100 overflow-y-auto;
+  width: min(280px, 85vw) !important;
 }
 
 .o-pagination .o-pagination__button {
