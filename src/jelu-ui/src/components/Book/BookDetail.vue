@@ -548,10 +548,10 @@ getBook()
       </div>
       <div
         v-if="book != null"
-        class="flex items-center flex-wrap"
+        class="flex items-center flex-wrap gap-2"
       >
         <button
-          class="btn btn-primary btn-outline mr-2 p-2 uppercase"
+          class="btn btn-primary btn-outline p-2 uppercase"
           @click="toggleEdit"
         >
           <span class="icon">
@@ -560,7 +560,7 @@ getBook()
           <span>{{ t('labels.edit') }}</span>
         </button>
         <button
-          class="btn btn-error btn-outline mr-2 p-2 uppercase"
+          class="btn btn-error btn-outline p-2 uppercase"
           @click="deleteBook"
         >
           <span class="icon">
@@ -864,7 +864,7 @@ getBook()
     >
       <div
         v-if="book?.book?.summary"
-        class="jelu-bordered w-11/12 sm:w-9/12 p-2.5"
+        class="jelu-bordered w-11/12 sm:w-9/12 p-2.5 overflow-hidden"
       >
         <p
           v-if="book?.book?.summary"
@@ -882,14 +882,14 @@ getBook()
       <span
         v-for="tag in book?.book?.tags"
         :key="tag.id"
-        class="badge badge-primary mt-3 m-0.5 hover:font-bold hover:border-4"
+        class="badge badge-primary mt-3 m-1 hover:font-bold hover:border-4"
       >
         <router-link :to="{ name: 'tag-detail', params: { tagId: tag.id } }">{{ tag.name }}&nbsp;</router-link>
       </span>
     </div>
     <div
       v-if="hasExternalLink"
-      class="space-x-2"
+      class="flex flex-wrap gap-2 mt-2"
     >
       <span
         v-if="book?.book.goodreadsId"
@@ -1063,7 +1063,7 @@ getBook()
       >
         {{ t('reading_events.reading_events') }} :
       </p>
-      <div class="flex flex-col md:grid grid-cols-9 mx-auto p-2 text-blue-50">
+      <div class="flex flex-col md:grid md:grid-cols-9 mx-auto p-2 text-blue-50">
         <div class="col-start-5 mb-3 p-2 font-semibold timeline-item capitalize">
           {{ t('reading_events.now') }}
         </div>
@@ -1072,11 +1072,10 @@ getBook()
           v-for="(event, index) in sortedEvents"
           :key="event.id"
           class="flex md:contents"
-          :class="{ 'flex-row-reverse': index % 2 === 0 }"
         >
           <div
             v-if="index % 2 === 0"
-            class="col-start-1 col-end-5 p-2 my-4 ml-auto shadow-md timeline-item"
+            class="md:col-start-1 md:col-end-5 p-2 my-4 md:ml-auto shadow-md timeline-item"
           >
             <div
               v-if="event.endDate != null"
@@ -1112,7 +1111,7 @@ getBook()
           </div>
           <div
             v-if="index % 2 === 0"
-            class="col-start-5 col-end-6 md:mx-auto relative mr-10"
+            class="md:col-start-5 md:col-end-6 md:mx-auto relative md:mr-10"
           >
             <div class="h-full w-6 flex items-center justify-center">
               <div class="h-full w-1 bg-base-content pointer-events-none" />
@@ -1131,7 +1130,7 @@ getBook()
           </div>
           <div
             v-if="index % 2 !== 0"
-            class="col-start-5 col-end-6 mr-10 md:mx-auto relative"
+            class="md:col-start-5 md:col-end-6 md:mr-10 md:mx-auto relative"
           >
             <div class="h-full w-6 flex items-center justify-center">
               <div class="h-full w-1 bg-base-content pointer-events-none" />
@@ -1150,7 +1149,7 @@ getBook()
           </div>
           <div
             v-if="index % 2 !== 0"
-            class="col-start-6 col-end-10 p-2 my-4 mr-auto shadow-md timeline-item"
+            class="md:col-start-6 md:col-end-10 p-2 my-4 md:mr-auto shadow-md timeline-item"
           >
             <div
               v-if="event.endDate != null"
@@ -1230,7 +1229,7 @@ getBook()
           />
         </svg></button>
       </div>
-      <div class="py-4 prose"><pre><code>{{ embedCode }}</code></pre></div>
+      <div class="py-4 prose overflow-x-auto"><pre><code>{{ embedCode }}</code></pre></div>
       <div class="mt-2 capitalize">{{ t('labels.preview') }} : </div>
       <div
         class="inline-block mt-2"
@@ -1244,6 +1243,7 @@ getBook()
 
 .dropdown-content.menu {
   width: fit-content !important;
+  max-width: 90vw !important;
 }
 
 </style>
