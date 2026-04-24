@@ -438,67 +438,71 @@ if (userbook.value.book.publisher != null) {
             class="input focus:input-accent w-full"
           >
         </fieldset>
-        <fieldset class="fieldset sm:grid sm:grid-cols-3">
-          <legend class="fieldset-legend capitalize providers-ids">
+        <details class="collapse collapse-arrow bg-base-200">
+          <summary class="collapse-title text-xl font-medium capitalize">
             {{ t('book.identifiers') }}
-          </legend>
-          <input
-            v-model="userbook.book.goodreadsId"
-            type="text"
-            name="goodreadsId"
-            :placeholder="t('book.goodreads_id')"
-            class="input focus:input-accent w-full"
-          >
-          <input
-            v-model="userbook.book.googleId"
-            type="text"
-            name="googleId"
-            :placeholder="t('book.google_id')"
-            class="input focus:input-accent w-full"
-          >
-          <input
-            v-model="userbook.book.amazonId"
-            type="text"
-            name="amazonId"
-            :placeholder="t('book.amazon_id')"
-            class="input focus:input-accent w-full"
-          >
-          <input
-            v-model="userbook.book.librarythingId"
-            type="text"
-            name="librarythingId"
-            :placeholder="t('book.librarything_id')"
-            class="input focus:input-accent w-full"
-          >
-          <input
-            v-model="userbook.book.isfdbId"
-            type="text"
-            name="isfdbId"
-            :placeholder="t('book.isfdb_id')"
-            class="input focus:input-accent w-full"
-          >
-          <input
-            v-model="userbook.book.openlibraryId"
-            type="text"
-            name="openlibraryId"
-            :placeholder="t('book.openlibrary_id')"
-            class="input focus:input-accent w-full"
-          >
-          <input
-            v-model="userbook.book.noosfereId"
-            type="text"
-            name="noosfereId"
-            :placeholder="t('book.noosfere_id')"
-            class="input focus:input-accent w-full"
-          >
-          <input
-            v-model="userbook.book.inventaireId"
-            type="text"
-            name="inventaireId"
-            :placeholder="t('book.inventaire_id')"
-            class="input focus:input-accent w-full"
-          >
-        </fieldset>
+          </summary>
+          <div class="collapse-content">
+            <fieldset class="fieldset sm:grid sm:grid-cols-3">
+              <input
+                v-model="userbook.book.goodreadsId"
+                type="text"
+                name="goodreadsId"
+                :placeholder="t('book.goodreads_id')"
+                class="input focus:input-accent w-full"
+              >
+              <input
+                v-model="userbook.book.googleId"
+                type="text"
+                name="googleId"
+                :placeholder="t('book.google_id')"
+                class="input focus:input-accent w-full"
+              >
+              <input
+                v-model="userbook.book.amazonId"
+                type="text"
+                name="amazonId"
+                :placeholder="t('book.amazon_id')"
+                class="input focus:input-accent w-full"
+              >
+              <input
+                v-model="userbook.book.librarythingId"
+                type="text"
+                name="librarythingId"
+                :placeholder="t('book.librarything_id')"
+                class="input focus:input-accent w-full"
+              >
+              <input
+                v-model="userbook.book.isfdbId"
+                type="text"
+                name="isfdbId"
+                :placeholder="t('book.isfdb_id')"
+                class="input focus:input-accent w-full"
+              >
+              <input
+                v-model="userbook.book.openlibraryId"
+                type="text"
+                name="openlibraryId"
+                :placeholder="t('book.openlibrary_id')"
+                class="input focus:input-accent w-full"
+              >
+              <input
+                v-model="userbook.book.noosfereId"
+                type="text"
+                name="noosfereId"
+                :placeholder="t('book.noosfere_id')"
+                class="input focus:input-accent w-full"
+              >
+              <input
+                v-model="userbook.book.inventaireId"
+                type="text"
+                name="inventaireId"
+                :placeholder="t('book.inventaire_id')"
+                class="input focus:input-accent w-full"
+              >
+            </fieldset>
+          </div>
+        </details>
         <fieldset class="fieldset">
           <legend class="fieldset-legend capitalize">
             {{ t('book.publisher') }}
@@ -644,17 +648,21 @@ if (userbook.value.book.publisher != null) {
             </label>
           </div>
         </fieldset>
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+        <details class="collapse collapse-arrow bg-base-200">
+          <summary class="collapse-title text-xl font-medium capitalize">
             {{ t('book.personal_notes') }}
-          </legend>
-          <textarea
-            v-model="userbook.personalNotes"
-            maxlength="5000"
-            type="textarea"
-            class="textarea focus:textarea-accent w-full"
-          />
-        </fieldset>
+          </summary>
+          <div class="collapse-content">
+            <fieldset class="fieldset">
+              <textarea
+                v-model="userbook.personalNotes"
+                maxlength="5000"
+                type="textarea"
+                class="textarea focus:textarea-accent w-full"
+              />
+            </fieldset>
+          </div>
+        </details>
         <div class="grid grid-cols-1 sm:grid-cols-3">
           <fieldset class="fieldset">
             <legend class="fieldset-legend capitalize">
@@ -696,79 +704,86 @@ if (userbook.value.book.publisher != null) {
             </label>
           </fieldset>
         </div>
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
-            {{ t('book.price') }}
-          </legend>
-          <label class="input w-full">
-            <input
-              v-model="userbook.price"
-              type="number"
-              class="input focus:input-accent validator"
-              step="0.01"
-              min="0"
-            >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-8 hover:cursor-pointer"
-              @click="userbook.price = null"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-            <p class="validator-hint hidden">{{ t('errors.positive_only') }}</p>
-          </label>
-        </fieldset>
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
-            {{ t('book.current_page_number') }}
-          </legend>
-          <label class="input w-full">
-            <input
-              v-model="userbook.currentPageNumber"
-              type="number"
-              class="input focus:input-accent"
-              min="0"
-              :disabled="userbook.book.pageCount == null"
-              :max="userbook.book.pageCount"
-            >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-8 hover:cursor-pointer"
-              @click="userbook.currentPageNumber = null"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-          </label>
-        </fieldset>
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
-            {{ t('book.percent_read') }}
-          </legend>
-          <input
-            v-model="userbook.percentRead"
-            type="range"
-            min="0"
-            max="100"
-            class="w-full range range-primary range-xs"
-            :disabled="userbook.book.pageCount != null"
-          >
-        </fieldset>
+        <details class="collapse collapse-arrow bg-base-200">
+          <summary class="collapse-title text-xl font-medium capitalize">
+            {{ t('book.price') }} & {{ t('book.current_page_number') }}
+          </summary>
+          <div class="collapse-content">
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend capitalize">
+                {{ t('book.price') }}
+              </legend>
+              <label class="input w-full">
+                <input
+                  v-model="userbook.price"
+                  type="number"
+                  class="input focus:input-accent validator"
+                  step="0.01"
+                  min="0"
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-8 hover:cursor-pointer"
+                  @click="userbook.price = null"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                <p class="validator-hint hidden">{{ t('errors.positive_only') }}</p>
+              </label>
+            </fieldset>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend capitalize">
+                {{ t('book.current_page_number') }}
+              </legend>
+              <label class="input w-full">
+                <input
+                  v-model="userbook.currentPageNumber"
+                  type="number"
+                  class="input focus:input-accent"
+                  min="0"
+                  :disabled="userbook.book.pageCount == null"
+                  :max="userbook.book.pageCount"
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-8 hover:cursor-pointer"
+                  @click="userbook.currentPageNumber = null"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </label>
+            </fieldset>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend capitalize">
+                {{ t('book.percent_read') }}
+              </legend>
+              <input
+                v-model="userbook.percentRead"
+                type="range"
+                min="0"
+                max="100"
+                class="w-full range range-primary range-xs"
+                :disabled="userbook.book.pageCount != null"
+              >
+            </fieldset>
+          </div>
+        </details>
         <fieldset v-if="hasImage">
           <legend class="fieldset-legend capitalize">
             {{ t('labels.actual_cover') }}

@@ -69,7 +69,7 @@ const editReview = async (reviewId: string) => {
         </router-link>
         <button
           v-if="props.showEdit"
-          class="btn btn-outline btn-warning p-2 border-none"
+          class="btn btn-outline btn-warning p-2 border-none min-h-11 min-w-11"
           @click="editReview(props.review.id)"
         >
           <svg
@@ -83,7 +83,7 @@ const editReview = async (reviewId: string) => {
         </button>
         <button
           v-if="props.showDelete"
-          class="btn btn-outline btn-error p-2 border-none"
+          class="btn btn-outline btn-error p-2 border-none min-h-11 min-w-11"
           @click="deleteReview(props.review.id)"
         >
           <svg

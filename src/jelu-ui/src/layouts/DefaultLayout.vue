@@ -116,7 +116,7 @@ const logout = () => {
     <div class="navbar bg-base-100">
       <div class="navbar-start">
         <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost lg:hidden">
+          <label tabindex="0" class="btn btn-ghost md:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
@@ -153,9 +153,12 @@ const logout = () => {
               </router-link>
             </li>
             <li>
-              <router-link v-if="isLogged" :to="{ name: 'authors' }" class="font-sans capitalize">
+              <router-link v-if="isLogged" :to="{ name: 'authors' }" class="font-sans text-base capitalize">
                 {{ t('book.author', 2) }}
               </router-link>
+            </li>
+            <li @click="collapseDropdown()">
+              <span v-if="isLogged" class="font-sans text-base capitalize" @click="toggleShelvesModal">{{ t('settings.shelves') }}</span>
             </li>
             <li @click="collapseDropdown()">
               <router-link v-if="isLogged" :to="{ name: 'search' }" class="font-sans text-base capitalize">
@@ -168,7 +171,7 @@ const logout = () => {
           <img src="../assets/jelu_logo.svg" alt="home" class="w-14">
         </router-link>
         <div v-if="isLogged && showSearchInput" class="dropdown">
-          <label tabindex="0" class="btn btn-ghost rounded-btn lg:hidden">
+          <label tabindex="0" class="btn btn-ghost rounded-btn md:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -193,7 +196,7 @@ const logout = () => {
           </div>
         </div>
       </div>
-      <div class="navbar-center hidden lg:flex">
+      <div class="navbar-center hidden md:flex">
         <ul class="menu menu-horizontal p-0">
           <li>
             <router-link v-if="isLogged" class="font-sans text-xl capitalize" :to="{ name: 'my-books' }">
@@ -261,7 +264,7 @@ const logout = () => {
       <div class="navbar-end">
         <div v-if="isLogged" class="">
           <div>
-            <button class="btn btn-ghost btn-sm" @click="toggleShelvesModal"><i class="mdi mdi-bookshelf mdi-24px" /></button>
+            <button class="btn btn-ghost" @click="toggleShelvesModal"><i class="mdi mdi-bookshelf mdi-24px" /></button>
           </div>
         </div>
         <div class="dropdown dropdown-end">

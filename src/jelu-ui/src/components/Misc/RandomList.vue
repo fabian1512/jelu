@@ -142,7 +142,7 @@ const { typographyClasses } = useTypography()
       </div>
       <div class="">
         <label class="label">{{ t('filtering.owned') }} : </label>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="owned"
             type="radio"
@@ -152,7 +152,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="owned"
             type="radio"
@@ -162,7 +162,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('labels.false') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="owned"
             type="radio"
@@ -225,12 +225,12 @@ const { typographyClasses } = useTypography()
   </div>
   <div
     v-if="books.length > 0"
-    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-0 my-3"
+    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 my-3"
   >
     <div
       v-for="book in books"
       :key="book.id"
-      class="books-grid-item m-2"
+      class="books-grid-item"
     >
       <book-card
         :book="book"

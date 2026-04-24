@@ -111,7 +111,7 @@ const { typographyClasses } = useTypography()
     <template #sort-fields>
       <div class="flex flex-col gap-1">
         <label class="label">{{ t('sorting.sort_by') }} : </label>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="sortBy"
             type="radio"
@@ -121,7 +121,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('sorting.title') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="sortBy"
             type="radio"
@@ -131,7 +131,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('sorting.publisher') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="sortBy"
             type="radio"
@@ -141,7 +141,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('sorting.series') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="sortBy"
             type="radio"
@@ -151,7 +151,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('sorting.publication_date') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="sortBy"
             type="radio"
@@ -161,7 +161,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('sorting.modification_date') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="sortBy"
             type="radio"
@@ -171,7 +171,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('sorting.random') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="sortBy"
             type="radio"
@@ -186,7 +186,7 @@ const { typographyClasses } = useTypography()
     <template #filters>
       <div class="flex flex-col gap-1">
         <label class="label">{{ t('filtering.books_type') }} : </label>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="libraryFilter"
             type="radio"
@@ -196,7 +196,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('filtering.any') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="libraryFilter"
             type="radio"
@@ -206,7 +206,7 @@ const { typographyClasses } = useTypography()
           >
           <span class="label-text">{{ t('filtering.only_in_my_list') }}</span>
         </div>
-        <div class="">
+        <div class="p-1">
           <input
             v-model="libraryFilter"
             type="radio"

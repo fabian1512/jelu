@@ -160,7 +160,7 @@ const { typographyClasses } = useTypography()
         :data-tip="t('user-messages.mark_read')"
       >
         <button
-          class="btn btn-circle btn-xs"
+          class="btn btn-circle btn-sm"
           @click="updateMessage(message, !message.read)"
         >
           <svg

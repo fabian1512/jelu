@@ -708,7 +708,7 @@ getBook()
             v-if="book?.book?.image"
             :src="'/files/' + book.book.image + '?timestamp=' + currentTimestamp"
             alt="cover image"
-            class="max-h-96"
+            class="max-h-96 max-w-full"
           >
           <img
             v-else
@@ -1103,7 +1103,7 @@ getBook()
               </p>
             </div>
             <button
-              class="btn btn-sm btn-circle btn-outline mb-0 border-0"
+              class="btn btn-md btn-circle btn-outline mb-0 border-0"
               @click="toggleReadingEventModal(event, true)"
             >
               <i class="mdi mdi-pencil mdi-18px" />
@@ -1177,7 +1177,7 @@ getBook()
               </p>
             </div>
             <button
-              class="btn btn-sm btn-circle btn-outline mb-0 border-0"
+              class="btn btn-md btn-circle btn-outline mb-0 border-0"
               @click="toggleReadingEventModal(event, true)"
             >
               <i class="mdi mdi-pencil mdi-18px" />
@@ -1212,7 +1212,7 @@ getBook()
         <h3 class="text-lg font-bold first-letter:capitalize">{{ t('labels.copy_paste_code') }}</h3>
         <button
           v-if="isSupported"
-          class="btn btn-outline btn-sm btn-circle border-none ml-1"
+          class="btn btn-outline btn-md btn-circle border-none ml-1"
           @click="copyToClipboard(embedCode)"
         ><svg
           xmlns="http://www.w3.org/2000/svg"

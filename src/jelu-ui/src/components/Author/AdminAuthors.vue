@@ -111,7 +111,7 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-10 mr-2">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-10 mr-2">
     <div class="col-span-2 justify-self-center">
       <h1
         class="text-2xl mb-4"

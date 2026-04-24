@@ -250,7 +250,7 @@ const { typographyClasses } = useTypography()
     </h2>
     <div
       v-if="events.length > 0"
-      class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-1"
+      class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2"
     >
       <div
         v-for="event in events"

@@ -17,7 +17,7 @@ defineProps<{
 
 <template>
   <section>
-    <div class="grid grid-cols-5 justify-center justify-items-center justify-self-center">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 justify-center justify-items-center justify-self-center gap-4">
       <div
         class="col-span-1 mr-3"
       >
