@@ -33,11 +33,15 @@ const isOpened = ref(false)
 
 const sideBarWidth = ref(175)
 
+const toggleSidebar = () => {
+  isOpened.value = !isOpened.value
+}
+
 </script>
 
 <template>
   <div class="flex flex-row gap-4 w-full">
-    <div class="justify-self-start">
+    <div class="justify-self-start hidden sm:block">
       <sidebar-menu
         :items="items"
         :is-opened="isOpened"
@@ -55,6 +59,22 @@ const sideBarWidth = ref(175)
       </sidebar-menu>
     </div>
     <div class="w-full">
+      <div class="sm:hidden mb-4">
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost w-full justify-start">
+            <i class="bx bx-menu text-xl mr-2" />
+            {{ t('settings.profile') }}
+          </label>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-sm bg-base-100 rounded-box w-full">
+            <li v-for="item in items" :key="item.href">
+              <router-link :to="item.href">
+                <i class="bx" :class="item.icon" />
+                {{ item.name }}
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
       <router-view />
     </div>
   </div>
