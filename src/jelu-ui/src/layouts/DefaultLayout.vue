@@ -1,304 +1,110 @@
 <script setup lang="ts">
-import { useOruga } from "@oruga-ui/oruga-next";
-import { computed, onMounted, Ref, ref, watch } from 'vue';
-import Avatar from 'vue-avatar-sdh';
-import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import ScanModal from "../components/Book/ScanModal.vue";
-import UserShelvesModal from '../components/User/UserShelvesModal.vue';
-import dataService from "../services/DataService";
-import { key } from '../store';
-import { StringUtils } from '../utils/StringUtils';
-import useTypography from "../composables/typography";
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import Avatar from 'vue-avatar-sdh'
+import { key } from '../store'
+import dataService from '../services/DataService'
+import AppSidebar from '../components/Global/AppSidebar.vue'
+import SearchBar from '../components/Global/SearchBar.vue'
+import useTypography from '../composables/typography'
 
 const props = defineProps<{
-  hideNavbar?: boolean;
-  hideFooter?: boolean;
-}>();
+  hideNavbar?: boolean
+  hideFooter?: boolean
+}>()
 
-const store = useStore(key);
-const router = useRouter();
-const route = useRoute();
-const { t, locale } = useI18n({
-  inheritLocale: true,
-  useScope: 'global'
-});
+const store = useStore(key)
+const router = useRouter()
+const route = useRoute()
+const { t } = useI18n({ inheritLocale: true, useScope: 'global' })
+const { typographyClasses } = useTypography()
 
-const oruga = useOruga();
-const { typographyClasses } = useTypography();
+const username = computed(() => store.getters.getUsername)
+const isLogged = computed(() => store.getters.getLogged)
 
-const username = computed(() => {
-  return store.getters.getUsername;
-});
-const isLogged = computed(() => {
-  return store.getters.getLogged;
-});
-
-const searchQuery = ref('');
-const showAdvanced = ref(false);
-const hideAdvanced = () => {
-  setTimeout(() => showAdvanced.value = false, 1000);
-};
-
-const showSearchInput = ref(true);
-
-const search = () => {
-  if (StringUtils.isNotBlank(searchQuery.value)) {
-    showAdvanced.value = false;
-    router.push({ path: '/search', query: { q: searchQuery.value } });
-  }
-};
-
-watch(() => route.name, (newVal, oldVal) => {
-  if (route.name === 'search') {
-    showSearchInput.value = false;
-  } else {
-    showSearchInput.value = true;
-  }
-});
-
-const collapseDropdown = () => {
-  if (document.activeElement instanceof HTMLElement) {
-    document.activeElement.blur();
-  }
-};
-
-let barcodeReader: any = null;
-
-function toggleScanModal() {
-  oruga.modal.open({
-    component: ScanModal,
-    trapFocus: true,
-    active: true,
-    canCancel: ['x', 'button', 'outside'],
-    scroll: 'keep',
-    props: {},
-    events: {
-      decoded: (barcode: string|null) => {
-        if (barcode != null) {
-          searchQuery.value = barcode;
-          search();
-        }
-      },
-      barcodeLoaded: (reader: any) => {
-        barcodeReader = reader;
-      }
-    },
-    onClose: scanModalClosed
-  });
-}
-
-function toggleShelvesModal() {
-  oruga.modal.open({
-    component: UserShelvesModal,
-    trapFocus: true,
-    active: true,
-    canCancel: ['x', 'button', 'outside'],
-    scroll: 'keep',
-    onClose: scanModalClosed,
-  });
-}
-
-function scanModalClosed() {
-}
+const sidebarOpen = ref(false)
 
 const logout = () => {
-  dataService.logout()
-    .then(res => {
-      store.dispatch('logout');
-    });
-};
+  dataService.logout().then(() => {
+    store.dispatch('logout')
+  })
+}
 </script>
 
 <template>
-  <div v-if="!hideNavbar">
-    <div class="navbar bg-base-100">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost md:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
-            </svg>
+  <div class="drawer lg:drawer-open min-h-screen">
+    <!-- Mobile Toggle (versteckt) -->
+    <input
+      type="checkbox"
+      class="drawer-toggle"
+      :checked="sidebarOpen"
+      @change="sidebarOpen = ($event.target as HTMLInputElement).checked"
+    />
+
+    <!-- Hauptinhalt -->
+    <div class="drawer-content flex flex-col">
+      <!-- Header -->
+      <header v-if="!hideNavbar" class="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-2 sm:px-4">
+        <div class="navbar-start gap-2">
+          <label
+            class="btn btn-ghost lg:hidden"
+            @click="sidebarOpen = !sidebarOpen"
+          >
+            <i class="mdi mdi-menu text-xl" />
           </label>
-          <ul tabindex="0" class="menu menu-compact dropdown-content z-[1] mt-3 p-2 shadow-sm bg-base-100 rounded-box w-52">
-            <li @click="collapseDropdown()">
-              <router-link v-if="isLogged" class="font-sans text-base capitalize" :to="{ name: 'my-books' }">
-                {{ t('nav.my_books') }}
-              </router-link>
-            </li>
-            <li @click="collapseDropdown()">
-              <router-link v-if="isLogged" class="font-sans text-base capitalize" :to="{ name: 'to-read' }">
-                {{ t('nav.to_read') }}
-              </router-link>
-            </li>
-            <li @click="collapseDropdown()">
-              <router-link v-if="isLogged" class="font-sans text-base capitalize" :to="{ name: 'random' }">
-                {{ t('nav.random') }}
-              </router-link>
-            </li>
-            <li @click="collapseDropdown()">
-              <router-link v-if="isLogged" :to="{ name: 'add-book' }" class="font-sans text-base capitalize">
-                {{ t('nav.add_book') }}
-              </router-link>
-            </li>
-            <li @click="collapseDropdown()">
-              <router-link v-if="isLogged" :to="{ name: 'history' }" class="font-sans text-base capitalize">
-                {{ t('nav.history') }}
-              </router-link>
-            </li>
-            <li @click="collapseDropdown()">
-              <router-link v-if="isLogged" :to="{ name: 'reviews' }" class="font-sans text-base capitalize">
-                {{ t('nav.activity') }}
-              </router-link>
-            </li>
-            <li>
-              <router-link v-if="isLogged" :to="{ name: 'authors' }" class="font-sans text-base capitalize">
-                {{ t('book.author', 2) }}
-              </router-link>
-            </li>
-            <li @click="collapseDropdown()">
-              <span v-if="isLogged" class="font-sans text-base capitalize" @click="toggleShelvesModal">{{ t('settings.shelves') }}</span>
-            </li>
-            <li @click="collapseDropdown()">
-              <router-link v-if="isLogged" :to="{ name: 'search' }" class="font-sans text-base capitalize">
-                {{ t('nav.search') }}
-              </router-link>
-            </li>
-          </ul>
+          <router-link to="/" class="flex items-center gap-2">
+            <img src="../assets/jelu_logo.svg" alt="Jelu" class="w-10" />
+            <span class="text-xl font-bold hidden sm:inline">Jelu</span>
+          </router-link>
         </div>
-        <router-link :to="{ name: 'home' }">
-          <img src="../assets/jelu_logo.svg" alt="home" class="w-14">
-        </router-link>
-        <div v-if="isLogged && showSearchInput" class="dropdown">
-          <label tabindex="0" class="btn btn-ghost rounded-btn md:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </label>
-          <div tabindex="0" class="dropdown-content mt-2 w-full">
-            <div class="form-control w-full">
-              <div class="join w-full">
-                <input v-model="searchQuery" type="text" :placeholder="t('labels.search_query')" class="input input-accent join-item flex-1 min-w-0" @focus="showAdvanced = true" @blur="hideAdvanced" @keyup.enter="search">
-                <button class="btn btn-square btn-outline join-item" @click="search">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </button>
-                <button class="btn btn-warning p-2 mx-1" :class="{'btn-disabled' : progress}" @click="toggleScanModal">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
+        <div class="navbar-end">
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+              <Avatar :size="40" :username="username" />
+            </label>
+            <ul class="mt-3 p-2 shadow menu menu-sm dropdown-content z-50 bg-base-100 rounded-box w-52">
+              <li v-if="isLogged">
+                <router-link class="capitalize" to="/profile">
+                  {{ t('nav.dashboard') }}
+                </router-link>
+              </li>
+              <li v-if="!isLogged">
+                <router-link class="capitalize" to="/login">
+                  {{ t('nav.login') }}
+                </router-link>
+              </li>
+              <li v-if="isLogged">
+                <a class="capitalize" @click="logout()">
+                  {{ t('nav.logout') }}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div class="navbar-center hidden md:flex">
-        <ul class="menu menu-horizontal p-0">
-          <li>
-            <router-link v-if="isLogged" class="font-sans text-xl capitalize" :to="{ name: 'my-books' }">
-              {{ t('nav.my_books') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link v-if="isLogged" class="font-sans text-xl capitalize" :to="{ name: 'to-read' }">
-              {{ t('nav.to_read') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link v-if="isLogged" class="font-sans text-xl capitalize" :to="{ name: 'random' }">
-              {{ t('nav.random') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link v-if="isLogged" :to="{ name: 'add-book' }" class="font-sans text-xl capitalize">
-              {{ t('nav.add_book') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link v-if="isLogged" :to="{ name: 'history' }" class="font-sans text-xl capitalize">
-              {{ t('nav.history') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link v-if="isLogged" :to="{ name: 'reviews' }" class="font-sans text-xl capitalize">
-              {{ t('nav.activity') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link v-if="isLogged" :to="{ name: 'authors' }" class="font-sans text-xl capitalize">
-              {{ t('book.author', 2) }}
-            </router-link>
-          </li>
-          <li v-if="isLogged" class="mr-1">
-            <span class="font-sans text-xl capitalize" @click="toggleShelvesModal">{{ t('settings.shelves') }}</span>
-          </li>
-        </ul>
-        <div v-if="isLogged && showSearchInput" class="form-control">
-          <div class="join">
-            <input v-model="searchQuery" type="text" :placeholder="t('labels.search_query')" class="input input-accent join-item" @focus="showAdvanced = true" @blur="hideAdvanced" @keyup.enter="search">
-            <button class="btn btn-square btn-outline join-item" @click="search">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-            <button class="btn btn-warning p-2 mx-1" :class="{'btn-disabled' : progress}" @click="toggleScanModal">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <Transition>
-          <button v-if="showAdvanced" class="btn btn-circle btn-outline border-0 tooltip tooltip-bottom lowercase" :data-tip="t('labels.advanced_search')">
-            <router-link class="link-hover font-sans" :to="{ name: 'search' }">
-              <span class="mdi mdi-magnify-plus-outline mdi-24 text-3xl" />
-            </router-link>
-          </button>
-        </Transition>
-      </div>
-      <div class="navbar-end">
-        <div v-if="isLogged" class="">
-          <div>
-            <button class="btn btn-ghost" @click="toggleShelvesModal"><i class="mdi mdi-bookshelf mdi-24px" /></button>
-          </div>
-        </div>
-        <div class="dropdown dropdown-end">
-          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-            <Avatar :size="40" :username="username" class="w-10" />
-          </label>
-          <ul tabindex="0" class="mt-3 p-2 shadow-sm menu menu-sm dropdown-content z-[1] bg-base-100 rounded-box w-52">
-            <li v-if="isLogged" @click="collapseDropdown()">
-              <router-link class="font-sans text-base capitalize" :to="{ name: 'profile-page' }">
-                {{ t('nav.dashboard') }}
-              </router-link>
-            </li>
-            <li v-if="!isLogged" @click="collapseDropdown()">
-              <router-link class="font-sans text-base" :to="{ name: 'login' }">
-                {{ t('nav.login') }}
-              </router-link>
-            </li>
-            <li v-if="isLogged" @click="collapseDropdown()">
-              <a class="font-sans text-base capitalize" @click="logout()">
-                {{ t('nav.logout') }}
-              </a>
-            </li>
-            <li @click="collapseDropdown()">
-              <label for="shortcuts-modal" class="font-sans text-base modal-button">{{ t('settings.shortcuts') }}</label>
-            </li>
-          </ul>
-        </div>
-      </div>
+      </header>
+
+      <!-- Suchleiste (nur auf Home) -->
+      <SearchBar />
+
+      <!-- Seiteninhalt -->
+      <main class="flex-1 p-4">
+        <slot />
+      </main>
     </div>
-    <div class="divider mt-0" />
+
+    <!-- Sidebar -->
+    <div class="drawer-side z-40">
+      <label
+        class="drawer-overlay"
+        @click="sidebarOpen = false"
+      />
+      <AppSidebar @close="sidebarOpen = false" />
+    </div>
   </div>
 
-  <slot />
-
+  <!-- Keyboard Shortcuts Modal -->
   <input id="shortcuts-modal" type="checkbox" class="modal-toggle">
   <label for="shortcuts-modal" class="modal cursor-pointer">
     <label class="modal-box relative" for="">

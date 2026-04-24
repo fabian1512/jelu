@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useOruga } from "@oruga-ui/oruga-next";
 import { themeChange } from 'theme-change';
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { computed, onMounted, Ref, ref } from 'vue';
@@ -9,7 +8,6 @@ import { useStore } from 'vuex';
 import { key } from './store';
 import DefaultLayout from './layouts/DefaultLayout.vue';
 import AuthLayout from './layouts/AuthLayout.vue';
-import AdminLayout from './layouts/AdminLayout.vue';
 import BlankLayout from './layouts/BlankLayout.vue';
 
 const {
@@ -31,7 +29,6 @@ const { t, locale } = useI18n({
   useScope: 'global'
 })
 
-const oruga = useOruga();
 const initialLoad : Ref<boolean> = ref(false)
 
 store.dispatch('setupStatus')
@@ -63,15 +60,14 @@ onMounted(() => {
 
 const currentLayout = computed(() => {
   const routeName = route.name;
-  if (routeName === 'login' || routeName === 'home') {
+  if (routeName === 'login') {
     return 'auth';
-  }
-  if (routeName?.toString().startsWith('profile')) {
-    return 'admin';
   }
   if (routeName === 'review-detail' || routeName === 'book-reviews' || routeName === 'list-detail') {
     return 'blank';
   }
+  // Default layout für alles (inkl. Admin/Bereich)
+  // Die Sidebar zeigt Admin-Links nur für Admins
   return 'default';
 });
 </script>
@@ -93,10 +89,6 @@ const currentLayout = computed(() => {
   <AuthLayout v-else-if="currentLayout === 'auth'">
     <router-view />
   </AuthLayout>
-
-  <AdminLayout v-else-if="currentLayout === 'admin'">
-    <router-view />
-  </AdminLayout>
 
   <BlankLayout v-else>
     <router-view />

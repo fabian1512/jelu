@@ -1,96 +1,13 @@
 <script setup lang="ts">
 import { useTitle } from '@vueuse/core'
-import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { key } from '../../store'
-import { useI18n } from 'vue-i18n'
-import { Provider } from '../../model/User'
-
-const { t } = useI18n({
-      inheritLocale: true,
-      useScope: 'global'
-    })
 
 useTitle('Jelu | User page')
 
 const store = useStore(key)
-
-const items = ref([{ name:t('settings.profile'), tooltip:t('settings.my_profile'), icon:"bx-user", href:"/profile" },
-                { name:t('settings.settings'), icon:"bxs-cog", href:"/profile/settings", tooltip: t('settings.settings') },
-                { name:t('nav.data-admin'), icon:"bxs-data", href:"/profile/data", tooltip: t('nav.data-admin') },
-                { name:t('settings.imports'), icon:"bxs-file-plus", href:"/profile/imports", tooltip: t('settings.csv_import') },
-                { name:t('settings.messages'), icon:"bxs-message-alt-detail", href:"/profile/messages" },
-                { name:t('settings.stats'), icon:"bxs-chart", href:"/profile/stats", tooltip: t('settings.stats') },
-                { name:t('settings.users'), icon:"bxs-user-detail", href:"/profile/users", tooltip: t('settings.users') },
-                { name:t('settings.api_tokens'), icon:"bxs-key", href:"/profile/api-tokens", tooltip: t('settings.api_tokens') }
-                ])
-
-if (store.getters.isAdmin && store.getters.getUser != null && store.getters.getUser.provider !== Provider.PROXY) {
-  items.value.push({ name:t('settings.add_users'), icon:"bxs-user-plus", href:"/profile/admin/users", tooltip: t('settings.users_management') })
-}
-
-const isOpened = ref(false)
-
-const sideBarWidth = ref(175)
-
-const toggleSidebar = () => {
-  isOpened.value = !isOpened.value
-}
-
 </script>
 
 <template>
-  <div class="flex flex-row gap-4 w-full">
-    <div class="justify-self-start hidden sm:block">
-      <sidebar-menu
-        :items="items"
-        :is-opened="isOpened"
-        :width="sideBarWidth"
-      >
-        <template #header>
-          <div class="hover:hover:bg-accent/50 hover:rounded-lg hover:px-2">
-            <i
-              class="bx text-3xl"
-              :class="isOpened ? 'bx-menu-alt-right' : 'bx-menu'"
-              @click="isOpened = !isOpened"
-            />
-          </div>
-        </template>
-      </sidebar-menu>
-    </div>
-    <div class="w-full">
-      <div class="sm:hidden mb-4">
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost w-full justify-start">
-            <i class="bx bx-menu text-xl mr-2" />
-            {{ t('settings.profile') }}
-          </label>
-          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-sm bg-base-100 rounded-box w-full">
-            <li v-for="item in items" :key="item.href">
-              <router-link :to="item.href">
-                <i class="bx" :class="item.icon" />
-                {{ item.name }}
-              </router-link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <router-view />
-    </div>
-  </div>
-  <footer class="footer footer-center my-10">
-    <div>
-      <p>
-        <strong>Jelu</strong> <a
-          href="https://github.com/bayang/jelu"
-          target="_blank"
-          class="link hover:link-accent hover:decoration-4 hover:decoration-accent"
-        ><i class="mdi mdi-24px mdi-github" /> version {{ store.getters.getAppVersion }}</a>.
-      </p>
-    </div>
-  </footer>
+  <router-view />
 </template>
-
-<style lang="scss" scoped>
-
-</style>
