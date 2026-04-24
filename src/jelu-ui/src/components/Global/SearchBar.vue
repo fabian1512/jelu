@@ -18,7 +18,7 @@ const isLogged = computed(() => store.getters.getLogged)
 
 const searchQuery = ref('')
 
-const showOnHome = computed(() => route.name === 'home')
+const showSearchBar = computed(() => route.name === 'home' || route.name === 'my-books')
 
 const search = () => {
   if (StringUtils.isNotBlank(searchQuery.value)) {
@@ -52,7 +52,7 @@ function toggleScanModal() {
 </script>
 
 <template>
-  <div v-if="isLogged && showOnHome" class="bg-base-200 px-4 py-3">
+  <div v-if="isLogged && showSearchBar" class="bg-base-200 px-4 py-3">
     <div class="max-w-2xl mx-auto">
       <div class="join w-full">
         <input

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -17,6 +17,13 @@ const isLogged = computed(() => store.getters.getLogged)
 
 const sidebarOpen = ref(false)
 
+onMounted(() => {
+  // Auf Desktop standardmäßig Sidebar offen
+  if (window.innerWidth >= 1024) {
+    sidebarOpen.value = true
+  }
+})
+
 const logout = () => {
   dataService.logout().then(() => {
     store.dispatch('logout')
@@ -25,7 +32,7 @@ const logout = () => {
 </script>
 
 <template>
-  <div class="drawer lg:drawer-open min-h-screen">
+  <div class="drawer min-h-screen">
     <!-- Mobile Toggle (versteckt) -->
     <input
       type="checkbox"
@@ -40,7 +47,7 @@ const logout = () => {
       <header class="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-2 sm:px-4">
         <div class="navbar-start gap-2">
           <label
-            class="btn btn-ghost lg:hidden"
+            class="btn btn-ghost"
             @click="sidebarOpen = !sidebarOpen"
           >
             <i class="mdi mdi-menu text-xl" />
