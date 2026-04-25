@@ -865,7 +865,7 @@ getBook()
       </p>
       <p v-html="book.book.summary" />
     </div>
-    <div class="flex flex-row justify-center">
+    <div class="flex flex-wrap justify-center gap-1 mt-2">
       <span
         v-for="tag in book?.book?.tags"
         :key="tag.id"
@@ -876,7 +876,7 @@ getBook()
     </div>
     <div
       v-if="hasExternalLink"
-      class="flex flex-wrap gap-2 mt-2"
+      class="flex flex-wrap justify-center gap-1 mt-2"
     >
       <span
         v-if="book?.book.goodreadsId"
