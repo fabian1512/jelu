@@ -531,10 +531,11 @@ getBook()
 </script>
 
 <template>
-  <div class="grid grid-cols-1 justify-center justify-items-center">
-    <div
-      class="grid grid-cols-1 sm:grid-cols-[auto_1fr] sm:w-10/12 w-full gap-6"
-    >
+  <div class="grid grid-cols-1 justify-center">
+    <div class="space-y-4">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6"
+      >
       <div class="sm:justify-self-start">
         <figure>
           <img
@@ -857,16 +858,12 @@ getBook()
     </div>
     <div
       v-if="book?.book?.summary"
-      class="w-11/12 sm:w-10/12 flex flex-row flex-wrap justify-center mt-4"
+      class="jelu-bordered p-2.5"
     >
-      <div class="w-11/12 2xl:basis-10/12">
-        <div class="jelu-bordered p-2.5">
-          <p class="font-semibold capitalize">
-            {{ t('book.summary') }} :
-          </p>
-          <p v-html="book.book.summary" />
-        </div>
-      </div>
+      <p class="font-semibold capitalize">
+        {{ t('book.summary') }} :
+      </p>
+      <p v-html="book.book.summary" />
     </div>
     <div class="flex flex-row justify-center">
       <span
@@ -988,10 +985,10 @@ getBook()
     </div>
     <div
       v-if="userReviews != null && userReviews.length > 0"
-      class="w-11/12 sm:w-10/12 flex flex-row flex-wrap justify-center mt-4 gap-4"
+      class="space-y-4"
     >
       <p
-        class="text-2xl mb-3 capitalize sm:w-full"
+        class="text-2xl capitalize"
         :class="typographyClasses"
       >
         {{ t('reviews.my_reviews') }} :
@@ -999,7 +996,6 @@ getBook()
       <div
         v-for="review in userReviews"
         :key="review.id"
-        class="w-11/12 2xl:basis-10/12"
       >
         <review-card
           v-if="review != null"
@@ -1013,7 +1009,7 @@ getBook()
     </div>
     <div
       v-if="bookQuotes != null && bookQuotes.length > 0"
-      class="w-11/12 sm:w-10/12"
+      class="space-y-4"
     >
       <router-link
         class="link text-2xl"
@@ -1022,11 +1018,6 @@ getBook()
       >
         {{ t('book_quotes.quote', 2) }}
       </router-link>
-    </div>
-    <div
-      v-if="bookQuotes != null && bookQuotes.length > 0"
-      class="w-11/12 sm:w-10/12 flex flex-row flex-wrap justify-center mt-4 gap-4"
-    >
       <div
         v-for="quote in bookQuotes"
         :key="quote.id"
@@ -1178,6 +1169,7 @@ getBook()
           {{ t('reading_events.before') }}
         </div>
       </div>
+    </div>
     </div>
   </div>
   <o-loading
