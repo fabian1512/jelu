@@ -862,7 +862,7 @@ getBook()
     </div>
     <div
       v-if="book?.book?.summary"
-      class="flex flex-row justify-center mt-4 prose prose-base dark:prose-invert max-w-none sm:w-full"
+      class="flex flex-row justify-center mt-4 prose prose-base dark:prose-invert max-w-none sm:w-10/12"
     >
       <div
         v-if="book?.book?.summary"
