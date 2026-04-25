@@ -63,7 +63,7 @@ const currentLayout = computed(() => {
   if (routeName === 'login') {
     return 'auth';
   }
-  if (routeName === 'review-detail' || routeName === 'book-reviews' || routeName === 'list-detail') {
+  if (routeName === 'review-detail' || routeName === 'list-detail') {
     return 'blank';
   }
   // Default layout für alles (inkl. Admin/Bereich)

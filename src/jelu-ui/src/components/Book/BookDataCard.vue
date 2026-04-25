@@ -319,7 +319,7 @@ const { typographyClasses } = useTypography()
     >
       <div
         v-if="props.book.summary"
-        class="jelu-bordered w-11/12 sm:w-9/12 p-2.5"
+        class="jelu-bordered w-11/12 sm:w-full p-2.5"
       >
         <p
           v-if="props.book.summary"

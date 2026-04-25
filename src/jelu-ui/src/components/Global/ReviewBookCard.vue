@@ -45,7 +45,17 @@ getBook()
       v-if="book != null"
       class="place-self-start h-full"
     >
+      <router-link
+        v-if="props.bookReviewsLink != null && props.bookReviewsLink === true"
+        :to="{ name: 'book-reviews', params: { bookId: book.id } }"
+      >
+        <img
+          :src="'/files/' + book.image"
+          alt=""
+        >
+      </router-link>
       <img
+        v-else
         :src="'/files/' + book.image"
         alt=""
       >

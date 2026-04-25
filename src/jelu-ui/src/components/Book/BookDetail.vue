@@ -864,7 +864,7 @@ getBook()
     >
       <div
         v-if="book?.book?.summary"
-        class="jelu-bordered w-11/12 sm:w-9/12 p-2.5 overflow-hidden"
+        class="jelu-bordered w-11/12 sm:w-full p-2.5"
       >
         <p
           v-if="book?.book?.summary"

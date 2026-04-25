@@ -456,7 +456,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 
 /* Sidebar Navigation Styling */
 .drawer-side .menu li a {
-  @apply flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors duration-150;
+  @apply flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-150;
 }
 
 .drawer-side .menu li a:hover {
