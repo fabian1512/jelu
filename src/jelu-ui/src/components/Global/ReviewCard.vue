@@ -40,7 +40,7 @@ const editReview = async (reviewId: string) => {
 
 <template>
   <div
-    class="card card-sm bg-base-200 shadow-2xl shadow-base-300 p-4"
+    class="card bg-base-200 shadow-2xl shadow-base-300 p-4"
   >
     <div class="card-body">
       <div class="card-title">
@@ -51,7 +51,7 @@ const editReview = async (reviewId: string) => {
         </div>
         {{ username }} :
       </div>
-      <div class="ms-0">
+      <div>
         <v-md-preview
           class="text-justify text-base"
           :text="props.review.text"
