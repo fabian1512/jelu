@@ -531,7 +531,7 @@ getBook()
 </script>
 
 <template>
-  <div class="grid grid-cols-1 justify-center justify-items-center">
+  <div class="grid grid-cols-1 justify-center justify-items-start">
     <div
       class="grid grid-cols-1 sm:grid-cols-[auto_1fr] sm:w-10/12 w-full gap-6"
     >
@@ -857,7 +857,7 @@ getBook()
     </div>
     <div
       v-if="book?.book?.summary"
-      class="w-11/12 sm:w-10/12 flex flex-row flex-wrap justify-center mt-4"
+      class="w-11/12 sm:w-10/12 flex flex-row flex-wrap justify-start mt-4"
     >
       <div class="w-11/12 2xl:basis-10/12">
         <div class="jelu-bordered p-2.5">
