@@ -24,6 +24,8 @@ import MergeBookModal from './MergeBookModal.vue'
 import ReadingEventModalVue from '../Misc/ReadingEventModal.vue'
 import ReadProgressModal from './ReadProgressModal.vue'
 import ReviewModalVue from '../Review/ReviewModal.vue'
+import ReviewCard from '../Global/ReviewCard.vue'
+import EditBookModal from './EditBookModal.vue'
 import useTypography from "../../composables/typography"
 
 const { t, d } = useI18n({
@@ -860,7 +862,7 @@ getBook()
     </div>
     <div
       v-if="book?.book?.summary"
-      class="flex flex-row justify-center mt-4 prose prose-base dark:prose-invert sm:w-10/12"
+      class="flex flex-row justify-center mt-4 prose prose-base dark:prose-invert sm:w-full"
     >
       <div
         v-if="book?.book?.summary"

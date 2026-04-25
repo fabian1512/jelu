@@ -68,7 +68,7 @@ const adminLinks = computed(() => [
 
     <!-- Hauptnavigation -->
     <nav class="flex-1 p-2 overflow-y-auto">
-      <ul class="menu gap-1.5">
+      <ul class="menu gap-0.5">
         <li v-for="item in mainLinks" :key="item.to">
           <router-link
             :to="item.to"
@@ -93,7 +93,7 @@ const adminLinks = computed(() => [
       <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide">
         {{ t('nav.dashboard') }}
       </p>
-      <ul class="menu gap-1.5">
+      <ul class="menu gap-0.5">
         <li v-for="item in adminLinks" :key="item.to">
           <router-link
             :to="item.to"
