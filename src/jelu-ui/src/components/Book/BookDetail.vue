@@ -532,9 +532,8 @@ getBook()
 
 <template>
   <div class="grid grid-cols-1 justify-center justify-items-center">
-    <div class="grid sm:grid-cols-3 mb-4 sm:w-10/12">
-      <div />
-      <div class="grow">
+    <div class="flex flex-wrap items-start justify-between mb-4 sm:w-10/12 gap-4">
+      <div class="min-w-0">
         <h3
           class="text-3xl"
           :class="typographyClasses"
@@ -862,7 +861,7 @@ getBook()
     </div>
     <div
       v-if="book?.book?.summary"
-      class="flex flex-row justify-center mt-4 prose prose-base dark:prose-invert max-w-none sm:w-10/12"
+      class="flex flex-row justify-center mt-4 sm:w-10/12"
     >
       <div
         v-if="book?.book?.summary"

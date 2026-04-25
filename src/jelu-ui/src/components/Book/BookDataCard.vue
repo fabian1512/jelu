@@ -315,7 +315,7 @@ const { typographyClasses } = useTypography()
     </div>
     <div
       v-if="props.book.summary"
-      class="flex flex-row justify-center mt-4 prose prose-base dark:prose-invert max-w-none sm:w-10/12"
+      class="flex flex-row justify-center mt-4 sm:w-10/12"
     >
       <div
         v-if="props.book.summary"
