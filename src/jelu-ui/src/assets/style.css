@@ -361,6 +361,10 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     @apply bg-base-100;
 }
 
+.card-body {
+    padding: 0.75rem !important;
+}
+
 [data-theme="jelu"] .o-taginput__item {
     @apply text-accent-content;
 }
