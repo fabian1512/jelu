@@ -532,12 +532,12 @@ getBook()
 
 <template>
   <div class="grid grid-cols-1 justify-center">
-    <div class="space-y-4 w-3/4">
+    <div class="space-y-4">
       <div
         class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6"
       >
-      <div class="flex justify-center sm:justify-start">
-        <figure class="justify-self-center">
+      <div class="sm:justify-self-start">
+        <figure>
           <img
             v-if="book?.book?.image"
             :src="'/files/' + book.book.image + '?timestamp=' + currentTimestamp"
