@@ -472,22 +472,22 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply top-16;
 }
 
+/* DaisyUI v5 Drawer: translate auf Sidebar-Inhalt deaktivieren */
+/* Wir steuern die Sidebar per Vue-State, nicht per CSS translate */
+.drawer-side > :not(.drawer-overlay) {
+  translate: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
 /* Sidebar auf Mobile: Volle Höhe */
 @media (max-width: 1023px) {
   .drawer-side {
     @apply h-full;
   }
   
-  /* Kein Link-Offset auf Mobile - alle DaisyUI Drawer Styles überschreiben */
+  /* Kein Link-Offset auf Mobile */
   .drawer-content {
-    @apply pl-0 ml-0;
-    transform: none !important;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-  }
-  
-  /* Checkbox-basiertes System: Wenn nicht angehakt, kein Offset */
-  .drawer:not(:checked) > .drawer-content {
     @apply pl-0 ml-0;
     transform: none !important;
     margin-left: 0 !important;
