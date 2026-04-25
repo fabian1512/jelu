@@ -699,15 +699,15 @@ class DataService {
 
   logout = async () => {
     try {
-      const response = await this.apiClient.post(`${this.API_LOGOUT}`);
-      localStorage.removeItem(this.TOKEN_KEY)
-      this.token = ''
-      return response.data;
-    }
-    catch (error) {
+      await this.apiClient.post(`${this.API_LOGOUT}`, {}, {
+        withCredentials: true,
+      })
+    } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
       }
-      throw new Error("error logout " + error)
+    } finally {
+      localStorage.removeItem(this.TOKEN_KEY)
+      this.token = ''
     }
   }
 

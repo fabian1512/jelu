@@ -3,7 +3,6 @@ import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import Avatar from 'vue-avatar-sdh'
 import { key } from '../store'
 import dataService from '../services/DataService'
 import AppSidebar from '../components/Global/AppSidebar.vue'
@@ -67,28 +66,22 @@ const logout = () => {
           </router-link>
         </div>
         <div class="navbar-end">
-          <div class="dropdown dropdown-end">
-            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-              <Avatar :size="40" :username="username" />
-            </label>
-            <ul class="mt-3 p-2 shadow menu menu-sm dropdown-content z-50 bg-base-100 rounded-box w-52">
-              <li v-if="isLogged">
-                <router-link class="capitalize" to="/profile">
-                  {{ t('nav.dashboard') }}
-                </router-link>
-              </li>
-              <li v-if="!isLogged">
-                <router-link class="capitalize" to="/login">
-                  {{ t('nav.login') }}
-                </router-link>
-              </li>
-              <li v-if="isLogged">
-                <a class="capitalize" @click="logout()">
-                  {{ t('nav.logout') }}
-                </a>
-              </li>
-            </ul>
-          </div>
+          <button
+            v-if="isLogged"
+            @click="logout()"
+            class="btn btn-ghost"
+          >
+            <i class="mdi mdi-logout text-xl" />
+            <span>{{ t('nav.logout') }}</span>
+          </button>
+          <router-link
+            v-else
+            to="/login"
+            class="btn btn-ghost"
+          >
+            <i class="mdi mdi-login text-xl" />
+            <span>{{ t('nav.login') }}</span>
+          </router-link>
         </div>
       </header>
 
