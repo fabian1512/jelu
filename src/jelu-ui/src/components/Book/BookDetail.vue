@@ -861,11 +861,11 @@ getBook()
     </div>
     <div
       v-if="book?.book?.summary"
-      class="flex flex-row justify-center mt-4 sm:w-10/12"
+      class="w-11/12 sm:w-10/12 flex flex-row justify-center mt-4"
     >
       <div
         v-if="book?.book?.summary"
-        class="jelu-bordered w-11/12 sm:w-full p-2.5"
+        class="jelu-bordered w-11/12 sm:w-11/12 p-2.5"
       >
         <p
           v-if="book?.book?.summary"

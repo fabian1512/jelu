@@ -315,11 +315,11 @@ const { typographyClasses } = useTypography()
     </div>
     <div
       v-if="props.book.summary"
-      class="flex flex-row justify-center mt-4 sm:w-10/12"
+      class="w-11/12 sm:w-10/12 flex flex-row justify-center mt-4"
     >
       <div
         v-if="props.book.summary"
-        class="jelu-bordered w-11/12 sm:w-full p-2.5"
+        class="jelu-bordered w-11/12 sm:w-11/12 p-2.5"
       >
         <p
           v-if="props.book.summary"
