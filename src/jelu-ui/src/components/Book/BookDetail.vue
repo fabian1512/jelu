@@ -532,11 +532,11 @@ getBook()
 
 <template>
   <div class="grid grid-cols-1 justify-center">
-    <div class="space-y-4">
+    <div class="space-y-4" style="width: 78%">
       <div
         class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6"
       >
-      <div class="sm:justify-self-start">
+      <div class="sm:justify-self-start text-center sm:text-left">
         <figure>
           <img
             v-if="book?.book?.image"
