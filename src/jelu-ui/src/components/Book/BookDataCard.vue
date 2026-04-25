@@ -315,23 +315,15 @@ const { typographyClasses } = useTypography()
     </div>
     <div
       v-if="props.book.summary"
-      class="w-11/12 sm:w-10/12 flex flex-row justify-center mt-4"
+      class="w-11/12 sm:w-10/12 mt-4"
     >
-      <div
-        v-if="props.book.summary"
-        class="jelu-bordered w-11/12 sm:w-11/12 p-2.5"
-      >
-        <p
-          v-if="props.book.summary"
-          class="font-semibold capitalize"
-        >
-          {{ t('book.summary') }} :
-        </p>
-        <p
-          v-if="props.book.summary"
-          class="text-justify"
-          v-html="props.book.summary"
-        />
+      <div class="w-11/12">
+        <div class="jelu-bordered p-2.5">
+          <p class="font-semibold capitalize">
+            {{ t('book.summary') }} :
+          </p>
+          <p class="text-justify" v-html="props.book.summary" />
+        </div>
       </div>
     </div>
     <div class="flex flex-row justify-center">
