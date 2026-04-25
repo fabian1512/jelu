@@ -532,7 +532,7 @@ getBook()
 
 <template>
   <div class="grid grid-cols-1 justify-center">
-    <div class="space-y-4 w-4/5">
+    <div class="space-y-4 w-3/4">
       <div
         class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6"
       >
