@@ -107,17 +107,6 @@ const currentLayout = computed(() => {
   text-align: center;
 }
 
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.7s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
 .pwa-toast {
   position: fixed;
   right: 0;
