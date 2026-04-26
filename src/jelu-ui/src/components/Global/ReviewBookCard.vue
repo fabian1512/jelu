@@ -50,17 +50,32 @@ getBook()
         :to="{ name: 'book-detail', params: { bookId: book.id } }"
       >
         <img
+          v-if="book.image"
           :src="'/files/' + book.image"
           alt=""
           class="object-cover aspect-[2/3] h-full w-auto"
         >
+        <img
+          v-else
+          src="../../assets/placeholder_asset.jpg"
+          alt=""
+          class="object-cover aspect-[2/3] h-full w-auto"
+        >
       </router-link>
-      <img
-        v-else
-        :src="'/files/' + book.image"
-        alt=""
-        class="object-cover aspect-[2/3] h-full w-auto"
-      >
+      <template v-else>
+        <img
+          v-if="book.image"
+          :src="'/files/' + book.image"
+          alt=""
+          class="object-cover aspect-[2/3] h-full w-auto"
+        >
+        <img
+          v-else
+          src="../../assets/placeholder_asset.jpg"
+          alt=""
+          class="object-cover aspect-[2/3] h-full w-auto"
+        >
+      </template>
     </figure>
     <div class="card-body p-1 m-1">
       <router-link
