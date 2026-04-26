@@ -107,7 +107,7 @@ getYears()
 </script>
 
 <template>
-  <div class="grid grid-cols-1 justify-center justify-items-center justify-self-center mb-3">
+  <div class="mb-3">
     <h1
       class="text-2xl w-11/12 sm:w-8/12 py-4 capitalize"
       :class="typographyClasses"
@@ -179,7 +179,7 @@ getYears()
             </i18n-d>
           </h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-[12px] justify-center justify-items-center justify-self-center">
+        <div class="grid gap-[12px] grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
           <div
             v-for="event in ev"
             :key="event.id"
