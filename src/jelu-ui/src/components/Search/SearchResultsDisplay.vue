@@ -31,7 +31,7 @@ const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('title,asc')
 
 const { showSelect, selectAll, checkedCards, cardChecked, toggleEdit } = useBulkEdition(modalClosed)
 
-const libraryFilter: Ref<LibraryFilter> = useRouteQuery('libraryFilter', 'ANY' as LibraryFilter)
+const libraryFilter: Ref<LibraryFilter> = useRouteQuery('libraryFilter', 'ONLY_USER_BOOKS' as LibraryFilter)
 
 const open = ref(false)
 
