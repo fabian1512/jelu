@@ -106,7 +106,7 @@ const currentTimestamp = ObjectUtils.timestamp()
 
 <template>
   <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 min-w-36"
+    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 min-w-36 max-w-56"
   >
     <div>
       <router-link
@@ -118,13 +118,13 @@ const currentTimestamp = ObjectUtils.timestamp()
             v-if="book.book.image"
             :src="'/files/' + book.book.image + '?timestamp=' + currentTimestamp"
             alt="cover image"
-            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
+            class="object-cover aspect-[2/3] w-full"
           >
           <img
             v-else
             src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
-            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
+            class="object-cover aspect-[2/3] w-full"
           >
         </figure>
       </router-link>
@@ -137,13 +137,13 @@ const currentTimestamp = ObjectUtils.timestamp()
             v-if="book.book.image"
             :src="'/files/' + book.book.image"
             alt="cover image"
-            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
+            class="object-cover aspect-[2/3] w-full"
           >
           <img
             v-else
             src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
-            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
+            class="object-cover aspect-[2/3] w-full"
           >
         </figure>
       </router-link>
