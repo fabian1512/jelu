@@ -167,7 +167,7 @@ const { typographyClasses } = useTypography()
       >
         {{ t('home.currently_reading') }} :
       </h2>
-      <div class="flex flex-row flex-wrap justify-center gap-3">
+      <div class="flex flex-row flex-wrap justify-center gap-4">
         <div
           v-for="book in books"
           :key="book.id"
@@ -249,7 +249,7 @@ const { typographyClasses } = useTypography()
     </h2>
     <div
       v-if="events.length > 0"
-      class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2"
+      class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-3"
     >
       <div
         v-for="event in events"
