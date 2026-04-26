@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -24,13 +24,6 @@ const username = computed(() => store.getters.getUsername)
 const isLogged = computed(() => store.getters.getLogged)
 
 const sidebarOpen = ref(false)
-
-onMounted(() => {
-  // Auf Desktop standardmäßig Sidebar offen
-  if (window.innerWidth >= 1024) {
-    sidebarOpen.value = true
-  }
-})
 
 const logout = () => {
   dataService.logout().then(() => {
