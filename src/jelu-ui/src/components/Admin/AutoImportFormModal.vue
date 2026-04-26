@@ -93,6 +93,7 @@ function toggleScanModal() {
         decoded: (barcode: string|null) => {
           if (barcode != null) {
             form.isbn = barcode
+            fetchMetadata()
           }
       },
       barcodeLoaded: (reader: any) => {

@@ -472,14 +472,13 @@ const displayDatepicker = computed(() => {
 <template>
   <section>
     <div class="grid">
-      <div class="grid sm:grid-cols-3 mb-4 sm:w-10/12 justify-center justify-items-center justify-self-center">
-        <div class="hidden sm:block" />
+      <div class="flex flex-col items-center gap-3 mb-4">
         <h1
           class="text-2xl capitalize text-center"
           :class="typographyClasses">
           {{ t('nav.add_book') }}
         </h1>
-        <div class="flex flex-wrap gap-2 justify-center">
+        <div class="flex gap-2 items-center">
           <button
             v-tooltip="t('labels.auto_fill_doc')"
             class="btn btn-success button uppercase"
@@ -488,16 +487,6 @@ const displayDatepicker = computed(() => {
           >
             <span class="icon">
               <i class="mdi mdi-auto-fix mdi-18px" />
-            </span>
-            <span>{{ t('labels.auto_fill') }}</span>
-          </button>
-          <button
-            v-tooltip="t('labels.auto_fill_book')"
-            class="btn btn-primary button uppercase"
-            @click="toggleModal(true)"
-          >
-            <span class="icon">
-              <i class="mdi mdi-file-question mdi-18px" />
             </span>
             <span>{{ t('labels.auto_fill') }}</span>
           </button>
