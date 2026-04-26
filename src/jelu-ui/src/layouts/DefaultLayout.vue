@@ -82,7 +82,7 @@ const logout = () => {
       <SearchBar />
 
       <!-- Seiteninhalt -->
-      <main class="flex-1 p-4">
+      <main class="flex-1 p-4 max-w-6xl mx-auto w-full">
         <slot />
       </main>
     </div>
