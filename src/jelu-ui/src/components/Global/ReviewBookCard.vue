@@ -47,25 +47,27 @@ getBook()
     >
       <router-link
         v-if="props.bookReviewsLink != null && props.bookReviewsLink === true"
-        :to="{ name: 'book-reviews', params: { bookId: book.id } }"
+        :to="{ name: 'book-detail', params: { bookId: book.id } }"
       >
         <img
           :src="'/files/' + book.image"
           alt=""
+          class="object-cover aspect-[2/3] h-full w-auto"
         >
       </router-link>
       <img
         v-else
         :src="'/files/' + book.image"
         alt=""
+        class="object-cover aspect-[2/3] h-full w-auto"
       >
     </figure>
     <div class="card-body p-1 m-1">
       <router-link
         v-if="props.bookReviewsLink != null && props.bookReviewsLink === true && book != null"
-        v-tooltip="t('reviews.book_all_reviews')"
+        v-tooltip="t('book.detail')"
         class="card-title line-clamp-2 link hover:underline hover:decoration-4 hover:decoration-secondary"
-        :to="{ name: 'book-reviews', params: { bookId: book.id } }"
+        :to="{ name: 'book-detail', params: { bookId: book.id } }"
       >
         {{ book.title }}&nbsp;
       </router-link>
