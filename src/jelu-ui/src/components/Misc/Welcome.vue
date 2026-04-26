@@ -167,7 +167,7 @@ const { typographyClasses } = useTypography()
       >
         {{ t('home.currently_reading') }} :
       </h2>
-      <div class="grid gap-4 grid-cols-[repeat(auto-fill,minmax(9rem,1fr))]">
+      <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
         <div
           v-for="book in books"
           :key="book.id"
@@ -248,7 +248,7 @@ const { typographyClasses } = useTypography()
     </h2>
     <div
       v-if="events.length > 0"
-      class="grid gap-3 grid-cols-[repeat(auto-fill,minmax(9rem,1fr))]"
+      class="grid gap-3 grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]"
     >
       <div
         v-for="event in events"
