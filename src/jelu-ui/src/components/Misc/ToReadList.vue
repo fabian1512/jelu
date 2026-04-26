@@ -28,7 +28,8 @@ const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('creationDate
 
 const { showSelect, selectAll, checkedCards, cardChecked, toggleEdit } = useBulkEdition(modalClosed)
 
-const eventTypes: Ref<Array<ReadingEventType>> = useRouteQuery('lastEventTypes', [])
+// Initialize empty - event types are not used for to-read list filtering
+const eventTypes: Ref<Array<ReadingEventType>> = ref([])
 
 const userId: Ref<string|null> = useRouteQuery('userId', null)
 const username = ref("")
@@ -90,22 +91,19 @@ const removeIds = () => {
 // --- LocalStorage keys for ToReadList ---
 const SORT_BY_KEY = "toReadSortBy";
 const SORT_ORDER_KEY = "toReadSortOrder";
-const EVENT_TYPES_KEY = "toReadEventTypes";
 const OWNED_KEY = "toReadOwned";
 
-// Restore saved settings
+// Restore saved settings (but NOT eventTypes - always use empty for to-read page)
+// Event types should NOT filter the to-read list
 onMounted(() => {
   const savedSortBy = localStorage.getItem(SORT_BY_KEY);
   const savedSortOrder = localStorage.getItem(SORT_ORDER_KEY);
   if (savedSortBy) sortBy.value = savedSortBy;
   if (savedSortOrder) sortOrder.value = savedSortOrder;
 
-  const savedEventTypes = localStorage.getItem(EVENT_TYPES_KEY);
-  if (savedEventTypes) {
-    try {
-      eventTypes.value = JSON.parse(savedEventTypes);
-    } catch {}
-  }
+  // Note: We intentionally do NOT restore eventTypes from localStorage
+  // The to-read page should always show ALL books marked as to-read,
+  // regardless of their reading status
 
   const savedOwned = localStorage.getItem(OWNED_KEY);
   if (savedOwned) owned.value = savedOwned;
@@ -118,9 +116,6 @@ watch(sortBy, (newVal) => {
 watch(sortOrder, (newVal) => {
   localStorage.setItem(SORT_ORDER_KEY, newVal);
 });
-watch(eventTypes, (newVal) => {
-  localStorage.setItem(EVENT_TYPES_KEY, JSON.stringify(newVal));
-}, { deep: true });
 watch(owned, (newVal) => {
   localStorage.setItem(OWNED_KEY, newVal ?? "null");
 });
@@ -133,7 +128,7 @@ const throttledGetToRead = useThrottleFn(() => {
   getToRead()
 }, 100, false)
 
-watch([page, eventTypes, sortQuery, owned], (newVal, oldVal) => {
+watch([page, sortQuery, owned], (newVal, oldVal) => {
   if (newVal !== oldVal) {
     throttledGetToRead()
   }
@@ -247,36 +242,6 @@ const { typographyClasses } = useTypography()
       </div>
     </template>
     <template #filters>
-      <div class="field flex flex-col gap-1 capitalize">
-        <label class="label">{{ t('reading_events.last_event_type') }} : </label>
-        <label class="label">
-          <input
-            v-model="eventTypes"
-            type="checkbox"
-            class="checkbox checkbox-primary"
-            value="FINISHED"
-          >
-          {{ t('reading_events.finished') }}
-        </label>
-        <label class="label">
-          <input
-            v-model="eventTypes"
-            type="checkbox"
-            class="checkbox checkbox-primary"
-            value="CURRENTLY_READING"
-          >
-          {{ t('reading_events.currently_reading') }}
-        </label>
-        <label class="label">
-          <input
-            v-model="eventTypes"
-            type="checkbox"
-            class="checkbox checkbox-primary"
-            value="DROPPED"
-          >
-          {{ t('reading_events.dropped') }}
-        </label>
-      </div>
       <div class="field flex flex-col items-start">
         <label class="label">{{ t('filtering.owned') }} : </label>
         <div class="field">
