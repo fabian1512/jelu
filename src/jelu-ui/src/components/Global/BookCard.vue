@@ -12,7 +12,6 @@ const { t } = useI18n({
 
 const props = defineProps<{
   book: UserBook,
-  size?: string,
   forceSelect: boolean,
   showSelect: boolean,
   proposeAdd: boolean,
@@ -107,7 +106,7 @@ const currentTimestamp = ObjectUtils.timestamp()
 
 <template>
   <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300"
+    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 min-w-36"
   >
     <div>
       <router-link
@@ -119,14 +118,13 @@ const currentTimestamp = ObjectUtils.timestamp()
             v-if="book.book.image"
             :src="'/files/' + book.book.image + '?timestamp=' + currentTimestamp"
             alt="cover image"
-            class="object-fill"
-            :class="props.size === 'xl' ? 'h-64 sm:h-96' : 'h-48 sm:h-72'"
+            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
           >
           <img
             v-else
             src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
-            class="h-48 sm:h-72 object-fill"
+            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
           >
         </figure>
       </router-link>
@@ -139,14 +137,13 @@ const currentTimestamp = ObjectUtils.timestamp()
             v-if="book.book.image"
             :src="'/files/' + book.book.image"
             alt="cover image"
-            class="object-fill"
-            :class="props.size === 'xl' ? 'h-64 sm:h-96' : 'h-48 sm:h-72'"
+            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
           >
           <img
             v-else
             src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
-            class="h-48 sm:h-72 object-fill"
+            class="object-cover aspect-[2/3] w-full h-48 sm:h-64"
           >
         </figure>
       </router-link>

@@ -176,7 +176,6 @@ const { typographyClasses } = useTypography()
           <book-card
             :book="book"
             :public="false"
-            size="xl"
             :force-select="false"
             :show-select="false"
             :propose-add="true"
