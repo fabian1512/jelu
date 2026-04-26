@@ -33,7 +33,7 @@ const logout = () => {
 </script>
 
 <template>
-  <div class="drawer min-h-screen">
+  <div class="drawer min-h-screen drawer-mobile-overlay">
     <!-- Mobile Toggle (versteckt) -->
     <input
       type="checkbox"
@@ -42,42 +42,42 @@ const logout = () => {
       @change="sidebarOpen = ($event.target as HTMLInputElement).checked"
     />
 
-    <!-- Navbar AUSSERHALB von drawer-content: immer full-width -->
-    <header v-if="!hideNavbar" class="navbar bg-base-100 shadow-sm sticky top-0 z-40 w-full px-2 sm:px-4">
-      <div class="navbar-start gap-2">
-        <label
-          class="btn btn-ghost"
-          @click="sidebarOpen = !sidebarOpen"
-        >
-          <i class="mdi mdi-menu text-xl" />
-        </label>
-        <router-link to="/" class="flex items-center gap-2">
-          <img src="../assets/jelu_logo.svg" alt="Jelu" class="w-10" />
-          <span class="text-xl font-bold hidden sm:inline">Jelu</span>
-        </router-link>
-      </div>
-      <div class="navbar-end">
-        <button
-          v-if="isLogged"
-          @click="logout()"
-          class="btn btn-ghost"
-        >
-          <i class="mdi mdi-logout text-xl" />
-          <span>{{ t('nav.logout') }}</span>
-        </button>
-        <router-link
-          v-else
-          to="/login"
-          class="btn btn-ghost"
-        >
-          <i class="mdi mdi-login text-xl" />
-          <span>{{ t('nav.login') }}</span>
-        </router-link>
-      </div>
-    </header>
-
-    <!-- Hauptinhalt (wird durch Sidebar verschoben) -->
+    <!-- Hauptinhalt -->
     <div class="drawer-content flex flex-col">
+      <!-- Header -->
+      <header v-if="!hideNavbar" class="navbar bg-base-100 shadow-sm sticky top-0 z-30 w-full px-2 sm:px-4">
+        <div class="navbar-start gap-2">
+          <label
+            class="btn btn-ghost"
+            @click="sidebarOpen = !sidebarOpen"
+          >
+            <i class="mdi mdi-menu text-xl" />
+          </label>
+          <router-link to="/" class="flex items-center gap-2">
+            <img src="../assets/jelu_logo.svg" alt="Jelu" class="w-10" />
+            <span class="text-xl font-bold hidden sm:inline">Jelu</span>
+          </router-link>
+        </div>
+        <div class="navbar-end">
+          <button
+            v-if="isLogged"
+            @click="logout()"
+            class="btn btn-ghost"
+          >
+            <i class="mdi mdi-logout text-xl" />
+            <span>{{ t('nav.logout') }}</span>
+          </button>
+          <router-link
+            v-else
+            to="/login"
+            class="btn btn-ghost"
+          >
+            <i class="mdi mdi-login text-xl" />
+            <span>{{ t('nav.login') }}</span>
+          </router-link>
+        </div>
+      </header>
+
       <!-- Suchleiste (nur auf Home) -->
       <SearchBar />
 
@@ -88,7 +88,7 @@ const logout = () => {
     </div>
 
     <!-- Sidebar -->
-    <div class="drawer-side z-50 top-0 md:top-16">
+    <div class="drawer-side z-40 top-16">
       <label
         class="drawer-overlay"
         @click="sidebarOpen = false"
