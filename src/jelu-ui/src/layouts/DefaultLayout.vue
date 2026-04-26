@@ -43,7 +43,7 @@ const logout = () => {
     />
 
     <!-- Navbar AUSSERHALB von drawer-content: immer full-width -->
-    <header v-if="!hideNavbar" class="navbar bg-base-100 shadow-sm sticky top-0 z-50 w-full px-2 sm:px-4">
+    <header v-if="!hideNavbar" class="navbar bg-base-100 shadow-sm sticky top-0 z-40 w-full px-2 sm:px-4">
       <div class="navbar-start gap-2">
         <label
           class="btn btn-ghost"
@@ -88,7 +88,7 @@ const logout = () => {
     </div>
 
     <!-- Sidebar -->
-    <div class="drawer-side z-40 top-16">
+    <div class="drawer-side z-50 top-0 md:top-16">
       <label
         class="drawer-overlay"
         @click="sidebarOpen = false"

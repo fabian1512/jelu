@@ -475,9 +475,9 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply bg-primary text-primary-content font-medium;
 }
 
-/* Sidebar startet unter dem Header */
+/* Sidebar startet unter dem Header auf Desktop, full-height auf Mobile */
 .drawer-side {
-  @apply top-16;
+  @apply top-0 md:top-16;
 }
 
 /* DaisyUI v5 Drawer: translate auf Sidebar-Inhalt deaktivieren */
