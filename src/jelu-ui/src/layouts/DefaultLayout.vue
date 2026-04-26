@@ -45,7 +45,7 @@ const logout = () => {
     <!-- Hauptinhalt -->
     <div class="drawer-content flex flex-col">
       <!-- Header -->
-      <header v-if="!hideNavbar" class="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-2 sm:px-4">
+      <header v-if="!hideNavbar" class="navbar bg-base-100 shadow-sm sticky top-0 z-30 w-full px-2 sm:px-4">
         <div class="navbar-start gap-2">
           <label
             class="btn btn-ghost"
