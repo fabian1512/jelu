@@ -419,7 +419,6 @@ getBooks()
       </span>
     </button>
   </div>
-  </div>
   <o-pagination
     v-if="pageCount > 1"
     v-model:current="pageAsNumber"
