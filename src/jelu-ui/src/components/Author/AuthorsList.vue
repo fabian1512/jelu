@@ -259,12 +259,16 @@ try {
             <img
               v-if="author.image"
               :src="'/files/' + author.image"
+              loading="lazy"
+              decoding="async"
               class="max-h-80"
               alt="author image"
             >
             <img
               v-else
               src="../../assets/placeholer_author.jpg"
+              loading="lazy"
+              decoding="async"
               alt="cover placeholder"
               class="max-h-80"
             >

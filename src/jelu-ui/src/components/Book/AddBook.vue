@@ -1086,6 +1086,8 @@ const displayDatepicker = computed(() => {
                 :src="metadata?.image?.startsWith('http') ? metadata?.image : '/files/' + metadata?.image"
                 :class="deleteImage ? 'altered' : ''"
                 alt="cover image"
+                loading="lazy"
+                decoding="async"
               >
             </figure>
           </div>

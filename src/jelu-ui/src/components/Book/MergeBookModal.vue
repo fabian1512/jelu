@@ -903,8 +903,21 @@ const { typographyClasses } = useTypography()
             </span>
 
             <figure>
-              <img v-if="book.image" :src="'/files/' + book.image" alt="Book Image" class="max-h-96" />
-              <img v-else src="../../assets/placeholder_asset.jpg" class="max-h-96"/>
+              <img
+                v-if="book.image"
+                :src="'/files/' + book.image"
+                alt="Book Image"
+                class="max-h-96"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                v-else
+                src="../../assets/placeholder_asset.jpg"
+                class="max-h-96"
+                loading="lazy"
+                decoding="async"
+              />
             </figure>
           </div>
         </div>
@@ -928,9 +941,15 @@ const { typographyClasses } = useTypography()
             </button>
 
            <div class="">
-            <figure>
-              <img :src="'/files/' + props.metadata.image" alt="Book Image" class="max-h-96" />
-            </figure>
+             <figure>
+               <img
+                 :src="'/files/' + props.metadata.image"
+                 alt="Book Image"
+                 class="max-h-96"
+                 loading="lazy"
+                 decoding="async"
+               />
+             </figure>
            </div>
         </div>
       </div>

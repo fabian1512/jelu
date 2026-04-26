@@ -312,6 +312,8 @@ const { typographyClasses } = useTypography()
             <figure class="small-cover">
               <img
                 :src="'/files/' + author.image"
+                loading="lazy"
+                decoding="async"
                 :class="deleteImage ? 'altered' : ''"
                 alt="cover image"
               >

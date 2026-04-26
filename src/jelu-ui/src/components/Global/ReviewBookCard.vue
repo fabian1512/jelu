@@ -53,12 +53,16 @@ getBook()
           v-if="book.image"
           :src="'/files/' + book.image"
           alt=""
+          loading="lazy"
+          decoding="async"
           class="object-cover aspect-[2/3] h-full w-auto"
         >
         <img
           v-else
           src="../../assets/placeholder_asset.jpg"
           alt=""
+          loading="lazy"
+          decoding="async"
           class="object-cover aspect-[2/3] h-full w-auto"
         >
       </router-link>
@@ -67,12 +71,16 @@ getBook()
           v-if="book.image"
           :src="'/files/' + book.image"
           alt=""
+          loading="lazy"
+          decoding="async"
           class="object-cover aspect-[2/3] h-full w-auto"
         >
         <img
           v-else
           src="../../assets/placeholder_asset.jpg"
           alt=""
+          loading="lazy"
+          decoding="async"
           class="object-cover aspect-[2/3] h-full w-auto"
         >
       </template>

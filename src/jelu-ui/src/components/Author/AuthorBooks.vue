@@ -354,12 +354,16 @@ getBooks()
             v-if="author.image"
             :src="'/files/' + author.image"
             alt="cover image"
+            loading="lazy"
+            decoding="async"
             class="max-h-80"
           >
           <img
             v-else
             src="../../assets/placeholer_author.jpg"
             alt="cover placeholder"
+            loading="lazy"
+            decoding="async"
           >
         </figure>
       </div>

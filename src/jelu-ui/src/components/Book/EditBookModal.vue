@@ -826,6 +826,8 @@ if (userbook.value.book.publisher != null) {
             <figure class="small-cover">
               <img
                 :src="'/files/' + userbook.book.image"
+                loading="lazy"
+                decoding="async"
                 :class="deleteImage ? 'altered' : ''"
                 alt="cover image"
               >

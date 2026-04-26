@@ -292,12 +292,14 @@ const { typographyClasses } = useTypography()
           >
             <i class="mdi mdi-delete" />
           </span>
-          <figure class="">
-            <img
-              :src="'/files/' + leftAuthor.image"
-              :class="leftDeleteImage ? 'altered' : ''"
-              alt="cover image"
-            >
+            <figure class="">
+              <img
+                :src="'/files/' + leftAuthor.image"
+                loading="lazy"
+                decoding="async"
+                :class="leftDeleteImage ? 'altered' : ''"
+                alt="cover image"
+              >
           </figure>
         </div>
       </div>
@@ -633,12 +635,14 @@ const { typographyClasses } = useTypography()
           >
             <i class="mdi mdi-arrow-left-bold" />
           </span>
-          <figure class="">
-            <img
-              :src="'/files/' + rightAuthor.image"
-              :class="leftDeleteImage ? 'altered' : ''"
-              alt="cover image"
-            >
+            <figure class="">
+              <img
+                :src="'/files/' + rightAuthor.image"
+                loading="lazy"
+                decoding="async"
+                :class="leftDeleteImage ? 'altered' : ''"
+                alt="cover image"
+              >
           </figure>
         </div>
       </div>

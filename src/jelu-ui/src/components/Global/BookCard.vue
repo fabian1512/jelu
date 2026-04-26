@@ -3,7 +3,6 @@ import { computed, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
 import { UserBook } from "../../model/Book";
 import { ReadingEventType } from "../../model/ReadingEvent";
-import { ObjectUtils } from "../../utils/ObjectUtils";
 
 const { t } = useI18n({
       inheritLocale: true,
@@ -100,7 +99,8 @@ watch(checked, (newVal, oldVal) => {
   emit("update:checked", props.book.id != null ? props.book.id as string : props.book.book.id as string , checked.value)
 })
 
-const currentTimestamp = ObjectUtils.timestamp()
+// Intentionally no cache-busting query params.
+// The backend/static file handler already enables long caching.
 
 </script>
 
@@ -114,18 +114,22 @@ const currentTimestamp = ObjectUtils.timestamp()
         :to="{ name: 'book-detail', params: { bookId: book.id } }"
       >
         <figure>
-          <img
-            v-if="book.book.image"
-            :src="'/files/' + book.book.image + '?timestamp=' + currentTimestamp"
-            alt="cover image"
-            class="object-cover aspect-[2/3] w-full"
-          >
-          <img
-            v-else
-            src="../../assets/placeholder_asset.jpg"
-            alt="cover placeholder"
-            class="object-cover aspect-[2/3] w-full"
-          >
+           <img
+             v-if="book.book.image"
+             :src="'/files/' + book.book.image"
+             alt="cover image"
+             loading="lazy"
+             decoding="async"
+             class="object-cover aspect-[2/3] w-full"
+           >
+           <img
+             v-else
+             src="../../assets/placeholder_asset.jpg"
+             alt="cover placeholder"
+             loading="lazy"
+             decoding="async"
+             class="object-cover aspect-[2/3] w-full"
+           >
         </figure>
       </router-link>
       <router-link
@@ -133,18 +137,22 @@ const currentTimestamp = ObjectUtils.timestamp()
         :to="{ name: 'book-reviews', params: { bookId: book.book.id } }"
       >
         <figure>
-          <img
-            v-if="book.book.image"
-            :src="'/files/' + book.book.image"
-            alt="cover image"
-            class="object-cover aspect-[2/3] w-full"
-          >
-          <img
-            v-else
-            src="../../assets/placeholder_asset.jpg"
-            alt="cover placeholder"
-            class="object-cover aspect-[2/3] w-full"
-          >
+           <img
+             v-if="book.book.image"
+             :src="'/files/' + book.book.image"
+             alt="cover image"
+             loading="lazy"
+             decoding="async"
+             class="object-cover aspect-[2/3] w-full"
+           >
+           <img
+             v-else
+             src="../../assets/placeholder_asset.jpg"
+             alt="cover placeholder"
+             loading="lazy"
+             decoding="async"
+             class="object-cover aspect-[2/3] w-full"
+           >
         </figure>
       </router-link>
       <div

@@ -153,12 +153,16 @@ const { typographyClasses } = useTypography()
             v-if="props.book.image"
             :src="'/files/' + props.book.image"
             alt="cover image"
+            loading="lazy"
+            decoding="async"
             class="max-h-96 max-w-full"
           >
           <img
             v-else
             src="../../assets/placeholder_asset.jpg"
             alt="cover placeholder"
+            loading="lazy"
+            decoding="async"
           >
         </figure>
       </div>
