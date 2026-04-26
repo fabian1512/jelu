@@ -176,7 +176,13 @@ const { typographyClasses } = useTypography()
     </template>
   </sort-filter-bar-vue>
   <div class="flex flex-row justify-between">
-    <div class="flex flex-row gap-1 order-last sm:order-first">
+    <h2
+      class="text-3xl capitalize"
+      :class="typographyClasses"
+    >
+      {{ t('nav.random') }} :
+    </h2>
+    <div class="flex flex-row gap-1">
       <button
         class="btn btn-outline btn-success"
         @click="open = !open"
@@ -215,17 +221,10 @@ const { typographyClasses } = useTypography()
         </span>
       </button>
     </div>
-    <h2
-      class="text-3xl capitalize"
-      :class="typographyClasses"
-    >
-      {{ t('nav.random') }} :
-    </h2>
-    <div />
   </div>
   <div
     v-if="books.length > 0"
-    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 my-3"
+    class="grid gap-[12px] grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] my-3"
   >
     <div
       v-for="book in books"

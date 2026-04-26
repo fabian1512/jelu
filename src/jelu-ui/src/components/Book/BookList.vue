@@ -434,7 +434,16 @@ try {
     </template>
   </sort-filter-bar-vue>
   <div class="flex flex-row justify-between mb-2">
-    <div class="flex flex-row gap-1 order-last sm:order-first">
+    <h2
+      class="text-xl sm:text-2xl md:text-3xl capitalize truncate min-w-0 flex-1"
+      :class="typographyClasses"
+    >
+      <span class="icon">
+        <i class="mdi mdi-bookshelf" />
+      </span>
+      &nbsp; {{ message }} :
+    </h2>
+    <div class="flex flex-row gap-1">
       <button
         class="btn btn-outline btn-success"
         @click="open = !open"
@@ -473,16 +482,6 @@ try {
         </span>
       </button>
     </div>
-    <h2
-      class="text-xl sm:text-2xl md:text-3xl capitalize truncate min-w-0 flex-1"
-      :class="typographyClasses"
-    >
-      <span class="icon">
-        <i class="mdi mdi-bookshelf" />
-      </span>
-      &nbsp; {{ message }} :
-    </h2>
-    <div />
   </div>
   <o-pagination
     v-if="books.length > 0 && pageCount > 1"

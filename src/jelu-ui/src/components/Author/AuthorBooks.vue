@@ -401,14 +401,6 @@ getBooks()
     </div>
   </div>
   <div class="flex flex-row justify-between mt-4 mb-2">
-    <button
-      class="order-last sm:order-first btn btn-outline btn-success"
-      @click="open = !open"
-    >
-      <span class="icon">
-        <i class="mdi mdi-filter-variant" />
-      </span>
-    </button>
     <h2
       class="text-xl"
       :class="typographyClasses"
@@ -418,7 +410,15 @@ getBooks()
       </span>
       {{ t('labels.books_from_name', { name: author.name }) }} :
     </h2>
-    <div />
+    <button
+      class="btn btn-outline btn-success"
+      @click="open = !open"
+    >
+      <span class="icon">
+        <i class="mdi mdi-filter-variant" />
+      </span>
+    </button>
+  </div>
   </div>
   <o-pagination
     v-if="pageCount > 1"
@@ -428,7 +428,7 @@ getBooks()
     :per-page="perPage"
     @change="updatePage"
   />
-  <div class="grid gap-[12px] grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] mt-2">
+  <div class="grid gap-[12px] grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] mt-2">
     <div
       v-for="book in convertedBooks"
       :key="book.book.id"
