@@ -167,7 +167,7 @@ const { typographyClasses } = useTypography()
       >
         {{ t('home.currently_reading') }} :
       </h2>
-      <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
+      <div class="grid gap-4 justify-items-center grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
         <div
           v-for="book in books"
           :key="book.id"
@@ -256,12 +256,6 @@ const { typographyClasses } = useTypography()
         class="m-1 pb-6"
       >
         <div class="h-full">
-          <p>
-            <span
-              class="badge mb-1"
-              :class="eventClass(event.eventType)"
-            >{{ eventLabel(event.eventType) }}</span>
-          </p>
           <book-card
             :book="event.userBook"
             :public="false"
@@ -270,6 +264,12 @@ const { typographyClasses } = useTypography()
             :show-select="false"
             :propose-add="true"
           />
+          <p class="mt-1">
+            <span
+              class="badge"
+              :class="eventClass(event.eventType)"
+            >{{ eventLabel(event.eventType) }}</span>
+          </p>
         </div>
       </div>
     </div>
