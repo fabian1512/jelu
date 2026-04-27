@@ -3093,18 +3093,18 @@ class BookServiceTest(
         Assertions.assertNotNull(savedBook1)
         Assertions.assertEquals(authorDto1.name, savedBook1.authors?.get(0)?.name)
         // find by name only
-        var allAuthors = bookService.findAllAuthors("toto", Role.ANY, PageRequest.of(0, 30))
+        var allAuthors = bookService.findAllAuthors("toto", Role.ANY, pageable = PageRequest.of(0, 30))
         Assertions.assertEquals(1, allAuthors.totalElements)
         // name and role must match
-        allAuthors = bookService.findAllAuthors("toto", Role.AUTHOR, PageRequest.of(0, 30))
+        allAuthors = bookService.findAllAuthors("toto", Role.AUTHOR, pageable = PageRequest.of(0, 30))
         Assertions.assertEquals(0, allAuthors.totalElements)
-        allAuthors = bookService.findAllAuthors("toto", Role.TRANSLATOR, PageRequest.of(0, 30))
+        allAuthors = bookService.findAllAuthors("toto", Role.TRANSLATOR, pageable = PageRequest.of(0, 30))
         Assertions.assertEquals(1, allAuthors.totalElements)
         // no name criteria and any role should bring everyone
-        allAuthors = bookService.findAllAuthors(null, Role.ANY, PageRequest.of(0, 30))
+        allAuthors = bookService.findAllAuthors(null, Role.ANY, pageable = PageRequest.of(0, 30))
         Assertions.assertEquals(2, allAuthors.totalElements)
         // role only, no match
-        allAuthors = bookService.findAllAuthors(null, Role.NARRATOR, PageRequest.of(0, 30))
+        allAuthors = bookService.findAllAuthors(null, Role.NARRATOR, pageable = PageRequest.of(0, 30))
         Assertions.assertEquals(0, allAuthors.totalElements)
     }
 
