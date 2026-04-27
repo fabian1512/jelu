@@ -14,7 +14,7 @@ export default function useSort(defaultSort: string) {
         const val = sortBy.value + ',' + sortOrder.value
         sortQuery.value = val
         router.replace({ query: { ...route.query, sort: val } })
-    })
+    }, { immediate: true })
 
     const sortOrderUpdated = (newval: string) => {
         sortOrder.value = newval
