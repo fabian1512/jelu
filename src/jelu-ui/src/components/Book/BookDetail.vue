@@ -1050,19 +1050,19 @@ getBook()
       >
         {{ t('reading_events.reading_events') }} :
       </p>
-      <div class="flex flex-col md:grid md:grid-cols-9 mx-auto p-2 text-blue-50">
-        <div class="col-start-5 mb-3 p-2 font-semibold timeline-item capitalize">
+      <div class="grid grid-cols-[1fr_24px_1fr] md:grid-cols-9 mx-auto max-w-full p-2 text-blue-50">
+        <div class="col-span-3 md:col-start-5 mb-3 p-2 font-semibold timeline-item capitalize text-center">
           {{ t('reading_events.now') }}
         </div>
 
         <div
           v-for="(event, index) in sortedEvents"
           :key="event.id"
-          class="flex md:contents"
+          class="contents"
         >
           <div
             v-if="index % 2 === 0"
-            class="md:col-start-1 md:col-end-5 p-2 my-4 md:ml-auto shadow-md timeline-item"
+            class="col-start-1 md:col-start-1 md:col-end-5 p-2 my-4 md:ml-auto shadow-md timeline-item"
           >
             <div
               v-if="event.endDate != null"
@@ -1098,7 +1098,7 @@ getBook()
           </div>
           <div
             v-if="index % 2 === 0"
-            class="md:col-start-5 md:col-end-6 md:mx-auto relative md:mr-10"
+            class="col-start-2 md:col-start-5 md:col-end-6 flex flex-col items-center relative"
           >
             <div class="h-full w-6 flex items-center justify-center">
               <div class="h-full w-1 bg-base-content pointer-events-none" />
@@ -1117,7 +1117,7 @@ getBook()
           </div>
           <div
             v-if="index % 2 !== 0"
-            class="md:col-start-5 md:col-end-6 md:mr-10 md:mx-auto relative"
+            class="col-start-2 md:col-start-5 md:col-end-6 flex flex-col items-center relative"
           >
             <div class="h-full w-6 flex items-center justify-center">
               <div class="h-full w-1 bg-base-content pointer-events-none" />
@@ -1136,7 +1136,7 @@ getBook()
           </div>
           <div
             v-if="index % 2 !== 0"
-            class="md:col-start-6 md:col-end-10 p-2 my-4 md:mr-auto shadow-md timeline-item"
+            class="col-start-3 md:col-start-6 md:col-end-10 p-2 my-4 md:mr-auto shadow-md timeline-item"
           >
             <div
               v-if="event.endDate != null"
@@ -1171,7 +1171,7 @@ getBook()
             </button>
           </div>
         </div>
-        <div class="col-start-5 mt-3 p-2 font-semibold timeline-item capitalize">
+        <div class="col-span-3 md:col-start-5 mt-3 p-2 font-semibold timeline-item capitalize text-center">
           {{ t('reading_events.before') }}
         </div>
       </div>
