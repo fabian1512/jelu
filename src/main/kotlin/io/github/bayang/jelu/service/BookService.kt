@@ -121,8 +121,10 @@ class BookService(
     fun findAllAuthors(
         name: String?,
         role: Role = Role.ANY,
+        libraryFilter: LibraryFilter = LibraryFilter.ANY,
+        user: UserDto? = null,
         pageable: Pageable,
-    ): Page<AuthorDto> = bookRepository.findAllAuthors(name, role = role, pageable = pageable).map { it.toAuthorDto() }
+    ): Page<AuthorDto> = bookRepository.findAllAuthors(name, role = role, libraryFilter = libraryFilter, user = user, pageable = pageable).map { it.toAuthorDto() }
 
     @Transactional
     fun findAllTags(
