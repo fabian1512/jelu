@@ -27,19 +27,6 @@ export default function useSort(defaultSort: string) {
         sortOrderUpdated
     }
 }
-      })
-
-    const sortOrderUpdated = (newval: string) => {
-        sortOrder.value = newval
-      }
-
-    return {
-        sortQuery,
-        sortOrder,
-        sortBy,
-        sortOrderUpdated
-    }
-}
 
 const splitVal = (input: string) => {
     const ret = input.split(",")
