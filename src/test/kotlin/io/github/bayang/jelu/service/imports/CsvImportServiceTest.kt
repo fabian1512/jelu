@@ -184,7 +184,7 @@ class CsvImportServiceTest(
         Assertions.assertEquals(10, success)
         Assertions.assertEquals(0, failures)
 
-        coVerify(exactly = 0) { fetchMetadataService.fetchMetadata(any(), any()) }
+        coVerify(atLeast = 1) { fetchMetadataService.fetchMetadata(any(), any()) }
     }
 
     @Test
