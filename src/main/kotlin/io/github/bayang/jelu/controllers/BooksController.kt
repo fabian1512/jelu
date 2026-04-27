@@ -190,7 +190,7 @@ class BooksController(
         @RequestParam(name = "owned", required = false) owned: Boolean?,
         @RequestParam(name = "borrowed", required = false) borrowed: Boolean?,
         @RequestParam(name = "userId", required = false) userId: UUID?,
-        @PageableDefault(page = 0, size = 20, direction = Sort.Direction.DESC, sort = ["modificationDate"]) @ParameterObject pageable:
+        @PageableDefault(page = 0, size = 20, direction = Sort.Direction.DESC, sort = ["lastReadingEventDate"]) @ParameterObject pageable:
             Pageable,
     ): Page<UserBookWithoutEventsAndUserDto> {
         assertIsJeluUser(principal.principal)

@@ -1619,9 +1619,9 @@ class BookRepository(
         } else {
             query.limit(pageable.pageSize)
             query.offset(pageable.offset)
-            val orders: Array<Pair<Expression<*>, SortOrder>> =
-                parseSorts(pageable.sort, Pair(UserBookTable.lastReadingEventDate, SortOrder.DESC_NULLS_LAST), cols)
-            query.orderBy(*orders)
+            val orders = parseSorts(pageable.sort, Pair(UserBookTable.lastReadingEventDate, SortOrder.DESC_NULLS_LAST), cols).toMutableList()
+            orders.add(Pair(UserBookTable.modificationDate, SortOrder.DESC_NULLS_LAST))
+            query.orderBy(*orders.toTypedArray())
         }
         val res = query.map { resultRow -> wrapUserBookRow(resultRow, ratingAlias, userRatingAlias) }
         return PageImpl(
