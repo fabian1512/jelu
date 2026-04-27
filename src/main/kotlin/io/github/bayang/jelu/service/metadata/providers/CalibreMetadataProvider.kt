@@ -60,7 +60,7 @@ class CalibreMetadataProvider(
             if (config.containsKey(CalibreMetadataProvider.ONLY_USE_CORE_PLUGINS)) {
                 config[CalibreMetadataProvider.ONLY_USE_CORE_PLUGINS].toBoolean()
             } else {
-                false
+                true
             }
         val fetchCover: Boolean =
             if (config.containsKey(CalibreMetadataProvider.FETCH_COVER)) {
@@ -70,7 +70,7 @@ class CalibreMetadataProvider(
             }
         var bookFileName: String = FILE_PREFIX
         val commandArray: MutableList<String> =
-            mutableListOf(properties.metadata.calibre.path!!, "-o", "-d ${properties.metadata.calibre.timeout}")
+            mutableListOf(properties.metadata.calibre.path!!, "-o", "-d 5")
         var fileNameComplete = false
         if (!metadataRequestDto.isbn.isNullOrBlank()) {
             bookFileName += metadataRequestDto.isbn

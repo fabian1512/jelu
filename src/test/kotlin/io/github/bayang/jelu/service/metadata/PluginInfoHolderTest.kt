@@ -17,7 +17,7 @@ class PluginInfoHolderTest {
                 JeluProperties.Auth(JeluProperties.Ldap(), JeluProperties.Proxy()),
                 listOf(JeluProperties.MetaDataProvider("google", true, "fake-google-api-key")),
             )
-        var info = PluginInfoHolder(jeluProperties)
+        var info = PluginInfoHolder(jeluProperties, listOf())
         var plugins = info.plugins()
         Assertions.assertEquals(1, plugins.size)
         Assertions.assertEquals("google", plugins[0].name)
@@ -34,11 +34,13 @@ class PluginInfoHolderTest {
                 JeluProperties.Auth(JeluProperties.Ldap(), JeluProperties.Proxy()),
                 listOf(JeluProperties.MetaDataProvider("google", true, "fake-google-api-key")),
             )
-        info = PluginInfoHolder(jeluProperties)
+        info = PluginInfoHolder(jeluProperties, listOf())
         plugins = info.plugins()
         Assertions.assertEquals(2, plugins.size)
         Assertions.assertEquals(PluginInfoHolder.CALIBRE, plugins[0].name)
-        Assertions.assertEquals(1000, plugins[0].order)
+        Assertions.assertEquals(-100, plugins[0].order)
+        Assertions.assertEquals("google", plugins[1].name)
+        Assertions.assertEquals(-1000, plugins[1].order)
         Assertions.assertTrue(info.calibreEnabled())
 
         jeluProperties =
@@ -51,11 +53,51 @@ class PluginInfoHolderTest {
                 JeluProperties.Auth(JeluProperties.Ldap(), JeluProperties.Proxy()),
                 listOf(JeluProperties.MetaDataProvider("google", true, "fake-google-api-key", order = 2)),
             )
-        info = PluginInfoHolder(jeluProperties)
+        info = PluginInfoHolder(jeluProperties, listOf())
         plugins = info.plugins()
         Assertions.assertEquals(2, plugins.size)
         Assertions.assertEquals("google", plugins[0].name)
         Assertions.assertEquals(2, plugins[0].order)
+        Assertions.assertEquals(PluginInfoHolder.CALIBRE, plugins[1].name)
+        Assertions.assertEquals(-100, plugins[1].order)
+        Assertions.assertTrue(info.calibreEnabled())
+
+        jeluProperties =
+            JeluProperties(
+                JeluProperties.Database(""),
+                JeluProperties.Files("", "", true),
+                JeluProperties.Session(1),
+                JeluProperties.Cors(),
+                JeluProperties.Metadata(JeluProperties.Calibre("/path", order = 1)),
+                JeluProperties.Auth(JeluProperties.Ldap(), JeluProperties.Proxy()),
+                listOf(JeluProperties.MetaDataProvider("google", true, "fake-google-api-key", order = 2)),
+            )
+        info = PluginInfoHolder(jeluProperties, listOf())
+        plugins = info.plugins()
+        Assertions.assertEquals(2, plugins.size)
+        Assertions.assertEquals("google", plugins[0].name)
+        Assertions.assertEquals(2, plugins[0].order)
+        Assertions.assertEquals(PluginInfoHolder.CALIBRE, plugins[1].name)
+        Assertions.assertEquals(-100, plugins[1].order)
+        Assertions.assertTrue(info.calibreEnabled())
+
+        jeluProperties =
+            JeluProperties(
+                JeluProperties.Database(""),
+                JeluProperties.Files("", "", true),
+                JeluProperties.Session(1),
+                JeluProperties.Cors(),
+                JeluProperties.Metadata(JeluProperties.Calibre("/path", order = 1)),
+                JeluProperties.Auth(JeluProperties.Ldap(), JeluProperties.Proxy()),
+                listOf(JeluProperties.MetaDataProvider("google", true, "fake-google-api-key", order = 2)),
+            )
+        info = PluginInfoHolder(jeluProperties, listOf())
+        plugins = info.plugins()
+        Assertions.assertEquals(2, plugins.size)
+        Assertions.assertEquals("google", plugins[0].name)
+        Assertions.assertEquals(2, plugins[0].order)
+        Assertions.assertEquals(PluginInfoHolder.CALIBRE, plugins[1].name)
+        Assertions.assertEquals(-100, plugins[1].order)
         Assertions.assertTrue(info.calibreEnabled())
 
         jeluProperties =
@@ -68,11 +110,13 @@ class PluginInfoHolderTest {
                 JeluProperties.Auth(JeluProperties.Ldap(), JeluProperties.Proxy()),
                 listOf(JeluProperties.MetaDataProvider("google", true, "fake-google-api-key", order = 1)),
             )
-        info = PluginInfoHolder(jeluProperties)
+        info = PluginInfoHolder(jeluProperties, listOf())
         plugins = info.plugins()
         Assertions.assertEquals(2, plugins.size)
-        Assertions.assertEquals(PluginInfoHolder.CALIBRE, plugins[0].name)
+        Assertions.assertEquals("google", plugins[0].name)
         Assertions.assertEquals(1, plugins[0].order)
+        Assertions.assertEquals(PluginInfoHolder.CALIBRE, plugins[1].name)
+        Assertions.assertEquals(-100, plugins[1].order)
         Assertions.assertTrue(info.calibreEnabled())
     }
 }

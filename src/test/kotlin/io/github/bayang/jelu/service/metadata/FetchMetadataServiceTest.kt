@@ -34,7 +34,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties)
+        val info = PluginInfoHolder(jeluProperties, providers)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(MetadataRequestDto(isbn = "1566199093"))
         verify { jeluDebug.fetchMetadata(any(), any()) }
@@ -62,7 +62,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties)
+        val info = PluginInfoHolder(jeluProperties, providers)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(
             MetadataRequestDto(
@@ -101,7 +101,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties)
+        val info = PluginInfoHolder(jeluProperties, providers)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(MetadataRequestDto(isbn = "1566199093", plugins = listOf()))
         verify { jeluDebug.fetchMetadata(any(), any()) }
@@ -129,7 +129,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties)
+        val info = PluginInfoHolder(jeluProperties, providers)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(
             MetadataRequestDto(
@@ -172,7 +172,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties)
+        val info = PluginInfoHolder(jeluProperties, providers)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(
             MetadataRequestDto(
