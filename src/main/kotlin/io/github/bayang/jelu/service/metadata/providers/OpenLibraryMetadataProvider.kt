@@ -17,7 +17,6 @@ class OpenLibraryMetadataProvider(
     @Resource(name = "springRestClient") private val restClient: RestClient,
     private val objectMapper: ObjectMapper,
 ) : IMetaDataProvider {
-
     private val name = "openlibrary"
 
     override fun name(): String = name
@@ -46,8 +45,7 @@ class OpenLibraryMetadataProvider(
                         .queryParam("format", "json")
                         .queryParam("jscmd", "data")
                         .build()
-                }
-                .retrieve()
+                }.retrieve()
                 .body(String::class.java)
 
         if (response == null || response.isBlank() || response == "{}") {
@@ -83,8 +81,7 @@ class OpenLibraryMetadataProvider(
                         .queryParam("q", query)
                         .queryParam("limit", 1)
                         .build()
-                }
-                .retrieve()
+                }.retrieve()
                 .body(String::class.java)
 
         if (response == null || response.isBlank()) {
@@ -139,8 +136,7 @@ class OpenLibraryMetadataProvider(
                         .queryParam("format", "json")
                         .queryParam("jscmd", "data")
                         .build()
-                }
-                .retrieve()
+                }.retrieve()
                 .body(String::class.java)
 
         if (response == null || response.isBlank() || response == "{}") return
