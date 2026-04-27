@@ -83,7 +83,7 @@ onMounted(() => {
             <th>{{ t('metadata.provider') }}</th>
             <th class="w-20">{{ t('metadata.enabled') }}</th>
             <th class="w-24">{{ t('metadata.order') }}</th>
-            <th v-if="false" class="w-48">{{ t('metadata.api_key') }}</th>
+            <th class="w-48">{{ t('metadata.api_key') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -109,9 +109,9 @@ onMounted(() => {
                 max="1000"
               >
             </td>
-            <td v-if="false">
+            <td>
               <input
-                v-if="provider.apiKey != null"
+                v-if="provider.name === 'google'"
                 v-model="provider.apiKey"
                 type="text"
                 class="input input-bordered input-sm w-full"
