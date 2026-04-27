@@ -69,24 +69,6 @@ const file = ref(null);
 
 const uploadPercentage = ref(0);
 const errorMessage = ref("");
-const ownedDisplay = computed(() => {
-  if (userbook.value.owned) {
-    return t('book.owned')
-  }
-  return ""
-})
-const borrowedDisplay = computed(() => {
-  if (userbook.value.borrowed) {
-    return t('book.borrowed')
-  }
-  return ""
-})
-const toReadDisplay = computed(() => {
-  if (userbook.value.toRead) {
-    return t('labels.book_will_be_added')
-  }
-  return ""
-})
 
 const seriesCopy: Array<SeriesOrder> = userbook.value.book.series ?? []
 
@@ -663,47 +645,6 @@ if (userbook.value.book.publisher != null) {
             </fieldset>
           </div>
         </details>
-        <div class="grid grid-cols-1 sm:grid-cols-3">
-          <fieldset class="fieldset">
-            <legend class="fieldset-legend capitalize">
-              {{ t('book.owned') }}
-            </legend>
-            <label class="label">
-              <input
-                v-model="userbook.owned"
-                type="checkbox"
-                class="checkbox checkbox-primary"
-              ></input>
-              {{ ownedDisplay }}
-            </label>
-          </fieldset>
-          <fieldset class="fieldset">
-            <legend class="fieldset-legend capitalize">
-              {{ t('book.to_read') }}&nbsp;?
-            </legend>
-            <label class="label">
-              <input
-                v-model="userbook.toRead"
-                type="checkbox"
-                class="checkbox checkbox-primary"
-              >
-              {{ toReadDisplay }}
-            </label>
-          </fieldset>
-          <fieldset class="fieldset">
-            <legend class="fieldset-legend capitalize">
-              {{ t('book.borrowed') }}&nbsp;?
-            </legend>
-            <label class="label">
-              <input
-                v-model="userbook.borrowed"
-                type="checkbox"
-                class="checkbox checkbox-primary"
-              >
-              {{ borrowedDisplay }}
-            </label>
-          </fieldset>
-        </div>
         <details class="collapse collapse-arrow bg-base-200">
           <summary class="collapse-title text-xl font-medium capitalize">
             {{ t('book.price') }} & {{ t('book.current_page_number') }}

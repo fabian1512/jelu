@@ -23,6 +23,13 @@ watch(() => currentCreateEvent.value.eventType, (newValue, oldValue) => {
   if (currentCreateEvent.value.eventType == ReadingEventType.CURRENTLY_READING) {
     currentCreateEvent.value.eventDate = undefined
     currentCreateEvent.value.startDate = new Date()
+  } else if (
+    currentCreateEvent.value.eventType == ReadingEventType.MARKED_OWNED ||
+    currentCreateEvent.value.eventType == ReadingEventType.MARKED_TO_READ ||
+    currentCreateEvent.value.eventType == ReadingEventType.MARKED_BORROWED
+  ) {
+    currentCreateEvent.value.eventDate = undefined
+    currentCreateEvent.value.startDate = undefined
   } else {
     currentCreateEvent.value.startDate = undefined
     currentCreateEvent.value.eventDate = new Date()
@@ -136,12 +143,49 @@ const { typographyClasses } = useTypography()
               {{ t('reading_events.dropped') }}
             </span>
           </div>
+          <div class="field">
+            <input
+              v-model="currentCreateEvent.eventType"
+              type="radio"
+              name="radio-28"
+              class="radio radio-primary my-2"
+              value="MARKED_OWNED"
+            >
+            <span class="label-text ml-2">
+              {{ t('book.owned') }}
+            </span>
+          </div>
+          <div class="field">
+            <input
+              v-model="currentCreateEvent.eventType"
+              type="radio"
+              name="radio-28"
+              class="radio radio-primary my-2"
+              value="MARKED_TO_READ"
+            >
+            <span class="label-text ml-2">
+              {{ t('labels.in_read_list') }}
+            </span>
+          </div>
+          <div class="field">
+            <input
+              v-model="currentCreateEvent.eventType"
+              type="radio"
+              name="radio-28"
+              class="radio radio-primary my-2"
+              value="MARKED_BORROWED"
+            >
+            <span class="label-text ml-2">
+              {{ t('book.borrowed') }}
+            </span>
+          </div>
         </div>
         <div class="field">
           <label class="label">
             <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.start_date') }} : </span>
           </label>
           <datepicker
+            v-if="currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
             v-model="currentEvent.startDate"
             class="input input-primary"
             :typeable="true"
@@ -168,7 +212,7 @@ const { typographyClasses } = useTypography()
           </datepicker>
         </div>
         <div
-          v-if="currentEvent.eventType !== ReadingEventType.CURRENTLY_READING"
+          v-if="currentEvent.eventType !== ReadingEventType.CURRENTLY_READING && currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
           class="field"
         >
           <label class="label">
@@ -276,9 +320,45 @@ const { typographyClasses } = useTypography()
               {{ t('reading_events.dropped') }}
             </span>
           </div>
+          <div class="field">
+            <input
+              v-model="currentCreateEvent.eventType"
+              type="radio"
+              name="radio-29"
+              class="radio radio-primary my-2"
+              value="MARKED_OWNED"
+            >
+            <span class="label-text ml-2">
+              {{ t('book.owned') }}
+            </span>
+          </div>
+          <div class="field">
+            <input
+              v-model="currentCreateEvent.eventType"
+              type="radio"
+              name="radio-29"
+              class="radio radio-primary my-2"
+              value="MARKED_TO_READ"
+            >
+            <span class="label-text ml-2">
+              {{ t('labels.in_read_list') }}
+            </span>
+          </div>
+          <div class="field">
+            <input
+              v-model="currentCreateEvent.eventType"
+              type="radio"
+              name="radio-29"
+              class="radio radio-primary my-2"
+              value="MARKED_BORROWED"
+            >
+            <span class="label-text ml-2">
+              {{ t('book.borrowed') }}
+            </span>
+          </div>
         </div>
         <div
-          v-if="currentEvent.eventType === ReadingEventType.CURRENTLY_READING"
+          v-if="currentCreateEvent.eventType === ReadingEventType.CURRENTLY_READING"
           class="field"
         >
           <label class="label">
@@ -311,7 +391,7 @@ const { typographyClasses } = useTypography()
           </datepicker>
         </div>
         <div
-          v-if="currentCreateEvent.eventType != ReadingEventType.CURRENTLY_READING"
+          v-if="currentCreateEvent.eventType != ReadingEventType.CURRENTLY_READING && currentCreateEvent.eventType != ReadingEventType.MARKED_OWNED && currentCreateEvent.eventType != ReadingEventType.MARKED_TO_READ && currentCreateEvent.eventType != ReadingEventType.MARKED_BORROWED"
           class="field"
         >
           <label class="label">

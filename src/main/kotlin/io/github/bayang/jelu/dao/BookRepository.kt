@@ -1147,7 +1147,7 @@ class BookRepository(
             found.priceInCents = floatingPriceToLong(book.price)
         }
         var bookFinished = false
-        if (book.percentRead != null && book.percentRead >= 100) {
+        if (book.percentRead != null && book.percentRead >= 100 && found.percentRead != 100) {
             bookFinished = true
         }
         found.percentRead = book.percentRead

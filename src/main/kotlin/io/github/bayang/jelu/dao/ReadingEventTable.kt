@@ -78,4 +78,7 @@ enum class ReadingEventType {
     FINISHED,
     DROPPED,
     CURRENTLY_READING,
+    MARKED_OWNED,
+    MARKED_TO_READ,
+    MARKED_BORROWED,
 }

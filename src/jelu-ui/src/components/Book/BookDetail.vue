@@ -330,6 +330,12 @@ const eventClass = (event: ReadingEvent) => {
     event.eventType === ReadingEventType.CURRENTLY_READING
   ) {
     return "bg-success";
+  } else if (event.eventType === ReadingEventType.MARKED_OWNED) {
+    return "bg-warning";
+  } else if (event.eventType === ReadingEventType.MARKED_TO_READ) {
+    return "bg-accent";
+  } else if (event.eventType === ReadingEventType.MARKED_BORROWED) {
+    return "bg-secondary";
   }
   else return "";
 };
@@ -343,6 +349,12 @@ const iconClass = (event: ReadingEvent) => {
     event.eventType === ReadingEventType.CURRENTLY_READING
   ) {
     return "mdi-book-open-page-variant";
+  } else if (event.eventType === ReadingEventType.MARKED_OWNED) {
+    return "mdi-bookshelf";
+  } else if (event.eventType === ReadingEventType.MARKED_TO_READ) {
+    return "mdi-eye";
+  } else if (event.eventType === ReadingEventType.MARKED_BORROWED) {
+    return "mdi-handshake";
   }
   else return "";
 };
@@ -354,6 +366,12 @@ const eventLabel = (type: ReadingEventType) => {
       return t('reading_events.dropped');
     } else if (type === ReadingEventType.CURRENTLY_READING) {
       return t('reading_events.reading');
+    } else if (type === ReadingEventType.MARKED_OWNED) {
+      return t('book.owned');
+    } else if (type === ReadingEventType.MARKED_TO_READ) {
+      return t('labels.in_read_list');
+    } else if (type === ReadingEventType.MARKED_BORROWED) {
+      return t('book.borrowed');
     } else return "";
 };
 
