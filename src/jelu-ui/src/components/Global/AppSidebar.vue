@@ -59,9 +59,6 @@ const adminLinks = computed(() => [
         <Avatar :size="40" :username="username" />
         <div class="min-w-0">
           <p class="font-bold truncate">{{ username }}</p>
-          <router-link to="/profile" class="text-sm link" @click="emit('close')">
-            {{ t('nav.dashboard') }}
-          </router-link>
         </div>
       </div>
     </div>
