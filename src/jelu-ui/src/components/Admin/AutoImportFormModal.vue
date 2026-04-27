@@ -3,6 +3,7 @@ import { useOruga } from "@oruga-ui/oruga-next";
 import { ComputedRef, Ref, computed, reactive, ref } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useLocalStorage } from '@vueuse/core';
 import { Book } from "../../model/Book";
 import { Metadata } from "../../model/Metadata";
 import { ServerSettings } from "../../model/ServerSettings";
@@ -45,9 +46,11 @@ const displayForm: Ref<boolean> = ref(true)
 
 const progress: Ref<boolean> = ref(false)
 
+const storedLanguage = useLocalStorage("jelu_language", "en")
+
 const fetchMetadata = async () => {
     progress.value = true
-    dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: []})
+    dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: [], language: storedLanguage.value})
     .then(res => {
         progress.value = false
         metadata.value = res

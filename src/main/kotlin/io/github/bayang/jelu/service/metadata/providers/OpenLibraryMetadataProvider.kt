@@ -181,12 +181,6 @@ class OpenLibraryMetadataProvider(
         dto.publishedDate = node.get("publish_date")?.asText()
         dto.pageCount = node.get("number_of_pages")?.asInt()
 
-        val subjects = node.get("subjects")
-        if (subjects != null && subjects.isArray) {
-            dto.tags =
-                subjects.mapNotNull { it.get("name")?.asText() }.toMutableSet()
-        }
-
         val cover = node.get("cover")
         if (cover != null) {
             dto.image = cover.get("medium")?.asText() ?: cover.get("small")?.asText()
