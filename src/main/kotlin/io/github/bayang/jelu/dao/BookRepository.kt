@@ -1174,22 +1174,7 @@ class BookRepository(
         if (book.book != null) {
             update(found.book, fromBookCreateDto(book.book))
         }
-        if (book.lastReadingEvent != null) {
-            readingEventRepository.save(
-                found,
-                CreateReadingEventDto(
-                    eventType = book.lastReadingEvent,
-                    bookId = null,
-                    eventDate = null,
-                    startDate = null,
-                ),
-            )
-            if (bookFinished && book.lastReadingEvent == ReadingEventType.FINISHED) {
-                bookFinished = false
-            }
-        }
-        // the book was set as finished vioa current page number or percent read
-        // and an event was not already sent above
+        // the book was set as finished via current page number or percent read
         if (bookFinished) {
             readingEventRepository.save(
                 found,
