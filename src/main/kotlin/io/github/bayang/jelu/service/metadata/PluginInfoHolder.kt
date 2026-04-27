@@ -48,6 +48,7 @@ class PluginInfoHolder(
                     "openlibrary" -> 30
                     "inventaireio" -> 20
                     "google" -> 10
+                    "goodreads" -> 8
                     "databazeknih" -> 5
                     else -> 0
                 }
@@ -88,6 +89,7 @@ class PluginInfoHolder(
                         "openlibrary" -> 30
                         "inventaireio" -> 20
                         "google" -> 10
+                        "goodreads" -> 8
                         CALIBRE -> -100
                         "databazeknih" -> 5
                         else -> 0
