@@ -1,12 +1,10 @@
 package io.github.bayang.jelu.config
 
-import org.springframework.boot.ssl.SslBundles
-import org.springframework.boot.web.client.ClientHttpRequestFactories
-import org.springframework.boot.web.client.ClientHttpRequestFactorySettings
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
+import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.codec.ClientCodecConfigurer
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -42,16 +40,12 @@ class GlobalConfig {
     }
 
     @Bean("springRestClient")
-    fun springRestClient(): RestClient =
-        RestClient
-            .builder()
-            .requestFactory(
-                ClientHttpRequestFactories.get(
-                    ClientHttpRequestFactorySettings()
-                        .withConnectTimeout(Duration.ofSeconds(10))
-                        .withReadTimeout(Duration.ofSeconds(15)),
-                ),
-            ).build()
+    fun springRestClient(): RestClient {
+        val factory = SimpleClientHttpRequestFactory()
+        factory.connectTimeout = Duration.ofSeconds(10)
+        factory.readTimeout = Duration.ofSeconds(15)
+        return RestClient.builder().requestFactory(factory).build()
+    }
 
     @Bean("passwordEncoder")
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
