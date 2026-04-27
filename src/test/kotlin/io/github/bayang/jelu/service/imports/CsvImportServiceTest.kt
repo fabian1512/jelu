@@ -75,7 +75,7 @@ class CsvImportServiceTest(
         }
     }
 
-    @MockkBean
+    @MockkBean(relaxed = true)
     private lateinit var fetchMetadataService: FetchMetadataService
 
     @Test
