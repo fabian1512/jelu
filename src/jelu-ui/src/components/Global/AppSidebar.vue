@@ -38,6 +38,8 @@ const mainLinks = computed(() => [
   { to: '/history', icon: 'mdi mdi-history', label: t('nav.history') },
   { to: '/reviews', icon: 'mdi mdi-star', label: t('nav.activity') },
   { to: '/authors', icon: 'mdi mdi-account-group', label: t('book.author', 2) },
+  { to: '/profile/imports', icon: 'mdi mdi-file-import', label: t('settings.imports') },
+  { to: '/profile/metadata-providers', icon: 'mdi mdi-tune', label: t('settings.metadata_providers') },
   { to: '/profile/stats', icon: 'mdi mdi-chart-bar', label: t('stats.yearly_stats') },
 ])
 
@@ -47,7 +49,6 @@ const adminLinks = computed(() => [
   { to: '/profile/admin/users', icon: 'mdi mdi-account-multiple', label: t('settings.users') },
   { to: '/profile/tags', icon: 'mdi mdi-tag', label: t('nav.tags-admin') },
   { to: '/profile/data', icon: 'mdi mdi-database', label: t('nav.data-admin') },
-  { to: '/profile/imports', icon: 'mdi mdi-file-import', label: t('settings.imports') },
   { to: '/profile/api-tokens', icon: 'mdi mdi-key', label: t('settings.api_tokens') },
 ])
 </script>

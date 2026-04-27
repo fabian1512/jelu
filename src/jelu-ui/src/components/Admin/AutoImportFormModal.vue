@@ -5,13 +5,11 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { Book } from "../../model/Book";
 import { Metadata } from "../../model/Metadata";
-import { PluginInfo } from "../../model/PluginInfo";
 import { ServerSettings } from "../../model/ServerSettings";
 import dataService from "../../services/DataService";
 import { key } from '../../store';
 import { StringUtils } from "../../utils/StringUtils";
 import MetadataDetail from '../Metadata/MetadataDetail.vue';
-import MetadataPluginsModal from '../Metadata/MetadataPluginsModal.vue';
 import ScanModal from '../Book/ScanModal.vue';
 import useTypography from "../../composables/typography";
 
@@ -46,8 +44,6 @@ const errorMessage = ref("");
 const displayForm: Ref<boolean> = ref(true)
 
 const progress: Ref<boolean> = ref(false)
-
-let plugins: Array<PluginInfo> = []
 
 const fetchMetadata = async () => {
     progress.value = true
@@ -104,28 +100,7 @@ function toggleScanModal() {
     });
 }
 
-function togglePluginsModal() {
-    oruga.modal.open({
-      component: MetadataPluginsModal,
-      trapFocus: true,
-      active: true,
-      canCancel: ['x', 'button', 'outside'],
-      scroll: 'keep',
-      props: {
-      },
-      events: {
-        plugins: (received: Array<PluginInfo>) => {
-          plugins = received
-      }
-    },
-      onClose: pluginsModalClosed
-    });
-}
-
 function scanModalClosed() {
-}
-
-function pluginsModalClosed() {
 }
 
 const { typographyClasses } = useTypography()
@@ -217,21 +192,6 @@ const { typographyClasses } = useTypography()
                   stroke-linejoin="round"
                   d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
                 />
-              </svg>
-            </button>
-            <button
-              v-if="serverSettings.metadataFetchEnabled && serverSettings.metadataPlugins.length > 1"
-              class="btn btn-secondary p-2"
-              :class="{'btn-disabled' : progress}"
-              @click="togglePluginsModal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path d="M6 12a.75.75 0 01-.75-.75v-7.5a.75.75 0 111.5 0v7.5A.75.75 0 016 12zM18 12a.75.75 0 01-.75-.75v-7.5a.75.75 0 011.5 0v7.5A.75.75 0 0118 12zM6.75 20.25v-1.5a.75.75 0 00-1.5 0v1.5a.75.75 0 001.5 0zM18.75 18.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 011.5 0zM12.75 5.25v-1.5a.75.75 0 00-1.5 0v1.5a.75.75 0 001.5 0zM12 21a.75.75 0 01-.75-.75v-7.5a.75.75 0 011.5 0v7.5A.75.75 0 0112 21zM3.75 15a2.25 2.25 0 104.5 0 2.25 2.25 0 00-4.5 0zM12 11.25a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5zM15.75 15a2.25 2.25 0 104.5 0 2.25 2.25 0 00-4.5 0z" />
               </svg>
             </button>
           </div>

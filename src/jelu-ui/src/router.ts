@@ -145,6 +145,7 @@ const router = createRouter({
                 { path : 'admin/users', beforeEnter: [isAdmin], component: () => import(/* webpackChunkName: "recommend" */ './components/User/AdminUsers.vue')},
                 { path : 'users', component: () => import(/* webpackChunkName: "recommend" */ './components/User/UsersList.vue')},
                 { path: 'imports', component: () => import(/* webpackChunkName: "recommend" */ './components/Admin/Imports.vue')},
+                { path: 'metadata-providers', component: () => import(/* webpackChunkName: "recommend" */ './components/Admin/MetadataProviderSettings.vue')},
                 { path: 'settings', component: () => import(/* webpackChunkName: "recommend" */ './components/User/UserSettings.vue')},
                 { path: 'messages', component: () => import(/* webpackChunkName: "recommend" */ './components/User/UserMessages.vue')},
                 { path: 'stats', component: () => import(/* webpackChunkName: "recommend" */ './components/User/UserStats.vue')},

@@ -1,6 +1,8 @@
 package io.github.bayang.jelu.service.metadata
 
 import io.github.bayang.jelu.config.JeluProperties
+import io.github.bayang.jelu.dao.MetadataProviderSettingRepository
+import io.github.bayang.jelu.dto.MetadataProviderSettingDto
 import io.github.bayang.jelu.dto.PluginInfo
 import io.github.bayang.jelu.service.metadata.providers.IMetaDataProvider
 import io.github.bayang.jelu.utils.PluginInfoComparator
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service
 class PluginInfoHolder(
     private val properties: JeluProperties,
     private val providers: List<IMetaDataProvider>,
+    private val settingsRepository: MetadataProviderSettingRepository,
 ) {
     companion object {
         const val CALIBRE = "calibre"
@@ -50,10 +53,58 @@ class PluginInfoHolder(
         if (calibreEnabled()) {
             plugins.add(PluginInfo(name = CALIBRE, order = -100))
         }
+        // override with DB settings
+        val dbSettings = settingsRepository.findAll()
+        for (setting in dbSettings) {
+            val idx = plugins.indexOfFirst { it.name.equals(setting.name, true) }
+            if (idx >= 0) {
+                if (!setting.isEnabled) {
+                    plugins.removeAt(idx)
+                } else {
+                    plugins[idx] = plugins[idx].copy(order = setting.order)
+                }
+            } else if (setting.isEnabled) {
+                plugins.add(PluginInfo(name = setting.name, order = setting.order))
+            }
+        }
         plugins.sortWith(PluginInfoComparator)
         pluginsList = plugins
         pluginsComputed = true
         return pluginsList
+    }
+
+    fun getProviderSettings(): List<MetadataProviderSettingDto> {
+        // merge auto-registered providers with DB settings
+        val defaults =
+            providers.mapNotNull { provider ->
+                val name = provider.name()
+                if (name == JELU_DEBUG) return@mapNotNull null
+                val order =
+                    when (name) {
+                        "openlibrary" -> 30
+                        "inventaireio" -> 20
+                        "google" -> 10
+                        CALIBRE -> -100
+                        "databazeknih" -> 5
+                        else -> 0
+                    }
+                MetadataProviderSettingDto(name = name, isEnabled = true, order = order)
+            }
+        val dbSettings = settingsRepository.findAll()
+        return defaults
+            .map { default ->
+                val dbSetting = dbSettings.find { it.name.equals(default.name, true) }
+                dbSetting ?: default
+            }.sortedByDescending { it.order }
+    }
+
+    fun updateProviderSettings(settings: List<MetadataProviderSettingDto>) {
+        settingsRepository.saveAll(settings)
+        refresh()
+    }
+
+    fun refresh() {
+        pluginsComputed = false
     }
 
     fun calibreEnabled(): Boolean {

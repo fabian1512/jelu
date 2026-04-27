@@ -1201,6 +1201,29 @@ class DataService {
     }
   }
 
+  fetchMetadataProviders = async () => {
+    try {
+      const response = await this.apiClient.get<Array<any>>(`/metadata-providers`);
+      return response.data;
+    }
+    catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+      }
+      throw new Error("error fetching metadata providers " + error)
+    }
+  }
+
+  saveMetadataProviders = async (providers: Array<any>) => {
+    try {
+      await this.apiClient.put(`/metadata-providers`, { providers });
+    }
+    catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+      }
+      throw new Error("error saving metadata providers " + error)
+    }
+  }
+
   yearStats = async () => {
     try {
       const response = await this.apiClient.get<Array<YearStats>>(`${this.API_STATS}`);

@@ -148,6 +148,7 @@
         "shortcuts": "Tastaturkürzel",
         "shortcuts_tooltip": "Tastaturkürzel",
         "messages": "Mitteilungen",
+        "metadata_providers": "Metadata-Anbieter",
         "stats": "Statistik",
         "shelves": "Regale",
         "shelves_max_number_reached": "Maximale Anzahl an Regalen ist erreicht. Lösche vorhandene Regale, um mehr hinzuzufügen.",

@@ -1,6 +1,7 @@
 package io.github.bayang.jelu.service.metadata
 
 import io.github.bayang.jelu.config.JeluProperties
+import io.github.bayang.jelu.dao.MetadataProviderSettingRepository
 import io.github.bayang.jelu.dto.MetadataRequestDto
 import io.github.bayang.jelu.dto.PluginInfo
 import io.github.bayang.jelu.service.metadata.providers.CalibreMetadataProvider
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.Test
 import java.util.Optional
 
 class FetchMetadataServiceTest {
+    private val settingsRepo = mockk<MetadataProviderSettingRepository>(relaxed = true)
+
     @Test
     fun fetchMetadataTest() {
         val jeluProperties =
@@ -34,7 +37,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties, providers)
+        val info = PluginInfoHolder(jeluProperties, providers, settingsRepo)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(MetadataRequestDto(isbn = "1566199093"))
         verify { jeluDebug.fetchMetadata(any(), any()) }
@@ -62,7 +65,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties, providers)
+        val info = PluginInfoHolder(jeluProperties, providers, settingsRepo)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(
             MetadataRequestDto(
@@ -101,7 +104,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties, providers)
+        val info = PluginInfoHolder(jeluProperties, providers, settingsRepo)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(MetadataRequestDto(isbn = "1566199093", plugins = listOf()))
         verify { jeluDebug.fetchMetadata(any(), any()) }
@@ -129,7 +132,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties, providers)
+        val info = PluginInfoHolder(jeluProperties, providers, settingsRepo)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(
             MetadataRequestDto(
@@ -172,7 +175,7 @@ class FetchMetadataServiceTest {
         every { calibre.fetchMetadata(any(), any()) } returns Optional.empty()
         providers.add(jeluDebug)
         providers.add(calibre)
-        val info = PluginInfoHolder(jeluProperties, providers)
+        val info = PluginInfoHolder(jeluProperties, providers, settingsRepo)
         val service = FetchMetadataService(providers, info)
         service.fetchMetadata(
             MetadataRequestDto(
