@@ -15,7 +15,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.client.ExchangeStrategies
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
-import java.time.Duration
 
 const val SESSION_HEADER_NAME: String = "X-Auth-Token"
 
@@ -42,8 +41,8 @@ class GlobalConfig {
     @Bean("springRestClient")
     fun springRestClient(): RestClient {
         val factory = SimpleClientHttpRequestFactory()
-        factory.connectTimeout = Duration.ofSeconds(10)
-        factory.readTimeout = Duration.ofSeconds(15)
+        factory.setConnectTimeout(10_000)
+        factory.setReadTimeout(15_000)
         return RestClient.builder().requestFactory(factory).build()
     }
 
