@@ -105,10 +105,10 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <div class="w-full flex flex-col sm:flex-row gap-4">
+  <div class="w-full flex flex-col gap-4 mx-auto sm:max-w-3xl">
     <div
       v-if="props.allowCreate"
-      class="w-full sm:w-5/12 shrink-0"
+      class="w-full"
     >
       <div class="field">
         <p>{{ t('settings.shelf_choose_tag') }}</p>
@@ -133,7 +133,7 @@ const { typographyClasses } = useTypography()
       </div>
     </div>
 
-    <div class="flex-1 min-w-0">
+    <div>
       <h1
           class="text-2xl first-letter:capitalize"
           :class="typographyClasses"

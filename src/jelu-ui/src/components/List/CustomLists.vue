@@ -110,8 +110,8 @@ getCustomLists()
 </script>
 
 <template>
-  <div class="flex flex-col sm:flex-row gap-4 mx-auto w-full sm:w-10/12">
-    <div class="w-full sm:w-1/2">
+  <div class="flex flex-col gap-4 mx-auto w-full sm:w-10/12">
+    <div>
       <h1
         class="text-2xl mb-3 capitalize"
         :class="typographyClasses"
@@ -197,7 +197,7 @@ getCustomLists()
         </ul>
       </div>
     </div>
-    <div class="w-full sm:w-1/2">
+    <div>
       <div>
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
           <legend class="fieldset-legend capitalize">
