@@ -6,7 +6,6 @@ import io.github.bayang.jelu.dto.MetadataDto
 import io.github.bayang.jelu.dto.MetadataRequestDto
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.annotation.Resource
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 import java.util.Optional
@@ -20,7 +19,6 @@ class OpenLibraryMetadataProvider(
 ) : IMetaDataProvider {
 
     private val name = "openlibrary"
-    private val openLibraryUrl = "https://openlibrary.org"
 
     override fun name(): String = name
 
@@ -40,14 +38,16 @@ class OpenLibraryMetadataProvider(
             restClient
                 .get()
                 .uri {
-                    it.scheme("https")
+                    it
+                        .scheme("https")
                         .host("openlibrary.org")
                         .path("/api/books")
                         .queryParam("bibkeys", "ISBN:$cleanIsbn")
                         .queryParam("format", "json")
                         .queryParam("jscmd", "data")
                         .build()
-                }.retrieve()
+                }
+                .retrieve()
                 .body(String::class.java)
 
         if (response == null || response.isBlank() || response == "{}") {
@@ -76,13 +76,15 @@ class OpenLibraryMetadataProvider(
             restClient
                 .get()
                 .uri {
-                    it.scheme("https")
+                    it
+                        .scheme("https")
                         .host("openlibrary.org")
                         .path("/search.json")
                         .queryParam("q", query)
                         .queryParam("limit", 1)
                         .build()
-                }.retrieve()
+                }
+                .retrieve()
                 .body(String::class.java)
 
         if (response == null || response.isBlank()) {
@@ -129,14 +131,16 @@ class OpenLibraryMetadataProvider(
             restClient
                 .get()
                 .uri {
-                    it.scheme("https")
+                    it
+                        .scheme("https")
                         .host("openlibrary.org")
                         .path("/api/books")
                         .queryParam("bibkeys", "OLID:$editionKey")
                         .queryParam("format", "json")
                         .queryParam("jscmd", "data")
                         .build()
-                }.retrieve()
+                }
+                .retrieve()
                 .body(String::class.java)
 
         if (response == null || response.isBlank() || response == "{}") return
