@@ -105,10 +105,10 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <div class="w-full flex flex-col sm:flex-row-reverse">
+  <div class="w-full flex flex-col sm:flex-row gap-4">
     <div
       v-if="props.allowCreate"
-      class="sm:mx-1 w-full sm:w-fit"
+      class="w-full sm:w-5/12 shrink-0"
     >
       <div class="field">
         <p>{{ t('settings.shelf_choose_tag') }}</p>
@@ -133,15 +133,13 @@ const { typographyClasses } = useTypography()
       </div>
     </div>
 
-    <div>
-      <div>
-        <h1
+    <div class="flex-1 min-w-0">
+      <h1
           class="text-2xl first-letter:capitalize"
           :class="typographyClasses"
         >
           {{ t('settings.shelves') }}
         </h1>
-      </div>
       <div class="flex flex-col mb-2">
         <div class="flex my-2 gap-2">
           <svg

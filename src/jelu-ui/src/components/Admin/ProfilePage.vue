@@ -2,6 +2,7 @@
 import { useTitle } from '@vueuse/core'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import ProfileDetail from "./ProfileDetail.vue"
 import UserShelves from "../User/UserShelves.vue"
 import CustomLists from '../List/CustomLists.vue'
@@ -13,7 +14,9 @@ const { t } = useI18n({
 
 useTitle('Jelu | User page')
 
-const currentView = ref("PROFILE")
+const route = useRoute()
+
+const currentView = ref<string>(route.query.tab === 'SHELVES' || route.query.tab === 'LISTS' ? route.query.tab : 'PROFILE')
 
 const changeView = (viewName: string) => {
   currentView.value = viewName

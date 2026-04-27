@@ -77,10 +77,10 @@ const adminLinks = computed(() => [
           </router-link>
         </li>
         <li>
-          <a class="flex items-center gap-3" @click="toggleShelvesModal">
+          <router-link to="/profile/me?tab=SHELVES" class="flex items-center gap-3" @click="emit('close')">
             <i class="mdi mdi-bookshelf text-xl" />
             {{ t('settings.shelves') }}
-          </a>
+          </router-link>
         </li>
       </ul>
     </nav>
