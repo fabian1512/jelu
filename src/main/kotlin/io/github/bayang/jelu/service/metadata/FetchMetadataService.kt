@@ -21,22 +21,48 @@ class FetchMetadataService(
     ): MetadataDto {
         var pluginsToUse = if (metadataRequestDto.plugins.isNullOrEmpty()) pluginInfoHolder.plugins() else metadataRequestDto.plugins
         pluginsToUse = pluginsToUse.toMutableList()
-        // pluginInfoHolder sorts plugins, but plugins received via metadataRequestDto
-        // might not be sorted
         pluginsToUse.sortWith(PluginInfoComparator)
         logger.trace { "plugins to use : $pluginsToUse" }
+        val merged = MetadataDto()
         for (plugin in pluginsToUse) {
             logger.trace { "fetching provider for plugin ${plugin.name} with order ${plugin.order} " }
             val provider = providers.find { plugin.name.equals(it.name(), true) }
             if (provider != null) {
                 val res: Optional<MetadataDto>? = provider.fetchMetadata(metadataRequestDto, config)
                 if (res != null && res.isPresent) {
-                    return res.get()
+                    mergeInto(merged, res.get())
                 }
             } else {
                 logger.warn { "could not find provider for plugin info ${plugin.name}" }
             }
         }
-        return MetadataDto()
+        return if (hasData(merged)) merged else MetadataDto()
     }
+
+    private fun mergeInto(acc: MetadataDto, next: MetadataDto) {
+        if (acc.title == null) acc.title = next.title
+        if (acc.isbn10 == null) acc.isbn10 = next.isbn10
+        if (acc.isbn13 == null) acc.isbn13 = next.isbn13
+        if (acc.summary == null) acc.summary = next.summary
+        if (acc.image == null) acc.image = next.image
+        if (acc.publisher == null) acc.publisher = next.publisher
+        if (acc.pageCount == null) acc.pageCount = next.pageCount
+        if (acc.publishedDate == null) acc.publishedDate = next.publishedDate
+        if (acc.series == null) acc.series = next.series
+        if (acc.numberInSeries == null) acc.numberInSeries = next.numberInSeries
+        if (acc.language == null) acc.language = next.language
+        if (acc.googleId == null) acc.googleId = next.googleId
+        if (acc.amazonId == null) acc.amazonId = next.amazonId
+        if (acc.goodreadsId == null) acc.goodreadsId = next.goodreadsId
+        if (acc.librarythingId == null) acc.librarythingId = next.librarythingId
+        if (acc.isfdbId == null) acc.isfdbId = next.isfdbId
+        if (acc.openlibraryId == null) acc.openlibraryId = next.openlibraryId
+        if (acc.inventaireId == null) acc.inventaireId = next.inventaireId
+        if (acc.noosfereId == null) acc.noosfereId = next.noosfereId
+        acc.authors.addAll(next.authors)
+        acc.tags.addAll(next.tags)
+    }
+
+    private fun hasData(dto: MetadataDto): Boolean =
+        dto.title != null || dto.isbn10 != null || dto.isbn13 != null
 }
