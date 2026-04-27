@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useThrottleFn, useTitle } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { onMounted, Ref, ref, watch } from "vue";
+import { computed, onMounted, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
 import usePagination from '../../composables/pagination';
 import useSort from "../../composables/sort";
 import { Author } from '../../model/Author';
 import { Role } from '../../model/Role';
+import { LibraryFilter } from '../../model/LibraryFilter';
 import dataService from "../../services/DataService";
 import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import useTypography from '../../composables/typography';
@@ -32,6 +33,9 @@ const getBookIsLoading: Ref<boolean> = ref(false)
 
 // Filters
 const role: Ref<Role> = useRouteQuery('role', Role.ANY)
+const libraryFilter: Ref<LibraryFilter> = useRouteQuery('libraryFilter', 'ANY' as LibraryFilter)
+
+const libraryFilterAsEnum = computed(() => libraryFilter.value as LibraryFilter)
 
 // --- LocalStorage keys ---
 const SORT_BY_KEY = "authorSortBy";
@@ -53,7 +57,7 @@ watch(sortOrder, (newVal) => {
   localStorage.setItem(SORT_ORDER_KEY, newVal);
 });
 
-watch([page, role, sortQuery, search_query], (newVal, oldVal) => {
+watch([page, role, libraryFilter, sortQuery, search_query], (newVal, oldVal) => {
   if (newVal !== oldVal) {
     throttledGetAuthors()
   }
@@ -61,7 +65,7 @@ watch([page, role, sortQuery, search_query], (newVal, oldVal) => {
 
 const getAuthors = () => {
   getBookIsLoading.value = true
-  dataService.findAuthorByCriteria(role.value, search_query.value, pageAsNumber.value -1, perPage.value, sortQuery.value)
+  dataService.findAuthorByCriteria(role.value, search_query.value, pageAsNumber.value -1, perPage.value, sortQuery.value, libraryFilterAsEnum.value)
   .then(res => {
           total.value = res.totalElements
           authors.value = res.content
@@ -184,6 +188,39 @@ try {
             <span class="label-text">{{ t('book.narrator') }}</span>
           </div>
         </div>
+        <div class="field flex flex-col items-start">
+          <label class="label">{{ t('filtering.books_type') }} : </label>
+          <div class="">
+            <input
+              v-model="libraryFilter"
+              type="radio"
+              name="radio-54"
+              class="radio radio-primary my-1"
+              value="ANY"
+            >
+            <span class="label-text">{{ t('filtering.any') }}</span>
+          </div>
+          <div class="">
+            <input
+              v-model="libraryFilter"
+              type="radio"
+              name="radio-54"
+              class="radio radio-primary my-1"
+              value="ONLY_USER_BOOKS"
+            >
+            <span class="label-text">{{ t('filtering.only_in_my_list') }}</span>
+          </div>
+          <div class="">
+            <input
+              v-model="libraryFilter"
+              type="radio"
+              name="radio-54"
+              class="radio radio-primary my-1"
+              value="ONLY_NON_USER_BOOKS"
+            >
+            <span class="label-text">{{ t('filtering.only_not_in_my_list') }}</span>
+          </div>
+        </div>
       </div>
       <label class="label capitalize">{{ t('filtering.filter') }} : </label>
       <label class="input">
@@ -255,13 +292,13 @@ try {
         :key="author.id"
       >
         <div class="card bg-base-100 shadow-sm">
-          <figure>
+          <figure class="h-40 overflow-hidden flex items-center justify-center bg-base-300">
             <img
               v-if="author.image"
               :src="'/files/' + author.image"
               loading="lazy"
               decoding="async"
-              class="max-h-80"
+              class="w-full h-full object-cover"
               alt="author image"
             >
             <img
@@ -269,16 +306,16 @@ try {
               src="../../assets/placeholer_author.jpg"
               loading="lazy"
               decoding="async"
+              class="w-full h-full object-cover"
               alt="cover placeholder"
-              class="max-h-80"
             >
           </figure>
-          <div class="card-body">
+          <div class="card-body min-h-[4rem]">
             <router-link
-              class="card-title link hover:underline hover:decoration-4 hover:decoration-secondary"
+              class="card-title link hover:underline hover:decoration-4 hover:decoration-secondary text-sm"
               :to="{ name: 'author-detail', params: { authorId: author.id } }"
             >
-              {{ author.name }}&nbsp;
+              <span class="line-clamp-2">{{ author.name }}</span>
             </router-link>
           </div>
         </div>

@@ -43,6 +43,7 @@ const mainLinks = computed(() => [
 
 const adminLinks = computed(() => [
   { to: '/profile/me', icon: 'mdi mdi-account-cog', label: t('settings.profile') },
+  { to: '/profile/messages', icon: 'mdi mdi-message-text', label: t('settings.messages') },
   { to: '/profile/admin/users', icon: 'mdi mdi-account-multiple', label: t('settings.users') },
   { to: '/profile/tags', icon: 'mdi mdi-tag', label: t('nav.tags-admin') },
   { to: '/profile/data', icon: 'mdi mdi-database', label: t('nav.data-admin') },

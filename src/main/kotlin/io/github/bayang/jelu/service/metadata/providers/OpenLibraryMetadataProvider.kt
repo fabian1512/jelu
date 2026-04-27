@@ -185,7 +185,7 @@ class OpenLibraryMetadataProvider(
 
         val cover = node.get("cover")
         if (cover != null) {
-            dto.image = cover.get("medium")?.asText() ?: cover.get("large")?.asText()
+            dto.image = cover.get("medium")?.asText() ?: cover.get("small")?.asText()
         }
     }
 

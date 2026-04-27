@@ -113,36 +113,33 @@ const { typographyClasses } = useTypography()
 
 <template>
   <div class="grid grid-cols-1 justify-center justify-items-center">
-    <div class="grid sm:grid-cols-3 mb-4 sm:w-10/12">
-      <div />
-      <div class="flex justify-center gap-10">
-        <router-link
-          v-if="props.bookLink != null && props.bookLink === true && userbookId != null"
-          class="link hover:underline hover:decoration-4 hover:decoration-secondary text-3xl"
-          :class="typographyClasses"
-          :to="{ name: 'book-detail', params: { bookId: userbookId } }"
-        >
-          {{ props.book.title }}&nbsp;
-        </router-link>
-        <h3
-          v-else
-          class="text-3xl"
-          :class="typographyClasses"
-        >
-          {{ props.book.title }}
-        </h3>
-        <button
-          v-if="props.addBook && bookCanBeAdded"
-          v-tooltip="t('labels.add_to_my_books')"
-          class="btn btn-info btn-outline uppercase"
-          @click="toggleEdit(ObjectUtils.toUserBook(props.book))"
-        >
-          <span class="icon">
-            <i class="mdi mdi-plus mdi-18px" />
-          </span>
-          <span>{{ t('labels.add') }}</span>
-        </button>
-      </div>
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-4 sm:w-10/12">
+      <router-link
+        v-if="props.bookLink != null && props.bookLink === true && userbookId != null"
+        class="link hover:underline hover:decoration-4 hover:decoration-secondary text-3xl"
+        :class="typographyClasses"
+        :to="{ name: 'book-detail', params: { bookId: userbookId } }"
+      >
+        {{ props.book.title }}&nbsp;
+      </router-link>
+      <h3
+        v-else
+        class="text-3xl"
+        :class="typographyClasses"
+      >
+        {{ props.book.title }}
+      </h3>
+      <button
+        v-if="props.addBook && bookCanBeAdded"
+        v-tooltip="t('labels.add_to_my_books')"
+        class="btn btn-info btn-outline uppercase"
+        @click="toggleEdit(ObjectUtils.toUserBook(props.book))"
+      >
+        <span class="icon">
+          <i class="mdi mdi-plus mdi-18px" />
+        </span>
+        <span>{{ t('labels.add') }}</span>
+      </button>
     </div>
     <div
       class="justify-center justify-items-center sm:gap-10 grid grid-cols-1 sm:grid-cols-2 sm:w-10/12"
@@ -345,11 +342,11 @@ const { typographyClasses } = useTypography()
     </div>
     <div
       v-if="hasExternalLink"
-      class="space-x-2"
+      class="flex flex-wrap justify-center gap-1 mt-2"
     >
       <span
         v-if="props.book?.goodreadsId"
-        class="badge badge-warning mt-2 hover:font-bold"
+        class="badge badge-warning hover:font-bold"
       >
         <a
           :href="'https://www.goodreads.com/book/show/' + props.book.goodreadsId"

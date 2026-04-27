@@ -904,7 +904,7 @@ getBook()
     >
       <span
         v-if="book?.book.goodreadsId"
-        class="badge badge-warning mt-2 hover:font-bold"
+        class="badge badge-warning hover:font-bold"
       >
         <a
           :href="'https://www.goodreads.com/book/show/' + book.book.goodreadsId"

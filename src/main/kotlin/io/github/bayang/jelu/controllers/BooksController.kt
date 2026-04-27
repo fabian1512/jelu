@@ -202,8 +202,13 @@ class BooksController(
     fun authors(
         @RequestParam(name = "name", required = false) name: String?,
         @RequestParam(name = "role", required = false) role: Role = Role.ANY,
+        @RequestParam(name = "libraryFilter", required = false) libraryFilter: LibraryFilter?,
         @PageableDefault(page = 0, size = 20, direction = Sort.Direction.ASC, sort = ["name"]) @ParameterObject pageable: Pageable,
-    ): Page<AuthorDto> = repository.findAllAuthors(name, role = role, pageable = pageable)
+        principal: Authentication,
+    ): Page<AuthorDto> {
+        assertIsJeluUser(principal.principal)
+        return repository.findAllAuthors(name, role, libraryFilter ?: LibraryFilter.ANY, (principal.principal as JeluUser).user, pageable)
+    }
 
     @GetMapping(path = ["/tags"])
     fun tags(

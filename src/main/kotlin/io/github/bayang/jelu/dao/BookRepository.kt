@@ -459,6 +459,8 @@ class BookRepository(
     fun findAllAuthors(
         name: String?,
         role: Role = Role.ANY,
+        libraryFilter: LibraryFilter = LibraryFilter.ANY,
+        user: UserDto? = null,
         pageable: Pageable,
     ): Page<Author> {
         val query =
@@ -479,6 +481,18 @@ class BookRepository(
                 }
         name?.let {
             query.andWhere { AuthorTable.name like "%$name%" }
+        }
+        if (libraryFilter == LibraryFilter.ONLY_USER_BOOKS && user?.id != null) {
+            query
+                .join(UserBookTable, JoinType.INNER, additionalConstraint = {
+                    UserBookTable.book eq BookAuthors.book and (UserBookTable.user eq user.id)
+                })
+        } else if (libraryFilter == LibraryFilter.ONLY_NON_USER_BOOKS && user?.id != null) {
+            query
+                .join(UserBookTable, JoinType.LEFT, additionalConstraint = {
+                    UserBookTable.book eq BookAuthors.book and (UserBookTable.user eq user.id)
+                })
+                .andWhere { UserBookTable.id.isNull() }
         }
         query.withDistinct(true)
         val total = query.count()
