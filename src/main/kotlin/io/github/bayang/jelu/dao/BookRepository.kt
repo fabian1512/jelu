@@ -1619,7 +1619,12 @@ class BookRepository(
         } else {
             query.limit(pageable.pageSize)
             query.offset(pageable.offset)
-            val orders = parseSorts(pageable.sort, Pair(UserBookTable.lastReadingEventDate, SortOrder.DESC_NULLS_LAST), cols).toMutableList()
+            val orders =
+                parseSorts(
+                    pageable.sort,
+                    Pair(UserBookTable.lastReadingEventDate, SortOrder.DESC_NULLS_LAST),
+                    cols,
+                ).toMutableList()
             orders.add(Pair(UserBookTable.modificationDate, SortOrder.DESC_NULLS_LAST))
             query.orderBy(*orders.toTypedArray())
         }
