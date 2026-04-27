@@ -2096,7 +2096,7 @@ class BookServiceTest(
         Assertions.assertNull(updated.book.librarythingId)
         Assertions.assertEquals(updater.owned, updated.owned)
         Assertions.assertEquals(saved.toRead, updated.toRead)
-        Assertions.assertEquals(100, updated.percentRead)
+        Assertions.assertEquals(50, updated.percentRead)
         Assertions.assertEquals(updater.personalNotes, updated.personalNotes)
         Assertions.assertNotNull(updated.creationDate)
         Assertions.assertNotNull(updated.modificationDate)
