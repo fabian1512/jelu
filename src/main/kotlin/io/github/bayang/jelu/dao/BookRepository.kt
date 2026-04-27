@@ -482,17 +482,17 @@ class BookRepository(
         name?.let {
             query.andWhere { AuthorTable.name like "%$name%" }
         }
-        if (libraryFilter == LibraryFilter.ONLY_USER_BOOKS && user?.id != null) {
-            query
-                .join(UserBookTable, JoinType.INNER, additionalConstraint = {
-                    UserBookTable.book eq BookAuthors.book and (UserBookTable.user eq user.id)
-                })
-        } else if (libraryFilter == LibraryFilter.ONLY_NON_USER_BOOKS && user?.id != null) {
-            query
-                .join(UserBookTable, JoinType.LEFT, additionalConstraint = {
-                    UserBookTable.book eq BookAuthors.book and (UserBookTable.user eq user.id)
-                })
-                .andWhere { UserBookTable.id.isNull() }
+        if (libraryFilter != LibraryFilter.ANY && user?.id != null) {
+            val userBookSubQuery =
+                UserBookTable
+                    .slice(UserBookTable.book)
+                    .selectAll()
+                    .where { UserBookTable.user eq user.id }
+            if (libraryFilter == LibraryFilter.ONLY_USER_BOOKS) {
+                query.andWhere { BookAuthors.book inSubQuery userBookSubQuery }
+            } else if (libraryFilter == LibraryFilter.ONLY_NON_USER_BOOKS) {
+                query.andWhere { BookAuthors.book notInSubQuery userBookSubQuery }
+            }
         }
         query.withDistinct(true)
         val total = query.count()
