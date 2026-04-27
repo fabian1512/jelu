@@ -23,6 +23,7 @@ class FetchMetadataService(
         pluginsToUse = pluginsToUse.toMutableList()
         pluginsToUse.sortWith(PluginInfoComparator)
         logger.trace { "plugins to use : $pluginsToUse" }
+        val hasExactIsbn = !metadataRequestDto.isbn.isNullOrBlank()
         val merged = MetadataDto()
         for (plugin in pluginsToUse) {
             logger.trace { "fetching provider for plugin ${plugin.name} with order ${plugin.order} " }
@@ -30,7 +31,11 @@ class FetchMetadataService(
             if (provider != null) {
                 val res: Optional<MetadataDto>? = provider.fetchMetadata(metadataRequestDto, config)
                 if (res != null && res.isPresent) {
-                    mergeInto(merged, res.get())
+                    if (hasExactIsbn) {
+                        mergeInto(merged, res.get())
+                    } else {
+                        return res.get()
+                    }
                 }
             } else {
                 logger.warn { "could not find provider for plugin info ${plugin.name}" }
