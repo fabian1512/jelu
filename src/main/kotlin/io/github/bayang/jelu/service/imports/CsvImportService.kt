@@ -172,7 +172,7 @@ class CsvImportService(
                 val isbn: String = getIsbn(importEntity)
                 if (isbn.isNotBlank()) {
                     var config = mutableMapOf<String, String>()
-                    if (!properties.metadata.calibre.path.isNullOrBlank()) {
+                    if (properties.metadata.calibre.path != null) {
                         config[CalibreMetadataProvider.ONLY_USE_CORE_PLUGINS] = "true"
                         config[CalibreMetadataProvider.FETCH_COVER] = importConfig.shouldFetchCovers.toString()
                     }
