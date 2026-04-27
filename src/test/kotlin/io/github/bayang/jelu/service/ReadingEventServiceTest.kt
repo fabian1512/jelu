@@ -129,7 +129,7 @@ class ReadingEventServiceTest(
         Assertions.assertNotNull(updated.modificationDate)
         Assertions.assertNotNull(updated.book.creationDate)
         Assertions.assertNotNull(updated.book.modificationDate)
-        Assertions.assertEquals(ReadingEventType.DROPPED, updated.lastReadingEvent)
+        Assertions.assertEquals(ReadingEventType.CURRENTLY_READING, updated.lastReadingEvent)
         Assertions.assertNotNull(updated.lastReadingEventDate)
         Assertions.assertEquals(1, updated.readingEvents?.size)
         Assertions.assertEquals(1, readingEventService.findAll(null, null, null, null, null, null, null, Pageable.ofSize(30)).totalElements)
@@ -192,10 +192,10 @@ class ReadingEventServiceTest(
         Assertions.assertNotNull(updated.modificationDate)
         Assertions.assertNotNull(updated.book.creationDate)
         Assertions.assertNotNull(updated.book.modificationDate)
-        Assertions.assertEquals(ReadingEventType.DROPPED, updated.lastReadingEvent)
+        Assertions.assertEquals(ReadingEventType.FINISHED, updated.lastReadingEvent)
         Assertions.assertNotNull(updated.lastReadingEventDate)
-        Assertions.assertEquals(2, updated.readingEvents?.size)
-        Assertions.assertEquals(2, readingEventService.findAll(null, null, null, null, null, null, null, Pageable.ofSize(30)).totalElements)
+        Assertions.assertEquals(1, updated.readingEvents?.size)
+        Assertions.assertEquals(1, readingEventService.findAll(null, null, null, null, null, null, null, Pageable.ofSize(30)).totalElements)
         Assertions.assertEquals(0, File(jeluProperties.files.images).listFiles().size)
     }
 
