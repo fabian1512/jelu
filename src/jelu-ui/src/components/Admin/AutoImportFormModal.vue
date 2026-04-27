@@ -47,7 +47,7 @@ const progress: Ref<boolean> = ref(false)
 
 const fetchMetadata = async () => {
     progress.value = true
-    dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: plugins})
+    dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: []})
     .then(res => {
         progress.value = false
         metadata.value = res
