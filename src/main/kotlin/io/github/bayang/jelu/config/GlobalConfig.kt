@@ -1,5 +1,8 @@
 package io.github.bayang.jelu.config
 
+import org.springframework.boot.ssl.SslBundles
+import org.springframework.boot.web.client.ClientHttpRequestFactories
+import org.springframework.boot.web.client.ClientHttpRequestFactorySettings
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
@@ -14,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.client.ExchangeStrategies
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
+import java.time.Duration
 
 const val SESSION_HEADER_NAME: String = "X-Auth-Token"
 
@@ -38,7 +42,16 @@ class GlobalConfig {
     }
 
     @Bean("springRestClient")
-    fun springRestClient(): RestClient = RestClient.create()
+    fun springRestClient(): RestClient =
+        RestClient
+            .builder()
+            .requestFactory(
+                ClientHttpRequestFactories.get(
+                    ClientHttpRequestFactorySettings()
+                        .withConnectTimeout(Duration.ofSeconds(10))
+                        .withReadTimeout(Duration.ofSeconds(15)),
+                ),
+            ).build()
 
     @Bean("passwordEncoder")
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
