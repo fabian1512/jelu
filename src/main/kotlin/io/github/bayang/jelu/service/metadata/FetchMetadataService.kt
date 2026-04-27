@@ -44,7 +44,10 @@ class FetchMetadataService(
         return if (hasData(merged)) merged else MetadataDto()
     }
 
-    private fun mergeInto(acc: MetadataDto, next: MetadataDto) {
+    private fun mergeInto(
+        acc: MetadataDto,
+        next: MetadataDto,
+    ) {
         if (acc.title == null) acc.title = next.title
         if (acc.isbn10 == null) acc.isbn10 = next.isbn10
         if (acc.isbn13 == null) acc.isbn13 = next.isbn13
@@ -68,6 +71,5 @@ class FetchMetadataService(
         acc.tags.addAll(next.tags)
     }
 
-    private fun hasData(dto: MetadataDto): Boolean =
-        dto.title != null || dto.isbn10 != null || dto.isbn13 != null
+    private fun hasData(dto: MetadataDto): Boolean = dto.title != null || dto.isbn10 != null || dto.isbn13 != null
 }

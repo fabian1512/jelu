@@ -3,6 +3,7 @@ import { useThrottleFn, useTitle } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
 import { computed, onMounted, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import useBulkEdition from '../../composables/bulkEdition';
 import usePagination from '../../composables/pagination';
 import useSort from "../../composables/sort";
@@ -25,6 +26,8 @@ const books: Ref<Array<UserBook>> = ref([]);
 const { total, page, pageAsNumber, perPage, updatePage, getPageIsLoading, updatePageLoading, pageCount } = usePagination()
 
 const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('lastReadingEventDate,desc')
+
+const route = useRoute()
 
 const { showSelect, selectAll, checkedCards, cardChecked, toggleEdit } = useBulkEdition(modalClosed)
 
@@ -50,10 +53,13 @@ const BORROWED_KEY = "bookBorrowed";
 
 // Restore saved settings
 onMounted(() => {
-  const savedSortBy = localStorage.getItem(SORT_BY_KEY);
-  const savedSortOrder = localStorage.getItem(SORT_ORDER_KEY);
-  if (savedSortBy) sortBy.value = savedSortBy;
-  if (savedSortOrder) sortOrder.value = savedSortOrder;
+  // Only restore from localStorage if URL has no explicit sort parameter
+  if (!route.query.sort) {
+    const savedSortBy = localStorage.getItem(SORT_BY_KEY);
+    const savedSortOrder = localStorage.getItem(SORT_ORDER_KEY);
+    if (savedSortBy) sortBy.value = savedSortBy;
+    if (savedSortOrder) sortOrder.value = savedSortOrder;
+  }
 
   const savedEventTypes = localStorage.getItem(EVENT_TYPES_KEY);
   if (savedEventTypes) {
