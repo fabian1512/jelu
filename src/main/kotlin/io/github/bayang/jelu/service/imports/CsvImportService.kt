@@ -168,15 +168,14 @@ class CsvImportService(
         try {
             importService.updateStatus(importEntity.id.value, ProcessingStatus.PROCESSING)
             var metadata = MetadataDto()
-            if (importEntity.shouldFetchMetadata &&
-                !properties.metadata.calibre.path
-                    .isNullOrBlank()
-            ) {
+            if (importEntity.shouldFetchMetadata) {
                 val isbn: String = getIsbn(importEntity)
                 if (isbn.isNotBlank()) {
                     var config = mutableMapOf<String, String>()
-                    config[CalibreMetadataProvider.ONLY_USE_CORE_PLUGINS] = "true"
-                    config[CalibreMetadataProvider.FETCH_COVER] = importConfig.shouldFetchCovers.toString()
+                    if (!properties.metadata.calibre.path.isNullOrBlank()) {
+                        config[CalibreMetadataProvider.ONLY_USE_CORE_PLUGINS] = "true"
+                        config[CalibreMetadataProvider.FETCH_COVER] = importConfig.shouldFetchCovers.toString()
+                    }
                     metadata =
                         fetchMetadataService
                             .fetchMetadata(MetadataRequestDto(isbn), config)
