@@ -6,7 +6,10 @@ import io.github.bayang.jelu.dto.MetadataProviderSettingDto
 import io.github.bayang.jelu.dto.PluginInfo
 import io.github.bayang.jelu.service.metadata.providers.IMetaDataProvider
 import io.github.bayang.jelu.utils.PluginInfoComparator
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
+
+private val logger = KotlinLogging.logger {}
 
 @Service
 class PluginInfoHolder(
@@ -70,6 +73,7 @@ class PluginInfoHolder(
         plugins.sortWith(PluginInfoComparator)
         pluginsList = plugins
         pluginsComputed = true
+        logger.info { "plugins(): ${plugins.size} providers: ${plugins.joinToString { "${it.name}(${it.order})" }}" }
         return pluginsList
     }
 

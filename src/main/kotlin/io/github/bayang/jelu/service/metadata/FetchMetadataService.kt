@@ -23,13 +23,23 @@ class FetchMetadataService(
         pluginsToUse = pluginsToUse.toMutableList()
         pluginsToUse.sortWith(PluginInfoComparator)
         logger.trace { "plugins to use : $pluginsToUse" }
+        logger.info { "plugins selected: ${pluginsToUse.joinToString { "${it.name}(${it.order})" }}" }
         val hasExactIsbn = !metadataRequestDto.isbn.isNullOrBlank()
         val merged = MetadataDto()
         for (plugin in pluginsToUse) {
             logger.trace { "fetching provider for plugin ${plugin.name} with order ${plugin.order} " }
             val provider = providers.find { plugin.name.equals(it.name(), true) }
             if (provider != null) {
+                val start = System.currentTimeMillis()
                 val res: Optional<MetadataDto>? = provider.fetchMetadata(metadataRequestDto, config)
+                val elapsed = System.currentTimeMillis() - start
+                val resultStatus =
+                    if (res != null && res.isPresent) {
+                        "OK (title=${res.get().title}, isbn13=${res.get().isbn13})"
+                    } else {
+                        "empty"
+                    }
+                logger.info { "provider ${plugin.name}: $resultStatus (${elapsed}ms)" }
                 if (res != null && res.isPresent) {
                     if (hasExactIsbn) {
                         mergeInto(merged, res.get())
@@ -41,7 +51,12 @@ class FetchMetadataService(
                 logger.warn { "could not find provider for plugin info ${plugin.name}" }
             }
         }
-        return if (hasData(merged)) merged else MetadataDto()
+        val result = if (hasData(merged)) merged else MetadataDto()
+        logger.info {
+            "fetchMetadata done: hasData=${hasData(merged)}, " +
+                "providers=${pluginsToUse.size}, title=${result.title}, isbn13=${result.isbn13}"
+        }
+        return result
     }
 
     private fun mergeInto(

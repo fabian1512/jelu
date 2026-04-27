@@ -33,6 +33,7 @@ class OpenLibraryMetadataProvider(
 
     private fun searchByIsbn(isbn: String): Optional<MetadataDto> {
         val cleanIsbn = isbn.replace("-", "", true)
+        val start = System.currentTimeMillis()
         val response: String? =
             restClient
                 .get()
@@ -48,6 +49,9 @@ class OpenLibraryMetadataProvider(
                 }.retrieve()
                 .body(String::class.java)
 
+        val elapsed = System.currentTimeMillis() - start
+        val hasResult = response != null && response.isNotBlank() && response != "{}"
+        logger.info { "openlibrary isbn-search $isbn: hasResult=$hasResult (${elapsed}ms)" }
         if (response == null || response.isBlank() || response == "{}") {
             return Optional.empty()
         }
