@@ -905,7 +905,7 @@ const { typographyClasses } = useTypography()
             <figure>
               <img
                 v-if="book.image"
-                :src="'/files/' + book.image"
+                :src="book.image?.startsWith('http') ? book.image : '/files/' + book.image"
                 alt="Book Image"
                 class="max-h-96"
                 loading="lazy"
@@ -943,7 +943,7 @@ const { typographyClasses } = useTypography()
            <div class="">
              <figure>
                <img
-                 :src="'/files/' + props.metadata.image"
+                  :src="props.metadata.image?.startsWith('http') ? props.metadata.image : '/files/' + props.metadata.image"
                  alt="Book Image"
                  class="max-h-96"
                  loading="lazy"

@@ -1163,6 +1163,7 @@ class BookRepository(
         }
         found.percentRead = book.percentRead
         val current = book.currentPageNumber
+        val previousPage = found.currentPageNumber
         found.currentPageNumber = current
         var total = found.book.pageCount
         if (total == null && book.book?.pageCount != null) {
@@ -1175,7 +1176,7 @@ class BookRepository(
                 } else {
                     found.percentRead = 0
                 }
-            } else if (current >= total) {
+            } else if (current >= total && previousPage != total) {
                 bookFinished = true
                 found.percentRead = 100
             } else {

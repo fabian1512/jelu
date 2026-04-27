@@ -8,8 +8,12 @@ const { t } = useI18n({
       useScope: 'global'
     })
 
+import useTypography from '../../composables/typography';
+
 const keys = useMagicKeys()
 const shiftF = keys['Shift+F']
+
+const { typographyClasses } = useTypography()
 
 const props = defineProps<{
   order: string
@@ -48,7 +52,7 @@ watch(shiftF, (v) => {
     :teleport="true"
     @close="emit('update:open', false)"
   >
-    <div class="p-5 flex flex-col items-start gap-2">
+    <div :class="['p-5 flex flex-col items-start gap-2', typographyClasses]">
       <label class="label font-bold">{{ t('sorting.sort_order') }} : </label>
       <div class="field">
         <input
@@ -78,8 +82,9 @@ watch(shiftF, (v) => {
 
 <style>
 .jl-sidebar {
-  .label { font-size: 0.875rem; }
-  .label-text { font-size: 0.875rem; white-space: normal; word-break: break-word; }
+  &, * { font-size: 0.875rem !important; }
+  .label { font-size: 0.875rem !important; }
+  .label-text { white-space: normal; word-break: break-word; }
   .field { width: 100%; }
   .radio + .label-text { margin-left: 0.25rem; }
 }
