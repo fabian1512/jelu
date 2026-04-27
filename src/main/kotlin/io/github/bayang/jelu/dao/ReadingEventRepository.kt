@@ -213,11 +213,23 @@ class ReadingEventRepository {
             if (userBook.book.pageCount != null) {
                 userBook.currentPageNumber = userBook.book.pageCount
             }
+            userBook.toRead = null
+        }
+        if (createReadingEventDto.eventType == ReadingEventType.DROPPED) {
+            userBook.toRead = null
         }
         when (createReadingEventDto.eventType) {
-            ReadingEventType.MARKED_OWNED -> userBook.owned = true
-            ReadingEventType.MARKED_TO_READ -> userBook.toRead = true
-            ReadingEventType.MARKED_BORROWED -> userBook.borrowed = true
+            ReadingEventType.MARKED_OWNED -> {
+                userBook.owned = true
+                userBook.borrowed = false
+            }
+            ReadingEventType.MARKED_TO_READ -> {
+                userBook.toRead = true
+            }
+            ReadingEventType.MARKED_BORROWED -> {
+                userBook.borrowed = true
+                userBook.owned = false
+            }
             else -> {}
         }
     }

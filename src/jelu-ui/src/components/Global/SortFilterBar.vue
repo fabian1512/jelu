@@ -48,7 +48,7 @@ watch(shiftF, (v) => {
     :teleport="true"
     @close="emit('update:open', false)"
   >
-    <div class="p-5 flex flex-col items-start">
+    <div class="p-5 flex flex-col items-start gap-2">
       <label class="label font-bold">{{ t('sorting.sort_order') }} : </label>
       <div class="field">
         <input
@@ -76,6 +76,11 @@ watch(shiftF, (v) => {
   </o-sidebar>
 </template>
 
-<style scoped>
-
+<style>
+.jl-sidebar {
+  .label { font-size: 0.875rem; }
+  .label-text { font-size: 0.875rem; white-space: normal; word-break: break-word; }
+  .field { width: 100%; }
+  .radio + .label-text { margin-left: 0.25rem; }
+}
 </style>

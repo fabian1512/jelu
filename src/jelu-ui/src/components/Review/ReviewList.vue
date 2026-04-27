@@ -7,6 +7,7 @@ import useSort from "../../composables/sort";
 import { Review } from '../../model/Review';
 import dataService from "../../services/DataService";
 import ReviewBookCard from '../Global/ReviewBookCard.vue';
+import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import useTypography from '../../composables/typography';
 
 const { t } = useI18n({
@@ -21,6 +22,8 @@ const reviews: Ref<Array<Review>> = ref([]);
 const { total, page, pageAsNumber, perPage, updatePage, getPageIsLoading, updatePageLoading, pageCount } = usePagination(16)
 
 const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('reviewDate,desc')
+
+const open = ref(false)
 
 const getBookIsLoading: Ref<boolean> = ref(false)
 
@@ -70,16 +73,63 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <div class="flex flex-row mb-2 justify-center">
+  <sort-filter-bar-vue
+    :open="open"
+    :order="sortOrder"
+    @update:open="open = $event"
+    @update:sort-order="sortOrderUpdated"
+  >
+    <template #sort-fields>
+      <label class="label">{{ t('sorting.sort_by') }} : </label>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-sort"
+          class="radio radio-primary my-2"
+          value="reviewDate"
+        >
+        <span class="label-text">{{ t('sorting.review_date') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-sort"
+          class="radio radio-primary mb-2"
+          value="creationDate"
+        >
+        <span class="label-text">{{ t('sorting.date_added') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-sort"
+          class="radio radio-primary mb-2"
+          value="rating"
+        >
+        <span class="label-text">{{ t('sorting.rating') }}</span>
+      </div>
+    </template>
+  </sort-filter-bar-vue>
+  <div class="flex flex-row justify-between mb-2">
     <h2
       class="text-xl sm:text-2xl md:text-3xl capitalize"
       :class="typographyClasses"
     >
-      <span class="icon">
-        <i class="mdi mdi-bookshelf" />
-      </span>
-      &nbsp; {{ t('nav.activity') }} :
+      {{ t('nav.activity') }} :
     </h2>
+    <div class="flex flex-row gap-1">
+      <button
+        class="btn btn-outline btn-success"
+        @click="open = !open"
+      >
+        <span class="icon text-lg">
+          <i class="mdi mdi-filter-variant" />
+        </span>
+      </button>
+    </div>
   </div>
   <o-pagination
     v-if="reviews.length > 0 && pageCount > 1"

@@ -484,7 +484,7 @@ class BookRepository(
         }
         if (libraryFilter != LibraryFilter.ANY && user?.id != null) {
             val userBookSubQuery =
-                UserBookTable.selectAll().where { UserBookTable.user eq user.id }
+                UserBookTable.select(UserBookTable.book).where { UserBookTable.user eq user.id }
             if (libraryFilter == LibraryFilter.ONLY_USER_BOOKS) {
                 query.andWhere { BookAuthors.book inSubQuery userBookSubQuery }
             } else if (libraryFilter == LibraryFilter.ONLY_NON_USER_BOOKS) {
