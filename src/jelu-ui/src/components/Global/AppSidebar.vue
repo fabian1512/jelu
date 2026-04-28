@@ -50,6 +50,7 @@ const adminLinks = computed(() => [
   { to: '/profile/data', icon: 'mdi mdi-database', label: t('nav.data-admin') },
   { to: '/profile/metadata-providers', icon: 'mdi mdi-tune', label: t('settings.metadata_providers') },
   { to: '/profile/api-tokens', icon: 'mdi mdi-key', label: t('settings.api_tokens') },
+  { to: '/profile/settings', icon: 'mdi mdi-cog', label: t('settings.title') },
 ])
 </script>
 

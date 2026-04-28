@@ -83,8 +83,8 @@ watch(shiftF, (v) => {
 <style>
 .jl-sidebar {
   &, * { font-size: 0.875rem !important; }
-  .label { font-size: 0.875rem !important; }
-  .label-text { white-space: normal; word-break: break-word; }
+  .label { font-size: 0.875rem !important; font-weight: 400; }
+  .label-text { white-space: normal; word-break: break-word; font-weight: 400; }
   .field { width: 100%; }
   .radio + .label-text { margin-left: 0.25rem; }
 }

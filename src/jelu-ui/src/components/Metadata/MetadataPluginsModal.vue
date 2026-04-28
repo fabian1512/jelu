@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { Ref, ref } from "vue";
+import { onMounted, Ref, ref } from "vue";
 import { useI18n } from 'vue-i18n';
-import draggable from "vuedraggable";
-import { useStore } from 'vuex';
-import { PluginInfo, PluginInfoOrder } from "../../model/PluginInfo";
-import { key } from '../../store';
+import { PluginInfo } from "../../model/PluginInfo";
+import dataService from "../../services/DataService";
 import useTypography from "../../composables/typography";
 
 const { t } = useI18n({
@@ -12,58 +10,51 @@ const { t } = useI18n({
   useScope: 'global'
 })
 
-const store = useStore(key)
-
 const emit = defineEmits<{
   (e: 'close'): void,
   (e: 'plugins', plugins: Array<PluginInfo>): void
 }>()
 
-const plugins: Ref<Array<PluginInfoOrder>> = ref([])
-for (const elem of store.getters.getSettings.metadataPlugins) {
-  plugins.value.push({name: elem.name, order: elem.order, enabled: true})
-
+interface ProviderItem {
+  name: string
+  enabled: boolean
 }
-plugins.value.sort((a, b) => b.order - a.order)
+
+const items: Ref<Array<ProviderItem>> = ref([])
 const progress: Ref<boolean> = ref(false)
+const loaded: Ref<boolean> = ref(false)
 
- const submit =async () => {
-  let finalPlugins = plugins.value.filter(p => p.enabled).map((pluginInfo, idx) => newPlugin(pluginInfo, idx, plugins.value.length))
-  emit('plugins', finalPlugins)
-  emit('close')
-}
-
-const newPlugin = (plugin: PluginInfo, idx: number, size: number): PluginInfo => {
-  return {name: plugin.name, order: size - idx}
-}
-
-const dismiss =async () => {
-  emit('close')
-}
-
-function getKey(item: PluginInfo) {
-      return item.order;
-}
-
-/** move item to the bottom if disabled */
-const checkState = (element: PluginInfoOrder) => {
-  if (element.enabled === false) {
-    plugins.value = [...plugins.value.filter(a => a !== element), element]
-  } else {
-    plugins.value = [element, ...plugins.value.filter(a => a !== element)]
+onMounted(async () => {
+  progress.value = true
+  try {
+    const providers = await dataService.fetchMetadataProviders()
+    items.value = providers
+      .filter((p: any) => p.name !== 'calibre' && p.name !== 'jelu-debug')
+      .map((p: any) => ({ name: p.name, enabled: p.isEnabled }))
+  } catch (_) {
+    // keep empty list on error
   }
+  loaded.value = true
+  progress.value = false
+})
+
+const submit = () => {
+  const selected: PluginInfo[] = items.value
+    .filter(p => p.enabled)
+    .map(p => ({ name: p.name, order: 0 }))
+  emit('plugins', selected)
+  emit('close')
 }
 
-/** prevent disabled items to be dragged */
-function checkMove(evt: any){
-    return (evt.draggedContext.element.enabled);
+const dismiss = () => {
+  emit('close')
 }
 
 const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="metadata-modal">
+  <section class="edit-modal">
     <div class="flex flex-col items-center justify-items-center">
       <h1
         class="text-2xl first-letter:capitalize"
@@ -71,73 +62,48 @@ const { typographyClasses } = useTypography()
       >
         {{ t('metadata.reorder_plugins') }}
       </h1>
-      <p class="text-justify">
+      <p class="text-justify my-2">
         {{ t('metadata.description') }}
       </p>
-      <div class="flex flex-wrap place-content-center my-3">
-        <draggable
-          v-model="plugins"
-          class="list-group"
-          :item-key="getKey"
-          :move="checkMove"
-          tag="div"
+      <div
+        v-if="progress"
+        class="loading loading-spinner my-4"
+      />
+      <div class="flex flex-col w-full max-w-xs my-3">
+        <div
+          v-for="item in items"
+          :key="item.name"
+          class="flex flex-row justify-between items-center border-b border-base-300 p-2"
         >
-          <template #item="{ element }">
-            <div
-              :class="element.enabled ? 'hover:cursor-move border-accent' : 'border-base-content/30 hover:cursor-not-allowed text-base-content/30'"
-              class="flex flex-row justify-between items-center border-2 m-1 p-1"
-            >
-              <span class="mdi mdi-drag-vertical mdi-24 text-3xl" />
-              <div class="flex flex-col">
-                <span
-                  class="text font-semibold"
-                >{{ element.name }}</span>
-                <span class="text text-xs">({{ t('metadata.default_priority') }}:{{ element.order }}) </span>
-              </div>
-              <div class="justify-self-end">
-                <input
-                  v-model="element.enabled"
-                  type="checkbox"
-                  class="toggle toggle-accent"
-                  @change="checkState(element)"
-                >
-              </div>
-            </div>
-          </template>
-        </draggable>
-        <div class="m-3">
-          <button
-            class="btn btn-primary mr-2 uppercase"
-            :disabled="progress"
-            @click="submit"
+          <span class="font-semibold">{{ item.name }}</span>
+          <input
+            v-model="item.enabled"
+            type="checkbox"
+            class="toggle toggle-accent"
           >
-            <span
-              v-if="progress"
-              class="loading loading-spinner"
-            />
-            <span class="icon">
-              <i class="mdi mdi-pencil mdi-18px" />
-            </span>
-            <span>{{ t('labels.apply') }}</span>
-          </button>
-          <button
-            class="btn btn-secondary mr-2 uppercase"
-            :disabled="progress"
-            @click="dismiss"
-          >
-            <span
-              v-if="progress"
-              class="loading loading-spinner"
-            />
-            <span class="icon">
-              <i class="mdi mdi-cancel mdi-18px" />
-            </span>
-            <span>{{ t('labels.discard') }}</span>
-          </button>
         </div>
-        <p class="mt-3 text-sm">
-          {{ t('metadata.note') }}
-        </p>
+      </div>
+      <div class="m-3 flex gap-2">
+        <button
+          class="btn btn-primary uppercase"
+          :disabled="progress"
+          @click="submit"
+        >
+          <span class="icon">
+            <i class="mdi mdi-check mdi-18px" />
+          </span>
+          <span>{{ t('labels.apply') }}</span>
+        </button>
+        <button
+          class="btn btn-secondary uppercase"
+          :disabled="progress"
+          @click="dismiss"
+        >
+          <span class="icon">
+            <i class="mdi mdi-cancel mdi-18px" />
+          </span>
+          <span>{{ t('labels.discard') }}</span>
+        </button>
       </div>
     </div>
   </section>

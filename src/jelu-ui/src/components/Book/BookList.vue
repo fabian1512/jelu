@@ -267,16 +267,16 @@ try {
           value="avgRating"
         >
         <span class="label-text">{{ t('sorting.avg_rating') }}</span>
-        <div class="field">
-          <input
-            v-model="sortBy"
-            type="radio"
-            name="radio-20"
-            class="radio radio-primary"
-            value="random"
-          >
-          <span class="label-text">{{ t('sorting.random') }}</span>
-        </div>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="random"
+        >
+        <span class="label-text">{{ t('sorting.random') }}</span>
       </div>
     </template>
     <template #filters>

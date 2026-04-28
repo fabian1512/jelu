@@ -6,11 +6,13 @@ import { useStore } from 'vuex';
 import { useLocalStorage } from '@vueuse/core';
 import { Book } from "../../model/Book";
 import { Metadata } from "../../model/Metadata";
+import { PluginInfo } from "../../model/PluginInfo";
 import { ServerSettings } from "../../model/ServerSettings";
 import dataService from "../../services/DataService";
 import { key } from '../../store';
 import { StringUtils } from "../../utils/StringUtils";
 import MetadataDetail from '../Metadata/MetadataDetail.vue';
+import MetadataPluginsModal from '../Metadata/MetadataPluginsModal.vue';
 import ScanModal from '../Book/ScanModal.vue';
 import useTypography from "../../composables/typography";
 
@@ -46,11 +48,13 @@ const displayForm: Ref<boolean> = ref(true)
 
 const progress: Ref<boolean> = ref(false)
 
+const plugins: Ref<PluginInfo[]> = ref([])
+
 const storedLanguage = useLocalStorage("jelu_language", "en")
 
 const fetchMetadata = async () => {
     progress.value = true
-    dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: [], language: storedLanguage.value})
+    dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: plugins.value, language: storedLanguage.value})
     .then(res => {
         progress.value = false
         metadata.value = res
@@ -104,6 +108,24 @@ function toggleScanModal() {
 }
 
 function scanModalClosed() {
+}
+
+function togglePluginsModal() {
+    oruga.modal.open({
+      component: MetadataPluginsModal,
+      trapFocus: true,
+      active: true,
+      canCancel: ['x', 'button', 'outside'],
+      scroll: 'keep',
+      props: { },
+      events: {
+        plugins: (received: Array<PluginInfo>) => { plugins.value = received }
+      },
+      onClose: pluginsModalClosed
+    });
+}
+
+function pluginsModalClosed() {
 }
 
 const { typographyClasses } = useTypography()
@@ -194,6 +216,22 @@ const { typographyClasses } = useTypography()
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
+                />
+              </svg>
+            </button>
+            <button
+              class="btn btn-secondary p-2"
+              :class="{'btn-disabled' : progress}"
+              @click="togglePluginsModal"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  d="M6 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 1 1 1.5 0v7.5A.75.75 0 0 1 6 12ZM18 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 18 12ZM6.75 14.25a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H6.75ZM3.75 8.25a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75ZM3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v1.5a.75.75 0 0 1-.75.75H3.75A.75.75 0 0 1 3 7.5V6ZM4.5 18.75v-4.5A.75.75 0 0 1 5.25 13.5h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75ZM9 18.75v-4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5A.75.75 0 0 1 9 18.75ZM13.5 18.75v-4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75ZM18 18.75v-4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75Z"
                 />
               </svg>
             </button>
