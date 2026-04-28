@@ -156,18 +156,38 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
         return Optional.of(dto)
     }
 
-    private fun fetchDocument(url: String): Document? {
-        try {
-            return Jsoup
+    private val userAgent =
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) " +
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+    private fun fetchDocument(
+        url: String,
+        retries: Int = 3,
+    ): Document? {
+        repeat(retries - 1) {
+            try {
+                return Jsoup
+                    .connect(url)
+                    .userAgent(userAgent)
+                    .timeout(10_000)
+                    .followRedirects(true)
+                    .get()
+            } catch (e: Exception) {
+                logger.warn("Attempt ${it + 1} failed for $url: ${e.message}")
+                Thread.sleep(500)
+            }
+        }
+        return try {
+            Jsoup
                 .connect(url)
-                .userAgent("Mozilla/5.0 JeluBot")
+                .userAgent(userAgent)
                 .timeout(10_000)
                 .followRedirects(true)
                 .get()
         } catch (e: Exception) {
-            logger.debug("Failed to fetch $url: ${e.message}")
+            logger.error("Final attempt failed for $url: ${e.message}", e)
+            null
         }
-        return null
     }
 
     private fun String.removePrefix(
