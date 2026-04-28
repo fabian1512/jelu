@@ -35,11 +35,16 @@ class OpenLibraryMetadataProvider(
         val cleanIsbn = isbn.replace("-", "", true)
         val start = System.currentTimeMillis()
         val response: String? =
-            restClient
-                .get()
-                .uri("https://openlibrary.org/isbn/$cleanIsbn.json")
-                .retrieve()
-                .body(String::class.java)
+            try {
+                restClient
+                    .get()
+                    .uri("https://openlibrary.org/isbn/$cleanIsbn.json")
+                    .retrieve()
+                    .body(String::class.java)
+            } catch (e: Exception) {
+                logger.info { "openlibrary isbn-search $isbn: not found (${e.message})" }
+                return Optional.empty()
+            }
 
         val elapsed = System.currentTimeMillis() - start
         val hasResult = response != null && response.isNotBlank()
@@ -119,11 +124,16 @@ class OpenLibraryMetadataProvider(
         dto: MetadataDto,
     ) {
         val response: String? =
-            restClient
-                .get()
-                .uri("https://openlibrary.org/books/$editionKey.json")
-                .retrieve()
-                .body(String::class.java)
+            try {
+                restClient
+                    .get()
+                    .uri("https://openlibrary.org/books/$editionKey.json")
+                    .retrieve()
+                    .body(String::class.java)
+            } catch (e: Exception) {
+                logger.info { "openlibrary edition $editionKey: not found" }
+                return
+            }
 
         if (response == null || response.isBlank()) return
 

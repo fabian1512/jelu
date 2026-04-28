@@ -31,7 +31,13 @@ class FetchMetadataService(
             val provider = providers.find { plugin.name.equals(it.name(), true) }
             if (provider != null) {
                 val start = System.currentTimeMillis()
-                val res: Optional<MetadataDto>? = provider.fetchMetadata(metadataRequestDto, config)
+                val res: Optional<MetadataDto>? =
+                    try {
+                        provider.fetchMetadata(metadataRequestDto, config)
+                    } catch (e: Exception) {
+                        logger.warn { "provider ${plugin.name} failed: ${e.message}" }
+                        null
+                    }
                 val elapsed = System.currentTimeMillis() - start
                 val resultStatus =
                     if (res != null && res.isPresent) {
