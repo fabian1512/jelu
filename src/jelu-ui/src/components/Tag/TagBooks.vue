@@ -226,7 +226,7 @@ const { typographyClasses } = useTypography()
             class="checkbox checkbox-primary"
             value="FINISHED"
           >
-          {{ t('reading_events.finished') }}
+          <span class="label-text">{{ t('reading_events.finished') }}</span>
         </label>
         <label class="label">
           <input
@@ -235,7 +235,7 @@ const { typographyClasses } = useTypography()
             class="checkbox checkbox-primary"
             value="CURRENTLY_READING"
           >
-          {{ t('reading_events.currently_reading') }}
+          <span class="label-text">{{ t('reading_events.currently_reading') }}</span>
         </label>
         <label class="label">
           <input
@@ -244,7 +244,7 @@ const { typographyClasses } = useTypography()
             class="checkbox checkbox-primary"
             value="DROPPED"
           >
-          {{ t('reading_events.dropped') }}
+          <span class="label-text">{{ t('reading_events.dropped') }}</span>
         </label>
       </div>
     </template>

@@ -8,12 +8,8 @@ const { t } = useI18n({
       useScope: 'global'
     })
 
-import useTypography from '../../composables/typography';
-
 const keys = useMagicKeys()
 const shiftF = keys['Shift+F']
-
-const { typographyClasses } = useTypography()
 
 const props = defineProps<{
   order: string
@@ -52,7 +48,7 @@ watch(shiftF, (v) => {
     :teleport="true"
     @close="emit('update:open', false)"
   >
-    <div :class="['p-5 flex flex-col items-start gap-2', typographyClasses]">
+    <div class="p-5 flex flex-col items-start gap-2">
       <label class="label font-bold">{{ t('sorting.sort_order') }} : </label>
       <div class="field">
         <input
