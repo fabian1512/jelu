@@ -100,6 +100,16 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
                 dto.summary = it.trim()
             }
         }
+        if (dto.summary == null) {
+            doc.selectFirst("span.Formatted")?.text()?.let {
+                dto.summary = it.trim()
+            }
+        }
+        if (dto.summary == null) {
+            doc.select("meta[property='og:description']")?.attr("content")?.let {
+                dto.summary = it.trim()
+            }
+        }
 
         // image
         doc.selectFirst("img.ResponsiveImage")?.attr("src")?.let { dto.image = it }
