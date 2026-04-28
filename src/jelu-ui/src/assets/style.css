@@ -248,34 +248,43 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .edit-modal {
     margin: max(12px, 30px);
     width: min(900px, calc(100vw - 24px));
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 .event-modal {
-  margin: max(12px, 30px);
-  height: min(600px, 70vh);
+    margin: 12px;
+    width: min(650px, calc(100vw - 24px));
+    height: min(600px, 85vh);
+    overflow-y: auto;
 }
 
 .author-modal {
-  @apply m-2 sm:p-5;
-  width: min(600px, 90vw);
+    margin: 12px;
+    width: min(600px, calc(100vw - 24px));
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 .quote-modal {
-  @apply m-5 sm:p-5;
-  height: min(700px, 75vh);
-  width: min(900px, 85vw);
+    margin: 12px;
+    width: min(900px, calc(100vw - 24px));
+    height: min(700px, 85vh);
+    overflow-y: auto;
 }
 
 .review-modal {
-  @apply m-5 sm:p-5;
-  height: min(700px, 75vh);
-  width: min(900px, 85vw);
+    margin: 12px;
+    width: min(900px, calc(100vw - 24px));
+    height: min(700px, 85vh);
+    overflow-y: auto;
 }
 
 .metadata-modal {
-  @apply m-5 sm:p-5;
-  height: min(400px, 75vh);
-  width: min(400px, 85vw);
+    margin: 12px;
+    width: min(400px, calc(100vw - 24px));
+    height: min(400px, 75vh);
+    overflow-y: auto;
 }
 
 .review-book-card {

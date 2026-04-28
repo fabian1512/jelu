@@ -185,6 +185,35 @@ class OpenLibraryMetadataProvider(
         if (cover != null) {
             dto.image = cover.get("medium")?.asText() ?: cover.get("small")?.asText()
         }
+        val olId = dto.openlibraryId
+        if (olId != null && dto.summary == null) {
+            enrichDescription(dto, olId)
+        }
+    }
+
+    private fun enrichDescription(
+        dto: MetadataDto,
+        olId: String,
+    ) {
+        try {
+            val workData =
+                restClient
+                    .get()
+                    .uri("https://openlibrary.org/books/$olId.json")
+                    .retrieve()
+                    .body(String::class.java)
+            val root = objectMapper.readTree(workData)
+            val description = root.get("description")
+            dto.summary =
+                when {
+                    description == null -> null
+                    description.isTextual -> description.asText()
+                    description.isObject -> description.get("value")?.asText()
+                    else -> null
+                }
+        } catch (_: Exception) {
+            // non-critical, metadata already has basic fields
+        }
     }
 
     private fun buildTitle(node: JsonNode): String? {

@@ -3,6 +3,7 @@ package io.github.bayang.jelu.service.metadata.providers
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.bayang.jelu.config.JeluProperties
+import io.github.bayang.jelu.dao.MetadataProviderSettingRepository
 import io.github.bayang.jelu.dto.MetadataDto
 import io.github.bayang.jelu.dto.MetadataRequestDto
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -21,6 +22,7 @@ class GoogleBooksIMetaDataProvider(
     @Resource(name = "restClient") private val restClient: WebClient,
     private val properties: JeluProperties,
     private val objectMapper: ObjectMapper,
+    private val settingsRepository: MetadataProviderSettingRepository,
 ) : IMetaDataProvider {
     private val name = "google"
 
@@ -86,11 +88,17 @@ class GoogleBooksIMetaDataProvider(
 
     override fun name(): String = name
 
-    private fun getGoogleProviderApiKey(): String? =
-        properties
+    private fun getGoogleProviderApiKey(): String? {
+        val dbSetting =
+            settingsRepository.findAll().find { it.name.equals(name, true) }
+        if (dbSetting != null && !dbSetting.apiKey.isNullOrBlank()) {
+            return dbSetting.apiKey
+        }
+        return properties
             .metadataProviders
             ?.find { it.isEnabled && it.name == name }
             ?.apiKey
+    }
 
     private fun parseBook(node: JsonNode): MetadataDto {
         val volumeInfo = node.get("volumeInfo")

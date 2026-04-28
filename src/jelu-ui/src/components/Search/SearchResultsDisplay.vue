@@ -242,7 +242,7 @@ if (searchQuery.value != null) {
             class="checkbox checkbox-primary"
             value="FINISHED"
           >
-          {{ t('reading_events.finished') }}
+          <span class="label-text">{{ t('reading_events.finished') }}</span>
         </label>
         <label class="label">
           <input
@@ -251,7 +251,7 @@ if (searchQuery.value != null) {
             class="checkbox checkbox-primary"
             value="CURRENTLY_READING"
           >
-          {{ t('reading_events.currently_reading') }}
+          <span class="label-text">{{ t('reading_events.currently_reading') }}</span>
         </label>
         <label class="label">
           <input
@@ -260,7 +260,7 @@ if (searchQuery.value != null) {
             class="checkbox checkbox-primary"
             value="DROPPED"
           >
-          {{ t('reading_events.dropped') }}
+          <span class="label-text">{{ t('reading_events.dropped') }}</span>
         </label>
         <label class="label">
           <input
@@ -269,7 +269,7 @@ if (searchQuery.value != null) {
             class="checkbox checkbox-primary"
             value="NONE"
           >
-          {{ t('reading_events.none') }}
+          <span class="label-text">{{ t('reading_events.none') }}</span>
         </label>
       </div>
       <div class="field flex flex-col items-start">
