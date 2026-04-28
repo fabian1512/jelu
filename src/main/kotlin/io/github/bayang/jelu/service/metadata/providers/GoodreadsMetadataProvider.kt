@@ -114,6 +114,12 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
         // image
         doc.selectFirst("img.ResponsiveImage")?.attr("src")?.let { dto.image = it }
         if (dto.image == null) {
+            doc.selectFirst("div.BookCover img")?.attr("src")?.let { dto.image = it }
+        }
+        if (dto.image == null) {
+            doc.selectFirst("img[src*='books/']")?.attr("src")?.let { dto.image = it }
+        }
+        if (dto.image == null) {
             doc.select("meta[property=og:image]")?.attr("content")?.let { dto.image = it }
         }
 

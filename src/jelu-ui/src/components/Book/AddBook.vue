@@ -369,6 +369,8 @@ const toggleModal = (file: boolean) => {
     events: {
       metadataReceived: (modalMetadata: Metadata) => {
         metadata.value = modalMetadata
+        imageUrl.value = ""
+        imagePath.value = ""
         mergeMetadata()
       }
     },
