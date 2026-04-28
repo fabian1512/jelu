@@ -20,7 +20,7 @@ class WebMvcConfig(
         registry
             .addResourceHandler("/files/**")
             .addResourceLocations(getExternalFilesFolderPath())
-            .setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS).cachePublic())
+            .setCacheControl(CacheControl.noCache())
 
         // serve export csv
         registry
