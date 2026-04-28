@@ -55,7 +55,9 @@ class OpenLibraryMetadataProvider(
 
         try {
             val root = objectMapper.readTree(response)
-            return Optional.of(parseBookFromWork(root))
+            val dto = parseBookFromWork(root)
+            resolveFromJscmdData(cleanIsbn, dto)
+            return Optional.of(dto)
         } catch (e: Exception) {
             logger.error(e) { "failed to parse OpenLibrary response for isbn $isbn" }
             return Optional.empty()
@@ -194,16 +196,57 @@ class OpenLibraryMetadataProvider(
             dto.tags = subjects.mapNotNull { it.asText() }.toMutableSet()
         }
 
-        val authors = node.get("authors")
-        if (authors != null && authors.isArray) {
-            dto.authors =
-                authors
-                    .mapNotNull { a ->
-                        a.get("author")?.get("key")?.asText()
-                            ?: a.get("key")?.asText()
-                    }.toMutableSet()
-        }
         return dto
+    }
+
+    private fun resolveFromJscmdData(
+        isbn: String,
+        dto: MetadataDto,
+    ) {
+        try {
+            val jscmdResponse: String? =
+                restClient
+                    .get()
+                    .uri {
+                        it
+                            .scheme("https")
+                            .host("openlibrary.org")
+                            .path("/api/books")
+                            .queryParam("bibkeys", "ISBN:$isbn")
+                            .queryParam("format", "json")
+                            .queryParam("jscmd", "data")
+                            .build()
+                    }.retrieve()
+                    .body(String::class.java)
+
+            if (jscmdResponse == null || jscmdResponse.isBlank()) return
+            val root = objectMapper.readTree(jscmdResponse)
+            val bookNode = root.get("ISBN:$isbn") ?: return
+            val resolvedAuthors = extractAuthors(bookNode)
+            if (resolvedAuthors.isNotEmpty()) {
+                dto.authors = resolvedAuthors
+            }
+            if (dto.publisher == null) {
+                val publishers = bookNode.get("publishers")
+                if (publishers != null && publishers.isArray && !publishers.isEmpty) {
+                    dto.publisher = publishers[0].get("name")?.asText()
+                }
+            }
+            if (dto.pageCount == null) {
+                dto.pageCount = bookNode.get("number_of_pages")?.asInt()
+            }
+            if (dto.publishedDate == null) {
+                dto.publishedDate = bookNode.get("publish_date")?.asText()
+            }
+            if (dto.image == null) {
+                val cover = bookNode.get("cover")
+                if (cover != null) {
+                    dto.image = cover.get("medium")?.asText() ?: cover.get("small")?.asText()
+                }
+            }
+        } catch (e: Exception) {
+            logger.warn(e) { "failed to resolve author names from jscmd" }
+        }
     }
 
     private fun extractAuthors(node: JsonNode): MutableSet<String> {
