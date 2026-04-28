@@ -8,4 +8,22 @@ import org.springframework.web.bind.annotation.GetMapping
 class IndexController {
     @GetMapping("/")
     fun index(model: Model): String = "/index.html"
+
+    @GetMapping(
+        "/books/**",
+        "/profile/**",
+        "/authors/**",
+        "/tags/**",
+        "/series/**",
+        "/search/**",
+        "/reviews/**",
+        "/users/**",
+        "/add-book/**",
+        "/to-read/**",
+        "/random/**",
+        "/history/**",
+        "/custom-lists/**",
+        "/login/**",
+    )
+    fun forwardSpa(): String = "forward:/index.html"
 }
