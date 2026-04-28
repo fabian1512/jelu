@@ -35,25 +35,27 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
     }
 
     private fun searchByIsbn(isbn: String): String? {
-        // try direct URL first
+        // 1: search URL (verified working for descriptions)
+        try {
+            val searchUrl = "$baseUrl/search?q=$isbn"
+            val searchDoc = fetchDocument(searchUrl)
+            if (searchDoc != null) {
+                val link = searchDoc.selectFirst("a.bookTitle")?.attr("href")
+                if (link != null) return "$baseUrl$link"
+                // single result page directly shows book data
+                if (searchDoc.selectFirst("h1[data-testid=bookTitle]") != null) {
+                    return searchUrl
+                }
+            }
+        } catch (_: Exception) {
+        }
+
+        // 2: fallback to direct URL
         try {
             val directUrl = "$baseUrl/book/isbn/$isbn"
             val doc = fetchDocument(directUrl)
             if (doc != null && doc.selectFirst("h1[data-testid=bookTitle]") != null) {
                 return directUrl
-            }
-        } catch (_: Exception) {
-            // fallback to search
-        }
-
-        // search and follow first result
-        try {
-            val searchDoc = fetchDocument("$baseUrl/search?q=$isbn")
-            if (searchDoc != null) {
-                val link = searchDoc.selectFirst("a.bookTitle")?.attr("href")
-                if (link != null) {
-                    return "$baseUrl$link"
-                }
             }
         } catch (_: Exception) {
         }
@@ -148,6 +150,13 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
             doc.select("a.bookPageGenreLink[href*=/genres/]").forEach { tags.add(it.text().trim()) }
         }
         dto.tags = tags
+
+        logger.info(
+            "goodreads parse: title={}, summary={}, authors={}",
+            dto.title != null,
+            dto.summary != null,
+            dto.authors.size,
+        )
 
         if (dto.title.isNullOrBlank()) {
             logger.debug("Failed to parse Goodreads page $url – no title found")

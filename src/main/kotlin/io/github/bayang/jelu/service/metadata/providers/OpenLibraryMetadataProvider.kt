@@ -37,30 +37,20 @@ class OpenLibraryMetadataProvider(
         val response: String? =
             restClient
                 .get()
-                .uri {
-                    it
-                        .scheme("https")
-                        .host("openlibrary.org")
-                        .path("/api/books")
-                        .queryParam("bibkeys", "ISBN:$cleanIsbn")
-                        .queryParam("format", "json")
-                        .queryParam("jscmd", "data")
-                        .build()
-                }.retrieve()
+                .uri("https://openlibrary.org/isbn/$cleanIsbn.json")
+                .retrieve()
                 .body(String::class.java)
 
         val elapsed = System.currentTimeMillis() - start
-        val hasResult = response != null && response.isNotBlank() && response != "{}"
+        val hasResult = response != null && response.isNotBlank()
         logger.info { "openlibrary isbn-search $isbn: hasResult=$hasResult (${elapsed}ms)" }
-        if (response == null || response.isBlank() || response == "{}") {
+        if (response == null || response.isBlank()) {
             return Optional.empty()
         }
 
         try {
             val root = objectMapper.readTree(response)
-            val bookKey = "ISBN:$cleanIsbn"
-            val bookNode = root.get(bookKey) ?: return Optional.empty()
-            return Optional.of(parseBook(bookNode))
+            return Optional.of(parseBookFromWork(root))
         } catch (e: Exception) {
             logger.error(e) { "failed to parse OpenLibrary response for isbn $isbn" }
             return Optional.empty()
@@ -131,95 +121,79 @@ class OpenLibraryMetadataProvider(
         val response: String? =
             restClient
                 .get()
-                .uri {
-                    it
-                        .scheme("https")
-                        .host("openlibrary.org")
-                        .path("/api/books")
-                        .queryParam("bibkeys", "OLID:$editionKey")
-                        .queryParam("format", "json")
-                        .queryParam("jscmd", "data")
-                        .build()
-                }.retrieve()
+                .uri("https://openlibrary.org/books/$editionKey.json")
+                .retrieve()
                 .body(String::class.java)
 
-        if (response == null || response.isBlank() || response == "{}") return
+        if (response == null || response.isBlank()) return
 
         val root = objectMapper.readTree(response)
-        val bookNode = root.get("OLID:$editionKey") ?: return
-        parseBookInto(bookNode, dto)
+        val workData = parseBookFromWork(root)
+        if (dto.title == null) dto.title = workData.title
+        if (dto.summary == null) dto.summary = workData.summary
+        if (dto.publisher == null) dto.publisher = workData.publisher
+        if (dto.pageCount == null) dto.pageCount = workData.pageCount
+        if (dto.publishedDate == null) dto.publishedDate = workData.publishedDate
+        if (dto.image == null) dto.image = workData.image
+        if (dto.language == null) dto.language = workData.language
+        dto.tags.addAll(workData.tags)
     }
 
-    private fun parseBook(node: JsonNode): MetadataDto {
+    private fun parseBookFromWork(node: JsonNode): MetadataDto {
         val dto = MetadataDto()
-        parseBookInto(node, dto)
-        return dto
-    }
+        dto.title = node.get("title")?.asText()
 
-    private fun parseBookInto(
-        node: JsonNode,
-        dto: MetadataDto,
-    ) {
-        dto.title = buildTitle(node)
-        dto.authors = extractAuthors(node)
+        val desc = node.get("description")
+        dto.summary =
+            when {
+                desc == null -> null
+                desc.isTextual -> desc.asText()
+                desc.isObject -> desc.get("value")?.asText()
+                else -> null
+            }
 
-        val identifiers = node.get("identifiers")
-        if (identifiers != null) {
-            val isbn10 = identifiers.get("isbn_10")?.get(0)?.asText()
-            if (isbn10 != null) dto.isbn10 = isbn10
-            val isbn13 = identifiers.get("isbn_13")?.get(0)?.asText()
-            if (isbn13 != null) dto.isbn13 = isbn13
-            val olId = identifiers.get("openlibrary")?.get(0)?.asText()
-            if (olId != null) dto.openlibraryId = olId
-        }
+        val isbn10 = node.get("isbn_10")?.asText()
+        if (isbn10 != null) dto.isbn10 = isbn10
+        val isbn13 = node.get("isbn_13")?.asText()
+        if (isbn13 != null) dto.isbn13 = isbn13
 
         val publishers = node.get("publishers")
         if (publishers != null && publishers.isArray && !publishers.isEmpty) {
             dto.publisher = publishers[0].get("name")?.asText()
         }
-
         dto.publishedDate = node.get("publish_date")?.asText()
         dto.pageCount = node.get("number_of_pages")?.asInt()
+        dto.language =
+            node
+                .get("languages")
+                ?.get(0)
+                ?.get("key")
+                ?.asText()
+                ?.removePrefix("/languages/")
 
-        val cover = node.get("cover")
-        if (cover != null) {
-            dto.image = cover.get("medium")?.asText() ?: cover.get("small")?.asText()
-        }
-        val olId = dto.openlibraryId
-        if (olId != null && dto.summary == null) {
-            enrichDescription(dto, olId)
-        }
-    }
+        val olKey = node.get("key")?.asText()
+        if (olKey != null) dto.openlibraryId = olKey.removePrefix("/books/")
 
-    private fun enrichDescription(
-        dto: MetadataDto,
-        olId: String,
-    ) {
-        try {
-            val workData =
-                restClient
-                    .get()
-                    .uri("https://openlibrary.org/books/$olId.json")
-                    .retrieve()
-                    .body(String::class.java)
-            val root = objectMapper.readTree(workData)
-            val description = root.get("description")
-            dto.summary =
-                when {
-                    description == null -> null
-                    description.isTextual -> description.asText()
-                    description.isObject -> description.get("value")?.asText()
-                    else -> null
-                }
-        } catch (_: Exception) {
-            // non-critical, metadata already has basic fields
+        val coverIds = node.get("covers")
+        if (coverIds != null && coverIds.isArray && !coverIds.isEmpty) {
+            dto.image = "https://covers.openlibrary.org/b/id/${coverIds[0].asText()}-M.jpg"
         }
-    }
 
-    private fun buildTitle(node: JsonNode): String? {
-        val title = node.get("title")?.asText() ?: return null
-        val subtitle = node.get("subtitle")?.asText()
-        return if (subtitle != null) "$title: $subtitle" else title
+        val subjects = node.get("subjects")
+        if (subjects != null && subjects.isArray) {
+            dto.tags = subjects.mapNotNull { it.asText() }.toMutableSet()
+        }
+
+        val authors = node.get("authors")
+        if (authors != null && authors.isArray) {
+            dto.authors =
+                authors
+                    .mapNotNull { a ->
+                        a.get("author")?.get("key")?.asText()
+                            ?: a.get("key")?.asText()
+                    }.toMutableSet()
+        }
+        return dto
     }
 
     private fun extractAuthors(node: JsonNode): MutableSet<String> {
