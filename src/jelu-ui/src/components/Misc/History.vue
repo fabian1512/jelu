@@ -179,7 +179,7 @@ getYears()
             </i18n-d>
           </h2>
         </div>
-        <div class="grid gap-[12px] grid-cols-[repeat(auto-fill,minmax(9rem,1fr))]">
+        <div class="grid gap-[12px] grid-cols-3 md:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))]">
           <div
             v-for="event in ev"
             :key="event.id"

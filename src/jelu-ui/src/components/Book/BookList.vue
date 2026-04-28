@@ -481,7 +481,7 @@ try {
   />
   <div
     v-if="books.length > 0"
-    class="grid gap-[12px] grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] my-3 mt-2"
+    class="grid gap-[12px] grid-cols-3 md:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] my-3 mt-2"
   >
     <TransitionGroup name="list">
       <div

@@ -106,7 +106,7 @@ watch(checked, (newVal, oldVal) => {
 
 <template>
   <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 min-w-36 max-w-56"
+    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56"
   >
     <div>
       <router-link
