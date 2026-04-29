@@ -35,7 +35,26 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
     }
 
     private fun searchByIsbn(isbn: String): String? {
-        // 1: search URL (verified working for descriptions)
+        // try original ISBN first
+        val result = trySearchIsbn(isbn)
+        if (result != null) return result
+
+        // if that fails, try converting between ISBN-10 and ISBN-13
+        val converted =
+            when (isbn.length) {
+                10 -> isbn10to13(isbn)
+                13 -> isbn13to10(isbn)
+                else -> null
+            }
+        if (converted != null && converted != isbn) {
+            logger.debug("ISBN $isbn not found, trying converted $converted")
+            return trySearchIsbn(converted)
+        }
+        return null
+    }
+
+    private fun trySearchIsbn(isbn: String): String? {
+        // 1: search URL
         try {
             val searchUrl = "$baseUrl/search?q=$isbn"
             val searchDoc = fetchDocument(searchUrl)
@@ -60,6 +79,30 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
         } catch (_: Exception) {
         }
         return null
+    }
+
+    private fun isbn10to13(isbn10: String): String? {
+        if (isbn10.length != 10) return null
+        val prefix = "978" + isbn10.substring(0, 9)
+        var sum = 0
+        for (i in prefix.indices) {
+            val digit = prefix[i].digitToIntOrNull() ?: return null
+            sum += digit * if (i % 2 == 0) 1 else 3
+        }
+        val check = (10 - (sum % 10)) % 10
+        return prefix + check
+    }
+
+    private fun isbn13to10(isbn13: String): String? {
+        if (isbn13.length != 13 || !isbn13.startsWith("978")) return null
+        val base = isbn13.substring(3, 12)
+        var sum = 0
+        for (i in base.indices) {
+            val digit = base[i].digitToIntOrNull() ?: return null
+            sum += digit * (10 - i)
+        }
+        val check = (11 - (sum % 11)) % 11
+        return base + if (check == 10) "X" else check.toString()
     }
 
     private fun parseBookPage(url: String): Optional<MetadataDto> {
