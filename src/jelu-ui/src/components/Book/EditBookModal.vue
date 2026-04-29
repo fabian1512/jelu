@@ -59,6 +59,11 @@ const imageUrl = ref<string | null>(null);
 const imagePath = ref<string | null>(null);
 const uploadType = ref('web');
 
+const smallCoverUrl = computed(() => {
+  if (!userbook.value?.book?.image) return null
+  return StringUtils.thumbnailUrl(userbook.value.book.image, "thumb") ?? "/files/" + userbook.value.book.image
+})
+
 const clearImageField = () => {
   imageUrl.value = "";
 };
@@ -766,7 +771,7 @@ if (userbook.value.book.publisher != null) {
             </span>
             <figure class="small-cover">
               <img
-                :src="'/files/' + userbook.book.image"
+                :src="smallCoverUrl"
                 loading="lazy"
                 decoding="async"
                 :class="deleteImage ? 'altered' : ''"

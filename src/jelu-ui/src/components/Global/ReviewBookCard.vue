@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, Ref } from "vue";
+import { computed, ref, Ref } from "vue";
 import { useI18n } from 'vue-i18n';
 import { Book } from "../../model/Book";
 import { Review } from "../../model/Review";
 import dataService from "../../services/DataService";
+import { StringUtils } from "../../utils/StringUtils";
 
 const { t, d } = useI18n({
       inheritLocale: true,
@@ -28,6 +29,11 @@ const getBook = async () => {
 
 const username = ref("")
 
+const cardImageUrl = computed(() => {
+  if (!book.value?.image) return null
+  return StringUtils.thumbnailUrl(book.value.image, "card") ?? "/files/" + book.value.image
+})
+
 const getUsername = async () => {
   username.value = await dataService.usernameById(props.review.user)
 }
@@ -51,7 +57,7 @@ getBook()
       >
         <img
           v-if="book.image"
-          :src="'/files/' + book.image"
+          :src="cardImageUrl"
           alt=""
           loading="lazy"
           decoding="async"
@@ -69,7 +75,7 @@ getBook()
       <template v-else>
         <img
           v-if="book.image"
-          :src="'/files/' + book.image"
+          :src="cardImageUrl"
           alt=""
           loading="lazy"
           decoding="async"

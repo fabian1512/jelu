@@ -3,6 +3,7 @@ import { computed, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
 import { UserBook } from "../../model/Book";
 import { ReadingEventType } from "../../model/ReadingEvent";
+import { StringUtils } from "../../utils/StringUtils";
 
 const { t } = useI18n({
       inheritLocale: true,
@@ -84,6 +85,10 @@ const progressBarTooltip = computed(() => {
   return props.book.currentPageNumber != null ? `p. ${props.book.currentPageNumber}` : `${props.book.percentRead} %`
 })
 
+const cardImageUrl = computed(() => {
+  return StringUtils.thumbnailUrl(props.book.book.image, "card") ?? "/files/" + props.book.book.image
+})
+
 const currentSeries = computed(() => {
   if (props.book.book.series != null &&      props.book.book.series?.length > 0) {
     if (props.seriesId != null) {
@@ -115,7 +120,7 @@ watch(checked, (newVal, oldVal) => {
         <figure>
            <img
              v-if="book.book.image"
-             :src="'/files/' + book.book.image + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
+             :src="cardImageUrl + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
              alt="cover image"
              loading="lazy"
              decoding="async"
