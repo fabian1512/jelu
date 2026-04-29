@@ -116,7 +116,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary my-2"
+          class="radio radio-primary my-1"
           value="name"
         >
         <span class="label-text capitalize">{{ t('sorting.name') }}</span>
@@ -126,7 +126,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="creationDate"
         >
         <span class="label-text">{{ t('sorting.date_added') }}</span>
@@ -366,10 +366,6 @@ try {
 </template>
 
 <style scoped>
-
-label.label {
-  font-weight: bold;
-}
 
 .list-enter-active,
 .list-leave-active {

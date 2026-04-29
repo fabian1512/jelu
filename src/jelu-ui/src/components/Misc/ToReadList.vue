@@ -165,7 +165,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary my-2"
+          class="radio radio-primary my-1"
           value="creationDate"
         >
         <span class="label-text">{{ t('sorting.date_added_to_list') }}</span>
@@ -175,7 +175,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary my-2"
+          class="radio radio-primary my-1"
           value="lastReadingEventDate"
         >
         <span class="label-text">{{ t('sorting.last_reading_event_date') }}</span>
@@ -185,7 +185,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="title"
         >
         <span class="label-text">{{ t('sorting.title') }}</span>
@@ -195,7 +195,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="publisher"
         >
         <span class="label-text">{{ t('sorting.publisher') }}</span>
@@ -205,7 +205,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="pageCount"
         >
         <span class="label-text">{{ t('sorting.page_count') }}</span>
@@ -215,7 +215,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="usrAvgRating"
         >
         <span class="label-text">{{ t('sorting.user_avg_rating') }}</span>
@@ -225,20 +225,20 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="avgRating"
         >
         <span class="label-text">{{ t('sorting.avg_rating') }}</span>
-        <div class="field">
-          <input
-            v-model="sortBy"
-            type="radio"
-            name="radio-20"
-            class="radio radio-primary"
-            value="random"
-          >
-          <span class="label-text">{{ t('sorting.random') }}</span>
-        </div>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="random"
+        >
+        <span class="label-text">{{ t('sorting.random') }}</span>
       </div>
     </template>
     <template #filters>
@@ -249,7 +249,7 @@ const { typographyClasses } = useTypography()
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary my-2"
+            class="radio radio-primary my-1"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -259,7 +259,7 @@ const { typographyClasses } = useTypography()
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary mb-1"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
@@ -400,8 +400,4 @@ const { typographyClasses } = useTypography()
 </template>
 
 <style scoped>
-
-label.label {
-    font-weight: bold;
-}
 </style>

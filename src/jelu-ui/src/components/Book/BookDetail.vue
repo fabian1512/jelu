@@ -558,7 +558,7 @@ getBook()
         <figure class="sm:justify-self-start">
           <img
             v-if="book?.book?.image"
-            :src="'/files/' + book.book.image"
+            :src="'/files/' + book.book.image + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
             alt="cover image"
             class="max-h-96 max-w-full"
             fetchpriority="high"

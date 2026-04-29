@@ -48,24 +48,24 @@ watch(shiftF, (v) => {
     :teleport="true"
     @close="emit('update:open', false)"
   >
-    <div class="p-5 flex flex-col items-start gap-2">
+    <div class="p-5 flex flex-col items-start gap-1.5">
       <label class="label font-bold">{{ t('sorting.sort_order') }} : </label>
       <div class="field">
         <input
           v-model="sortOrder"
           type="radio"
           name="radio-10"
-          class="radio radio-primary my-2"
+          class="radio radio-primary my-1"
           value="desc"
         >
         <span class="label-text">{{ t('sorting.descending') }}</span>
       </div>
-      <div class="field mt-1">
+      <div class="field">
         <input
           v-model="sortOrder"
           type="radio"
           name="radio-10"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary"
           value="asc"
         >
         <span class="label-text">{{ t('sorting.ascending') }}</span>

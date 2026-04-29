@@ -1041,7 +1041,7 @@ class BookRepository(
                 authorsList.add(save(it))
             }
         }
-        if (authorsList.isNotEmpty()) {
+        if (book.authors != null) {
             updated.authors = SizedCollection(authorsList)
         }
         val translatorsList = mutableListOf<Author>()
@@ -1094,7 +1094,7 @@ class BookRepository(
                 tagsList.add(save(it))
             }
         }
-        if (tagsList.isNotEmpty()) {
+        if (book.tags != null) {
             updated.tags = SizedCollection(tagsList)
         }
         book.series?.forEach {

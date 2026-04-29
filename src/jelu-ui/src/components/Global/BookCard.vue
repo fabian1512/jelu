@@ -116,7 +116,7 @@ watch(checked, (newVal, oldVal) => {
         <figure>
            <img
              v-if="book.book.image"
-             :src="'/files/' + book.book.image"
+             :src="'/files/' + book.book.image + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
              alt="cover image"
              loading="lazy"
              decoding="async"
@@ -139,7 +139,7 @@ watch(checked, (newVal, oldVal) => {
         <figure>
            <img
              v-if="book.book.image"
-             :src="'/files/' + book.book.image"
+             :src="'/files/' + book.book.image + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
              alt="cover image"
              loading="lazy"
              decoding="async"

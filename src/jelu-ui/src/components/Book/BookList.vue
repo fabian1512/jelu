@@ -203,7 +203,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary my-2"
+          class="radio radio-primary my-1"
           value="lastReadingEventDate"
         >
         <span class="label-text">{{ t('sorting.last_reading_event_date') }}</span>
@@ -213,7 +213,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="creationDate"
         >
         <span class="label-text">{{ t('sorting.date_added') }}</span>
@@ -223,7 +223,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="title"
         >
         <span class="label-text">{{ t('sorting.title') }}</span>
@@ -233,7 +233,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="publisher"
         >
         <span class="label-text">{{ t('sorting.publisher') }}</span>
@@ -243,7 +243,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="pageCount"
         >
         <span class="label-text">{{ t('sorting.page_count') }}</span>
@@ -253,7 +253,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="usrAvgRating"
         >
         <span class="label-text">{{ t('sorting.user_avg_rating') }}</span>
@@ -263,7 +263,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary mb-1"
           value="avgRating"
         >
         <span class="label-text">{{ t('sorting.avg_rating') }}</span>
@@ -280,9 +280,9 @@ try {
       </div>
     </template>
     <template #filters>
-      <div class="field capitalize flex flex-col gap-1">
+      <div class="field flex flex-col items-start">
         <label class="label">{{ t('reading_events.last_event_type') }} : </label>
-        <label class="label">
+        <div class="field">
           <input
             v-model="eventTypes"
             type="checkbox"
@@ -290,8 +290,8 @@ try {
             value="FINISHED"
           >
           <span class="label-text">{{ t('reading_events.finished') }}</span>
-        </label>
-        <label class="label">
+        </div>
+        <div class="field">
           <input
             v-model="eventTypes"
             type="checkbox"
@@ -299,8 +299,8 @@ try {
             value="CURRENTLY_READING"
           >
           <span class="label-text">{{ t('reading_events.currently_reading') }}</span>
-        </label>
-        <label class="label">
+        </div>
+        <div class="field">
           <input
             v-model="eventTypes"
             type="checkbox"
@@ -308,8 +308,8 @@ try {
             value="DROPPED"
           >
           <span class="label-text">{{ t('reading_events.dropped') }}</span>
-        </label>
-        <label class="label">
+        </div>
+        <div class="field">
           <input
             v-model="eventTypes"
             type="checkbox"
@@ -317,7 +317,7 @@ try {
             value="NONE"
           >
           <span class="label-text">{{ t('reading_events.none') }}</span>
-        </label>
+        </div>
       </div>
       <div class="field flex flex-col items-start">
         <label class="label">{{ t('filtering.book_in_list') }} : </label>
@@ -326,7 +326,7 @@ try {
             v-model="toRead"
             type="radio"
             name="radio-28"
-            class="radio radio-primary my-2"
+            class="radio radio-primary my-1"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -336,7 +336,7 @@ try {
             v-model="toRead"
             type="radio"
             name="radio-28"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary mb-1"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
@@ -359,7 +359,7 @@ try {
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary my-2"
+            class="radio radio-primary my-1"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -369,7 +369,7 @@ try {
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary mb-1"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
@@ -392,7 +392,7 @@ try {
             v-model="borrowed"
             type="radio"
             name="radio-34"
-            class="radio radio-primary my-2"
+            class="radio radio-primary my-1"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -402,7 +402,7 @@ try {
             v-model="borrowed"
             type="radio"
             name="radio-34"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary mb-1"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
@@ -549,10 +549,6 @@ try {
 </template>
 
 <style scoped>
-
-label.label {
-  font-weight: bold;
-}
 
 .list-enter-active,
 .list-leave-active {

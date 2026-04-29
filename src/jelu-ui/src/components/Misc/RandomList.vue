@@ -110,9 +110,9 @@ const { typographyClasses } = useTypography()
     @update:sort-order="sortOrderUpdated"
   >
     <template #filters>
-      <div class="flex flex-col capitalize gap-1 field">
+      <div class="field flex flex-col items-start">
         <label class="label">{{ t('reading_events.last_event_type') }} : </label>
-        <label class="label">
+        <div class="field">
           <input
             v-model="eventTypes"
             type="checkbox"
@@ -120,8 +120,8 @@ const { typographyClasses } = useTypography()
             value="FINISHED"
           >
           <span class="label-text">{{ t('reading_events.finished') }}</span>
-        </label>
-        <label class="label">
+        </div>
+        <div class="field">
           <input
             v-model="eventTypes"
             type="checkbox"
@@ -129,8 +129,8 @@ const { typographyClasses } = useTypography()
             value="CURRENTLY_READING"
           >
           <span class="label-text">{{ t('reading_events.currently_reading') }}</span>
-        </label>
-        <label class="label">
+        </div>
+        <div class="field">
           <input
             v-model="eventTypes"
             type="checkbox"
@@ -138,31 +138,31 @@ const { typographyClasses } = useTypography()
             value="DROPPED"
           >
           <span class="label-text">{{ t('reading_events.dropped') }}</span>
-        </label>
+        </div>
       </div>
       <div class="field flex flex-col items-start">
         <label class="label">{{ t('filtering.owned') }} : </label>
-        <div class="p-1">
+        <div class="field">
           <input
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary my-2"
+            class="radio radio-primary my-1"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
         </div>
-        <div class="p-1">
+        <div class="field">
           <input
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary mb-1"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
         </div>
-        <div class="p-1">
+        <div class="field">
           <input
             v-model="owned"
             type="radio"
@@ -282,15 +282,4 @@ const { typographyClasses } = useTypography()
 </template>
 
 <style scoped>
-
-label {
-  margin: 0 0.5em;
-  font-weight: bold;
-}
-
-/* fields in side bar slots are shifted to the right and alignment is broken */
-.field {
-  margin-left: -8px;
-}
-
 </style>
