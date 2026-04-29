@@ -78,6 +78,9 @@ watch(shiftF, (v) => {
 
 <style>
 .jl-sidebar {
-  .field { width: 100%; }
+  .field { width: 100%; padding: 0.125rem 0; }
+  .radio { width: 1.25rem; height: 1.25rem; }
+  .checkbox { width: 1.25rem; height: 1.25rem; }
+  .label-text { font-size: 0.875rem; line-height: 1.25; }
 }
 </style>
