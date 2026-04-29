@@ -30,7 +30,7 @@ const props = defineProps<{
 
 const form = reactive({
   title: props.book?.title,
-  isbn: props.book?.isbn10?.length != undefined && props.book?.isbn10?.length > 0 ? props.book?.isbn10 : props.book?.isbn13,
+  isbn: props.book?.isbn13?.length != undefined && props.book?.isbn13?.length > 0 ? props.book?.isbn13 : props.book?.isbn10,
   authors: props.book?.authors?.map(a => a.name).join(','),
 });
 

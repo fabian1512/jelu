@@ -150,6 +150,18 @@ class DataService {
     }
   }
 
+  getBookAsUserBook = async (bookId: string) => {
+    try {
+      const response = await this.apiClient.get<UserBook>(`${this.API_USERBOOK}/from-book/${bookId}`, {
+        transformResponse: this.transformUserbook
+      });
+      return response.data;
+    }
+    catch (error) {
+      throw new Error("error finding book as userbook " + bookId + " " + error)
+    }
+  }
+
   /*
   * Dates are deserialized as strings, convert to Date instead
   */

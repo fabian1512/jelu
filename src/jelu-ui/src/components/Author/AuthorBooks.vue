@@ -484,8 +484,6 @@ getBooks()
 
 <style scoped>
 
-label.label {
-  font-weight: bold;
-}
+
 
 </style>

@@ -206,9 +206,7 @@ const { typographyClasses } = useTypography()
 
 <style scoped>
 
-label.label {
-  font-weight: bold;
-}
+
 
 .list-enter-active,
 .list-leave-active {

@@ -1543,6 +1543,11 @@ class BookRepository(
 
     fun findUserBookByIdInList(userbookIds: List<UUID>): SizedIterable<UserBook> = UserBook.forIds(userbookIds)
 
+    fun findUserBookByBookAndUser(
+        bookId: UUID,
+        userId: UUID,
+    ): UserBook? = UserBook.find { UserBookTable.user eq userId and (UserBookTable.book eq bookId) }.firstOrNull()
+
     fun findUserBookByCriteria(
         userID: UUID,
         bookId: UUID?,

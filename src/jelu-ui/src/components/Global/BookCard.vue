@@ -110,31 +110,7 @@ watch(checked, (newVal, oldVal) => {
   >
     <div>
       <router-link
-        v-if="book.id != null"
-        :to="{ name: 'book-detail', params: { bookId: book.id } }"
-      >
-        <figure>
-           <img
-             v-if="book.book.image"
-             :src="'/files/' + book.book.image + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
-             alt="cover image"
-             loading="lazy"
-             decoding="async"
-             class="object-cover aspect-[2/3] w-full"
-           >
-           <img
-             v-else
-             src="../../assets/placeholder_asset.jpg"
-             alt="cover placeholder"
-             loading="lazy"
-             decoding="async"
-             class="object-cover aspect-[2/3] w-full"
-           >
-        </figure>
-      </router-link>
-      <router-link
-        v-else
-        :to="{ name: 'book-reviews', params: { bookId: book.book.id } }"
+        :to="{ name: 'book-detail', params: { bookId: book.id ?? book.book.id } }"
       >
         <figure>
            <img
@@ -174,21 +150,8 @@ watch(checked, (newVal, oldVal) => {
     </div>
     <div class="card-body">
       <router-link
-        v-if="book.id != null"
         class="grow"
-        :to="{ name: 'book-detail', params: { bookId: book.id } }"
-      >
-        <h2
-          v-tooltip="book.book.title"
-          class="card-title text-base max-h-11 line-clamp-2 hover:link"
-        >
-          {{ book.book.title }}
-        </h2>
-      </router-link>
-      <router-link
-        v-else
-        class="grow"
-        :to="{ name: 'book-reviews', params: { bookId: book.book.id } }"
+        :to="{ name: 'book-detail', params: { bookId: book.id ?? book.book.id } }"
       >
         <h2
           v-tooltip="book.book.title"
@@ -263,13 +226,14 @@ watch(checked, (newVal, oldVal) => {
           >
             <i class="mdi mdi-eye mdi-18px" />
           </span>
-          <span
+          <router-link
             v-if="proposeAdd === true && book.id == null"
             v-tooltip="t('labels.book_not_yet_in_books')"
             class="icon text-error"
+            :to="{ name: 'book-detail', params: { bookId: book.book.id } }"
           >
             <i class="mdi mdi-plus-circle mdi-18px" />
-          </span>
+          </router-link>
           <slot name="icon" />
           <slot name="date" />
         </div>

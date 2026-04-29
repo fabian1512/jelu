@@ -70,12 +70,18 @@ const bookQuotes: Ref<Array<BookQuote>> = ref([])
 const getBook = async () => {
   try {
     getBookIsLoading.value = true
-    book.value = await dataService.getUserBookById(props.bookId)
+    try {
+      book.value = await dataService.getUserBookById(props.bookId)
+    } catch {
+      book.value = await dataService.getBookAsUserBook(props.bookId)
+    }
     getBookIsLoading.value = false
     useTitle('Jelu | ' + book.value.book.title)
-    getUserReviewsForBook()
-    getBookQuotesForBook()
-    getAllSeriesInfo()
+    if (book.value.id != null) {
+      getUserReviewsForBook()
+      getBookQuotesForBook()
+      getAllSeriesInfo()
+    }
   } catch (error) {
     getBookIsLoading.value = false
   }

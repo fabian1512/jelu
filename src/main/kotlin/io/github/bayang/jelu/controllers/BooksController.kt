@@ -86,6 +86,12 @@ class BooksController(
         @PathVariable("id") userbookId: UUID,
     ) = repository.findUserBookById(userbookId)
 
+    @GetMapping(path = ["/userbooks/from-book/{bookId}"])
+    fun userbookByBookId(
+        @PathVariable("bookId") bookId: UUID,
+        principal: Authentication,
+    ) = repository.findBookAsUserBook(bookId, (principal.principal as JeluUser).user.id!!)
+
     @ApiResponse(responseCode = "204", description = "Deleted the userbook")
     @DeleteMapping(path = ["/userbooks/{id}"])
     fun deleteUserbookById(

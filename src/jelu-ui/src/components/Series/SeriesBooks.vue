@@ -358,7 +358,5 @@ const { typographyClasses } = useTypography()
 
 <style scoped>
 
-label.label {
-  font-weight: bold;
-}
+
 </style>

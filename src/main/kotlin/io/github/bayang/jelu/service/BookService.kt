@@ -489,6 +489,34 @@ class BookService(
     @Transactional
     fun findUserBookById(userbookId: UUID): UserBookLightDto = bookRepository.findUserBookById(userbookId).toUserBookLightDto()
 
+    fun findBookAsUserBook(
+        bookId: UUID,
+        userId: UUID,
+    ): UserBookLightDto {
+        val existing = bookRepository.findUserBookByBookAndUser(bookId, userId)
+        if (existing != null) {
+            return existing.toUserBookLightDto()
+        }
+        val book = bookRepository.findBookById(bookId)
+        val bookDto = book.toBookDto()
+        return UserBookLightDto(
+            id = null,
+            creationDate = null,
+            modificationDate = null,
+            book = bookDto,
+            owned = null,
+            toRead = null,
+            personalNotes = null,
+            lastReadingEvent = null,
+            lastReadingEventDate = null,
+            percentRead = null,
+            currentPageNumber = null,
+            borrowed = null,
+            readingEvents = null,
+            price = null,
+        )
+    }
+
     @Transactional
     fun findUserBookByCriteria(
         userId: UUID,
