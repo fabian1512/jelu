@@ -13,6 +13,7 @@ import { ObjectUtils } from '../../utils/ObjectUtils';
 import BookCard from '../Global/BookCard.vue';
 import SortFilterBarVue from '../Global/SortFilterBar.vue';
 import { ReadingEventType } from '../../model/ReadingEvent';
+import useTypography from '../../composables/typography';
 
 const { t } = useI18n({
       inheritLocale: true,
@@ -134,6 +135,8 @@ const operators = ["AND", "OR", "NOT"]
 if (searchQuery.value != null) {
     search()
   }
+
+const { typographyClasses } = useTypography()
 
 </script>
 
@@ -375,9 +378,13 @@ if (searchQuery.value != null) {
   </sort-filter-bar-vue>
   <div class="flex flex-row justify-between mb-2">
     <h2
-      class="text-xl sm:text-2xl md:text-3xl"
+      class="text-xl sm:text-2xl md:text-3xl capitalize truncate min-w-0 flex-1"
+      :class="typographyClasses"
     >
-      {{ t('labels.search') }} :
+      <span class="icon">
+        <i class="mdi mdi-magnify" />
+      </span>
+      &nbsp; {{ t('labels.search') }} :
     </h2>
     <div class="flex flex-row gap-1">
       <button
