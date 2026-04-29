@@ -1,5 +1,6 @@
 package io.github.bayang.jelu.service.metadata.providers
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.bayang.jelu.dto.MetadataDto
 import io.github.bayang.jelu.dto.MetadataRequestDto
 import org.jsoup.Jsoup
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service
 import java.util.Optional
 
 @Service
-class GoodreadsMetadataProvider : IMetaDataProvider {
+class GoodreadsMetadataProvider(
+    private val objectMapper: ObjectMapper,
+) : IMetaDataProvider {
     private val logger = LoggerFactory.getLogger(GoodreadsMetadataProvider::class.java)
     private val baseUrl = "https://www.goodreads.com"
 
@@ -109,8 +112,15 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
         val doc = fetchDocument(url) ?: return Optional.empty()
         val dto = MetadataDto()
 
+        // 1. Try JSON-LD first (Goodreads Next.js pages have this)
+        parseJsonLd(doc, dto)
+
+        // 2. Fallback: HTML selectors for fields not covered by JSON-LD
+
         // title
-        doc.selectFirst("h1[data-testid=bookTitle]")?.text()?.let { dto.title = it }
+        if (dto.title == null) {
+            doc.selectFirst("h1[data-testid=bookTitle]")?.text()?.let { dto.title = it }
+        }
         if (dto.title == null) {
             doc.selectFirst("h1#bookTitle")?.text()?.let { dto.title = it }
         }
@@ -118,18 +128,21 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
             doc.select("meta[property=og:title]")?.attr("content")?.let { dto.title = it }
         }
 
-        // authors
-        val authors = mutableSetOf<String>()
-        doc.select("span[data-testid=authorname] a").forEach { authors.add(it.text().trim()) }
-        if (authors.isEmpty()) {
-            doc.select("a.authorName span").forEach { authors.add(it.text().trim()) }
+        // authors (HTML fallback if JSON-LD didn't have them)
+        if (dto.authors.isEmpty()) {
+            doc.select("span[data-testid=authorname] a").forEach { dto.authors.add(it.text().trim()) }
         }
-        if (authors.isEmpty()) {
-            doc.select("div#bookAuthors a[href*=/author/show/] span").forEach { authors.add(it.text().trim()) }
+        if (dto.authors.isEmpty()) {
+            doc.select("a.authorName span").forEach { dto.authors.add(it.text().trim()) }
         }
-        dto.authors = authors
+        if (dto.authors.isEmpty()) {
+            doc.select("div#bookAuthors a[href*=/author/show/] span").forEach { dto.authors.add(it.text().trim()) }
+        }
+        if (dto.authors.isEmpty()) {
+            doc.select("a.ContributorLink")?.eachText()?.let { authors -> dto.authors.addAll(authors.map { it.trim() }) }
+        }
 
-        // summary
+        // summary (not in JSON-LD, use HTML selectors)
         doc.selectFirst("div[data-testid=description] span[role=none]")?.text()?.let {
             dto.summary = it.trim()
         }
@@ -154,8 +167,10 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
             }
         }
 
-        // image
-        doc.selectFirst("img.ResponsiveImage")?.attr("src")?.let { dto.image = it }
+        // image (HTML fallback)
+        if (dto.image == null) {
+            doc.selectFirst("img.ResponsiveImage")?.attr("src")?.let { dto.image = it }
+        }
         if (dto.image == null) {
             doc.selectFirst("div.BookCover img")?.attr("src")?.let { dto.image = it }
         }
@@ -166,7 +181,7 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
             doc.select("meta[property=og:image]")?.attr("content")?.let { dto.image = it }
         }
 
-        // details section: publisher, pageCount, publishedDate, isbn
+        // details section: publisher, publishedDate, isbn (HTML fallback)
         val detailElements = doc.select("div[data-testid=bookDetails] p")
         if (detailElements.isEmpty()) {
             doc.select("div#bookDetailsBox div.infoBoxRowItem").forEach { detailElements.add(it) }
@@ -174,20 +189,20 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
         for (div in detailElements) {
             val text = div.text()
             when {
-                text.contains("Publisher", true) -> {
+                text.contains("Publisher", true) && dto.publisher == null -> {
                     dto.publisher =
                         text
                             .replace("Publisher", "", true)
                             .replace(":", "")
                             .trim()
                 }
-                text.contains("Page", true) -> {
+                text.contains("Page", true) && dto.pageCount == null -> {
                     dto.pageCount = text.replace("[^0-9]".toRegex(), "").toIntOrNull()
                 }
-                text.contains("Published", true) -> {
+                text.contains("Published", true) && dto.publishedDate == null -> {
                     dto.publishedDate = text.removePrefix("Published", true).trim()
                 }
-                text.contains("ISBN", true) -> {
+                text.contains("ISBN", true) && dto.isbn13 == null -> {
                     val raw =
                         text
                             .removePrefix("ISBN", true)
@@ -202,7 +217,7 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
             }
         }
 
-        // tags (genres)
+        // tags (genres) — not in JSON-LD
         val tags = mutableSetOf<String>()
         doc.select("a[data-testid=bookGenre]").forEach { tags.add(it.text().trim()) }
         if (tags.isEmpty()) {
@@ -211,10 +226,11 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
         dto.tags = tags
 
         logger.info(
-            "goodreads parse: title={}, summary={}, authors={}",
+            "goodreads parse: title={}, summary={}, authors={}, isbn13={}",
             dto.title != null,
             dto.summary != null,
             dto.authors.size,
+            dto.isbn13 != null,
         )
 
         if (dto.title.isNullOrBlank()) {
@@ -222,6 +238,56 @@ class GoodreadsMetadataProvider : IMetaDataProvider {
             return Optional.empty()
         }
         return Optional.of(dto)
+    }
+
+    private fun parseJsonLd(
+        doc: Document,
+        dto: MetadataDto,
+    ) {
+        try {
+            val scriptTag = doc.selectFirst("script[type=application/ld+json]") ?: return
+            val json = scriptTag.data()
+            val root = objectMapper.readTree(json)
+
+            // Title
+            root.get("name")?.asText()?.let { dto.title = it }
+
+            // Authors
+            val authorNode = root.get("author")
+            if (authorNode != null) {
+                val authorList =
+                    if (authorNode.isArray) {
+                        authorNode.mapNotNull { it.get("name")?.asText() }
+                    } else {
+                        listOfNotNull(authorNode.get("name")?.asText())
+                    }
+                dto.authors = authorList.toMutableSet()
+            }
+
+            // Image
+            root.get("image")?.asText()?.let { dto.image = it }
+
+            // ISBN
+            val isbnText = root.get("isbn")?.asText()
+            if (!isbnText.isNullOrBlank()) {
+                val clean =
+                    isbnText.replace("-", "").replace(" ", "")
+                when {
+                    clean.length == 13 -> dto.isbn13 = clean
+                    clean.length == 10 -> dto.isbn10 = clean
+                }
+            }
+
+            // Page count
+            dto.pageCount = root.get("numberOfPages")?.asInt()
+
+            // Language
+            root.get("inLanguage")?.asText()?.let { dto.language = it }
+
+            logger.debug("JSON-LD parsed: title={}, isbn={}, authors={}", dto.title, isbnText, dto.authors.size)
+        } catch (e: Exception) {
+            logger.debug("Failed to parse JSON-LD: ${e.message}")
+        }
     }
 
     private val userAgent =
