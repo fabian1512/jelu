@@ -109,29 +109,45 @@ const currentLayout = computed(() => {
 
 .pwa-toast {
   position: fixed;
-  right: 0;
-  bottom: 0;
-  margin: 16px;
-  padding: 12px;
-  border: 1px solid #8885;
-  border-radius: 4px;
-  z-index: 1;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 12px 16px;
+  z-index: 9999;
   text-align: left;
-  box-shadow: 3px 4px 5px 0 #8885;
-  background-color: white;
+  max-width: calc(100vw - 32px);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-box, 0.5rem);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+}
+
+@media (min-width: 640px) {
+  .pwa-toast {
+    left: auto;
+    right: 16px;
+    bottom: 16px;
+    transform: none;
+  }
 }
 
 .pwa-toast .message {
   margin-bottom: 8px;
+  font-size: 0.875rem;
 }
 
 .pwa-toast button {
-  border: 1px solid #8885;
+  border: 1px solid var(--color-base-300);
   outline: none;
   margin-right: 5px;
-  border-radius: 2px;
+  border-radius: var(--radius-field, 0.25rem);
   padding: 8px 16px;
   min-height: 44px;
   font-size: 14px;
+  background-color: var(--color-base-200);
+  color: var(--color-base-content);
+  cursor: pointer;
 }
 </style>
