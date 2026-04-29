@@ -159,7 +159,7 @@ const { typographyClasses } = useTypography()
     @update:sort-order="sortOrderUpdated"
   >
     <template #sort-fields>
-      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
+      <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
       <div class="field">
         <input
           v-model="sortBy"
@@ -243,7 +243,7 @@ const { typographyClasses } = useTypography()
     </template>
     <template #filters>
       <div class="field flex flex-col items-start">
-        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
         <div class="field">
           <input
             v-model="owned"

@@ -129,7 +129,7 @@ const { typographyClasses } = useTypography()
   >
     <template #sort-fields>
       <div class="field flex flex-col items-start gap-1">
-        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
         <div class="p-1">
           <input
             v-model="sortBy"
@@ -194,7 +194,7 @@ const { typographyClasses } = useTypography()
     </template>
     <template #filters>
       <div class="field flex flex-col items-start gap-1">
-        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
         <div class="p-1">
           <input
             v-model="libraryFilter"

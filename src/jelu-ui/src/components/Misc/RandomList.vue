@@ -111,7 +111,7 @@ const { typographyClasses } = useTypography()
   >
     <template #filters>
       <div class="field flex flex-col items-start">
-        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
         <div class="field">
           <input
             v-model="eventTypes"
@@ -141,7 +141,7 @@ const { typographyClasses } = useTypography()
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
         <div class="field">
           <input
             v-model="owned"
