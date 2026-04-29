@@ -135,7 +135,7 @@ const { typographyClasses } = useTypography()
             v-model="sortBy"
             type="radio"
             name="radio-22"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary"
             value="title"
           >
           <span class="label-text">{{ t('sorting.title') }}</span>
@@ -145,7 +145,7 @@ const { typographyClasses } = useTypography()
             v-model="sortBy"
             type="radio"
             name="radio-22"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary"
             value="publisher"
           >
           <span class="label-text">{{ t('sorting.publisher') }}</span>
@@ -155,7 +155,7 @@ const { typographyClasses } = useTypography()
             v-model="sortBy"
             type="radio"
             name="radio-22"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary"
             value="numberInSeries"
           >
           <span class="label-text">{{ t('sorting.series_number') }}</span>
@@ -165,7 +165,7 @@ const { typographyClasses } = useTypography()
             v-model="sortBy"
             type="radio"
             name="radio-22"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary"
             value="publishedDate"
           >
           <span class="label-text">{{ t('sorting.publication_date') }}</span>
@@ -175,7 +175,7 @@ const { typographyClasses } = useTypography()
             v-model="sortBy"
             type="radio"
             name="radio-22"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary"
             value="modificationDate"
           >
           <span class="label-text">{{ t('sorting.modification_date') }}</span>
@@ -185,7 +185,7 @@ const { typographyClasses } = useTypography()
             v-model="sortBy"
             type="radio"
             name="radio-22"
-            class="radio radio-primary mb-2"
+            class="radio radio-primary"
             value="pageCount"
           >
           <span class="label-text">{{ t('sorting.page_count') }}</span>

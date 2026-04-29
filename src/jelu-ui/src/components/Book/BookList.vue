@@ -197,7 +197,7 @@ try {
     @update:sort-order="sortOrderUpdated"
   >
     <template #sort-fields>
-      <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide">{{ t('sorting.sort_by') }}</p>
+      <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
       <div class="field">
         <input
           v-model="sortBy"

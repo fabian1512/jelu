@@ -86,7 +86,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-sort"
-          class="radio radio-primary my-2"
+          class="radio radio-primary"
           value="reviewDate"
         >
         <span class="label-text">{{ t('sorting.review_date') }}</span>
@@ -96,7 +96,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-sort"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary"
           value="creationDate"
         >
         <span class="label-text">{{ t('sorting.date_added') }}</span>
@@ -106,7 +106,7 @@ const { typographyClasses } = useTypography()
           v-model="sortBy"
           type="radio"
           name="radio-sort"
-          class="radio radio-primary mb-2"
+          class="radio radio-primary"
           value="rating"
         >
         <span class="label-text">{{ t('sorting.rating') }}</span>
