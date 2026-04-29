@@ -146,13 +146,13 @@ if (searchQuery.value != null) {
   >
     <template #sort-fields>
       <div class="field flex flex-col items-start gap-1">
-        <label class="label">{{ t('sorting.sort_by') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
         <div class="">
           <input
             v-model="sortBy"
             type="radio"
             name="radio-22"
-          class="radio radio-primary mb-1"
+          class="radio radio-primary"
           value="title"
         >
         <span class="label-text">{{ t('sorting.title') }}</span>
@@ -162,7 +162,7 @@ if (searchQuery.value != null) {
           v-model="sortBy"
           type="radio"
           name="radio-22"
-          class="radio radio-primary mb-1"
+          class="radio radio-primary"
           value="publisher"
         >
         <span class="label-text">{{ t('sorting.publisher') }}</span>
@@ -172,7 +172,7 @@ if (searchQuery.value != null) {
           v-model="sortBy"
           type="radio"
           name="radio-22"
-          class="radio radio-primary mb-1"
+          class="radio radio-primary"
           value="series"
         >
         <span class="label-text">{{ t('sorting.series') }}</span>
@@ -182,7 +182,7 @@ if (searchQuery.value != null) {
           v-model="sortBy"
           type="radio"
           name="radio-22"
-          class="radio radio-primary mb-1"
+          class="radio radio-primary"
           value="publishedDate"
         >
         <span class="label-text">{{ t('sorting.publication_date') }}</span>
@@ -192,7 +192,7 @@ if (searchQuery.value != null) {
           v-model="sortBy"
           type="radio"
           name="radio-22"
-          class="radio radio-primary mb-1"
+          class="radio radio-primary"
           value="pageCount"
         >
         <span class="label-text">{{ t('sorting.page_count') }}</span>
@@ -201,13 +201,13 @@ if (searchQuery.value != null) {
     </template>
     <template #filters>
       <div class="field flex flex-col items-start gap-1">
-        <label class="label">{{ t('filtering.books_type') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
         <div class="">
           <input
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ANY"
           >
           <span class="label-text">{{ t('filtering.any') }}</span>
@@ -217,7 +217,7 @@ if (searchQuery.value != null) {
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ONLY_USER_BOOKS"
           >
           <span class="label-text">{{ t('filtering.only_in_my_list') }}</span>
@@ -227,14 +227,14 @@ if (searchQuery.value != null) {
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ONLY_NON_USER_BOOKS"
           >
           <span class="label-text">{{ t('filtering.only_not_in_my_list') }}</span>
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <label class="label">{{ t('reading_events.last_event_type') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
         <div class="field">
           <input
             v-model="eventTypes"
@@ -273,13 +273,13 @@ if (searchQuery.value != null) {
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <label class="label">{{ t('filtering.book_in_list') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.book_in_list') }}</p>
         <div class="field">
           <input
             v-model="toRead"
             type="radio"
             name="radio-28"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -289,7 +289,7 @@ if (searchQuery.value != null) {
             v-model="toRead"
             type="radio"
             name="radio-28"
-            class="radio radio-primary mb-1"
+            class="radio radio-primary"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
@@ -306,13 +306,13 @@ if (searchQuery.value != null) {
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <label class="label">{{ t('filtering.owned') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
         <div class="field">
           <input
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -322,7 +322,7 @@ if (searchQuery.value != null) {
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary mb-1"
+            class="radio radio-primary"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
@@ -339,13 +339,13 @@ if (searchQuery.value != null) {
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <label class="label">{{ t('filtering.borrowed') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.borrowed') }}</p>
         <div class="field">
           <input
             v-model="borrowed"
             type="radio"
             name="radio-34"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -355,7 +355,7 @@ if (searchQuery.value != null) {
             v-model="borrowed"
             type="radio"
             name="radio-34"
-            class="radio radio-primary mb-1"
+            class="radio radio-primary"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>

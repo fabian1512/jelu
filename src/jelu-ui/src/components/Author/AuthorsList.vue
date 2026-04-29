@@ -110,13 +110,13 @@ try {
     @update:sort-order="sortOrderUpdated"
   >
     <template #sort-fields>
-      <label class="label">{{ t('sorting.sort_by') }} : </label>
+      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
       <div class="field">
         <input
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary my-1"
+          class="radio radio-primary"
           value="name"
         >
         <span class="label-text capitalize">{{ t('sorting.name') }}</span>
@@ -126,7 +126,7 @@ try {
           v-model="sortBy"
           type="radio"
           name="radio-20"
-          class="radio radio-primary mb-1"
+          class="radio radio-primary"
           value="creationDate"
         >
         <span class="label-text">{{ t('sorting.date_added') }}</span>
@@ -146,13 +146,13 @@ try {
     <template #filters>
       <div class="field capitalize flex flex-col gap-1">
         <div class="field flex flex-col items-start">
-          <label class="label">{{ t('filtering.role') }} : </label>
+          <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.role') }}</p>
           <div class="">
             <input
               v-model="role"
               type="radio"
               name="radio-53"
-              class="radio radio-primary my-1"
+              class="radio radio-primary"
               value="ANY"
             >
             <span class="label-text">{{ t('filtering.any') }}</span>
@@ -162,7 +162,7 @@ try {
               v-model="role"
               type="radio"
               name="radio-53"
-              class="radio radio-primary my-1"
+              class="radio radio-primary"
               value="AUTHOR"
             >
             <span class="label-text">{{ t('book.author') }}</span>
@@ -172,7 +172,7 @@ try {
               v-model="role"
               type="radio"
               name="radio-53"
-              class="radio radio-primary my-1"
+              class="radio radio-primary"
               value="TRANSLATOR"
             >
             <span class="label-text">{{ t('book.translator') }}</span>
@@ -182,20 +182,20 @@ try {
               v-model="role"
               type="radio"
               name="radio-53"
-              class="radio radio-primary my-1"
+              class="radio radio-primary"
               value="NARRATOR"
             >
             <span class="label-text">{{ t('book.narrator') }}</span>
           </div>
         </div>
         <div class="field flex flex-col items-start">
-          <label class="label">{{ t('filtering.books_type') }} : </label>
+          <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
           <div class="">
             <input
               v-model="libraryFilter"
               type="radio"
               name="radio-54"
-              class="radio radio-primary my-1"
+              class="radio radio-primary"
               value="ANY"
             >
             <span class="label-text">{{ t('filtering.any') }}</span>
@@ -205,7 +205,7 @@ try {
               v-model="libraryFilter"
               type="radio"
               name="radio-54"
-              class="radio radio-primary my-1"
+              class="radio radio-primary"
               value="ONLY_USER_BOOKS"
             >
             <span class="label-text">{{ t('filtering.only_in_my_list') }}</span>
@@ -215,14 +215,14 @@ try {
               v-model="libraryFilter"
               type="radio"
               name="radio-54"
-              class="radio radio-primary my-1"
+              class="radio radio-primary"
               value="ONLY_NON_USER_BOOKS"
             >
             <span class="label-text">{{ t('filtering.only_not_in_my_list') }}</span>
           </div>
         </div>
       </div>
-      <label class="label capitalize">{{ t('filtering.filter') }} : </label>
+      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.filter') }}</p>
       <label class="input">
         <svg
           class="h-[1em] opacity-50"

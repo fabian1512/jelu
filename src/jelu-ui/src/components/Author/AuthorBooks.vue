@@ -134,7 +134,7 @@ getBooks()
   >
     <template #sort-fields>
       <div class="field">
-        <label class="label">{{ t('sorting.sort_by') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
         <div class="field">
           <input
             v-model="sortBy"
@@ -189,13 +189,13 @@ getBooks()
     </template>
     <template #filters>
       <div class="field flex flex-col items-start gap-1">
-        <label class="label">{{ t('filtering.books_type') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
         <div class="">
           <input
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ANY"
           >
           <span class="label-text">{{ t('filtering.any') }}</span>
@@ -205,7 +205,7 @@ getBooks()
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ONLY_USER_BOOKS"
           >
           <span class="label-text">{{ t('filtering.only_in_my_list') }}</span>
@@ -215,20 +215,20 @@ getBooks()
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ONLY_NON_USER_BOOKS"
           >
           <span class="label-text">{{ t('filtering.only_not_in_my_list') }}</span>
         </div>
       </div>
       <div class="field flex flex-col gap-1 capitalize">
-        <label class="label">{{ t('filtering.role') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.role') }}</p>
         <div class="">
           <input
             v-model="roleFilter"
             type="radio"
             name="radio-53"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ANY"
           >
           <span class="label-text">{{ t('filtering.any') }}</span>
@@ -238,7 +238,7 @@ getBooks()
             v-model="roleFilter"
             type="radio"
             name="radio-53"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="AUTHOR"
           >
           <span class="label-text">{{ t('book.author') }}</span>
@@ -248,7 +248,7 @@ getBooks()
             v-model="roleFilter"
             type="radio"
             name="radio-53"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="TRANSLATOR"
           >
           <span class="label-text">{{ t('book.translator') }}</span>
@@ -258,7 +258,7 @@ getBooks()
             v-model="roleFilter"
             type="radio"
             name="radio-53"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="NARRATOR"
           >
           <span class="label-text">{{ t('book.narrator') }}</span>

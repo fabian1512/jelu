@@ -129,7 +129,7 @@ const { typographyClasses } = useTypography()
   >
     <template #sort-fields>
       <div class="field flex flex-col items-start gap-1">
-        <label class="label">{{ t('sorting.sort_by') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
         <div class="p-1">
           <input
             v-model="sortBy"
@@ -194,13 +194,13 @@ const { typographyClasses } = useTypography()
     </template>
     <template #filters>
       <div class="field flex flex-col items-start gap-1">
-        <label class="label">{{ t('filtering.books_type') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
         <div class="p-1">
           <input
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ANY"
           >
           <span class="label-text">{{ t('filtering.any') }}</span>
@@ -210,7 +210,7 @@ const { typographyClasses } = useTypography()
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ONLY_USER_BOOKS"
           >
           <span class="label-text">{{ t('filtering.only_in_my_list') }}</span>
@@ -220,7 +220,7 @@ const { typographyClasses } = useTypography()
             v-model="libraryFilter"
             type="radio"
             name="radio-51"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="ONLY_NON_USER_BOOKS"
           >
           <span class="label-text">{{ t('filtering.only_not_in_my_list') }}</span>

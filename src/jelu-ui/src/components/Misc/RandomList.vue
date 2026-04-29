@@ -111,7 +111,7 @@ const { typographyClasses } = useTypography()
   >
     <template #filters>
       <div class="field flex flex-col items-start">
-        <label class="label">{{ t('reading_events.last_event_type') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
         <div class="field">
           <input
             v-model="eventTypes"
@@ -141,13 +141,13 @@ const { typographyClasses } = useTypography()
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <label class="label">{{ t('filtering.owned') }} : </label>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
         <div class="field">
           <input
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary my-1"
+            class="radio radio-primary"
             value="null"
           >
           <span class="label-text">{{ t('filtering.unset') }}</span>
@@ -157,7 +157,7 @@ const { typographyClasses } = useTypography()
             v-model="owned"
             type="radio"
             name="radio-31"
-            class="radio radio-primary mb-1"
+            class="radio radio-primary"
             value="false"
           >
           <span class="label-text">{{ t('labels.false') }}</span>
