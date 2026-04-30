@@ -180,12 +180,9 @@ const bookRoute = computed(() => {
   </div>
 
   <!-- DESKTOP/TABLET: unveränderte Original-Karte aus Commit 36d1cd2 -->
-  <div
-    class="hidden sm:block"
-    style="display: contents"
-  >
+  <div class="hidden sm:flex flex-col">
     <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56 h-full"
+    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56 flex-1"
   >
     <div>
       <router-link
