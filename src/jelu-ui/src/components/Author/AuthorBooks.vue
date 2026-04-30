@@ -267,7 +267,7 @@ getBooks()
     </template>
   </sort-filter-bar-vue>
   <div class="grid">
-    <div class="grid items-center justify-center justify-items-center justify-self-center sm:grid-cols-3 mb-4 sm:w-10/12">
+    <div class="grid items-center justify-center justify-items-center justify-self-center sm:grid-cols-1 sm:grid-cols-3 mb-4 sm:w-10/12">
       <div />
       <div class="level-item">
         <h2
@@ -431,7 +431,7 @@ getBooks()
     :per-page="perPage"
     @change="updatePage"
   />
-  <div class="grid gap-[12px] grid-cols-3 md:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] mt-2">
+  <div class="grid gap-[12px] grid-cols-1 sm:grid-cols-3 md:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] mt-2">
     <div
       v-for="book in convertedBooks"
       :key="book.book.id"

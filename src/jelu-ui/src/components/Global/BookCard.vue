@@ -18,6 +18,7 @@ const props = defineProps<{
   seriesId?: string,
   public: boolean // is it on a public facing page (so hide links etc...)
 }>();
+
 const emit = defineEmits<{
   (e: 'update:modalClosed', open: boolean): void,
   (e: 'update:checked', id: string|null, checked: boolean): void
@@ -89,6 +90,10 @@ const cardImageUrl = computed(() => {
   return StringUtils.thumbnailUrl(props.book.book.image, "card") ?? "/files/" + props.book.book.image
 })
 
+const thumbImageUrl = computed(() => {
+  return StringUtils.thumbnailUrl(props.book.book.image, "thumb") ?? "/files/" + props.book.book.image
+})
+
 const currentSeries = computed(() => {
   if (props.book.book.series != null &&      props.book.book.series?.length > 0) {
     if (props.seriesId != null) {
@@ -104,14 +109,74 @@ watch(checked, (newVal, oldVal) => {
   emit("update:checked", props.book.id != null ? props.book.id as string : props.book.book.id as string , checked.value)
 })
 
-// Intentionally no cache-busting query params.
-// The backend/static file handler already enables long caching.
+const bookRoute = computed(() => {
+  return { name: 'book-detail', params: { bookId: props.book.id ?? props.book.book.id } }
+})
 
 </script>
 
 <template>
+  <!-- MOBILE: compact horizontal -->
   <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56"
+    class="sm:hidden flex flex-row bg-base-100 shadow-md rounded-box w-full"
+    style="height: 144px; min-height: 144px; max-height: 144px"
+  >
+    <router-link :to="bookRoute" class="shrink-0">
+      <figure class="w-24 h-full">
+        <img
+          v-if="book.book.image"
+          :src="thumbImageUrl + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
+          alt="cover image"
+          loading="lazy"
+          decoding="async"
+          class="object-cover aspect-[2/3] w-full h-full"
+        >
+        <img
+          v-else
+          src="../../assets/placeholder_asset.jpg"
+          alt="cover placeholder"
+          loading="lazy"
+          decoding="async"
+          class="object-cover aspect-[2/3] w-full h-full"
+        >
+        <div
+          v-if="showProgressBar(book)"
+          v-tooltip="progressBarTooltip"
+          class="bg-success absolute bottom-0 left-0 h-1"
+          :style="{ width: book.percentRead + '%' }"
+        />
+      </figure>
+    </router-link>
+    <div class="flex flex-col justify-between gap-1 px-3 py-2 min-w-0 flex-1 text-left overflow-hidden">
+      <router-link :to="bookRoute">
+        <h2 v-tooltip="book.book.title" class="text-sm font-bold line-clamp-2 hover:link">
+          {{ book.book.title }}
+        </h2>
+      </router-link>
+      <p v-if="book.book.authors != null && book.book.authors.length > 0" class="text-xs opacity-70 line-clamp-1">
+        <span v-for="author in book.book.authors.slice(0,2)" :key="author.id">
+          <router-link v-if="!public" class="link link-hover" :to="{ name: 'author-detail', params: { authorId: author.id } }">{{ author.name }}</router-link>
+          <span v-else>{{ author.name }}</span>
+          <span>,&nbsp;</span>
+        </span>
+        <span v-if="book.book.authors.length > 2" v-tooltip="authorsText">&#8230;</span>
+      </p>
+      <div class="flex items-center gap-1 flex-wrap">
+        <span v-if="book.lastReadingEvent" :class="eventClass" class="badge badge-sm">{{ eventText }}</span>
+        <router-link v-if="currentSeries != null && !props.public" v-tooltip="currentSeries.name" class="badge badge-sm" :to="{ name: 'series', params: { seriesId: currentSeries.seriesId } }">#{{ currentSeries.numberInSeries }}</router-link>
+        <span v-if="book.userAvgRating" class="text-xs text-info flex items-center gap-0.5"><i class="mdi mdi-star mdi-18px" />{{ book.userAvgRating }}</span>
+        <span v-if="book.owned" v-tooltip="t('book.owned')" class="icon text-info"><i class="mdi mdi-bookshelf mdi-18px" /></span>
+        <span v-if="book.toRead" v-tooltip="t('book.in_read_list')" class="icon text-info"><i class="mdi mdi-eye mdi-18px" /></span>
+        <router-link v-if="proposeAdd === true && book.id == null" v-tooltip="t('labels.book_not_yet_in_books')" class="icon text-error" :to="bookRoute"><i class="mdi mdi-plus-circle mdi-18px" /></router-link>
+        <slot name="icon" />
+        <slot name="date" />
+      </div>
+    </div>
+  </div>
+
+  <!-- DESKTOP/TABLET: unveränderte Original-Karte aus Commit 36d1cd2 -->
+  <div
+    class="hidden sm:block card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56"
   >
     <div>
       <router-link
