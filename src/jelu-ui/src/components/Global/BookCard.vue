@@ -116,6 +116,7 @@ const bookRoute = computed(() => {
 </script>
 
 <template>
+  <div class="flex flex-col">
   <!-- MOBILE: compact horizontal -->
   <div
     class="sm:hidden"
@@ -182,7 +183,7 @@ const bookRoute = computed(() => {
   <!-- DESKTOP/TABLET: unveränderte Original-Karte aus Commit 36d1cd2 -->
   <div class="hidden sm:flex flex-col">
     <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56 flex-1"
+    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56 grow"
   >
     <div>
       <router-link
@@ -315,6 +316,7 @@ const bookRoute = computed(() => {
         </div>
       </div>
     </div>
+  </div>
   </div>
   </div>
 </template>
