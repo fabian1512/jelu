@@ -118,7 +118,11 @@ const bookRoute = computed(() => {
 <template>
   <!-- MOBILE: compact horizontal -->
   <div
-    class="sm:hidden flex flex-row bg-base-100 shadow-md rounded-box w-full"
+    class="sm:hidden"
+    style="display: contents"
+  >
+    <div
+    class="flex flex-row bg-base-100 shadow-md rounded-box w-full"
     style="height: 144px; min-height: 144px; max-height: 144px"
   >
     <router-link :to="bookRoute" class="shrink-0">
@@ -173,10 +177,15 @@ const bookRoute = computed(() => {
       </div>
     </div>
   </div>
+  </div>
 
   <!-- DESKTOP/TABLET: unveränderte Original-Karte aus Commit 36d1cd2 -->
   <div
-    class="hidden sm:block card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56"
+    class="hidden sm:block"
+    style="display: contents"
+  >
+    <div
+    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56"
   >
     <div>
       <router-link
@@ -309,6 +318,7 @@ const bookRoute = computed(() => {
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
