@@ -185,7 +185,7 @@ const bookRoute = computed(() => {
     style="display: contents"
   >
     <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56"
+    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56 h-full"
   >
     <div>
       <router-link
