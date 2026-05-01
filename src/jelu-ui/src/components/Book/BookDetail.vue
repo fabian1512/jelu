@@ -583,7 +583,7 @@ getBook()
       </div>
       <div class="text-left">
         <h3
-          class="text-3xl"
+          class="text-xl sm:text-2xl md:text-3xl"
           :class="typographyClasses"
         >
           {{ book?.book?.title }}
