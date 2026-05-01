@@ -2,7 +2,7 @@
 import { useOruga } from "@oruga-ui/oruga-next";
 import IsbnVerify from '@w0s/isbn-verify';
 import { useTitle } from '@vueuse/core';
-import { computed, reactive, Ref, ref, watch } from "vue";
+import { computed, onMounted, reactive, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -467,6 +467,17 @@ const validateIsbn13 = (isbn: string) => {
 
 const displayDatepicker = computed(() => {
   return eventType.value !== null && eventType.value !== "NONE"
+})
+
+onMounted(() => {
+  const pending = localStorage.getItem('pendingAddBookMetadata')
+  if (pending) {
+    try {
+      metadata.value = JSON.parse(pending)
+      mergeMetadata()
+    } catch (_) {}
+    localStorage.removeItem('pendingAddBookMetadata')
+  }
 })
 
 </script>

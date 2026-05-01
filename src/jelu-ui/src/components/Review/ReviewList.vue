@@ -185,7 +185,7 @@ const { typographyClasses } = useTypography()
       {{ t('labels.library_empty') }}
     </h2>
     <span class="icon">
-      <i class="mdi mdi-book-open-page-variant-outline mdi-48px" />
+      <i class="mdi mdi-book-open-page-variant-outline text-4xl sm:text-6xl" />
     </span>
   </div>
 

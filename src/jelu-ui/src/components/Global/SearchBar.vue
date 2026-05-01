@@ -60,7 +60,8 @@ function openImportBookModal() {
     scroll: 'keep',
     props: { book: null },
     events: {
-      metadataReceived: () => {
+      metadataReceived: (modalMetadata: any) => {
+        localStorage.setItem('pendingAddBookMetadata', JSON.stringify(modalMetadata))
         router.push({ name: 'add-book' })
       }
     },
