@@ -71,6 +71,7 @@ const getMyEvents = async () => {
   try {
     const res = await dataService.myReadingEvents(nonCurrentlyReadingEvents, undefined, undefined, undefined, undefined, undefined, 0, 14, 'endDate,desc')
     const notCurrentlyReading = res.content.filter(e => e.eventType !== ReadingEventType.CURRENTLY_READING)
+    notCurrentlyReading.forEach(e => { e.userBook.lastReadingEvent = e.eventType })
     events.value = notCurrentlyReading
     recentEventsIsLoading.value = false
   } catch (error) {

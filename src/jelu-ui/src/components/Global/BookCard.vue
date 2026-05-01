@@ -151,7 +151,7 @@ const bookRoute = computed(() => {
         />
       </figure>
     </router-link>
-    <div class="flex flex-col justify-between gap-1 px-3 py-2 min-w-0 flex-1 text-left overflow-hidden">
+    <div class="flex flex-col justify-between gap-1 px-3 py-2 min-w-0 flex-1 text-left">
       <router-link :to="bookRoute">
         <h2 v-tooltip="book.book.title" class="text-sm font-bold line-clamp-2 hover:link">
           {{ book.book.title }}
