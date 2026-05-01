@@ -246,45 +246,51 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .edit-modal {
-    margin: max(12px, 30px);
+    margin: 12px auto;
     width: min(900px, calc(100vw - 24px));
     max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .event-modal {
-    margin: 12px;
+    margin: 12px auto;
     width: min(650px, calc(100vw - 24px));
-    height: min(600px, 85vh);
+    max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .author-modal {
-    margin: 12px;
+    margin: 12px auto;
     width: min(600px, calc(100vw - 24px));
     max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .quote-modal {
-    margin: 12px;
+    margin: 12px auto;
     width: min(900px, calc(100vw - 24px));
-    height: min(700px, 85vh);
+    max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .review-modal {
-    margin: 12px;
+    margin: 12px auto;
     width: min(900px, calc(100vw - 24px));
-    height: min(700px, 85vh);
+    max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .metadata-modal {
-    margin: 12px;
+    margin: 12px auto;
     width: min(400px, calc(100vw - 24px));
-    height: min(400px, 75vh);
+    max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .review-book-card {

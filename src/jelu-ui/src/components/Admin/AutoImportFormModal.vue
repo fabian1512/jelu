@@ -144,7 +144,7 @@ const { typographyClasses } = useTypography()
       </div>
       <div
         v-if="displayForm"
-        class="sm:w-lg"
+        class="w-full sm:w-lg"
       >
         <fieldset class="fieldset">
           <legend class="fieldset-legend capitalize">

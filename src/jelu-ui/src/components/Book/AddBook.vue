@@ -480,7 +480,7 @@ const displayDatepicker = computed(() => {
           :class="typographyClasses">
           {{ t('nav.add_book') }}
         </h1>
-        <div class="flex gap-2 items-center">
+        <div class="flex gap-2 items-center flex-wrap justify-center">
           <button
             v-tooltip="t('labels.auto_fill_doc')"
             class="btn btn-success button uppercase"
@@ -491,6 +491,16 @@ const displayDatepicker = computed(() => {
               <i class="mdi mdi-auto-fix mdi-18px" />
             </span>
             <span>{{ t('labels.auto_fill') }}</span>
+          </button>
+          <button
+            class="btn btn-primary uppercase"
+            :disabled="!StringUtils.isNotBlank(form.title)"
+            @click="importBook"
+          >
+            <span class="icon">
+              <i class="mdi mdi-import mdi-18px" />
+            </span>
+            <span>{{ t('labels.import_book') }}</span>
           </button>
           <svg
             v-if="store != null && !store.getters.getMetadataFetchEnabled"
@@ -669,7 +679,8 @@ const displayDatepicker = computed(() => {
           <textarea
             v-model="form.summary"
             maxlength="50000"
-            class="textarea focus:textarea-accent w-full"
+            rows="2"
+            class="textarea focus:textarea-accent w-full sm:rows-auto"
           />
         </fieldset>
         <fieldset class="fieldset">

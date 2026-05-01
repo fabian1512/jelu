@@ -89,21 +89,11 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="event-modal">
-    <div
-      v-if="props.edit"
-    >
-      <div>
-        <div>
-          <h1
-            class="text-2xl first-letter:capitalize"
-            :class="typographyClasses"
-          >
-            {{ t('reading_events.edit_event') }}
-          </h1>
-        </div>
-      </div>
-      <div>
-        <div class="field">
+    <div v-if="props.edit">
+      <h1 class="text-xl first-letter:capitalize mb-3" :class="typographyClasses">
+        {{ t('reading_events.edit_event') }}
+      </h1>
+      <div class="field">
           <label class="label">
             <span class="label-text font-semibold">{{ t('reading_events.last_event_type') }} : </span>
           </label>
@@ -112,7 +102,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-28"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="FINISHED"
             >
             <span class="label-text ml-2">
@@ -124,7 +114,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-28"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="CURRENTLY_READING"
             >
             <span class="label-text ml-2">
@@ -136,7 +126,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-28"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="DROPPED"
             >
             <span class="label-text ml-2">
@@ -148,7 +138,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-28"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="MARKED_OWNED"
             >
             <span class="label-text ml-2">
@@ -160,7 +150,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-28"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="MARKED_TO_READ"
             >
             <span class="label-text ml-2">
@@ -172,7 +162,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-28"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="MARKED_BORROWED"
             >
             <span class="label-text ml-2">
@@ -264,21 +254,16 @@ const { typographyClasses } = useTypography()
             <span>{{ t('labels.delete') }}</span>
           </button>
         </div>
-      </div>
     </div>
     <div
       v-else
     >
-      <div>
-        <div>
-          <h1
-            class="text-2xl capitalize"
-            :class="typographyClasses"
-          >
-            {{ t('reading_events.choose_event') }}
-          </h1>
-        </div>
-      </div>
+      <h1
+        class="text-xl capitalize mb-3"
+        :class="typographyClasses"
+      >
+        {{ t('reading_events.choose_event') }}
+      </h1>
       <div>
         <div class="field">
           <label class="label">
@@ -289,7 +274,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-29"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="FINISHED"
             >
             <span class="label-text ml-2">
@@ -301,7 +286,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-29"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="CURRENTLY_READING"
             >
             <span class="label-text ml-2">
@@ -313,7 +298,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-29"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="DROPPED"
             >
             <span class="label-text ml-2">
@@ -325,7 +310,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-29"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="MARKED_OWNED"
             >
             <span class="label-text ml-2">
@@ -337,7 +322,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-29"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="MARKED_TO_READ"
             >
             <span class="label-text ml-2">
@@ -349,7 +334,7 @@ const { typographyClasses } = useTypography()
               v-model="currentCreateEvent.eventType"
               type="radio"
               name="radio-29"
-              class="radio radio-primary my-2"
+              class="radio radio-primary my-1"
               value="MARKED_BORROWED"
             >
             <span class="label-text ml-2">
