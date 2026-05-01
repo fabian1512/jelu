@@ -171,7 +171,8 @@ const { typographyClasses } = useTypography()
         <div
           v-for="book in books"
           :key="book.id"
-        >
+        class="h-full"
+      >
           <book-card
             :book="book"
             :public="false"
@@ -253,7 +254,7 @@ const { typographyClasses } = useTypography()
       <div
         v-for="event in events"
         :key="event.id"
-        class="m-1 pb-6"
+        class="m-1 pb-6 h-full"
       >
         <div class="h-full">
           <book-card

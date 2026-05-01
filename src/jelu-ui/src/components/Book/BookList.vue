@@ -487,6 +487,7 @@ try {
       <div
         v-for="book in books"
         :key="book.id"
+        class="h-full"
       >
         <book-card
           :book="book"

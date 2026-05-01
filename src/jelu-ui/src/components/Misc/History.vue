@@ -183,7 +183,8 @@ getYears()
           <div
             v-for="event in ev"
             :key="event.id"
-          >
+        class="h-full"
+      >
             <book-card
               :book="event.userBook"
               :public="false"

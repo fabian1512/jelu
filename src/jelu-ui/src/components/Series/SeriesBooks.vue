@@ -327,7 +327,7 @@ const { typographyClasses } = useTypography()
     <div
       v-for="book in convertedBooks"
       :key="book.book.id"
-      class="books-grid-item my-2"
+      class="books-grid-item my-2 h-full"
     >
       <book-card
         :book="book"

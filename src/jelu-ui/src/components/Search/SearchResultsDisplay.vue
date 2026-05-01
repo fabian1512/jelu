@@ -567,7 +567,8 @@ const { typographyClasses } = useTypography()
     <div
       v-for="book in convertedBooks"
       :key="book.book.id"
-    >
+        class="h-full"
+      >
       <book-card
         :book="book"
         :force-select="selectAll"
