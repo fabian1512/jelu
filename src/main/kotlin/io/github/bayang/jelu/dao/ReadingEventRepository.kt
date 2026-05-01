@@ -299,6 +299,18 @@ class ReadingEventRepository {
                 this.startDate = updateReadingEventDto.startDate
             }
             this.eventType = updateReadingEventDto.eventType
+            when (updateReadingEventDto.eventType) {
+                ReadingEventType.MARKED_TO_READ -> this.userBook.toRead = true
+                ReadingEventType.MARKED_OWNED -> {
+                    this.userBook.owned = true
+                    this.userBook.borrowed = false
+                }
+                ReadingEventType.MARKED_BORROWED -> {
+                    this.userBook.borrowed = true
+                    this.userBook.owned = false
+                }
+                else -> {}
+            }
             val lastEvent =
                 this.userBook.readingEvents
                     .maxByOrNull { e -> e.lastEventDate }
