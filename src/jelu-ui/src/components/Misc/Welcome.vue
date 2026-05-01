@@ -254,9 +254,8 @@ const { typographyClasses } = useTypography()
       <div
         v-for="event in events"
         :key="event.id"
-        class="m-1 pb-6 h-full"
+        class="h-full"
       >
-        <div class="h-full">
           <book-card
             :book="event.userBook"
             :public="false"
@@ -265,13 +264,6 @@ const { typographyClasses } = useTypography()
             :show-select="false"
             :propose-add="true"
           />
-          <p class="mt-1">
-            <span
-              class="badge"
-              :class="eventClass(event.eventType)"
-            >{{ eventLabel(event.eventType) }}</span>
-          </p>
-        </div>
       </div>
     </div>
     <div
