@@ -163,7 +163,7 @@ const { typographyClasses } = useTypography()
   <div v-if="isLogged">
     <div v-if="hasBooks">
       <h2
-        class="text-3xl pb-3"
+        class="text-xl sm:text-2xl md:text-3xl pb-3"
         :class="typographyClasses"
       >
         {{ t('home.currently_reading') }} :
@@ -232,7 +232,7 @@ const { typographyClasses } = useTypography()
     <!-- logged, no books -->
     <div v-else>
       <h2
-        class="text-3xl"
+        class="text-xl sm:text-2xl md:text-3xl"
         :class="typographyClasses"
       >
         {{ t('home.not_reading') }}
@@ -243,7 +243,7 @@ const { typographyClasses } = useTypography()
     </div>
     <h2
       v-if="events.length > 0"
-      class="text-3xl py-4"
+      class="text-xl sm:text-2xl md:text-3xl py-4"
       :class="typographyClasses"
     >
       {{ t('home.recent_events') }} :
@@ -289,7 +289,7 @@ const { typographyClasses } = useTypography()
     </div>
     <h2
       v-if="userReviews.length > 0"
-      class="text-3xl py-4 capitalize"
+      class="text-xl sm:text-2xl md:text-3xl py-4 capitalize"
       :class="typographyClasses"
     >
       {{ t('reviews.review', 2) }}

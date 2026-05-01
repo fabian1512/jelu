@@ -1248,18 +1248,6 @@ const displayDatepicker = computed(() => {
           </fieldset>
         </div>
         <div class="field">
-          <button
-            class="btn btn-success mb-3 uppercase w-full sm:w-auto"
-            :disabled="!StringUtils.isNotBlank(form.title)"
-            :class="{'btn-disabled' : progress}"
-            @click="importBook"
-          >
-            <span
-              v-if="progress"
-              class="loading loading-spinner"
-            />
-            {{ t('labels.import_book') }}
-          </button>
           <progress
             v-if="progress"
             class="progress progress-success mt-5"

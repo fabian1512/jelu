@@ -7,6 +7,7 @@ import { useOruga } from '@oruga-ui/oruga-next'
 import { key } from '../../store'
 import { StringUtils } from '../../utils/StringUtils'
 import ScanModal from '../Book/ScanModal.vue'
+import AutoImportFormModalVue from '../Admin/AutoImportFormModal.vue'
 
 const store = useStore(key)
 const router = useRouter()
@@ -49,6 +50,22 @@ function toggleScanModal() {
     },
   })
 }
+
+function openImportBookModal() {
+  oruga.modal.open({
+    component: AutoImportFormModalVue,
+    trapFocus: true,
+    active: true,
+    canCancel: ['x', 'button', 'outside'],
+    scroll: 'keep',
+    props: { book: null },
+    events: {
+      metadataReceived: () => {
+        router.push({ name: 'add-book' })
+      }
+    },
+  })
+}
 </script>
 
 <template>
@@ -62,11 +79,14 @@ function toggleScanModal() {
           class="input input-bordered join-item flex-1 min-w-0"
           @keyup.enter="search"
         />
-        <button class="btn btn-primary join-item" @click="search">
+        <button class="btn btn-primary join-item w-11" @click="search">
           <i class="mdi mdi-magnify text-xl" />
         </button>
-        <button class="btn btn-warning join-item" @click="toggleScanModal">
+        <button class="btn btn-warning join-item w-11" @click="toggleScanModal">
           <i class="mdi mdi-barcode text-xl" />
+        </button>
+        <button class="btn btn-success join-item w-11" @click="openImportBookModal">
+          <i class="mdi mdi-book-open-page-variant-outline text-xl" />
         </button>
       </div>
     </div>

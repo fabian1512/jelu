@@ -375,7 +375,7 @@ const { typographyClasses } = useTypography()
   </div>
   <div v-else>
     <h2
-      class="text-3xl"
+      class="text-xl sm:text-2xl md:text-3xl"
       :class="typographyClasses"
     >
       {{ t('labels.nothing_to_read') }}

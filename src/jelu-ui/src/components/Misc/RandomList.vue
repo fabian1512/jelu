@@ -177,7 +177,7 @@ const { typographyClasses } = useTypography()
   </sort-filter-bar-vue>
   <div class="flex flex-row justify-between">
     <h2
-      class="text-3xl capitalize"
+      class="text-xl sm:text-2xl md:text-3xl capitalize"
       :class="typographyClasses"
     >
       {{ t('nav.random') }} :
@@ -265,7 +265,7 @@ const { typographyClasses } = useTypography()
   </div>
   <div v-else>
     <h2
-      class="text-3xl"
+      class="text-xl sm:text-2xl md:text-3xl"
       :class="typographyClasses"
     >
       {{ t('nav.random') }}
