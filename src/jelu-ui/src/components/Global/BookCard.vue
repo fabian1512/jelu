@@ -137,7 +137,6 @@ const bookRoute = computed(() => {
   <!-- MOBILE: compact horizontal -->
   <div
     class="sm:hidden"
-    style="display: contents"
   >
     <div
     class="flex flex-row bg-base-100 shadow-md rounded-box w-full"
