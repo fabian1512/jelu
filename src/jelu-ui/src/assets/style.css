@@ -248,6 +248,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .edit-modal {
     margin: 12px auto;
     width: min(900px, calc(100vw - 24px));
+    min-height: 12rem;
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -256,6 +257,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .event-modal {
     margin: 12px auto;
     width: min(650px, calc(100vw - 24px));
+    min-height: 8rem;
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -264,6 +266,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .author-modal {
     margin: 12px auto;
     width: min(600px, calc(100vw - 24px));
+    min-height: 8rem;
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -272,6 +275,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .quote-modal {
     margin: 12px auto;
     width: min(900px, calc(100vw - 24px));
+    min-height: 8rem;
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -280,6 +284,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .review-modal {
     margin: 12px auto;
     width: min(900px, calc(100vw - 24px));
+    min-height: 10rem;
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -288,6 +293,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .metadata-modal {
     margin: 12px auto;
     width: min(400px, calc(100vw - 24px));
+    min-height: 8rem;
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;

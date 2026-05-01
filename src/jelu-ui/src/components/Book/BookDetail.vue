@@ -566,7 +566,7 @@ getBook()
             v-if="book?.book?.image"
             :src="'/files/' + book.book.image + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
             alt="cover image"
-            class="max-h-96 max-w-full"
+            class="max-h-64 sm:max-h-96 max-w-full"
             fetchpriority="high"
             loading="eager"
             decoding="async"
