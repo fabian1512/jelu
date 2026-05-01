@@ -40,6 +40,18 @@ const eventClass = computed(() => {
       props.book.lastReadingEvent === ReadingEventType.CURRENTLY_READING
     ) {
       return "badge-success";
+    } else if (
+      props.book.lastReadingEvent === ReadingEventType.MARKED_TO_READ
+    ) {
+      return "badge-info";
+    } else if (
+      props.book.lastReadingEvent === ReadingEventType.MARKED_OWNED
+    ) {
+      return "badge-success";
+    } else if (
+      props.book.lastReadingEvent === ReadingEventType.MARKED_BORROWED
+    ) {
+      return "badge-warning";
     } else return "";
   }
   return "";
@@ -53,6 +65,12 @@ const eventText = computed(() => {
       return t('reading_events.dropped');
     } else if (props.book.lastReadingEvent === ReadingEventType.FINISHED) {
       return t('reading_events.finished');
+    } else if (props.book.lastReadingEvent === ReadingEventType.MARKED_TO_READ) {
+      return t('labels.in_read_list');
+    } else if (props.book.lastReadingEvent === ReadingEventType.MARKED_OWNED) {
+      return t('book.owned');
+    } else if (props.book.lastReadingEvent === ReadingEventType.MARKED_BORROWED) {
+      return t('book.borrowed');
     }
   }
   return "";
