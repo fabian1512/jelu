@@ -559,7 +559,7 @@ onMounted(() => {
             <!-- Eigenschaften Section: vertical list -->
             <fieldset class="fieldset m-0 flex-1">
               <legend class="text-sm font-semibold mb-2 text-center capitalize">{{ t('book.properties') }}</legend>
-              <div class="grid grid-cols-1 gap-y-2">
+              <div class="grid grid-cols-2 gap-x-4 gap-y-2">
                 <label class="label cursor-pointer gap-2 mb-0 justify-start">
                   <input v-model="form.owned" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
                   <span class="label-text text-sm whitespace-nowrap">{{ t('book.owned') }}</span>
