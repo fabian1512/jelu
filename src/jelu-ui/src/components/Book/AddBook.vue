@@ -529,46 +529,51 @@ onMounted(() => {
           </svg>
         </div>
      </div>
-      <!-- Status & Properties at top -->
-      <div class="w-full sm:w-8/12 justify-self-center px-2 sm:px-0 my-2 sm:my-4">
-        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 flex-wrap justify-center p-2 sm:p-3 bg-base-200/50 rounded-lg border border-base-300">
-          <!-- Status radios -->
-          <fieldset class="fieldset m-0">
-            <legend class="fieldset-legend text-xs sm:text-sm capitalize">{{ t('book.status') }}</legend>
-            <div class="flex flex-wrap gap-1 sm:gap-2 justify-center sm:justify-start">
-              <label class="label cursor-pointer gap-1 mb-0">
-                <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="FINISHED">
-                <span class="label-text text-xs whitespace-nowrap">{{ t('reading_events.finished') }}</span>
-              </label>
-              <label class="label cursor-pointer gap-1 mb-0">
-                <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="CURRENTLY_READING">
-                <span class="label-text text-xs whitespace-nowrap">{{ t('reading_events.currently_reading') }}</span>
-              </label>
-              <label class="label cursor-pointer gap-1 mb-0">
-                <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="DROPPED">
-                <span class="label-text text-xs whitespace-nowrap">{{ t('reading_events.dropped') }}</span>
-              </label>
-              <label class="label cursor-pointer gap-1 mb-0">
-                <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="NONE">
-                <span class="label-text text-xs whitespace-nowrap">{{ t('reading_events.none') }}</span>
-              </label>
-            </div>
-          </fieldset>
-   
-          <!-- Checkboxes -->
-          <div class="flex flex-wrap gap-1 sm:gap-2 justify-center sm:justify-start">
-            <label class="label cursor-pointer gap-1 mb-0">
-              <input v-model="form.owned" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
-              <span class="label-text text-xs whitespace-nowrap">{{ t('book.owned') }}</span>
-            </label>
-            <label class="label cursor-pointer gap-1 mb-0">
-              <input v-model="form.toRead" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
-              <span class="label-text text-xs whitespace-nowrap">{{ t('book.to_read') }}</span>
-            </label>
-            <label class="label cursor-pointer gap-1 mb-0">
-              <input v-model="form.borrowed" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
-              <span class="label-text text-xs whitespace-nowrap">{{ t('book.borrowed') }}</span>
-            </label>
+      <!-- Status & Eigenschaften at top -->
+      <div class="w-full sm:w-8/12 justify-self-center px-2 sm:px-0 my-3">
+        <div class="bg-base-200/50 rounded-lg border border-base-300 p-3 sm:p-4">
+          <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 sm:divide-x sm:divide-base-300">
+            <!-- Status Section -->
+            <fieldset class="fieldset m-0 sm:pr-6 flex-1">
+              <legend class="text-sm font-semibold mb-2 capitalize">{{ t('book.status') }}</legend>
+              <div class="flex flex-wrap gap-x-4 gap-y-2">
+                <label class="label cursor-pointer gap-2 mb-0">
+                  <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="FINISHED">
+                  <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.finished') }}</span>
+                </label>
+                <label class="label cursor-pointer gap-2 mb-0">
+                  <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="CURRENTLY_READING">
+                  <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.currently_reading') }}</span>
+                </label>
+                <label class="label cursor-pointer gap-2 mb-0">
+                  <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="DROPPED">
+                  <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.dropped') }}</span>
+                </label>
+                <label class="label cursor-pointer gap-2 mb-0">
+                  <input v-model="eventType" type="radio" name="radio-status" class="radio radio-primary radio-sm" value="NONE">
+                  <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.none') }}</span>
+                </label>
+              </div>
+            </fieldset>
+      
+            <!-- Eigenschaften Section -->
+            <fieldset class="fieldset m-0 flex-1">
+              <legend class="text-sm font-semibold mb-2 capitalize">Eigenschaften</legend>
+              <div class="flex flex-wrap gap-x-4 gap-y-2">
+                <label class="label cursor-pointer gap-2 mb-0">
+                  <input v-model="form.owned" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+                  <span class="label-text text-sm whitespace-nowrap">{{ t('book.owned') }}</span>
+                </label>
+                <label class="label cursor-pointer gap-2 mb-0">
+                  <input v-model="form.toRead" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+                  <span class="label-text text-sm whitespace-nowrap">{{ t('book.to_read') }}</span>
+                </label>
+                <label class="label cursor-pointer gap-2 mb-0">
+                  <input v-model="form.borrowed" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+                  <span class="label-text text-sm whitespace-nowrap">{{ t('book.borrowed') }}</span>
+                </label>
+              </div>
+            </fieldset>
           </div>
         </div>
       </div>
