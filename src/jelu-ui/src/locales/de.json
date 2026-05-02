@@ -248,7 +248,8 @@
         "current_page_number": "aktuelle Seitenzahl",
         "narrator": "Erzähler:in | Erzähler:innen",
         "original_title": "Originaltitel",
-        "price": "Preis"
+        "price": "Preis",
+        "properties": "Eigenschaften"
     },
     "authors_merge": {
         "authors_merging_utility": "Autor:innen zusammenführen",

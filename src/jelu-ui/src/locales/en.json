@@ -248,7 +248,8 @@
         "current_page_number" : "current page number",
         "narrator": "narrator | narrators",
         "original_title" : "original title",
-        "price": "price"
+        "price": "price",
+        "properties": "Properties"
     },
     "authors_merge" : {
         "authors_merging_utility" : "Authors merging utility",
