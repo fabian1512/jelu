@@ -130,6 +130,7 @@
         "list_empty": "list is empty"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Dilini seç",
         "pick_theme": "Tema seç",
         "theme_warning": "Beta. Varsayılan tema 'karanlık'",

@@ -130,6 +130,7 @@
         "list_empty": "list is empty"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Zvolte jazyk",
         "pick_theme": "Zvolte motiv",
         "theme_warning": "Beta. Výchozí motiv je 'tmavý'",

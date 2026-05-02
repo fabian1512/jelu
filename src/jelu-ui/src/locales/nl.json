@@ -130,6 +130,7 @@
         "list_empty": "lijst is leeg"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Kies een taal",
         "pick_theme": "Kies een thema",
         "theme_warning": "Beta. Standaard thema is 'donker'",

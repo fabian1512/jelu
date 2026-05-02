@@ -130,6 +130,7 @@
         "list_empty": "la liste est vide"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Choisissez votre langue",
         "pick_theme": "Choisissez un thème",
         "theme_warning": "Beta. Le thème par défaut est 'dark'",

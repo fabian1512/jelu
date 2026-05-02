@@ -130,6 +130,7 @@
         "list_empty": "list is empty"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Izberite svoj jezik",
         "pick_theme": "Izberite temo",
         "theme_warning": "Beta. Privzeta tema je \"temna\"",

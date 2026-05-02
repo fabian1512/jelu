@@ -130,6 +130,7 @@
         "list_empty": "list is empty"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Pilih bahasa",
         "pick_theme": "Pilih tema",
         "theme_warning": "Beta. Tema bawaan adalah 'gelap'",
