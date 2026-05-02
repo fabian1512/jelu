@@ -556,7 +556,7 @@ onMounted(() => {
           </fieldset>
    
           <!-- Checkboxes -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-2 w-full">
+          <div class="flex flex-wrap gap-1 sm:gap-2 justify-center sm:justify-start">
             <label class="label cursor-pointer gap-1 mb-0">
               <input v-model="form.owned" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
               <span class="label-text text-xs whitespace-nowrap">{{ t('book.owned') }}</span>
