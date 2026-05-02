@@ -199,7 +199,7 @@ const bookRoute = computed(() => {
   <!-- DESKTOP/TABLET: unveränderte Original-Karte aus Commit 36d1cd2 -->
   <div class="hidden sm:block h-full">
     <div
-    class="card card-sm bg-base-100 shadow-2xl shadow-base-300 max-w-56 h-full"
+    class="card bg-base-100 shadow-2xl shadow-base-300 max-w-56 h-full"
   >
     <div>
       <router-link
