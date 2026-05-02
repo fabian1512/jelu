@@ -556,7 +556,7 @@ onMounted(() => {
           </fieldset>
    
           <!-- Checkboxes -->
-          <div class="grid grid-cols-3 gap-1 w-full">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-2 w-full">
             <fieldset class="fieldset m-0">
               <legend class="fieldset-legend text-xs capitalize">{{ t('book.owned') }}</legend>
               <label class="label cursor-pointer mb-0">
