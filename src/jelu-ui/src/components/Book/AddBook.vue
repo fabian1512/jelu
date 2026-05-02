@@ -557,27 +557,18 @@ onMounted(() => {
    
           <!-- Checkboxes -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-2 w-full">
-            <fieldset class="fieldset m-0">
-              <legend class="fieldset-legend text-xs capitalize">{{ t('book.owned') }}</legend>
-              <label class="label cursor-pointer mb-0">
-                <input v-model="form.owned" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
-                <span class="label-text text-xs">{{ ownedDisplay }}</span>
-              </label>
-            </fieldset>
-            <fieldset class="fieldset m-0">
-              <legend class="fieldset-legend text-xs capitalize">{{ t('book.to_read') }}</legend>
-              <label class="label cursor-pointer mb-0">
-                <input v-model="form.toRead" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
-                <span class="label-text text-xs">{{ toReadDisplay }}</span>
-              </label>
-            </fieldset>
-            <fieldset class="fieldset m-0">
-              <legend class="fieldset-legend text-xs capitalize">{{ t('book.borrowed') }}</legend>
-              <label class="label cursor-pointer mb-0">
-                <input v-model="form.borrowed" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
-                <span class="label-text text-xs">{{ borrowedDisplay }}</span>
-              </label>
-            </fieldset>
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input v-model="form.owned" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+              <span class="label-text text-xs whitespace-nowrap">{{ t('book.owned') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input v-model="form.toRead" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+              <span class="label-text text-xs whitespace-nowrap">{{ t('book.to_read') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input v-model="form.borrowed" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+              <span class="label-text text-xs whitespace-nowrap">{{ t('book.borrowed') }}</span>
+            </label>
           </div>
         </div>
       </div>
