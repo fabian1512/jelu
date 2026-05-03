@@ -187,7 +187,7 @@ const bookRoute = computed(() => {
         <router-link v-if="currentSeries != null && !props.public" v-tooltip="currentSeries.name" class="badge badge-sm" :to="{ name: 'series', params: { seriesId: currentSeries.seriesId } }">#{{ currentSeries.numberInSeries }}</router-link>
         <span v-if="book.userAvgRating" class="text-xs text-info flex items-center gap-0.5"><i class="mdi mdi-star mdi-18px" />{{ book.userAvgRating }}</span>
         <span v-if="book.owned" v-tooltip="t('book.owned')" class="icon text-info"><i class="mdi mdi-bookshelf mdi-18px" /></span>
-        <span v-if="book.toRead" v-tooltip="t('book.in_read_list')" class="icon text-info"><i class="mdi mdi-eye mdi-18px" /></span>
+
         <router-link v-if="proposeAdd === true && book.id == null" v-tooltip="t('labels.book_not_yet_in_books')" class="icon text-error" :to="bookRoute"><i class="mdi mdi-plus-circle mdi-18px" /></router-link>
         <slot name="icon" />
         <slot name="date" />
@@ -312,13 +312,7 @@ const bookRoute = computed(() => {
           >
             <i class="mdi mdi-bookshelf mdi-18px" />
           </span>
-          <span
-            v-if="book.toRead"
-            v-tooltip="t('book.in_read_list')"
-            class="icon text-info"
-          >
-            <i class="mdi mdi-eye mdi-18px" />
-          </span>
+
           <router-link
             v-if="proposeAdd === true && book.id == null"
             v-tooltip="t('labels.book_not_yet_in_books')"
