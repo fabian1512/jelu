@@ -70,14 +70,19 @@ const fetchMetadata = async () => {
 const handleSearchResultSelect = (result: Book | Metadata) => {
   showSearchResultsModal.value = false
   
+  // Prepare metadata to pass to EditBookModal
+  let metadataToSend: Metadata
+  
   // Check if it's a Book (has id) or Metadata (no id)
   if ('id' in result) {
-    // It's a Book from local DB
+    // It's a Book from local DB - convert to Metadata format
     const bookResult = result as Book
-    const metadataToSend: Metadata = {
+    metadataToSend = {
       title: bookResult.title,
       authors: bookResult.authors?.map(a => a.name) || [],
       isbn: bookResult.isbn13 || bookResult.isbn10,
+      isbn13: bookResult.isbn13,
+      isbn10: bookResult.isbn10,
       publisher: bookResult.publisher,
       publishedDate: bookResult.publishedDate,
       pageCount: bookResult.pageCount,
@@ -88,13 +93,12 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
       series: bookResult.series?.[0]?.name,
       numberInSeries: bookResult.series?.[0]?.numberInSeries,
     }
-    emit('metadataReceived', metadataToSend)
   } else {
     // It's Metadata from external provider
-    emit('metadataReceived', result as Metadata)
+    metadataToSend = result as Metadata
   }
   
-  // Open EditBookModal
+  // Open EditBookModal with metadata
   oruga.modal.open({
     component: EditBookModal,
     trapFocus: true,
@@ -102,7 +106,7 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     canCancel: ['x', 'button', 'outside'],
     scroll: 'clip',
     props: {
-      book: null,
+      book: metadataToSend,
       bookId: null,
       canAddEvent: true
     },

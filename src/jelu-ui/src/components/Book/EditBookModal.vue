@@ -8,6 +8,7 @@ import Datepicker from 'vue3-datepicker';
 import { Author } from "../../model/Author";
 import { Wrapper } from "../../model/autocomplete-wrapper";
 import { UserBook } from "../../model/Book";
+import { Metadata } from "../../model/Metadata";
 import { Path } from "../../model/DirectoryListing";
 import { ReadingEventType } from "../../model/ReadingEvent";
 import { SeriesOrder } from "../../model/Series";
@@ -26,7 +27,7 @@ const { t } = useI18n({
       useScope: 'global'
     })
 
-const props = defineProps<{ bookId: string, book: UserBook | null, canAddEvent: boolean }>()
+const props = defineProps<{ bookId: string, book: UserBook | Metadata | null, canAddEvent: boolean }>()
 const oruga = useOruga()
 const emit = defineEmits(['close']);
 
@@ -43,10 +44,54 @@ const progress: Ref<boolean> = ref(false)
 
 const publishedDate = ref(userbook.value.book.publishedDate ? new Date(userbook.value.book.publishedDate) : null)
 
-function copyInput(book: UserBook | null): any {
+function copyInput(book: UserBook | Metadata | null): any {
   if (book == null) {
     return {}
   }
+  // Check if it's Metadata (no 'id' property) instead of UserBook
+  if (!('id' in book)) {
+    // It's Metadata - convert to UserBook format
+    const meta = book as Metadata
+    return {
+      book: {
+        title: meta.title || '',
+        originalTitle: undefined,
+        isbn10: meta.isbn10,
+        isbn13: meta.isbn13,
+        summary: meta.summary || '',
+        publisher: meta.publisher || '',
+        image: meta.image || null,
+        pageCount: meta.pageCount || null,
+        publishedDate: meta.publishedDate || null,
+        authors: meta.authors?.map((a: string) => ({ name: a })) || [],
+        translators: [],
+        narrators: [],
+        tags: meta.tags?.map((t: string) => ({ name: t })) || [],
+        series: meta.series ? [{ name: meta.series, numberInSeries: meta.numberInSeries }] : [],
+        language: meta.language || '',
+        googleId: meta.googleId,
+        amazonId: meta.amazonId,
+        goodreadsId: meta.goodreadsId,
+        librarythingId: meta.librarythingId,
+        isfdbId: meta.isfdbId,
+        openlibraryId: meta.openlibraryId,
+      },
+      lastReadingEvent: null,
+      lastReadingEventDate: null,
+      creationDate: null,
+      modificationDate: null,
+      owned: false,
+      toRead: false,
+      borrowed: false,
+      price: null,
+      currentPageNumber: null,
+      percentRead: null,
+      personalNotes: null,
+      userBookId: undefined,
+      userbook: undefined,
+    }
+  }
+  // It's UserBook
   const b = ObjectUtils.deepCopy(book)
   return b
 }
