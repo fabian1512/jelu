@@ -357,8 +357,6 @@ const iconClass = (event: ReadingEvent) => {
     return "mdi-book-open-page-variant";
   } else if (event.eventType === ReadingEventType.MARKED_OWNED) {
     return "mdi-bookshelf";
-  } else if (event.eventType === ReadingEventType.MARKED_TO_READ) {
-    return "mdi-eye";
   } else if (event.eventType === ReadingEventType.MARKED_BORROWED) {
     return "mdi-handshake";
   }
