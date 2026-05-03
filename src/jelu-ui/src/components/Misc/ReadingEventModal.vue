@@ -154,7 +154,8 @@ const { typographyClasses } = useTypography()
               value="MARKED_TO_READ"
             >
             <span class="label-text ml-2">
-              {{ t('labels.in_read_list') }}
+              {{ t('book.in_read_list') }}
+
             </span>
           </div>
           <div class="field">
@@ -326,7 +327,7 @@ const { typographyClasses } = useTypography()
               value="MARKED_TO_READ"
             >
             <span class="label-text ml-2">
-              {{ t('labels.in_read_list') }}
+              {{ t('book.in_read_list') }}
             </span>
           </div>
           <div class="field">

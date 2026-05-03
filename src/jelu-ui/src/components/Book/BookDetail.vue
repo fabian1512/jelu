@@ -375,7 +375,7 @@ const eventLabel = (type: ReadingEventType) => {
     } else if (type === ReadingEventType.MARKED_OWNED) {
       return t('book.owned');
     } else if (type === ReadingEventType.MARKED_TO_READ) {
-      return t('labels.in_read_list');
+      return t('book.in_read_list');
     } else if (type === ReadingEventType.MARKED_BORROWED) {
       return t('book.borrowed');
     } else return "";

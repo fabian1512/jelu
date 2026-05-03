@@ -66,7 +66,7 @@ const eventText = computed(() => {
     } else if (props.book.lastReadingEvent === ReadingEventType.FINISHED) {
       return t('reading_events.finished');
     } else if (props.book.lastReadingEvent === ReadingEventType.MARKED_TO_READ) {
-      return t('labels.in_read_list');
+      return t('book.in_read_list');
     } else if (props.book.lastReadingEvent === ReadingEventType.MARKED_OWNED) {
       return t('book.owned');
     } else if (props.book.lastReadingEvent === ReadingEventType.MARKED_BORROWED) {
