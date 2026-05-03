@@ -344,7 +344,7 @@ const { typographyClasses } = useTypography()
           >
             <!-- Small Cover Icon (w-12 = 48px) -->
             <img 
-              :src="book.image ? book.image : '/files/placeholder_asset.jpg'" 
+              :src="book.image ? StringUtils.thumbnailUrl(book.image, 'thumb') : '/files/placeholder_asset.jpg'" 
               class="w-12 h-16 object-cover rounded flex-shrink-0"
               loading="lazy"
             >
