@@ -15,6 +15,7 @@ import MetadataDetail from '../Metadata/MetadataDetail.vue';
 import MetadataPluginsModal from '../Metadata/MetadataPluginsModal.vue';
 import ScanModal from '../Book/ScanModal.vue';
 import useTypography from "../../composables/typography";
+import { useRouter } from 'vue-router';
 
 const { t } = useI18n({
       inheritLocale: true,
@@ -23,6 +24,7 @@ const { t } = useI18n({
 const store = useStore(key)
 
 const oruga = useOruga();
+const router = useRouter();
 
 const props = defineProps<{
   book: Book|undefined,
@@ -52,8 +54,19 @@ const plugins: Ref<PluginInfo[]> = ref([])
 
 const storedLanguage = useLocalStorage("jelu_language", "en")
 
+const localResults: Ref<Book[]> = ref([])
+const showLocalResults = ref(false)
+const isBlocked = ref(false)
+
 const fetchMetadata = async () => {
-    progress.value = true
+  // FIRST: Search local DB (without ISBN!)
+  await searchLocally()
+
+  // If local results found, STOP HERE (block external)
+  if (isBlocked.value) return
+
+  // Otherwise proceed with external metadata fetch
+  progress.value = true
     dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: plugins.value, language: storedLanguage.value})
     .then(res => {
         progress.value = false
@@ -61,16 +74,56 @@ const fetchMetadata = async () => {
         displayForm.value = false
         }
     )
-}
+  }
 
 const discard = () => {
     displayForm.value = true
     metadata.value = null
+  }
+
+const searchLocally = async () => {
+  const queryParts: string[] = []
+  // Search by title and author ONLY (without ISBN)
+  if (form.title) queryParts.push(form.title)
+  if (form.authors) queryParts.push(form.authors)
+  
+  if (queryParts.length > 0) {
+    const response = await dataService.findBooks(
+      queryParts.join(' '), 
+      0, // page
+      10, // size - show top 10
+      undefined, 
+      'ANY' // Search ALL books, not just user's
+    )
+    localResults.value = response.content
+    if (localResults.value.length > 0) {
+      showLocalResults.value = true
+      isBlocked.value = true // BLOCK external search
+    }
+  }
 }
 
 const importData = () => {
     emit('metadataReceived', metadata.value)
     emit('close')
+  }
+
+const addToLibraryAndNavigate = async (bookId: string) => {
+  try {
+    // Use existing getBookAsUserBook function (line 153-163 in DataService.ts)
+    // This calls: GET /api/v1/userbooks/from-book/${bookId}
+    // It creates a UserBook entry if not exists, returns UserBook
+    const userBook = await dataService.getBookAsUserBook(bookId)
+    
+    oruga.success('Buch zur Bibliothek hinzugefügt')
+    
+    // Navigate to book detail page (option b)
+    emit('close')
+    router.push({ name: 'book-detail', params: { bookId: userBook.id ?? userBook.book.id } })
+  } catch (error) {
+    console.error('Failed to add book to library', error)
+    oruga.error('Fehler beim Hinzufügen zur Bibliothek')
+  }
 }
 
 const isValid = computed(() => StringUtils.isNotBlank(form.title)
@@ -279,6 +332,46 @@ const { typographyClasses } = useTypography()
           </blockquote>
         </div>
       </div>
+
+      <!-- Compact List with Small Cover Icons, OHNE ISBN -->
+      <div v-if="showLocalResults && localResults.length > 0" class="mt-4 space-y-2">
+        <h3 class="text-lg font-bold">In Datenbank gefunden ({{ localResults.length }}):</h3>
+        <div class="max-h-80 overflow-y-auto space-y-2">
+          <div 
+            v-for="book in localResults" 
+            :key="book.id"
+            class="flex items-center gap-3 p-2 border rounded hover:bg-base-200"
+          >
+            <!-- Small Cover Icon (w-12 = 48px) -->
+            <img 
+              :src="book.image ? book.image : '/files/placeholder_asset.jpg'" 
+              class="w-12 h-16 object-cover rounded flex-shrink-0"
+              loading="lazy"
+            >
+            <!-- Book Info (OHNE ISBN) -->
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold truncate">{{ book.title }}</p>
+              <p class="text-xs opacity-70 truncate">
+                {{ book.authors?.map(a => a.name).join(', ') }}
+              </p>
+            </div>
+            <!-- Zur Bibliothek Button -->
+            <button 
+              @click="addToLibraryAndNavigate(book.id)"
+              class="btn btn-sm btn-primary"
+            >
+              <i class="mdi mdi-plus"></i>
+              Zur Bibliothek
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message if no local results (external search will proceed) -->
+      <div v-if="showLocalResults && localResults.length === 0" class="alert alert-warning mt-4">
+        Keine Bücher in der Datenbank gefunden. Externe Suche läuft...
+      </div>
+      
       <MetadataDetail
         v-else-if="metadata != null"
         :metadata="metadata"
