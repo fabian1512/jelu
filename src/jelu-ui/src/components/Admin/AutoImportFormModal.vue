@@ -14,6 +14,8 @@ import { StringUtils } from "../../utils/StringUtils";
 import MetadataDetail from '../Metadata/MetadataDetail.vue';
 import MetadataPluginsModal from '../Metadata/MetadataPluginsModal.vue';
 import ScanModal from '../Book/ScanModal.vue';
+import EditBookModal from '../Book/EditBookModal.vue';
+import SearchResultsModal from '../Search/SearchResultsModal.vue';
 import useTypography from "../../composables/typography";
 import { useRouter } from 'vue-router';
 
@@ -58,23 +60,55 @@ const localResults: Ref<Book[]> = ref([])
 const showLocalResults = ref(false)
 const isBlocked = ref(false)
 
+const showSearchResultsModal = ref(false)
+
 const fetchMetadata = async () => {
-  // FIRST: Search local DB (without ISBN!)
-  await searchLocally()
+  // Open SearchResultsModal - it handles local and external search
+  showSearchResultsModal.value = true
+}
 
-  // If local results found, STOP HERE (block external)
-  if (isBlocked.value) return
-
-  // Otherwise proceed with external metadata fetch
-  progress.value = true
-    dataService.fetchMetadataWithPlugins({isbn: form.isbn, title: form.title, authors: form.authors, plugins: plugins.value, language: storedLanguage.value})
-    .then(res => {
-        progress.value = false
-        metadata.value = res
-        displayForm.value = false
-        }
-    )
+const handleSearchResultSelect = (result: Book | Metadata) => {
+  showSearchResultsModal.value = false
+  
+  // Check if it's a Book (has id) or Metadata (no id)
+  if ('id' in result) {
+    // It's a Book from local DB
+    const bookResult = result as Book
+    const metadataToSend: Metadata = {
+      title: bookResult.title,
+      authors: bookResult.authors?.map(a => a.name) || [],
+      isbn: bookResult.isbn13 || bookResult.isbn10,
+      publisher: bookResult.publisher,
+      publishedDate: bookResult.publishedDate,
+      pageCount: bookResult.pageCount,
+      language: bookResult.language,
+      summary: bookResult.summary,
+      image: bookResult.image,
+      tags: bookResult.tags?.map(t => t.name) || [],
+      series: bookResult.series?.[0]?.name,
+      numberInSeries: bookResult.series?.[0]?.numberInSeries,
+    }
+    emit('metadataReceived', metadataToSend)
+  } else {
+    // It's Metadata from external provider
+    emit('metadataReceived', result as Metadata)
   }
+  
+  // Open EditBookModal
+  oruga.modal.open({
+    component: EditBookModal,
+    trapFocus: true,
+    active: true,
+    canCancel: ['x', 'button', 'outside'],
+    scroll: 'clip',
+    props: {
+      book: null,
+      bookId: null,
+      canAddEvent: true
+    },
+    onClose: () => {}
+  })
+}
 
 const discard = () => {
     displayForm.value = true
@@ -175,14 +209,27 @@ function toggleScanModal() {
       events: {
         decoded: (barcode: string|null) => {
           if (barcode != null) {
-            form.isbn = barcode
-            fetchMetadata()
+            // DIRECTLY to EditBookModal with scanned ISBN
+            emit('close')
+            oruga.modal.open({
+              component: EditBookModal,
+              trapFocus: true,
+              active: true,
+              canCancel: ['x', 'button', 'outside'],
+              scroll: 'clip',
+              props: {
+                book: null,
+                bookId: barcode,
+                canAddEvent: true
+              },
+              onClose: () => {}
+            })
           }
+        },
+        barcodeLoaded: (reader: any) => {
+          barcodeReader = reader
+        }
       },
-      barcodeLoaded: (reader: any) => {
-        barcodeReader = reader
-      }
-    },
       onClose: scanModalClosed
     });
 }
@@ -424,6 +471,16 @@ const { typographyClasses } = useTypography()
           </span><span>{{ t('labels.discard') }}</span>
         </button>
       </div>
+
+      <!-- SearchResultsModal for title/author search -->
+      <SearchResultsModal
+        v-if="showSearchResultsModal"
+        :title="form.title"
+        :authors="form.authors"
+        :isbn="form.isbn"
+        @close="showSearchResultsModal = false"
+        @select="handleSearchResultSelect"
+      />
     </div>
   </section>
 </template>

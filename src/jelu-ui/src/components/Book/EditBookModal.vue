@@ -246,6 +246,54 @@ if (userbook.value.book.publisher != null) {
   <section class="edit-modal">
     <div class="">
       <div class="">
+        <!-- Compact Status & Properties (copied from AddBook.vue) -->
+        <div v-if="props.canAddEvent" class="w-full justify-self-center px-2 sm:px-0 my-3">
+          <div class="bg-base-200/50 rounded-lg border border-base-300 p-3 sm:p-4">
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 sm:divide-x sm:divide-base-300">
+              <!-- Status Section: 2x2 grid -->
+              <fieldset class="fieldset m-0 sm:pr-6 flex-1">
+                <legend class="text-sm font-semibold mb-2 text-center capitalize">{{ t('book.status') }}</legend>
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+                  <label class="label cursor-pointer gap-2 mb-0 justify-start">
+                    <input v-model="userbook.lastReadingEvent" type="radio" name="radio-status-edit" class="radio radio-primary radio-sm" value="FINISHED">
+                    <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.finished') }}</span>
+                  </label>
+                  <label class="label cursor-pointer gap-2 mb-0 justify-start">
+                    <input v-model="userbook.lastReadingEvent" type="radio" name="radio-status-edit" class="radio radio-primary radio-sm" value="DROPPED">
+                    <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.dropped') }}</span>
+                  </label>
+                  <label class="label cursor-pointer gap-2 mb-0 justify-start">
+                    <input v-model="userbook.lastReadingEvent" type="radio" name="radio-status-edit" class="radio radio-primary radio-sm" value="CURRENTLY_READING">
+                    <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.currently_reading') }}</span>
+                  </label>
+                  <label class="label cursor-pointer gap-2 mb-0 justify-start">
+                    <input v-model="userbook.lastReadingEvent" type="radio" name="radio-status-edit" class="radio radio-primary radio-sm" value="NONE">
+                    <span class="label-text text-sm whitespace-nowrap">{{ t('reading_events.none') }}</span>
+                  </label>
+                </div>
+              </fieldset>
+      
+              <!-- Properties Section: checkboxes -->
+              <fieldset class="fieldset m-0 flex-1">
+                <legend class="text-sm font-semibold mb-2 text-center capitalize">{{ t('book.properties') }}</legend>
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+                  <label class="label cursor-pointer gap-2 mb-0 justify-start">
+                    <input v-model="userbook.owned" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+                    <span class="label-text text-sm whitespace-nowrap">{{ t('book.owned') }}</span>
+                  </label>
+                  <label class="label cursor-pointer gap-2 mb-0 justify-start">
+                    <input v-model="userbook.toRead" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+                    <span class="label-text text-sm whitespace-nowrap">{{ t('book.to_read') }}</span>
+                  </label>
+                  <label class="label cursor-pointer gap-2 mb-0 justify-start">
+                    <input v-model="userbook.borrowed" type="checkbox" class="checkbox checkbox-primary checkbox-sm">
+                    <span class="label-text text-sm whitespace-nowrap">{{ t('book.borrowed') }}</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
         <FormField
           v-model="userbook.book.title"
           :legend="t('book.title')"
