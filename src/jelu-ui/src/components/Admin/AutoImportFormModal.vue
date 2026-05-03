@@ -211,23 +211,80 @@ function toggleScanModal() {
       props: {
       },
       events: {
-        decoded: (barcode: string|null) => {
+        decoded: async (barcode: string|null) => {
           if (barcode != null) {
-            // DIRECTLY to EditBookModal with scanned ISBN
-            emit('close')
-            oruga.modal.open({
-              component: EditBookModal,
-              trapFocus: true,
-              active: true,
-              canCancel: ['x', 'button', 'outside'],
-              scroll: 'clip',
-              props: {
-                book: null,
-                bookId: barcode,
-                canAddEvent: true
-              },
-              onClose: () => {}
-            })
+            // First search locally by ISBN
+            try {
+              const response = await dataService.findBooks(barcode, 0, 1, undefined, 'ANY')
+              if (response.content.length > 0) {
+                // Found locally - convert to Metadata and pass to EditBookModal
+                const book = response.content[0]
+                const metadata: Metadata = {
+                  title: book.title,
+                  authors: book.authors?.map(a => a.name) || [],
+                  isbn: book.isbn13 || book.isbn10,
+                  isbn13: book.isbn13,
+                  isbn10: book.isbn10,
+                  publisher: book.publisher,
+                  publishedDate: book.publishedDate,
+                  pageCount: book.pageCount,
+                  language: book.language,
+                  summary: book.summary,
+                  image: book.image,
+                  tags: book.tags?.map(t => t.name) || [],
+                  series: book.series?.[0]?.name,
+                  numberInSeries: book.series?.[0]?.numberInSeries,
+                }
+                emit('close')
+                oruga.modal.open({
+                  component: EditBookModal,
+                  trapFocus: true,
+                  active: true,
+                  canCancel: ['x', 'button', 'outside'],
+                  scroll: 'clip',
+                  props: {
+                    book: metadata,
+                    bookId: null,
+                    canAddEvent: true
+                  },
+                  onClose: () => {}
+                })
+                return
+              }
+            } catch (e) {
+              console.error('Local search failed', e)
+            }
+            
+            // Not found locally - try external search
+            try {
+              const plugins = serverSettings.value?.metadataPlugins || []
+              const metadata = await dataService.fetchMetadataWithPlugins({
+                isbn: barcode,
+                title: '',
+                authors: '',
+                plugins: plugins,
+                language: storedLanguage.value
+              })
+              if (metadata) {
+                emit('close')
+                oruga.modal.open({
+                  component: EditBookModal,
+                  trapFocus: true,
+                  active: true,
+                  canCancel: ['x', 'button', 'outside'],
+                  scroll: 'clip',
+                  props: {
+                    book: metadata,
+                    bookId: null,
+                    canAddEvent: true
+                  },
+                  onClose: () => {}
+                })
+              }
+            } catch (e) {
+              console.error('External search failed', e)
+              oruga.error('Suche fehlgeschlagen')
+            }
           }
         },
         barcodeLoaded: (reader: any) => {

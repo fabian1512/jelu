@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref } from "vue";
+import { Ref, ref, onMounted } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useOruga } from "@oruga-ui/oruga-next";
 import { Book, Metadata } from "../../model/Book";
@@ -47,6 +47,13 @@ const loading = ref(false)
 const externalMetadata: Ref<Metadata | null> = ref(null)
 const showExternalResult = ref(false)
 const externalLoading = ref(false)
+
+// Auto-start search when modal opens with search parameters
+onMounted(() => {
+  if (searchTitle.value || searchAuthor.value || searchIsbn.value) {
+    searchLocal()
+  }
+})
 
 const searchLocal = async () => {
   if (!searchTitle.value && !searchAuthor.value && !searchIsbn.value) return
