@@ -110,19 +110,46 @@ const importData = () => {
 
 const addToLibraryAndNavigate = async (bookId: string) => {
   try {
-    // Use existing getBookAsUserBook function (line 153-163 in DataService.ts)
-    // This calls: GET /api/v1/userbooks/from-book/${bookId}
-    // It creates a UserBook entry if not exists, returns UserBook
+    // Get book as UserBook (creates entry if not exists)
     const userBook = await dataService.getBookAsUserBook(bookId)
     
-    oruga.success('Buch zur Bibliothek hinzugefügt')
+    // Check if already in user's library (has UserBook entry)
+    if (userBook != null && userBook.id != null) {
+      oruga.info('Buch ist bereits in Ihrer Bibliothek')
+      emit('close')
+      router.push({ name: 'book-detail', params: { bookId: userBook.id } })
+      return
+    }
     
-    // Navigate to book detail page (option b)
+    // Convert UserBook to Metadata format for pre-filling AddBook.vue
+    const metadata: Metadata = {
+      title: userBook.book.title,
+      authors: userBook.book.authors?.map(a => a.name) || [],
+      isbn: userBook.book.isbn13 || userBook.book.isbn10,
+      publisher: userBook.book.publisher,
+      publishedDate: userBook.book.publishedDate,
+      pageCount: userBook.book.pageCount,
+      language: userBook.book.language,
+      summary: userBook.book.summary,
+      image: userBook.book.image,
+      tags: userBook.book.tags?.map(t => t.name) || [],
+      series: userBook.book.series?.name,
+      numberInSeries: userBook.book.series?.numberInSeries,
+    }
+    
+    // Emit metadataReceived event to pre-fill AddBook.vue
+    emit('metadataReceived', metadata)
     emit('close')
-    router.push({ name: 'book-detail', params: { bookId: userBook.id ?? userBook.book.id } })
-  } catch (error) {
+    
+    // Navigate to add-book page (form will be pre-filled)
+    router.push({ name: 'add-book' })
+  } catch (error: any) {
     console.error('Failed to add book to library', error)
-    oruga.error('Fehler beim Hinzufügen zur Bibliothek')
+    if (error.response?.status === 404) {
+      oruga.error('Buch nicht in Datenbank gefunden (nur im Suchindex?)')
+    } else {
+      oruga.error('Fehler beim Hinzufügen zur Bibliothek')
+    }
   }
 }
 
