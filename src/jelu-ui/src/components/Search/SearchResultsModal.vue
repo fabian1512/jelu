@@ -75,15 +75,13 @@ const searchLocal = async () => {
     localResults.value = response.content
     showLocalResults.value = true
     
-    if (localResults.value.length > 0 && !searchIsbn.value) {
-      // Found local results, don't need external search
+    // If local results found, ONLY show local results (don't fetch external)
+    if (localResults.value.length > 0) {
       return
     }
     
-    // If ISBN provided or no local results, also fetch external
-    if (searchIsbn.value || localResults.value.length === 0) {
-      await searchExternal()
-    }
+    // No local results - search external
+    await searchExternal()
   } catch (error) {
     console.error('Local search failed', error)
   } finally {
@@ -163,7 +161,7 @@ const close = () => {
     <!-- Local Results -->
     <div v-if="showLocalResults && localResults.length > 0" class="mb-4">
       <h4 class="text-md font-semibold mb-2">{{ t('labels.local_results') }} ({{ localResults.length }})</h4>
-      <div class="max-h-64 overflow-y-auto space-y-2">
+      <div class="max-h-96 overflow-y-auto space-y-2 border p-2 rounded">
         <div 
           v-for="book in localResults" 
           :key="book.id"
@@ -192,13 +190,14 @@ const close = () => {
       </div>
     </div>
 
-    <!-- No local results -->
-    <div v-if="showLocalResults && localResults.length === 0 && !externalLoading" class="alert alert-info mb-4">
-      {{ t('labels.no_local_results') }}
+    <!-- No local results yet, waiting for external -->
+    <div v-else-if="showLocalResults && localResults.length === 0 && externalLoading" class="text-center py-4">
+      <span class="loading loading-spinner loading-lg"></span>
+      <p class="mt-2">{{ t('labels.searching_external') }}</p>
     </div>
 
-    <!-- External Result -->
-    <div v-if="showExternalResult && externalMetadata">
+    <!-- External Result (only shown if no local results) -->
+    <div v-else-if="showExternalResult && externalMetadata">
       <h4 class="text-md font-semibold mb-2">{{ t('labels.external_result') }}</h4>
       <div class="border rounded p-3 bg-base-200">
         <MetadataDetail :metadata="externalMetadata" />
@@ -207,12 +206,6 @@ const close = () => {
           {{ t('labels.select') }}
         </button>
       </div>
-    </div>
-
-    <!-- Loading external -->
-    <div v-if="externalLoading" class="text-center py-4">
-      <span class="loading loading-spinner"></span>
-      <p class="text-sm">{{ t('labels.searching_external') }}</p>
     </div>
 
     <div class="modal-action">
