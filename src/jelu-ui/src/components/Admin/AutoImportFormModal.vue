@@ -60,16 +60,30 @@ const localResults: Ref<Book[]> = ref([])
 const showLocalResults = ref(false)
 const isBlocked = ref(false)
 
-const showSearchResultsModal = ref(false)
-
 const fetchMetadata = async () => {
-  // Open SearchResultsModal - it handles local and external search
-  showSearchResultsModal.value = true
+  // Open SearchResultsModal as proper modal
+  emit('close')
+  oruga.modal.open({
+    component: SearchResultsModal,
+    trapFocus: true,
+    active: true,
+    canCancel: ['x', 'button', 'outside'],
+    scroll: 'keep',
+    props: {
+      title: form.title,
+      authors: form.authors,
+      isbn: form.isbn
+    },
+    events: {
+      select: (result: Book | Metadata) => {
+        handleSearchResultSelect(result)
+      }
+    },
+    onClose: () => {}
+  })
 }
 
 const handleSearchResultSelect = (result: Book | Metadata) => {
-  showSearchResultsModal.value = false
-  
   // Prepare metadata to pass to EditBookModal
   let metadataToSend: Metadata
   
@@ -533,15 +547,6 @@ const { typographyClasses } = useTypography()
         </button>
       </div>
 
-      <!-- SearchResultsModal for title/author search -->
-      <SearchResultsModal
-        v-if="showSearchResultsModal"
-        :title="form.title"
-        :authors="form.authors"
-        :isbn="form.isbn"
-        @close="showSearchResultsModal = false"
-        @select="handleSearchResultSelect"
-      />
     </div>
   </section>
 </template>

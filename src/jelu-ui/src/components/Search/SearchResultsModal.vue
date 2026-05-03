@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Ref, ref, onMounted } from "vue";
+import { Ref, ref, onMounted, computed, ComputedRef } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useOruga } from "@oruga-ui/oruga-next";
-import { Book, Metadata } from "../../model/Book";
+import { Book } from "../../model/Book";
+import { Metadata } from "../../model/Metadata";
 import { ServerSettings } from "../../model/ServerSettings";
 import { useStore } from 'vuex';
-import { computed } from "vue";
+import { key } from '../../store';
 import { useLocalStorage } from '@vueuse/core';
 import dataService from "../../services/DataService";
 import { StringUtils } from "../../utils/StringUtils";
@@ -17,7 +18,7 @@ const { t } = useI18n({
 })
 
 const oruga = useOruga()
-const store = useStore()
+const store = useStore(key)
 
 const props = defineProps<{
   title?: string,
@@ -30,7 +31,7 @@ const emit = defineEmits<{
   (e: 'select', book: Book | Metadata): void
 }>()
 
-const serverSettings: computed<ServerSettings> = computed(() => {
+const serverSettings: ComputedRef<ServerSettings> = computed(() => {
   return store != undefined && store.getters.getSettings
 })
 
@@ -129,11 +130,12 @@ const close = () => {
 </script>
 
 <template>
-  <div class="modal-box w-11/12 max-w-4xl">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-bold">{{ t('labels.search_results') }}</h3>
-      <button @click="close" class="btn btn-sm btn-circle">✕</button>
-    </div>
+  <section class="edit-modal">
+    <div class="flex flex-col items-center">
+      <div class="mb-2">
+        <h1 class="text-2xl capitalize">{{ t('labels.search_results') }}</h1>
+      </div>
+      <div class="w-full sm:w-2xl">
 
     <!-- Search Fields -->
     <div class="flex flex-wrap gap-2 mb-4">
@@ -208,8 +210,10 @@ const close = () => {
       </div>
     </div>
 
-    <div class="modal-action">
-      <button @click="close" class="btn">{{ t('labels.cancel') }}</button>
+      <div class="mt-3 flex justify-end">
+        <button @click="close" class="btn">{{ t('labels.cancel') }}</button>
+      </div>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
