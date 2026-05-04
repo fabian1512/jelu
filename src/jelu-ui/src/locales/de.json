@@ -135,7 +135,10 @@
         "delete_this_author": "Diese(n) Autor:in aus {nb} Buch/Büchern und aus der Datenbank löschen?",
         "orphan_authors": "verwaiste Autor:innen",
         "find-authors": "Autor:innen finden",
-        "list_empty": "Liste ist leer"
+        "list_empty": "Liste ist leer",
+        "edit_book": "Buch bearbeiten",
+        "no_summary": "Keine Beschreibung vorhanden",
+        "more_options": "Mehr..."
     },
     "settings": {
         "title": "Einstellungen",
@@ -258,7 +261,9 @@
         "narrator": "Erzähler:in | Erzähler:innen",
         "original_title": "Originaltitel",
         "price": "Preis",
-        "properties": "Eigenschaften"
+        "properties": "Eigenschaften",
+        "details": "Details",
+        "personal": "Persönlich"
     },
     "authors_merge": {
         "authors_merging_utility": "Autor:innen zusammenführen",

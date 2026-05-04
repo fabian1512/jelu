@@ -135,7 +135,10 @@
       "delete_this_author" : "Delete this author from {nb} book(s) and from database ?",
       "orphan_authors": "orphan authors",
       "find-authors": "find authors",
-      "list_empty": "list is empty"
+      "list_empty": "list is empty",
+      "edit_book": "Edit book",
+      "no_summary": "No summary available",
+      "more_options": "More..."
     },
     "settings" : {
         "title" : "Settings",
@@ -258,7 +261,9 @@
         "narrator": "narrator | narrators",
         "original_title" : "original title",
         "price": "price",
-        "properties": "Properties"
+        "properties": "Properties",
+        "details": "Details",
+        "personal": "Personal"
     },
     "authors_merge" : {
         "authors_merging_utility" : "Authors merging utility",
