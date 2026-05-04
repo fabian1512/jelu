@@ -105,10 +105,13 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
   // Prepare metadata to pass to EditBookModal
   let metadataToSend: Metadata
   
+  console.log('Selected result:', result)
+  
   // Check if it's a Book (has id) or Metadata (no id)
   if ('id' in result) {
     // It's a Book from local DB - convert to Metadata format
     const bookResult = result as Book
+    console.log('Converting Book, publisher:', bookResult.publisher)
     metadataToSend = {
       title: bookResult.title,
       authors: bookResult.authors?.map(a => a.name) || [],
@@ -134,8 +137,12 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     }
   } else {
     // It's Metadata from external provider
-    metadataToSend = result as Metadata
+    const metaResult = result as Metadata
+    console.log('Metadata, publisher:', metaResult.publisher)
+    metadataToSend = metaResult
   }
+  
+  console.log('Sending to EditBookModal, publisher:', metadataToSend.publisher)
   
   // Open EditBookModal with metadata
   oruga.modal.open({
@@ -308,7 +315,9 @@ function toggleScanModal() {
             // Not found locally - try external search
             progress.value = true
             try {
+              console.log('Scanning barcode:', barcode)
               const plugins = serverSettings.value?.metadataPlugins || []
+              console.log('Using plugins:', plugins)
               const metadata = await dataService.fetchMetadataWithPlugins({
                 isbn: barcode,
                 title: '',
@@ -316,6 +325,7 @@ function toggleScanModal() {
                 plugins: plugins,
                 language: storedLanguage.value
               })
+              console.log('Fetched metadata:', metadata)
               if (metadata && metadata.title) {
                 oruga.modal.open({
                   component: EditBookModal,
@@ -333,11 +343,12 @@ function toggleScanModal() {
                   }
                 })
               } else {
+                console.log('No metadata title found, metadata:', metadata)
                 oruga.info('Keine Metadaten für diesen Barcode gefunden')
               }
             } catch (e) {
               console.error('External search failed', e)
-              oruga.error('Suche fehlgeschlagen')
+              oruga.error('Suche fehlgeschlagen: ' + e.message)
             } finally {
               progress.value = false
             }
