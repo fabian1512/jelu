@@ -368,7 +368,7 @@ watch(() => sliderPercent.value, (newVal) => {
 
     <div class="mb-4">
       <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('book.summary') }}</div>
-      <details class="bg-base-100 rounded-xl border border-base-300 group">
+      <details class="bg-base-100 rounded-xl border border-base-300 overflow-hidden group">
         <summary class="px-4 py-3 cursor-pointer flex justify-between items-center select-none list-none">
           <span class="text-sm truncate pr-4 opacity-70">
             {{ userbook.book.summary ? userbook.book.summary.substring(0, 60) + '...' : t('labels.no_summary') }}
@@ -405,6 +405,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
             root-class="w-full"
+            teleport=".edit-modal"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -414,7 +415,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="py-3 border-b border-base-200">
+        <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.tag', 2) }}</label>
           <o-taginput
             v-model="userbook.book.tags"
@@ -431,6 +432,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_tag')"
             @input="getFilteredTags"
             root-class="w-full"
+            teleport=".edit-modal"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -450,7 +452,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')">
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')" teleport=".edit-modal">
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -498,6 +500,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_translator')"
             @input="(v: string) => getFilteredData(v, filteredTranslators)"
             root-class="flex-1"
+            teleport=".edit-modal"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -524,6 +527,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_narrator')"
             @input="(v: string) => getFilteredData(v, filteredNarrators)"
             root-class="flex-1"
+            teleport=".edit-modal"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
