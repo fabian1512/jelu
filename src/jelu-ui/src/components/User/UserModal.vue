@@ -48,13 +48,14 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="event-modal">
-    <div>
-      <h1
-        class="text-2xl first-letter:capitalize"
-        :class="typographyClasses"
-      >
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
         {{ t('admin_user.edit_user', {name : props.currentUser.login}) }}
       </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
+    <div>
       <div>
         <label class="fieldset">
           <span class="label capitalize">{{ t('admin_user.password') }}</span>

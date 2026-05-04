@@ -72,24 +72,16 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="quote-modal">
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+        {{ props.edit === true ? t('series.edit_series') : t('series.create_series') }}
+      </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
     <div class="w-full">
       <div>
         <div>
-          <h1
-            v-if="props.edit === true"
-            class="text-2xl first-letter:capitalize"
-            :class="typographyClasses"
-          >
-            {{ t('series.edit_series') }}
-          </h1>
-          <h1
-            v-else
-            class="text-2xl first-letter:capitalize"
-            :class="typographyClasses"
-          >
-            {{ t('series.create_series') }}
-          </h1>
-        </div>
       </div>
       <div>
         <div class="field">

@@ -49,17 +49,14 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="event-modal">
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+        {{ t('labels.set_progress') }}
+      </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
     <div>
-      <div>
-        <div>
-          <h1
-            class="text-2xl first-letter:capitalize"
-            :class="typographyClasses"
-          >
-            {{ t('labels.set_progress') }}
-          </h1>
-        </div>
-      </div>
       <div class="flex flex-col">
         <div class="field">
           <label class="label">

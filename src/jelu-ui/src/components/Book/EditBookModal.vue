@@ -294,11 +294,7 @@ if (userbook.value.book.publisher != null) {
 <template>
   <section class="edit-modal p-4">
     <div class="flex justify-between items-center mb-5">
-      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
       <h3 class="text-lg font-semibold truncate max-w-[200px]">{{ userbook.book.title || t('labels.edit_book') }}</h3>
       <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>

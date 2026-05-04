@@ -201,15 +201,14 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="review-modal">
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+        {{ t('book_merge.merge_books') }}
+      </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
     <div class="w-full">
-      <div>
-        <h1
-          class="text-2xl first-letter:capitalize"
-          :class="typographyClasses"
-        >
-          {{ t('book_merge.merge_books') }}
-        </h1>
-      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
         <div class="form-control w-full">
           <label class="label">

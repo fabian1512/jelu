@@ -89,10 +89,17 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="event-modal">
-    <div v-if="props.edit">
-      <h1 class="text-xl first-letter:capitalize mb-3" :class="typographyClasses">
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 v-if="props.edit" class="text-xl first-letter:capitalize" :class="typographyClasses">
         {{ t('reading_events.edit_event') }}
       </h1>
+      <h1 v-else class="text-xl first-letter:capitalize" :class="typographyClasses">
+        {{ t('reading_events.add_event') }}
+      </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
+    <div v-if="props.edit">
       <div class="field">
           <label class="label">
             <span class="label-text font-semibold">{{ t('reading_events.last_event_type') }} : </span>

@@ -114,19 +114,14 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="author-modal">
-    <div
-      v-if="currentPhase == FORM"
-    >
-      <div>
-        <div>
-          <h1
-            class="text-2xl first-letter:capitalize"
-            :class="typographyClasses"
-          >
-            {{ t('labels.edit_author') }}
-          </h1>
-        </div>
-      </div>
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+        {{ t('labels.edit_author') }}
+      </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
+    <div v-if="currentPhase == FORM">
       <div class="form-control">
         <fieldset class="fieldset">
           <legend class="fieldset-legend capitalize">

@@ -55,13 +55,14 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="edit-modal">
-    <div class="flex flex-col items-center justify-items-center">
-      <h1
-        class="text-2xl first-letter:capitalize"
-        :class="typographyClasses"
-      >
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
         {{ t('metadata.reorder_plugins') }}
       </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
+    <div class="flex flex-col items-center justify-items-center">
       <p class="text-justify my-2">
         {{ t('metadata.description') }}
       </p>

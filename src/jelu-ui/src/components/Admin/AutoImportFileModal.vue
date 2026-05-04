@@ -82,15 +82,14 @@ directories('/')
 
 <template>
   <section class="edit-modal">
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold capitalize" :class="typographyClasses">
+        {{ t('labels.import_book') }}
+      </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
     <div class="grid justify-center justify-items-center">
-      <div class="mb-2">
-        <h1
-          class="text-2xl capitalize"
-          :class="typographyClasses"
-        >
-          {{ t('labels.import_book') }}
-        </h1>
-      </div>
       <div
         v-if="displayMetadata && metadata != null"
         class="flex flex-col items-center"

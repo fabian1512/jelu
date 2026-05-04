@@ -88,17 +88,14 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="event-modal">
+    <div class="flex justify-between items-center mb-4">
+      <div></div>
+      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+        {{ t('bulk.bulk_edit_books') }}
+      </h1>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+    </div>
     <div>
-      <div>
-        <div>
-          <h1
-            class="text-2xl first-letter:capitalize"
-            :class="typographyClasses"
-          >
-            {{ t('bulk.bulk_edit_books') }}
-          </h1>
-        </div>
-      </div>
       <div class="my-2">
         <div class="field my-2">
           <label class="label">
