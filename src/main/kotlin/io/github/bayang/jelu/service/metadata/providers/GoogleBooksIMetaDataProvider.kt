@@ -148,7 +148,7 @@ class GoogleBooksIMetaDataProvider(
 
     private fun parseBook(node: JsonNode): MetadataDto {
         val volumeInfo = node.get("volumeInfo")
-        val identifiers = volumeInfo.get("industryIdentifiers").asIterable()
+        val identifiers = volumeInfo.get("industryIdentifiers")?.asIterable() ?: emptyList()
         return MetadataDto(
             title = volumeInfo.get("title").asText(),
             googleId = node.get("id").asText(),

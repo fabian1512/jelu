@@ -102,7 +102,7 @@ class OpenLibraryMetadataProvider(
                     authors = extractAuthors(first),
                     publishedDate = first.get("first_publish_year")?.asText(),
                 )
-            val coverId = first.get("cover-i")?.asInt()
+            val coverId = first.get("cover_i")?.asInt()
             if (coverId != null) {
                 dto.image = "https://covers.openlibrary.org/b/id/$coverId-M.jpg"
             }
@@ -160,7 +160,7 @@ class OpenLibraryMetadataProvider(
                             authors = extractAuthors(doc),
                             publishedDate = doc.get("first_publish_year")?.asText(),
                         )
-                    val coverId = doc.get("cover-i")?.asInt()
+                    val coverId = doc.get("cover_i")?.asInt()
                     if (coverId != null) {
                         dto.image = "https://covers.openlibrary.org/b/id/$coverId-M.jpg"
                     }

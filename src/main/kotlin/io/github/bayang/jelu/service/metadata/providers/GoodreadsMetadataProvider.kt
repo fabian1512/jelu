@@ -7,6 +7,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.net.URLEncoder
 import java.util.Optional
 
 @Service
@@ -22,8 +23,28 @@ class GoodreadsMetadataProvider(
         metadataRequestDto: MetadataRequestDto,
         config: Map<String, String>,
     ): List<MetadataDto> {
-        // Goodreads doesn't support title/author search, only ISBN
-        return emptyList()
+        val title = metadataRequestDto.title ?: ""
+        val authors = metadataRequestDto.authors ?: ""
+        val query = "$title $authors".trim()
+        if (query.isBlank()) {
+            return emptyList()
+        }
+        return try {
+            val searchUrl = "$baseUrl/search?q=${URLEncoder.encode(query, "UTF-8")}"
+            val searchDoc = fetchDocument(searchUrl) ?: return emptyList()
+            val bookLinks =
+                searchDoc
+                    .select("a.bookTitle")
+                    .map { it.attr("href") }
+                    .filter { it.isNotBlank() }
+                    .take(5)
+            bookLinks.mapNotNull { link ->
+                parseBookPage("$baseUrl$link").orElse(null)
+            }
+        } catch (e: Exception) {
+            logger.warn("Goodreads search failed for query '$query': ${e.message}")
+            emptyList()
+        }
     }
 
     override fun fetchMetadata(
