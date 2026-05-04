@@ -106,6 +106,10 @@ const uploadType = ref('web');
 
 const smallCoverUrl = computed(() => {
   if (!userbook.value?.book?.image) return null
+  // HTTP-URLs (external cover from provider) return directly
+  if (userbook.value.book.image.startsWith('http')) {
+    return userbook.value.book.image
+  }
   return StringUtils.thumbnailUrl(userbook.value.book.image, "thumb") ?? "/files/" + userbook.value.book.image
 })
 
@@ -321,30 +325,8 @@ if (userbook.value.book.publisher != null) {
       </div>
       <div class="flex-1 min-w-0">
         <input v-model="userbook.book.title" :placeholder="t('book.title')" class="text-xl font-bold bg-transparent w-full outline-none mb-2 block border-b border-base-300 focus:border-primary pb-1">
-        <div class="mb-2">
-          <o-taginput
-            v-model="userbook.book.authors"
-            :options="filteredAuthors"
-            :allow-autocomplete="true"
-            autocomplete="off"
-            :allow-new="true"
-            :allow-duplicates="false"
-            :open-on-focus="true"
-            :validate-item="(item: Author|string) => beforeAdd(item, userbook.book.authors as Array<Author>)"
-            :create-item="ObjectUtils.createNamedItem"
-            icon-pack="mdi"
-            icon="account-plus"
-            :placeholder="t('labels.add_author')"
-            @input="(v: string) => getFilteredData(v, filteredAuthors)"
-            root-class="w-full"
-          >
-            <template #default="{ value }">
-              <div class="jl-taginput-item">{{ value.name }}</div>
-            </template>
-            <template #selected="{ removeItem, items }">
-              <ClosableBadge v-for="(item, index) in items" :key="item.name" :content="item.name" class="badge-primary badge-sm" @closed="removeItem(index, $event)" />
-            </template>
-          </o-taginput>
+        <div class="flex flex-wrap gap-1 mb-2">
+          <span v-for="author in userbook.book.authors" :key="author.name" class="badge badge-primary badge-sm">{{ author.name }}</span>
         </div>
         <div class="flex flex-wrap gap-1">
           <span v-for="tag in userbook.book.tags" :key="tag.name" class="badge badge-xs badge-secondary">{{ tag.name }}</span>

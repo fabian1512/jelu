@@ -112,7 +112,6 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     metadataToSend = {
       title: bookResult.title,
       authors: bookResult.authors?.map(a => a.name) || [],
-      isbn: bookResult.isbn13 || bookResult.isbn10,
       isbn13: bookResult.isbn13,
       isbn10: bookResult.isbn10,
       publisher: bookResult.publisher,
@@ -124,6 +123,14 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
       tags: bookResult.tags?.map(t => t.name) || [],
       series: bookResult.series?.[0]?.name,
       numberInSeries: bookResult.series?.[0]?.numberInSeries,
+      googleId: bookResult.googleId,
+      amazonId: bookResult.amazonId,
+      goodreadsId: bookResult.goodreadsId,
+      librarythingId: bookResult.librarythingId,
+      isfdbId: bookResult.isfdbId,
+      openlibraryId: bookResult.openlibraryId,
+      noosfereId: bookResult.noosfereId,
+      inventaireId: bookResult.inventaireId,
     }
   } else {
     // It's Metadata from external provider
@@ -142,7 +149,9 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
       bookId: null,
       canAddEvent: true
     },
-    onClose: () => {}
+    onClose: () => {
+      emit('close')
+    }
   })
 }
 
@@ -266,6 +275,14 @@ function toggleScanModal() {
                   tags: book.tags?.map(t => t.name) || [],
                   series: book.series?.[0]?.name,
                   numberInSeries: book.series?.[0]?.numberInSeries,
+                  googleId: book.googleId,
+                  amazonId: book.amazonId,
+                  goodreadsId: book.goodreadsId,
+                  librarythingId: book.librarythingId,
+                  isfdbId: book.isfdbId,
+                  openlibraryId: book.openlibraryId,
+                  noosfereId: book.noosfereId,
+                  inventaireId: book.inventaireId,
                 }
                 oruga.modal.open({
                   component: EditBookModal,
@@ -278,7 +295,9 @@ function toggleScanModal() {
                     bookId: null,
                     canAddEvent: true
                   },
-                  onClose: () => {}
+                  onClose: () => {
+                    emit('close')
+                  }
                 })
                 return
               }
@@ -287,6 +306,7 @@ function toggleScanModal() {
             }
             
             // Not found locally - try external search
+            progress.value = true
             try {
               const plugins = serverSettings.value?.metadataPlugins || []
               const metadata = await dataService.fetchMetadataWithPlugins({
@@ -308,7 +328,9 @@ function toggleScanModal() {
                     bookId: null,
                     canAddEvent: true
                   },
-                  onClose: () => {}
+                  onClose: () => {
+                    emit('close')
+                  }
                 })
               } else {
                 oruga.info('Keine Metadaten für diesen Barcode gefunden')
@@ -316,6 +338,8 @@ function toggleScanModal() {
             } catch (e) {
               console.error('External search failed', e)
               oruga.error('Suche fehlgeschlagen')
+            } finally {
+              progress.value = false
             }
           }
         },
@@ -376,7 +400,9 @@ const openEmptyEditBook = () => {
       bookId: null,
       canAddEvent: true
     },
-    onClose: () => {}
+    onClose: () => {
+      emit('close')
+    }
   })
 }
 
