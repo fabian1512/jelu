@@ -159,6 +159,8 @@ class OpenLibraryMetadataProvider(
                             title = doc.get("title")?.asText(),
                             authors = extractAuthors(doc),
                             publishedDate = doc.get("first_publish_year")?.asText(),
+                            publisher = doc.get("publisher")?.firstOrNull()?.asText(),
+                            pageCount = doc.get("number_of_pages_median")?.asInt(),
                         )
                     val coverId = doc.get("cover_i")?.asInt()
                     if (coverId != null) {
@@ -241,7 +243,13 @@ class OpenLibraryMetadataProvider(
 
         val publishers = node.get("publishers")
         if (publishers != null && publishers.isArray && !publishers.isEmpty) {
-            dto.publisher = publishers[0].get("name")?.asText()
+            // OpenLibrary returns either ["Publisher Name"] or [{"name": "Publisher Name"}]
+            val firstPublisher = publishers[0]
+            dto.publisher = if (firstPublisher.isObject) {
+                firstPublisher.get("name")?.asText()
+            } else {
+                firstPublisher.asText()
+            }
         }
         dto.publishedDate = node.get("publish_date")?.asText()
         dto.pageCount = node.get("number_of_pages")?.asInt()
@@ -299,7 +307,12 @@ class OpenLibraryMetadataProvider(
             if (dto.publisher == null) {
                 val publishers = bookNode.get("publishers")
                 if (publishers != null && publishers.isArray && !publishers.isEmpty) {
-                    dto.publisher = publishers[0].get("name")?.asText()
+                    val firstPublisher = publishers[0]
+                    dto.publisher = if (firstPublisher.isObject) {
+                        firstPublisher.get("name")?.asText()
+                    } else {
+                        firstPublisher.asText()
+                    }
                 }
             }
             if (dto.pageCount == null) {
