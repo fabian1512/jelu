@@ -559,19 +559,19 @@ if (userbook.value.book.publisher != null) {
           <label class="text-sm opacity-60 block mb-1">{{ t('book.personal_notes') }}</label>
           <input v-model="userbook.personalNotes" :placeholder="t('book.personal_notes')" class="w-full bg-transparent outline-none text-sm">
         </div>
-        <div class="px-4 py-3 grid grid-cols-2 gap-3">
+        <div class="px-4 py-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="text-sm opacity-60 block mb-1">{{ t('book.price') }}</label>
-            <input v-model.number="userbook.price" type="number" step="0.01" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.price')">
+            <input v-model.number="userbook.price ?? 0" type="number" step="0.01" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.price')">
           </div>
           <div>
             <label class="text-sm opacity-60 block mb-1">{{ t('book.current_page_number') }}</label>
-            <input v-model.number="userbook.currentPageNumber" type="number" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.current_page_number')">
+            <input v-model.number="userbook.currentPageNumber ?? 0" type="number" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.current_page_number')">
           </div>
         </div>
         <div class="px-4 py-3">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.percent_read') }}</label>
-          <input v-model.number="userbook.percentRead" type="range" min="0" max="100" class="w-full range range-primary range-xs">
+          <input v-model.number="userbook.percentRead ?? 0" type="range" min="0" max="100" class="w-full range range-primary range-xs">
           <div class="text-right text-xs opacity-60 mt-1">{{ userbook.percentRead || 0 }}%</div>
         </div>
       </div>
@@ -619,5 +619,24 @@ details > summary {
 }
 details > summary::-webkit-details-marker {
   display: none;
+}
+
+/* Prevent iOS keyboard zoom on input focus */
+.edit-modal input,
+.edit-modal select,
+.edit-modal textarea {
+  font-size: 16px !important;
+}
+
+/* Modal width constraint */
+.edit-modal {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+/* Publisher autocomplete styling */
+.o-autocomplete .input {
+  border: 1px solid oklch(var(--b3, 0.9));
+  border-radius: 0.5rem;
 }
 </style>
