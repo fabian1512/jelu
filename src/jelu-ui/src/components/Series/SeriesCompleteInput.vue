@@ -55,7 +55,7 @@ const options = computed(() => {
       :debounce="150"
       :options="options"
       expanded
-      :placeholder="t('series.find-series')"
+      :placeholder="t('book.series_placeholder')"
       @input="getFilteredSeries"
       @select="onSelect"
     >

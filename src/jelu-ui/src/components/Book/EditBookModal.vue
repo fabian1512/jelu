@@ -384,9 +384,9 @@ watch(() => sliderPercent.value, (newVal) => {
 
     <div class="mb-4">
       <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('book.details') }}</div>
-      <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
+      <div class="bg-base-100 rounded-xl border border-base-300">
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
+           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
           <input v-model="userbook.book.originalTitle" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.original_title')">
         </div>
         <div class="px-4 py-3 border-b border-base-200">
@@ -406,6 +406,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
             root-class="w-full"
+            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -415,7 +416,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="px-4 py-3 border-b border-base-200">
+        <div class="py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.tag', 2) }}</label>
           <o-taginput
             v-model="userbook.book.tags"
@@ -432,6 +433,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_tag')"
             @input="getFilteredTags"
             root-class="w-full"
+            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -451,7 +453,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')">
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')" teleport="false">
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -476,13 +478,13 @@ watch(() => sliderPercent.value, (newVal) => {
       </div>
     </div>
 
-    <details class="bg-base-100 rounded-xl border border-base-300 overflow-hidden mb-4 group">
+    <details class="bg-base-100 rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
         <span>{{ t('labels.more_options') }}</span>
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="px-4 py-3 space-y-3">
-        <div class="px-4 py-3 border-b border-base-200">
+        <div class="py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.translator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.translators"
@@ -508,7 +510,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="px-4 py-3 border-b border-base-200">
+        <div class="py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.narrator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.narrators"
@@ -525,6 +527,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_narrator')"
             @input="(v: string) => getFilteredData(v, filteredNarrators)"
             root-class="w-full"
+            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -535,21 +538,21 @@ watch(() => sliderPercent.value, (newVal) => {
           </o-taginput>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <input v-model="userbook.book.googleId" :placeholder="t('book.google_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
-          <input v-model="userbook.book.goodreadsId" :placeholder="t('book.goodreads_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
-          <input v-model="userbook.book.amazonId" :placeholder="t('book.amazon_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
-          <input v-model="userbook.book.openlibraryId" :placeholder="t('book.openlibrary_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
-          <input v-model="userbook.book.isfdbId" :placeholder="t('book.isfdb_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
-          <input v-model="userbook.book.librarythingId" :placeholder="t('book.librarything_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
-          <input v-model="userbook.book.noosfereId" :placeholder="t('book.noosfere_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
-          <input v-model="userbook.book.inventaireId" :placeholder="t('book.inventaire_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.googleId" :placeholder="t('book.google_id')" class="bg-transparent outline-none text-sm py-1 w-full">
+          <input v-model="userbook.book.goodreadsId" :placeholder="t('book.goodreads_id')" class="bg-transparent outline-none text-sm py-1 w-full">
+          <input v-model="userbook.book.amazonId" :placeholder="t('book.amazon_id')" class="bg-transparent outline-none text-sm py-1 w-full">
+          <input v-model="userbook.book.openlibraryId" :placeholder="t('book.openlibrary_id')" class="bg-transparent outline-none text-sm py-1 w-full">
+          <input v-model="userbook.book.isfdbId" :placeholder="t('book.isfdb_id')" class="bg-transparent outline-none text-sm py-1 w-full">
+          <input v-model="userbook.book.librarythingId" :placeholder="t('book.librarything_id')" class="bg-transparent outline-none text-sm py-1 w-full">
+          <input v-model="userbook.book.noosfereId" :placeholder="t('book.noosfere_id')" class="bg-transparent outline-none text-sm py-1 w-full">
+          <input v-model="userbook.book.inventaireId" :placeholder="t('book.inventaire_id')" class="bg-transparent outline-none text-sm py-1 w-full">
         </div>
       </div>
     </details>
 
     <div v-if="props.canAddEvent" class="mb-4">
       <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('book.personal') }}</div>
-      <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
+      <div class="bg-base-100 rounded-xl border border-base-300">
         <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-2">{{ t('book.status') }}</label>
           <div class="flex gap-3 flex-wrap">

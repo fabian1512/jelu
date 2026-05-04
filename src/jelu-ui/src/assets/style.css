@@ -483,12 +483,15 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 .v3dp__input_wrapper input {
   text-align: right !important;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 0.875rem;
-  width: 100%;
-  padding-right: 20px; /* leave room for clear button */
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 0.875rem !important;
+  width: 100% !important;
+  padding: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
 }
 /* end clear button */
 

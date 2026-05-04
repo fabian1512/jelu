@@ -314,17 +314,14 @@ function toggleScanModal() {
               console.log('Scanning barcode:', barcode)
               const plugins = serverSettings.value?.metadataPlugins || []
               console.log('Using plugins:', plugins)
-              // Use searchMetadataWithPlugins instead of fetchMetadataWithPlugins for better results
-              const results = await dataService.searchMetadataWithPlugins({
+              // ISBN search: use fetchMetadataWithPlugins (single result) for ISBN lookup
+              const metadata = await dataService.fetchMetadataWithPlugins({
                 isbn: barcode,
                 title: '',
                 authors: '',
                 plugins: plugins,
                 language: storedLanguage.value
               })
-              console.log('Search results:', results)
-              // Take the first result if available
-              const metadata = results && results.length > 0 ? results[0] : null
               if (metadata && metadata.title) {
                 oruga.modal.open({
                   component: EditBookModal,
@@ -344,7 +341,7 @@ function toggleScanModal() {
                   }
                 })
               } else {
-                console.log('No metadata found, results:', results)
+                console.log('No metadata found for barcode:', barcode)
                 oruga.info('Keine Metadaten für diesen Barcode gefunden')
               }
             } catch (e) {

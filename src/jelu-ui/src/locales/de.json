@@ -184,6 +184,7 @@
         "random": "Zufällig",
         "publisher": "Verlag",
         "series": "Serie",
+        "series_placeholder": "Serie suchen...",
         "series_number": "Nummer in der Serie",
         "descending": "Absteigend",
         "ascending": "Aufsteigend",
