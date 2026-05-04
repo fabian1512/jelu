@@ -482,7 +482,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   width: 100%;
 }
 .v3dp__input_wrapper input {
-  text-align: right;
+  text-align: right !important;
   background: transparent;
   border: none;
   outline: none;
@@ -491,6 +491,11 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   padding-right: 20px; /* leave room for clear button */
 }
 /* end clear button */
+
+/* Ensure Oruga dropdowns appear above modal overlays */
+.o-dropdown__menu {
+  z-index: 9999 !important;
+}
 
 /* vue markdown editor textarea color */
 .v-md-textarea-editor pre, .v-md-textarea-editor textarea {

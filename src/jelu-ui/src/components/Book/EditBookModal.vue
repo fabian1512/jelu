@@ -314,6 +314,19 @@ watch(() => publishedDate.value, (newVal, oldVal) => {
 if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '') {
   filteredPublishers.value.push(userbook.value.book.publisher as string) // prefill editor autocomplete. oruga workaround
 }
+
+// Separate reactive ref for the percent-read slider.
+// v-model.number on a nested property of a deeply reactive ref sometimes
+// fails to update in Vue 3 when the initial value is 0 (falsy).
+const sliderPercent = ref(userbook.value.percentRead || 0)
+
+watch(() => userbook.value.percentRead, (newVal) => {
+  sliderPercent.value = newVal || 0
+})
+
+watch(() => sliderPercent.value, (newVal) => {
+  userbook.value.percentRead = newVal
+})
 </script>
 
 <template>
@@ -323,7 +336,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
         <span v-else>{{ t('labels.save_changes') }}</span>
       </button>
-      <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-ghost">✕</button>
+      <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle">✕</button>
     </div>
 
     <div class="flex gap-4 mb-6">
@@ -393,7 +406,6 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
             root-class="w-full"
-            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -420,7 +432,6 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
             :placeholder="t('labels.add_tag')"
             @input="getFilteredTags"
             root-class="w-full"
-            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -440,7 +451,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded teleport="false">
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')">
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -448,7 +459,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.published_date') }}</label>
-          <datepicker v-model="publishedDate" class="flex-1 text-right text-sm" :typeable="true" :clearable="true" />
+          <datepicker v-model="publishedDate" class="flex-1 text-right text-sm" :typeable="true" :clearable="true" :placeholder="t('book.published_date')" />
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.language') }}</label>
@@ -471,7 +482,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="px-4 py-3 space-y-3">
-        <div>
+        <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.translator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.translators"
@@ -488,7 +499,6 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
             :placeholder="t('labels.add_translator')"
             @input="(v: string) => getFilteredData(v, filteredTranslators)"
             root-class="w-full"
-            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -498,7 +508,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
             </template>
           </o-taginput>
         </div>
-        <div>
+        <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.narrator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.narrators"
@@ -515,7 +525,6 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
             :placeholder="t('labels.add_narrator')"
             @input="(v: string) => getFilteredData(v, filteredNarrators)"
             root-class="w-full"
-            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -525,15 +534,15 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
             </template>
           </o-taginput>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <input v-model="userbook.book.googleId" :placeholder="t('book.google_id')" class="input input-sm w-full">
-          <input v-model="userbook.book.goodreadsId" :placeholder="t('book.goodreads_id')" class="input input-sm w-full">
-          <input v-model="userbook.book.amazonId" :placeholder="t('book.amazon_id')" class="input input-sm w-full">
-          <input v-model="userbook.book.openlibraryId" :placeholder="t('book.openlibrary_id')" class="input input-sm w-full">
-          <input v-model="userbook.book.isfdbId" :placeholder="t('book.isfdb_id')" class="input input-sm w-full">
-          <input v-model="userbook.book.librarythingId" :placeholder="t('book.librarything_id')" class="input input-sm w-full">
-          <input v-model="userbook.book.noosfereId" :placeholder="t('book.noosfere_id')" class="input input-sm w-full">
-          <input v-model="userbook.book.inventaireId" :placeholder="t('book.inventaire_id')" class="input input-sm w-full">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <input v-model="userbook.book.googleId" :placeholder="t('book.google_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.goodreadsId" :placeholder="t('book.goodreads_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.amazonId" :placeholder="t('book.amazon_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.openlibraryId" :placeholder="t('book.openlibrary_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.isfdbId" :placeholder="t('book.isfdb_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.librarythingId" :placeholder="t('book.librarything_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.noosfereId" :placeholder="t('book.noosfere_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
+          <input v-model="userbook.book.inventaireId" :placeholder="t('book.inventaire_id')" class="bg-transparent outline-none text-sm border-b border-base-300 py-1 w-full">
         </div>
       </div>
     </details>
@@ -593,8 +602,8 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         </div>
         <div class="px-4 py-3">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.percent_read') }}</label>
-          <input v-model.number="userbook.percentRead" type="range" min="0" max="100" class="w-full range range-primary range-xs">
-          <div class="text-right text-xs opacity-60 mt-1">{{ userbook.percentRead || 0 }}%</div>
+          <input v-model.number="sliderPercent" type="range" min="0" max="100" class="w-full range range-primary range-xs">
+          <div class="text-right text-xs opacity-60 mt-1">{{ sliderPercent }}%</div>
         </div>
       </div>
     </div>
