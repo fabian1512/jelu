@@ -123,7 +123,6 @@ directories('/')
           </div>
         </div>
       </div>
-    </div>
   </section>
 </template>
 
