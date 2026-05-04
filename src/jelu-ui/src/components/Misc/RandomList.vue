@@ -229,7 +229,7 @@ const { typographyClasses } = useTypography()
     <div
       v-for="book in books"
       :key="book.id"
-      class="books-grid-item h-full"
+      class="h-full"
     >
       <book-card
         :book="book"

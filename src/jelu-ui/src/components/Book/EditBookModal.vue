@@ -481,7 +481,7 @@ watch(() => sliderPercent.value, (newVal) => {
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="px-4 py-3 space-y-3">
-        <div class="flex flex-col gap-1 py-3 border-b border-base-200">
+        <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.translator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.translators"
@@ -497,7 +497,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_translator')"
             @input="(v: string) => getFilteredData(v, filteredTranslators)"
-            root-class="flex-1"
+            root-class="w-full"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -507,7 +507,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="flex flex-col gap-1 py-3 border-b border-base-200">
+        <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.narrator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.narrators"
@@ -523,7 +523,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_narrator')"
             @input="(v: string) => getFilteredData(v, filteredNarrators)"
-            root-class="flex-1"
+            root-class="w-full"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>

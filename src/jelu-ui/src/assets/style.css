@@ -193,8 +193,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .o-taginput .o-taginput__container {
-    @apply items-center h-fit;
-    width: auto !important;
+    @apply items-center h-fit w-full;
 }
 
 .jl-sidebar .label-text {
