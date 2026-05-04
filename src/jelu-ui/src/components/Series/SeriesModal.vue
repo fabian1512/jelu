@@ -81,9 +81,6 @@ const { typographyClasses } = useTypography()
     </div>
     <div class="w-full">
       <div>
-        <div>
-      </div>
-      <div>
         <div class="field">
           <label class="label">
             <span class="label-text font-semibold capitalize text-lg">{{ t('labels.description') }} :</span>
