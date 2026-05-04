@@ -83,9 +83,9 @@ function copyInput(book: UserBook | Metadata | null): any {
       owned: false,
       toRead: false,
       borrowed: false,
-      price: null,
-      currentPageNumber: null,
-      percentRead: null,
+      price: 0,
+      currentPageNumber: 0,
+      percentRead: 0,
       personalNotes: null,
       userBookId: undefined,
       userbook: undefined,
@@ -562,16 +562,16 @@ if (userbook.value.book.publisher != null) {
         <div class="px-4 py-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="text-sm opacity-60 block mb-1">{{ t('book.price') }}</label>
-            <input v-model.number="userbook.price ?? 0" type="number" step="0.01" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.price')">
+            <input v-model.number="userbook.price" type="number" step="0.01" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.price')">
           </div>
           <div>
             <label class="text-sm opacity-60 block mb-1">{{ t('book.current_page_number') }}</label>
-            <input v-model.number="userbook.currentPageNumber ?? 0" type="number" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.current_page_number')">
+            <input v-model.number="userbook.currentPageNumber" type="number" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.current_page_number')">
           </div>
         </div>
         <div class="px-4 py-3">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.percent_read') }}</label>
-          <input v-model.number="userbook.percentRead ?? 0" type="range" min="0" max="100" class="w-full range range-primary range-xs">
+          <input v-model.number="userbook.percentRead" type="range" min="0" max="100" class="w-full range range-primary range-xs">
           <div class="text-right text-xs opacity-60 mt-1">{{ userbook.percentRead || 0 }}%</div>
         </div>
       </div>
