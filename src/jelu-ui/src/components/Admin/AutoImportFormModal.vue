@@ -330,213 +330,141 @@ function togglePluginsModal() {
 function pluginsModalClosed() {
 }
 
+const openEmptyEditBook = () => {
+  const emptyMetadata: Metadata = {
+    title: '',
+    authors: [],
+    isbn: '',
+    isbn13: '',
+    isbn10: '',
+    publisher: '',
+    publishedDate: '',
+    pageCount: 0,
+    language: '',
+    summary: '',
+    image: '',
+    tags: [],
+    series: '',
+    numberInSeries: 0,
+  }
+  oruga.modal.open({
+    component: EditBookModal,
+    trapFocus: true,
+    active: true,
+    canCancel: ['x', 'button', 'outside'],
+    scroll: 'clip',
+    props: {
+      book: emptyMetadata,
+      bookId: null,
+      canAddEvent: true
+    },
+    onClose: () => {}
+  })
+}
+
 const { typographyClasses } = useTypography()
 </script>
 
 <template>
   <section class="edit-modal">
-    <div class="flex justify-between items-center mb-4">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-5">
       <h3 class="text-lg font-bold">
         {{ t('labels.import_book') }}
       </h3>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
-    </div>
-
-    <div v-if="displayForm" class="w-full sm:w-lg mb-3">
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend capitalize">
-          {{ t('book.isbn') }}
-        </legend>
-        <input
-          v-model="form.isbn"
-          class="input input-bordered focus:input-accent w-full"
-          @keyup.enter="fetchMetadata"
-        >
-      </fieldset>
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend capitalize">
-          {{ t('book.title') }}
-        </legend>
-        <input
-          v-model="form.title"
-          class="input input-bordered focus:input-accent w-full"
-          @keyup.enter="fetchMetadata"
-        >
-      </fieldset>
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend capitalize">
-          {{ t('book.author', 2) }}
-        </legend>
-        <input
-          v-model="form.authors"
-          class="input input-bordered focus:input-accent w-full"
-          @keyup.enter="fetchMetadata"
-        >
-      </fieldset>
-    </div>
-
-    <div v-if="displayForm" class="flex flex-wrap gap-2 items-center">
-      <button
-        :disabled="!isValid"
-        class="btn btn-primary uppercase"
-        :class="{'btn-disabled' : progress}"
-        @click="fetchMetadata"
-      >
-        <span
-          v-if="progress"
-          class="loading loading-spinner"
-        />
-        {{ t('labels.fetch_book') }}
-      </button>
-      <button
-        class="btn btn-warning"
-        :class="{'btn-disabled' : progress}"
-        @click="toggleScanModal"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
-          />
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
-          />
-        </svg>
-      </button>
-      <button
-        class="btn btn-ghost btn-sm"
-        :class="{'btn-disabled' : progress}"
-        @click="togglePluginsModal"
-        :title="t('labels.choose_plugins')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      </button>
-      <p
-        v-if="errorMessage"
-        class="text-error w-full"
-      >
-        {{ errorMessage }}
-      </p>
-    </div>
-
-<div v-if="displayForm" class="mt-2">
-      <progress
-        v-if="progress"
-        class="animate-pulse progress progress-primary w-full"
-        max="100"
-      />
-    </div>
-
-    <div
-      class="flex flex-col items-center"
-    >
-      <div
-        v-if="metadata != null && metadata.errorType != undefined"
-      >
-        <p class="text-error">
-          {{ t('errors.metadata.' + metadata.errorType) }}
-        </p>
-        <div class="collapse">
-          <input type="checkbox">
-          <div class="collapse-title text-xl font-medium capitalize">
-            {{ t('errors.details') }}
-          </div>
-          <blockquote
-            v-if="formattedErrorMessage"
-            class="collapse-content"
-          >
-            <p
-              class="whitespace-pre-line text-error"
-              v-html="formattedErrorMessage"
-            />
-          </blockquote>
-        </div>
-      </div>
-
-      <!-- Compact List with Small Cover Icons, OHNE ISBN -->
-      <div v-if="showLocalResults && localResults.length > 0" class="mt-4 space-y-2">
-        <h3 class="text-lg font-bold">In Datenbank gefunden ({{ localResults.length }}):</h3>
-        <div class="max-h-80 overflow-y-auto space-y-2">
-          <div 
-            v-for="book in localResults" 
-            :key="book.id"
-            class="flex items-center gap-3 p-2 border rounded hover:bg-base-200"
-          >
-            <!-- Small Cover Icon (w-12 = 48px) -->
-            <img 
-              :src="book.image ? StringUtils.thumbnailUrl(book.image, 'thumb') : '/files/placeholder_asset.jpg'" 
-              class="w-12 h-16 object-cover rounded flex-shrink-0"
-              loading="lazy"
-            >
-            <!-- Book Info (OHNE ISBN) -->
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-bold truncate">{{ book.title }}</p>
-              <p class="text-xs opacity-70 truncate">
-                {{ book.authors?.map(a => a.name).join(', ') }}
-              </p>
-            </div>
-            <!-- Zur Bibliothek Button -->
-            <button 
-              @click="addToLibraryAndNavigate(book.id)"
-              class="btn btn-sm btn-primary"
-            >
-              <i class="mdi mdi-plus"></i>
-              Zur Bibliothek
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Message if no local results (external search will proceed) -->
-      <div v-if="showLocalResults && localResults.length === 0" class="alert alert-warning mt-4">
-        Keine Bücher in der Datenbank gefunden. Externe Suche läuft...
-      </div>
-      
-      <MetadataDetail
-        v-else-if="metadata != null"
-        :metadata="metadata"
-      />
-      <div
-        v-if="!displayForm"
-        class="col-span-5 space-x-5 mt-3"
-      >
+      <div class="flex gap-2">
         <button
-          class="btn btn-primary uppercase"
-          @click="importData"
+          class="btn btn-ghost btn-sm"
+          @click="togglePluginsModal"
+          :title="t('labels.choose_plugins')"
         >
-          <span class="icon">
-            <i class="mdi mdi-check mdi-18px" />
-          </span><span>{{ t('labels.import') }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
         </button>
+        <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </div>
+    </div>
+
+    <!-- SUCHE Section -->
+    <div class="mb-4">
+      <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">Suche</div>
+      <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
+        <!-- Titel -->
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm font-medium w-14 shrink-0">Titel</label>
+          <input
+            v-model="form.title"
+            placeholder="Titel oder Stichwort"
+            class="flex-1 bg-transparent outline-none text-sm"
+            @keyup.enter="fetchMetadata"
+          >
+        </div>
+        <!-- Autor -->
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm font-medium w-14 shrink-0">Autor</label>
+          <input
+            v-model="form.authors"
+            placeholder="Name des Autors"
+            class="flex-1 bg-transparent outline-none text-sm"
+            @keyup.enter="fetchMetadata"
+          >
+        </div>
+        <!-- ISBN -->
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm font-medium w-14 shrink-0">ISBN</label>
+          <input
+            v-model="form.isbn"
+            placeholder="13-stellige Nummer"
+            class="flex-1 bg-transparent outline-none text-sm"
+            @keyup.enter="fetchMetadata"
+          >
+        </div>
+        <!-- Suche starten Button -->
         <button
-          class="btn btn-warning uppercase"
-          @click="discard"
+          @click="fetchMetadata"
+          :disabled="!isValid || progress"
+          class="w-full py-3 font-medium text-center transition-colors"
+          :class="progress ? 'text-base-content/50 cursor-wait' : 'text-error hover:bg-base-200'"
         >
-          <span class="icon">
-            <i class="mdi mdi-cancel mdi-18px" />
-          </span><span>{{ t('labels.discard') }}</span>
+          <span v-if="progress" class="loading loading-spinner loading-sm mr-2"></span>
+          <span>Suche starten</span>
         </button>
       </div>
+      <p v-if="errorMessage" class="text-error text-sm mt-1 px-1">{{ errorMessage }}</p>
+    </div>
 
+    <!-- BARCODE Section -->
+    <div class="mb-4">
+      <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">Barcode</div>
+      <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
+        <button
+          @click="toggleScanModal"
+          class="w-full py-3 text-error font-medium text-center hover:bg-base-200 transition-colors"
+        >
+          Barcode einscannen
+        </button>
+      </div>
+    </div>
+
+    <!-- MANUELL ERFASSEN Section -->
+    <div class="mb-4">
+      <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">Manuell erfassen</div>
+      <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
+        <button
+          @click="openEmptyEditBook"
+          class="w-full py-3 text-error font-medium text-center hover:bg-base-200 transition-colors"
+        >
+          Buch manuell erfassen
+        </button>
+      </div>
     </div>
   </section>
 </template>
