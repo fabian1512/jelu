@@ -197,31 +197,29 @@ function getFilteredTags(text: string) {
   })
 }
 
-// Track whether user has actually interacted with the autocomplete.
-// Oruga fires a spurious @input event on mount which would otherwise
-// wipe out a pre-filled publisher (race condition).
-let publisherInputTouched = false
+// Separate input buffer for publisher autocomplete.
+// o-autocomplete's v-model would overwrite the real publisher on mount
+// (Oruga fires an internal modelValue update with empty string before user
+// interaction). We decouple the input field from the data model:
+// - publisherInput holds what the text field shows
+// - userbook.book.publisher holds the committed value (only written on @select or @input after user typed)
+const publisherInput = ref(userbook.value.book.publisher ?? '')
+let publisherMounted = false
 
 function getFilteredPublishers(text: string) {
-  const current = userbook.value.book.publisher ?? ''
-  // Mount-echo guard: ignore Oruga's initial @input event(s) that come with
-  // empty string or with the current value before user actually interacts.
-  if (!publisherInputTouched && (text === '' || text === current)) {
-    dataService.findPublisherByCriteria(current).then(data => {
-      filteredPublishers.value = data.content
-      if (current !== '' && !filteredPublishers.value.includes(current)) {
-        filteredPublishers.value.push(current)
-      }
-    })
+  // First @input event fires synchronously on mount — skip it to avoid
+  // overwriting the pre-filled publisher with an empty string.
+  if (!publisherMounted) {
+    publisherMounted = true
     return
   }
-  publisherInputTouched = true
+  // User is actually typing: keep the visible buffer and real model in sync
+  publisherInput.value = text
   userbook.value.book.publisher = text
   dataService.findPublisherByCriteria(text).then(data => {
     filteredPublishers.value = data.content
-    if (userbook.value.book.publisher != null && userbook.value.book.publisher !== ''
-        && !filteredPublishers.value.includes(userbook.value.book.publisher)) {
-      filteredPublishers.value.push(userbook.value.book.publisher as string)
+    if (text !== '' && !filteredPublishers.value.includes(text)) {
+      filteredPublishers.value.push(text)
     }
   })
 }
@@ -268,6 +266,7 @@ function selectPublisher(publisher: string) {
   // we receive from oruga weird events while nothing is selected
   // so try to get rid of those null data we receive
   if (publisher != null) {
+    publisherInput.value = publisher
     userbook.value.book.publisher = publisher
   }
 }
@@ -440,7 +439,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete v-model="userbook.book.publisher" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded>
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded>
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
