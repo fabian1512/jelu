@@ -618,16 +618,28 @@ details > summary::-webkit-details-marker {
 }
 
 /* Prevent iOS keyboard zoom on input focus */
-.edit-modal input,
-.edit-modal select,
-.edit-modal textarea {
-  font-size: 16px !important;
+@supports (-webkit-touch-callout: none) {
+  .edit-modal input,
+  .edit-modal select,
+  .edit-modal textarea,
+  .edit-modal .input,
+  .edit-modal .input-sm,
+  .edit-modal .textarea,
+  .edit-modal .textarea-sm,
+  .edit-modal .file-input,
+  .edit-modal .file-input-sm,
+  .edit-modal .select {
+    font-size: 16px !important;
+    line-height: 1.4;
+  }
 }
 
-/* Modal width constraint */
-.edit-modal {
-  max-width: 32rem;
-  margin: 0 auto;
+/* Modal width constraint (desktop only) */
+@media (min-width: 768px) {
+  .edit-modal {
+    max-width: 32rem;
+    margin: 0 auto;
+  }
 }
 
 /* Remove border from publisher autocomplete and series input */
