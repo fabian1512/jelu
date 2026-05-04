@@ -86,7 +86,7 @@ const close = () => {
 </script>
 
 <template>
-  <div class="modal-box w-11/12 max-w-4xl">
+  <section class="edit-modal">
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-lg font-bold">{{ t('labels.search_results') }}</h3>
       <button @click="close" class="btn btn-sm btn-circle">✕</button>
@@ -161,8 +161,8 @@ const close = () => {
       <p>{{ t('labels.no_results_found') }}</p>
     </div>
 
-    <div class="modal-action">
+    <div class="flex justify-end mt-4">
       <button @click="close" class="btn">{{ t('labels.cancel') }}</button>
     </div>
-  </div>
+  </section>
 </template>
