@@ -249,7 +249,6 @@ function toggleScanModal() {
                   series: book.series?.[0]?.name,
                   numberInSeries: book.series?.[0]?.numberInSeries,
                 }
-                emit('close')
                 oruga.modal.open({
                   component: EditBookModal,
                   trapFocus: true,
@@ -280,7 +279,6 @@ function toggleScanModal() {
                 language: storedLanguage.value
               })
               if (metadata && metadata.title) {
-                emit('close')
                 oruga.modal.open({
                   component: EditBookModal,
                   trapFocus: true,
@@ -294,6 +292,8 @@ function toggleScanModal() {
                   },
                   onClose: () => {}
                 })
+              } else {
+                oruga.info('Keine Metadaten für diesen Barcode gefunden')
               }
             } catch (e) {
               console.error('External search failed', e)
@@ -335,127 +335,117 @@ const { typographyClasses } = useTypography()
 
 <template>
   <section class="edit-modal">
-    <div class="flex flex-col items-center">
-      <div class="mb-2">
-        <h1
-          class="text-2xl capitalize"
-          :class="typographyClasses"
-        >
-          {{ t('labels.import_book') }}
-        </h1>
-      </div>
-      <div
-        v-if="displayForm"
-        class="w-full sm:w-lg"
-      >
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
-            {{ t('book.isbn') }}
-          </legend>
-          <input
-            v-model="form.isbn"
-            class="input focus:input-accent w-full"
-            @keyup.enter="fetchMetadata"
-          >
-        </fieldset>
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
-            {{ t('book.title') }}
-          </legend>
-          <input
-            v-model="form.title"
-            class="input focus:input-accent w-full"
-            @keyup.enter="fetchMetadata"
-          >
-        </fieldset>
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
-            {{ t('book.author', 2) }}
-          </legend>
-          <input
-            v-model="form.authors"
-            class="input focus:input-accent w-full"
-            @keyup.enter="fetchMetadata"
-          >
-        </fieldset>
-      </div>
-      <div
-        v-if="displayForm"
-      >
-        <div class="field">
-          <div class="flex gap-1">
-            <button
-              :disabled="!isValid"
-              class="btn btn-success uppercase"
-              :class="{'btn-disabled' : progress}"
-              @click="fetchMetadata"
-            >
-              <span
-                v-if="progress"
-                class="loading loading-spinner"
-              />
-              {{ t('labels.fetch_book') }}
-            </button>
-            <button
-              class="btn btn-warning p-2"
-              :class="{'btn-disabled' : progress}"
-              @click="toggleScanModal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
-                />
-              </svg>
-            </button>
-            <button
-              class="btn btn-secondary p-2"
-              :class="{'btn-disabled' : progress}"
-              @click="togglePluginsModal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  d="M6 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 1 1 1.5 0v7.5A.75.75 0 0 1 6 12ZM18 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 18 12ZM6.75 14.25a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H6.75ZM3.75 8.25a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75ZM3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v1.5a.75.75 0 0 1-.75.75H3.75A.75.75 0 0 1 3 7.5V6ZM4.5 18.75v-4.5A.75.75 0 0 1 5.25 13.5h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75ZM9 18.75v-4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5A.75.75 0 0 1 9 18.75ZM13.5 18.75v-4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75ZM18 18.75v-4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75Z"
-                />
-              </svg>
-            </button>
-          </div>
-          <p
-            v-if="errorMessage"
-            class="text-error"
-          >
-            {{ errorMessage }}
-          </p>
-        </div>
-      </div>
-      <div
-        v-if="displayForm"
-      >
-        <progress
-          v-if="progress"
-          class="animate-pulse progress progress-success mt-5"
-          max="100"
-        />
-      </div>
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-bold">
+        {{ t('labels.import_book') }}
+      </h3>
+      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
     </div>
+
+    <div v-if="displayForm" class="w-full sm:w-lg mb-3">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend capitalize">
+          {{ t('book.isbn') }}
+        </legend>
+        <input
+          v-model="form.isbn"
+          class="input input-bordered focus:input-accent w-full"
+          @keyup.enter="fetchMetadata"
+        >
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend capitalize">
+          {{ t('book.title') }}
+        </legend>
+        <input
+          v-model="form.title"
+          class="input input-bordered focus:input-accent w-full"
+          @keyup.enter="fetchMetadata"
+        >
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend capitalize">
+          {{ t('book.author', 2) }}
+        </legend>
+        <input
+          v-model="form.authors"
+          class="input input-bordered focus:input-accent w-full"
+          @keyup.enter="fetchMetadata"
+        >
+      </fieldset>
+    </div>
+
+    <div v-if="displayForm" class="flex flex-wrap gap-2 items-center">
+      <button
+        :disabled="!isValid"
+        class="btn btn-primary uppercase"
+        :class="{'btn-disabled' : progress}"
+        @click="fetchMetadata"
+      >
+        <span
+          v-if="progress"
+          class="loading loading-spinner"
+        />
+        {{ t('labels.fetch_book') }}
+      </button>
+      <button
+        class="btn btn-warning"
+        :class="{'btn-disabled' : progress}"
+        @click="toggleScanModal"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
+          />
+        </svg>
+      </button>
+      <button
+        class="btn btn-ghost btn-sm"
+        :class="{'btn-disabled' : progress}"
+        @click="togglePluginsModal"
+        :title="t('labels.choose_plugins')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </button>
+      <p
+        v-if="errorMessage"
+        class="text-error w-full"
+      >
+        {{ errorMessage }}
+      </p>
+    </div>
+
+<div v-if="displayForm" class="mt-2">
+      <progress
+        v-if="progress"
+        class="animate-pulse progress progress-primary w-full"
+        max="100"
+      />
+    </div>
+
     <div
       class="flex flex-col items-center"
     >
