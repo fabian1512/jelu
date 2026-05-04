@@ -279,7 +279,7 @@ function toggleScanModal() {
                 plugins: plugins,
                 language: storedLanguage.value
               })
-              if (metadata) {
+              if (metadata && metadata.title) {
                 emit('close')
                 oruga.modal.open({
                   component: EditBookModal,

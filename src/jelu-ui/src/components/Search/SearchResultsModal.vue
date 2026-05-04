@@ -133,7 +133,7 @@ const close = () => {
         >
           <img 
             v-if="metadata.image"
-            :src="metadata.image" 
+            :src="metadata.image?.startsWith('http') ? metadata.image : '/files/' + metadata.image" 
             class="w-12 h-16 object-cover rounded flex-shrink-0"
             loading="lazy"
           >
