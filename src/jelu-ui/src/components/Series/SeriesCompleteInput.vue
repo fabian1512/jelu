@@ -47,7 +47,7 @@ const options = computed(() => {
 <template>
   <div class="flex flex-col sm:flex-col gap-1 grow w-full">
     <o-autocomplete
-      :input-classes="{rootClass: 'border-2 border-accent'}"
+      :input-classes="{rootClass: 'border-0'}"
       :loading="isFetching"
       open-on-focus
       clear-on-select

@@ -59,7 +59,7 @@ function copyInput(book: UserBook | Metadata | null): any {
         isbn10: meta.isbn10,
         isbn13: meta.isbn13,
         summary: meta.summary || '',
-        publisher: meta.publisher || '',
+        publisher: meta.publisher || undefined,
         image: meta.image || null,
         pageCount: meta.pageCount || null,
         publishedDate: meta.publishedDate || null,
@@ -286,7 +286,7 @@ watch(() => publishedDate.value, (newVal, oldVal) => {
     }
 })
 
-if (userbook.value.book.publisher != null) {
+if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '') {
   filteredPublishers.value.push(userbook.value.book.publisher as string) // prefill editor autocomplete. oruga workaround
 }
 </script>
@@ -555,7 +555,7 @@ if (userbook.value.book.publisher != null) {
           <label class="text-sm opacity-60 block mb-1">{{ t('book.personal_notes') }}</label>
           <input v-model="userbook.personalNotes" :placeholder="t('book.personal_notes')" class="w-full bg-transparent outline-none text-sm">
         </div>
-        <div class="px-4 py-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="px-4 py-3 flex flex-col gap-3">
           <div>
             <label class="text-sm opacity-60 block mb-1">{{ t('book.price') }}</label>
             <input v-model.number="userbook.price" type="number" step="0.01" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.price')">
@@ -626,13 +626,13 @@ details > summary::-webkit-details-marker {
 
 /* Modal width constraint */
 .edit-modal {
-  max-width: 28rem;
+  max-width: 32rem;
   margin: 0 auto;
 }
 
-/* Publisher autocomplete styling */
+/* Remove border from publisher autocomplete and series input */
 .o-autocomplete .input {
-  border: 1px solid oklch(var(--b3, 0.9));
-  border-radius: 0.5rem;
+  border: none !important;
+  box-shadow: none !important;
 }
 </style>
