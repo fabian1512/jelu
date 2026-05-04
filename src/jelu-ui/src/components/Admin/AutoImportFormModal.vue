@@ -105,13 +105,10 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
   // Prepare metadata to pass to EditBookModal
   let metadataToSend: Metadata
   
-  console.log('Selected result:', result)
-  
   // Check if it's a Book (has id) or Metadata (no id)
   if ('id' in result) {
     // It's a Book from local DB - convert to Metadata format
     const bookResult = result as Book
-    console.log('Converting Book, publisher:', bookResult.publisher)
     metadataToSend = {
       title: bookResult.title,
       authors: bookResult.authors?.map(a => a.name) || [],
@@ -137,12 +134,8 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     }
   } else {
     // It's Metadata from external provider
-    const metaResult = result as Metadata
-    console.log('Metadata, publisher:', metaResult.publisher)
-    metadataToSend = metaResult
+    metadataToSend = result as Metadata
   }
-  
-  console.log('Sending to EditBookModal, publisher:', metadataToSend.publisher)
   
   // Open EditBookModal with metadata
   oruga.modal.open({
@@ -270,7 +263,6 @@ function toggleScanModal() {
                 const metadata: Metadata = {
                   title: book.title,
                   authors: book.authors?.map(a => a.name) || [],
-                  isbn: book.isbn13 || book.isbn10,
                   isbn13: book.isbn13,
                   isbn10: book.isbn10,
                   publisher: book.publisher,
@@ -312,20 +304,23 @@ function toggleScanModal() {
               console.error('Local search failed', e)
             }
             
-            // Not found locally - try external search
+            // Not found locally - try external search using searchMetadataWithPlugins (better for scan)
             progress.value = true
             try {
               console.log('Scanning barcode:', barcode)
               const plugins = serverSettings.value?.metadataPlugins || []
               console.log('Using plugins:', plugins)
-              const metadata = await dataService.fetchMetadataWithPlugins({
+              // Use searchMetadataWithPlugins instead of fetchMetadataWithPlugins for better results
+              const results = await dataService.searchMetadataWithPlugins({
                 isbn: barcode,
                 title: '',
                 authors: '',
                 plugins: plugins,
                 language: storedLanguage.value
               })
-              console.log('Fetched metadata:', metadata)
+              console.log('Search results:', results)
+              // Take the first result if available
+              const metadata = results && results.length > 0 ? results[0] : null
               if (metadata && metadata.title) {
                 oruga.modal.open({
                   component: EditBookModal,
@@ -343,7 +338,7 @@ function toggleScanModal() {
                   }
                 })
               } else {
-                console.log('No metadata title found, metadata:', metadata)
+                console.log('No metadata found, results:', results)
                 oruga.info('Keine Metadaten für diesen Barcode gefunden')
               }
             } catch (e) {
