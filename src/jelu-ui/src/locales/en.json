@@ -109,6 +109,7 @@
       "no_local_results": "No books found in database",
       "external_result": "External Result",
       "searching_external": "Searching external providers...",
+      "no_results_found": "No results found",
       "select": "Select",
       "orphan-tags" : "orphan tags",
       "find-tag" : "find a tag",

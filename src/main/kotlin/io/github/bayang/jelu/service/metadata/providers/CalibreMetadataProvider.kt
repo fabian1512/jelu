@@ -180,6 +180,14 @@ class CalibreMetadataProvider(
 
     override fun name(): String = PluginInfoHolder.CALIBRE
 
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        // Calibre doesn't support multi-result search
+        return emptyList()
+    }
+
     private fun removeTrailingAndLeadingChars(output: String): String {
         if (output.isNullOrBlank()) {
             return output

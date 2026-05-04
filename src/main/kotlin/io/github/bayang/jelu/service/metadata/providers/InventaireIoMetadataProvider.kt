@@ -126,25 +126,81 @@ class InventaireIoMetadataProvider(
 
     private fun parseSearchResults(node: JsonNode): ParsingDto {
         val firstResult = node.asIterable().first()
+        return parseSearchResult(firstResult)
+    }
+
+    private fun parseSearchResult(node: JsonNode): ParsingDto {
         val dto = MetadataDto()
-        if (firstResult.has("label")) {
-            dto.title = firstResult.get("label").asText()
+        if (node.has("label")) {
+            dto.title = node.get("label").asText()
         }
-        if (firstResult.has("description")) {
-            dto.summary = firstResult.get("description").asText()
+        if (node.has("description")) {
+            dto.summary = node.get("description").asText()
         }
         val res = ParsingDto(dto, "")
-        if (firstResult.has("uri")) {
-            res.editionClaim = firstResult.get("uri").asText()
+        if (node.has("uri")) {
+            res.editionClaim = node.get("uri").asText()
         }
-        if (firstResult.has("image")) {
-            val imgParent = firstResult.get("image")
+        if (node.has("image")) {
+            val imgParent = node.get("image")
             if (!imgParent.isEmpty) {
                 val img = imgParent[0].asText()
                 dto.image = imagePath(img)
             }
         }
         return res
+    }
+
+    private fun parseSearchResultsMulti(node: JsonNode): List<MetadataDto> =
+        node.asIterable().mapNotNull { result ->
+            try {
+                val parsingDto = parseSearchResult(result)
+                if (parsingDto.metadataDto.title.isNullOrBlank()) {
+                    null
+                } else {
+                    parsingDto.metadataDto
+                }
+            } catch (e: Exception) {
+                logger.warn("failed to parse search result: ${e.message}")
+                null
+            }
+        }
+
+    private fun searchByTitleMulti(title: String): List<MetadataDto> =
+        restClient
+            .get()
+            .uri(inventaireApi) { uriBuilder ->
+                uriBuilder
+                    .path("search")
+                    .queryParam("types", "works")
+                    .queryParam("search", title)
+                    .build()
+            }.header(HttpHeaders.USER_AGENT, USER_AGENT + buildProperties.version)
+            .exchange { clientRequest, clientResponse ->
+                if (clientResponse.statusCode == HttpStatus.OK) {
+                    val bodyString = clientResponse.bodyTo(String::class.java)
+                    val node = objectMapper.readTree(bodyString).get("results")
+                    parseSearchResultsMulti(node)
+                } else {
+                    logger.error { "error searching metadata from inventaire.io : ${clientResponse.statusCode} " }
+                    emptyList()
+                }
+            } ?: emptyList()
+
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        // ISBN search not supported for multi-result search in inventaire.io
+        if (!metadataRequestDto.isbn.isNullOrBlank()) {
+            return emptyList()
+        }
+        if (!metadataRequestDto.title.isNullOrBlank()) {
+            return searchByTitleMulti(metadataRequestDto.title)
+        } else if (!metadataRequestDto.authors.isNullOrBlank()) {
+            return searchByTitleMulti(metadataRequestDto.authors)
+        }
+        return emptyList()
     }
 
     private fun parseSearchAuthorsResults(node: JsonNode): String {

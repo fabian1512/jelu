@@ -65,6 +65,48 @@ class FetchMetadataService(
         return result
     }
 
+    fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String> = mapOf(),
+    ): List<MetadataDto> {
+        val pluginsToUse = if (metadataRequestDto.plugins.isNullOrEmpty()) pluginInfoHolder.plugins() else metadataRequestDto.plugins
+        val sortedPlugins = pluginsToUse.toMutableList().apply { sortWith(PluginInfoComparator) }
+        logger.info { "searchMetadata: plugins selected: ${sortedPlugins.joinToString { "${it.name}(${it.order})" }}" }
+
+        val allResults = mutableListOf<MetadataDto>()
+
+        for (plugin in sortedPlugins) {
+            val provider = providers.find { plugin.name.equals(it.name(), true) }
+            if (provider != null) {
+                try {
+                    val start = System.currentTimeMillis()
+                    val results = provider.searchMetadata(metadataRequestDto, config)
+                    val elapsed = System.currentTimeMillis() - start
+                    logger.info { "provider ${plugin.name}: found ${results.size} results (${elapsed}ms)" }
+                    allResults.addAll(results)
+                } catch (e: Exception) {
+                    logger.warn { "provider ${plugin.name} search failed: ${e.message}" }
+                }
+            }
+        }
+
+        // Deduplicate by title+authors
+        val seen = mutableSetOf<String>()
+        val deduplicated =
+            allResults.filter { dto ->
+                val key = "${dto.title?.lowercase()}_${dto.authors?.joinToString()?.lowercase()}"
+                if (seen.contains(key)) {
+                    false
+                } else {
+                    seen.add(key)
+                    true
+                }
+            }
+
+        logger.info { "searchMetadata done: total ${deduplicated.size} results after deduplication" }
+        return deduplicated
+    }
+
     private fun mergeInto(
         acc: MetadataDto,
         next: MetadataDto,

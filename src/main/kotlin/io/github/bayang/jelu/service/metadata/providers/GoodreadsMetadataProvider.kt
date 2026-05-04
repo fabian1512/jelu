@@ -18,6 +18,14 @@ class GoodreadsMetadataProvider(
 
     override fun name(): String = "goodreads"
 
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        // Goodreads doesn't support title/author search, only ISBN
+        return emptyList()
+    }
+
     override fun fetchMetadata(
         metadataRequestDto: MetadataRequestDto,
         config: Map<String, String>,

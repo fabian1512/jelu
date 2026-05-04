@@ -755,6 +755,18 @@ class DataService {
     }
   }
 
+  searchMetadataWithPlugins = async (metadataRequest: MetadataRequest) => {
+    try {
+      const response = await this.apiClient.post<Metadata[]>(`${this.API_METADATA}/search`, metadataRequest)
+      return response.data;
+    }
+    catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+      }
+      throw new Error("error search metadata " + error)
+    }
+  }
+
   findBooksDetailed = async (title?: string, isbn10?: string, isbn13?: string,
     series?: string, authors?: Array<string>, translators?: Array<string>,
     narrators?: Array<string>,

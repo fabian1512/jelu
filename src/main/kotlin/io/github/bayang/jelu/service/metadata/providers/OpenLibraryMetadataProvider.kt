@@ -102,7 +102,7 @@ class OpenLibraryMetadataProvider(
                     authors = extractAuthors(first),
                     publishedDate = first.get("first_publish_year")?.asText(),
                 )
-            val coverId = first.get("cover_i")?.asInt()
+            val coverId = first.get("cover-i")?.asInt()
             if (coverId != null) {
                 dto.image = "https://covers.openlibrary.org/b/id/$coverId-M.jpg"
             }
@@ -119,6 +119,76 @@ class OpenLibraryMetadataProvider(
             logger.error(e) { "failed to parse OpenLibrary search response" }
             return Optional.empty()
         }
+    }
+
+    fun searchByTitleAndAuthorMulti(
+        title: String?,
+        authors: String?,
+    ): List<MetadataDto> {
+        val query = listOfNotNull(title, authors).joinToString(" ")
+        if (query.isBlank()) return emptyList()
+
+        val response: String? =
+            restClient
+                .get()
+                .uri {
+                    it
+                        .scheme("https")
+                        .host("openlibrary.org")
+                        .path("/search.json")
+                        .queryParam("q", query)
+                        .queryParam("limit", 10)
+                        .build()
+                }.retrieve()
+                .body(String::class.java)
+
+        if (response == null || response.isBlank()) {
+            return emptyList()
+        }
+
+        try {
+            val root = objectMapper.readTree(response)
+            val docs = root.get("docs")
+            if (docs == null || !docs.isArray || docs.isEmpty) {
+                return emptyList()
+            }
+            return docs.mapNotNull { doc ->
+                try {
+                    val dto =
+                        MetadataDto(
+                            title = doc.get("title")?.asText(),
+                            authors = extractAuthors(doc),
+                            publishedDate = doc.get("first_publish_year")?.asText(),
+                        )
+                    val coverId = doc.get("cover-i")?.asInt()
+                    if (coverId != null) {
+                        dto.image = "https://covers.openlibrary.org/b/id/$coverId-M.jpg"
+                    }
+                    val isbn10 = doc.get("isbn")?.firstOrNull()?.asText()
+                    val isbn13 = doc.get("isbn_13")?.firstOrNull()?.asText()
+                    if (isbn10 != null) dto.isbn10 = isbn10
+                    if (isbn13 != null) dto.isbn13 = isbn13
+                    dto
+                } catch (e: Exception) {
+                    logger.warn { "failed to parse doc: ${e.message}" }
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            logger.error(e) { "failed to parse OpenLibrary search response" }
+            return emptyList()
+        }
+    }
+
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        if (!metadataRequestDto.isbn.isNullOrBlank()) {
+            val result = searchByIsbn(metadataRequestDto.isbn)
+            return if (result.isPresent) listOf(result.get()) else emptyList()
+        }
+        return searchByTitleAndAuthorMulti(metadataRequestDto.title, metadataRequestDto.authors)
     }
 
     private fun enrichFromEdition(

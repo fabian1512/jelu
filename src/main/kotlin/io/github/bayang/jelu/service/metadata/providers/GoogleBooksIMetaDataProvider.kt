@@ -71,6 +71,52 @@ class GoogleBooksIMetaDataProvider(
         return res
     }
 
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        val googleProviderApiKey = getGoogleProviderApiKey()
+        if (googleProviderApiKey.isNullOrBlank()) {
+            logger.warn { "missing google books API key" }
+            return emptyList()
+        }
+        val res =
+            restClient
+                .get()
+                .uri { uriBuilder: UriBuilder ->
+                    uriBuilder
+                        .scheme("https")
+                        .host("www.googleapis.com")
+                        .path("/books/v1/volumes")
+                        .queryParam("q", query(metadataRequestDto))
+                        .queryParam("maxResults", 10)
+                        .queryParam("key", googleProviderApiKey)
+                        .build()
+                }.exchangeToMono {
+                    if (it.statusCode() == HttpStatus.OK) {
+                        it.bodyToMono(String::class.java).map { bodyString ->
+                            val r = objectMapper.readTree(bodyString).get("items")
+                            if (r == null) {
+                                emptyList()
+                            } else {
+                                r.mapNotNull { item ->
+                                    try {
+                                        parseBook(item)
+                                    } catch (e: Exception) {
+                                        logger.warn { "failed to parse book: ${e.message}" }
+                                        null
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        logger.error { "error searching metadata from google : ${it.statusCode()}" }
+                        null
+                    }
+                }.block(Duration.ofSeconds(60))
+        return res ?: emptyList()
+    }
+
     private fun query(metadataRequestDto: MetadataRequestDto): String {
         if (!metadataRequestDto.isbn.isNullOrBlank()) {
             return "isbn:${metadataRequestDto.isbn}"

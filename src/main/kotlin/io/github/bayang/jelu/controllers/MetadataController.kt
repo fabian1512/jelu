@@ -77,6 +77,18 @@ class MetadataController(
         return metadataService.fetchMetadata(metadataRequestDto)
     }
 
+    @Operation(description = "search for multiple metadata results from the configured providers")
+    @PostMapping(path = ["/metadata/search"])
+    fun searchMetadata(
+        @RequestBody @Valid
+        metadataRequestDto: MetadataRequestDto,
+    ): List<MetadataDto> {
+        if (pluginInfoHolder.plugins().isEmpty()) {
+            throw JeluException("Automatic fetching of metadata is disabled, install calibre or configure a metadata plugin")
+        }
+        return metadataService.searchMetadata(metadataRequestDto)
+    }
+
     @Operation(description = "search the query in wikipedia")
     @GetMapping(path = ["/wikipedia/search"])
     fun searchWikipedia(
