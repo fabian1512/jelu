@@ -458,7 +458,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.published_date') }}</label>
-          <input v-model="publishedDateString" type="date" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.published_date')" />
+          <input v-model="publishedDateString" type="text" class="flex-1 bg-transparent outline-none text-sm text-right" placeholder="YYYY-MM-DD" />
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.language') }}</label>
@@ -497,7 +497,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_translator')"
             @input="(v: string) => getFilteredData(v, filteredTranslators)"
-            root-class="w-full"
+            root-class="flex-1"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -523,7 +523,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_narrator')"
             @input="(v: string) => getFilteredData(v, filteredNarrators)"
-            root-class="w-full"
+            root-class="flex-1"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
