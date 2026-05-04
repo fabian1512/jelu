@@ -35,7 +35,7 @@ export default function useBulkEdition(onModalClosed: VoidFunc) {
                   component: BulkEditModal,
                   trapFocus: true,
                   active: true,
-                  canCancel: ['x', 'button', 'outside'],
+                  cancelable: ['outside'],
                   scroll: 'clip',
                   props: {
                     "ids" : ids,

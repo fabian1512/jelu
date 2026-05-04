@@ -154,7 +154,7 @@ const toggleEdit = () => {
     component: EditBookModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'clip',
     props: {
       "book": book.value,
@@ -170,7 +170,7 @@ function toggleReadingEventModal(currentEvent: ReadingEvent, edit: boolean) {
     component: ReadingEventModalVue,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
       "readingEvent": currentEvent,
@@ -186,7 +186,7 @@ function toggleReviewModal(currentBook: Book|undefined, edit: boolean, review: R
       component: ReviewModalVue,
       trapFocus: true,
       active: true,
-      canCancel: ['x', 'button', 'outside'],
+      cancelable: ['outside'],
       scroll: 'keep',
       props: {
         "book": currentBook,
@@ -204,7 +204,7 @@ function toggleBookQuoteModal(currentBook: Book|undefined, edit: boolean, bookQu
       component: BookQuoteModalVue,
       trapFocus: true,
       active: true,
-      canCancel: ['x', 'button', 'outside'],
+      cancelable: ['outside'],
       scroll: 'keep',
       props: {
         "book": currentBook,
@@ -222,7 +222,7 @@ const toggleFetchMetadataModal = (currentBook: Book|undefined) => {
     component: AutoImportFormModalVue,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
         "book": currentBook,
@@ -242,7 +242,7 @@ const toggleMergeBookModal = (currentBook: Book|undefined, metadata: Metadata) =
     component: MergeBookModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
         "book": currentBook,
@@ -257,7 +257,7 @@ const toggleReadProgressModal = (userBookId: string, pageCount: number|null, cur
     component: ReadProgressModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
       "userBookId": userBookId,

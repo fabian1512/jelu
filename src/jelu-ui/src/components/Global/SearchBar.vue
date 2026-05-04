@@ -34,7 +34,7 @@ function toggleScanModal() {
     component: ScanModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {},
     events: {
@@ -56,7 +56,7 @@ function openImportBookModal() {
     component: AutoImportFormModalVue,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: { book: null },
     events: {

@@ -128,7 +128,7 @@ function toggleReadingEventModal(currentEvent: ReadingEvent, edit: boolean) {
     component: ReadingEventModalVue,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
       "readingEvent": currentEvent,
@@ -144,7 +144,7 @@ function toggleReadProgressModal(userBookId: string, pageCount: number|null, cur
     component: ReadProgressModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
       "userBookId": userBookId,

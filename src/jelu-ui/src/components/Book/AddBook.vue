@@ -361,7 +361,7 @@ const toggleModal = (file: boolean) => {
     component: file ? AutoImportFileModalVue : AutoImportFormModalVue,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
         "book": null,
@@ -385,7 +385,7 @@ const toggleImagePickerModal = () => {
     component: ImagePickerModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     events: {
       choose: (path: Path) => {

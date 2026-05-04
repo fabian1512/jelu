@@ -82,7 +82,7 @@ const toggleEdit = (book: UserBook) => {
             component: EditBookModal,
             trapFocus: true,
             active: true,
-            canCancel: ['x', 'button', 'outside'],
+            cancelable: ['outside'],
             scroll: 'clip',
             props: {
               "book" : book,

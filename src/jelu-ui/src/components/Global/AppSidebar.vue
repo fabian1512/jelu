@@ -24,7 +24,7 @@ function toggleShelvesModal() {
     component: UserShelvesModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
   })
   emit('close')

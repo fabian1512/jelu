@@ -80,7 +80,7 @@ const fetchMetadata = async () => {
       component: SearchResultsModal,
       trapFocus: true,
       active: true,
-      canCancel: ['x', 'button', 'outside'],
+      cancelable: ['outside'],
       scroll: 'keep',
       props: {
         results: results || [],
@@ -142,7 +142,7 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     component: EditBookModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'clip',
     props: {
       book: metadataToSend,
@@ -249,7 +249,7 @@ function toggleScanModal() {
       component: ScanModal,
       trapFocus: true,
       active: true,
-      canCancel: ['x', 'button', 'outside'],
+      cancelable: ['outside'],
       scroll: 'keep',
       props: {
       },
@@ -289,7 +289,7 @@ function toggleScanModal() {
                   component: EditBookModal,
                   trapFocus: true,
                   active: true,
-                  canCancel: ['x', 'button', 'outside'],
+                  cancelable: ['outside'],
                   scroll: 'clip',
                   props: {
                     book: metadata,
@@ -330,7 +330,7 @@ function toggleScanModal() {
                   component: EditBookModal,
                   trapFocus: true,
                   active: true,
-                  canCancel: ['x', 'button', 'outside'],
+                  cancelable: ['outside'],
                   scroll: 'clip',
                   props: {
                     book: metadata,
@@ -371,7 +371,7 @@ function togglePluginsModal() {
       component: MetadataPluginsModal,
       trapFocus: true,
       active: true,
-      canCancel: ['x', 'button', 'outside'],
+      cancelable: ['outside'],
       scroll: 'keep',
       props: { },
       events: {
@@ -405,7 +405,7 @@ const openEmptyEditBook = () => {
     component: EditBookModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'clip',
     props: {
       book: emptyMetadata,

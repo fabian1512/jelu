@@ -104,7 +104,7 @@ function toggleSeriesModal(series: Series, edit: boolean) {
       component: SeriesModalVue,
       trapFocus: true,
       active: true,
-      canCancel: ['x', 'button', 'outside'],
+      cancelable: ['outside'],
       scroll: 'keep',
       props: {
         "series": series,

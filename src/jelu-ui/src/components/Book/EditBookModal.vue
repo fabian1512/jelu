@@ -197,7 +197,25 @@ function getFilteredTags(text: string) {
   })
 }
 
+// Track whether user has actually interacted with the autocomplete.
+// Oruga fires a spurious @input event on mount which would otherwise
+// wipe out a pre-filled publisher (race condition).
+let publisherInputTouched = false
+
 function getFilteredPublishers(text: string) {
+  const current = userbook.value.book.publisher ?? ''
+  // Mount-echo guard: ignore Oruga's initial @input event(s) that come with
+  // empty string or with the current value before user actually interacts.
+  if (!publisherInputTouched && (text === '' || text === current)) {
+    dataService.findPublisherByCriteria(current).then(data => {
+      filteredPublishers.value = data.content
+      if (current !== '' && !filteredPublishers.value.includes(current)) {
+        filteredPublishers.value.push(current)
+      }
+    })
+    return
+  }
+  publisherInputTouched = true
   userbook.value.book.publisher = text
   dataService.findPublisherByCriteria(text).then(data => {
     filteredPublishers.value = data.content
@@ -261,7 +279,7 @@ const toggleImagePickerModal = () => {
     component: ImagePickerModal,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     events: {
       choose: (path: Path) => {
@@ -422,7 +440,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete v-model="userbook.book.publisher" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1" expanded>
+          <o-autocomplete v-model="userbook.book.publisher" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded>
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -442,7 +460,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
         </div>
         <div class="px-4 py-3">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.series') }}</label>
-          <SeriesCompleteInput v-model="seriesCopy" class="w-full" />
+          <SeriesCompleteInput v-model="seriesCopy" class="w-full borderless-autocomplete" />
         </div>
       </div>
     </div>
@@ -632,11 +650,5 @@ details > summary::-webkit-details-marker {
     max-width: 32rem;
     margin: 0 auto;
   }
-}
-
-/* Remove border from publisher autocomplete and series input */
-.o-autocomplete .input {
-  border: none !important;
-  box-shadow: none !important;
 }
 </style>

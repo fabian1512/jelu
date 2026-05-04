@@ -109,7 +109,7 @@ const editAuthor = () => {
     component: EditAuthorModalVue,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'clip',
     props: {
       "author": author.value

@@ -36,7 +36,7 @@ function toggleUserModal() {
     component: UserModalVue,
     trapFocus: true,
     active: true,
-    canCancel: ['x', 'button', 'outside'],
+    cancelable: ['outside'],
     scroll: 'keep',
     props: {
       "currentUser": user.value
