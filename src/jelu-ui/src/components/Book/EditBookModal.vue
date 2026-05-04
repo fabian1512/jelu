@@ -319,12 +319,11 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
 <template>
   <section class="edit-modal p-4">
     <div class="flex justify-between items-center mb-5">
-      <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-ghost">✕</button>
-      <h3 class="text-lg font-semibold truncate max-w-[200px]">{{ userbook.book.title || t('labels.edit_book') }}</h3>
       <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
         <span v-else>{{ t('labels.save_changes') }}</span>
       </button>
+      <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
 
     <div class="flex gap-4 mb-6">
