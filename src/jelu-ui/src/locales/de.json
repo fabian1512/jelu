@@ -110,6 +110,7 @@
         "external_result": "Externes Ergebnis",
         "searching_external": "Suche bei externen Anbietern...",
         "no_results_found": "Keine Ergebnisse gefunden",
+        "choose_plugins": "Anbieter wählen",
         "select": "Auswählen",
         "orphan-tags": "verwaiste Tags",
         "find-tag": "Tag finden",
