@@ -369,7 +369,7 @@ watch(() => sliderPercent.value, (newVal) => {
 
     <div class="mb-4">
       <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('book.summary') }}</div>
-      <details class="bg-base-100 rounded-xl border border-base-300 overflow-hidden group">
+      <details class="bg-base-100 rounded-xl border border-base-300 group">
         <summary class="px-4 py-3 cursor-pointer flex justify-between items-center select-none list-none">
           <span class="text-sm truncate pr-4 opacity-70">
             {{ userbook.book.summary ? userbook.book.summary.substring(0, 60) + '...' : t('labels.no_summary') }}
@@ -501,6 +501,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_translator')"
             @input="(v: string) => getFilteredData(v, filteredTranslators)"
             root-class="w-full"
+            teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
