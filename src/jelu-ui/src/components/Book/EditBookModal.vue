@@ -329,7 +329,7 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section class="edit-modal p-4 relative overflow-visible">
+  <section id="edit-modal-content" class="edit-modal p-4 relative overflow-visible">
     <div class="flex justify-between items-center mb-5">
       <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
@@ -405,7 +405,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
             root-class="w-full"
-            teleport=".edit-modal"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -432,7 +432,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_tag')"
             @input="getFilteredTags"
             root-class="w-full"
-            teleport=".edit-modal"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -452,7 +452,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')" teleport=".edit-modal">
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')" teleport="#edit-modal-content">
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -500,7 +500,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_translator')"
             @input="(v: string) => getFilteredData(v, filteredTranslators)"
             root-class="flex-1"
-            teleport=".edit-modal"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -527,7 +527,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_narrator')"
             @input="(v: string) => getFilteredData(v, filteredNarrators)"
             root-class="flex-1"
-            teleport=".edit-modal"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -655,6 +655,17 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
+/* Ensure teleported dropdowns have proper z-index within modal */
+#edit-modal-content {
+  position: relative;
+  
+  .o-dropdown__menu,
+  .o-autocomplete__menu,
+  .o-taginput .o-dropdown__menu {
+    position: absolute !important;
+    z-index: 9999 !important;
+  }
+}
 
 /* Modal width constraint (desktop only) */
 @media (min-width: 768px) {
