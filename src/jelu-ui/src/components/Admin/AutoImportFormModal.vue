@@ -61,26 +61,44 @@ const showLocalResults = ref(false)
 const isBlocked = ref(false)
 
 const fetchMetadata = async () => {
-  // Open SearchResultsModal as proper modal
-  emit('close')
-  oruga.modal.open({
-    component: SearchResultsModal,
-    trapFocus: true,
-    active: true,
-    canCancel: ['x', 'button', 'outside'],
-    scroll: 'keep',
-    props: {
+  progress.value = true
+  try {
+    const searchPlugins = plugins.value.length > 0
+      ? plugins.value
+      : serverSettings.value?.metadataPlugins || []
+
+    const results = await dataService.searchMetadataWithPlugins({
+      isbn: form.isbn,
       title: form.title,
       authors: form.authors,
-      isbn: form.isbn
-    },
-    events: {
-      select: (result: Book | Metadata) => {
-        handleSearchResultSelect(result)
-      }
-    },
-    onClose: () => {}
-  })
+      plugins: searchPlugins,
+      language: storedLanguage.value
+    })
+
+    // Open SearchResultsModal with pre-fetched results
+    oruga.modal.open({
+      component: SearchResultsModal,
+      trapFocus: true,
+      active: true,
+      canCancel: ['x', 'button', 'outside'],
+      scroll: 'keep',
+      props: {
+        results: results || [],
+        loading: false
+      },
+      events: {
+        select: (result: Book | Metadata) => {
+          handleSearchResultSelect(result)
+        }
+      },
+      onClose: () => {}
+    })
+  } catch (error) {
+    console.error('Search failed', error)
+    oruga.error('Suche fehlgeschlagen')
+  } finally {
+    progress.value = false
+  }
 }
 
 const handleSearchResultSelect = (result: Book | Metadata) => {

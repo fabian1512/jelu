@@ -1,88 +1,22 @@
 <script setup lang="ts">
-import { Ref, ref, onMounted, computed, ComputedRef } from "vue";
+import { Ref, ref, computed, ComputedRef } from "vue";
 import { useI18n } from 'vue-i18n';
-import { useOruga } from "@oruga-ui/oruga-next";
-import { Book } from "../../model/Book";
 import { Metadata } from "../../model/Metadata";
-import { ServerSettings } from "../../model/ServerSettings";
-import { PluginInfo } from "../../model/PluginInfo";
-import { useStore } from 'vuex';
-import { key } from '../../store';
-import { useLocalStorage } from '@vueuse/core';
-import dataService from "../../services/DataService";
-import { StringUtils } from "../../utils/StringUtils";
-import MetadataPluginsModal from '../Metadata/MetadataPluginsModal.vue';
 
 const { t } = useI18n({
   inheritLocale: true,
   useScope: 'global'
 })
 
-const oruga = useOruga()
-const store = useStore(key)
-
 const props = defineProps<{
-  title?: string,
-  authors?: string,
-  isbn?: string
+  results?: Metadata[],
+  loading?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'close'): void
   (e: 'select', metadata: Metadata): void
 }>()
-
-const serverSettings: ComputedRef<ServerSettings> = computed(() => {
-  return store != undefined && store.getters.getSettings
-})
-
-const storedLanguage = useLocalStorage("jelu_language", "en")
-
-const searchTitle = ref(props.title || '')
-const searchAuthor = ref(props.authors || '')
-const searchIsbn = ref(props.isbn || '')
-
-// Local plugin override - only for this single search (not persisted)
-const localPlugins: Ref<PluginInfo[]> = ref([])
-
-const searchResults: Ref<Metadata[]> = ref([])
-const showResults = ref(false)
-const searchLoading = ref(false)
-
-// Auto-start external search when modal opens
-onMounted(() => {
-  if (searchTitle.value || searchAuthor.value || searchIsbn.value) {
-    performSearch()
-  }
-})
-
-const performSearch = async () => {
-  if (!searchTitle.value && !searchAuthor.value && !searchIsbn.value) return
-
-  searchLoading.value = true
-  try {
-    // Use localPlugins if set, otherwise fall back to server settings
-    const plugins = localPlugins.value.length > 0 
-      ? localPlugins.value 
-      : serverSettings.value?.metadataPlugins || []
-    
-    const results = await dataService.searchMetadataWithPlugins({
-      isbn: searchIsbn.value,
-      title: searchTitle.value,
-      authors: searchAuthor.value,
-      plugins: plugins,
-      language: storedLanguage.value
-    })
-    searchResults.value = results || []
-    showResults.value = true
-  } catch (error) {
-    console.error('Search failed', error)
-    searchResults.value = []
-    showResults.value = true
-  } finally {
-    searchLoading.value = false
-  }
-}
 
 const selectResult = (metadata: Metadata) => {
   emit('select', metadata)
@@ -91,22 +25,6 @@ const selectResult = (metadata: Metadata) => {
 
 const close = () => {
   emit('close')
-}
-
-const togglePluginsModal = () => {
-  oruga.modal.open({
-    component: MetadataPluginsModal,
-    trapFocus: true,
-    active: true,
-    canCancel: ['x', 'button', 'outside'],
-    scroll: 'keep',
-    props: {},
-    events: {
-      plugins: (received: Array<PluginInfo>) => {
-        localPlugins.value = received
-      }
-    }
-  })
 }
 </script>
 
@@ -117,60 +35,31 @@ const togglePluginsModal = () => {
       <button @click="close" class="btn btn-sm btn-circle">✕</button>
     </div>
 
-    <!-- Search Fields -->
-    <div class="flex flex-wrap gap-2 mb-4">
-      <input 
-        v-model="searchIsbn" 
-        :placeholder="t('book.isbn')" 
-        class="input input-bordered flex-1 min-w-24"
-      >
-      <input 
-        v-model="searchTitle" 
-        :placeholder="t('book.title')" 
-        class="input input-bordered flex-1 min-w-32"
-      >
-      <input 
-        v-model="searchAuthor" 
-        :placeholder="t('book.author', 2)" 
-        class="input input-bordered flex-1 min-w-32"
-      >
-      <button @click="performSearch" class="btn btn-primary" :disabled="searchLoading">
-        <span v-if="searchLoading" class="loading loading-spinner loading-sm"></span>
-        <span v-else>{{ t('labels.search') }}</span>
-      </button>
-      <button @click="togglePluginsModal" class="btn btn-ghost btn-sm" :title="t('labels.choose_plugins')">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      </button>
-    </div>
-
     <!-- Loading indicator -->
-    <div v-if="searchLoading" class="text-center py-4">
+    <div v-if="loading" class="text-center py-8">
       <span class="loading loading-spinner loading-lg"></span>
       <p class="mt-2">{{ t('labels.searching_external') }}</p>
     </div>
 
     <!-- Search Results -->
-    <div v-else-if="showResults && searchResults.length > 0" class="max-h-64 overflow-y-auto">
-      <h4 class="text-md font-semibold mb-2">{{ t('labels.search_results') }} ({{ searchResults.length }})</h4>
+    <div v-else-if="results && results.length > 0" class="max-h-80 overflow-y-auto">
+      <h4 class="text-sm font-semibold mb-2 opacity-70">{{ t('labels.search_results') }} ({{ results.length }})</h4>
       <div class="space-y-2">
-        <div 
-          v-for="(metadata, index) in searchResults" 
+        <div
+          v-for="(metadata, index) in results"
           :key="index"
           class="flex items-center gap-3 p-2 border rounded hover:bg-base-200 cursor-pointer"
           @click="selectResult(metadata)"
         >
-          <img 
+          <img
             v-if="metadata.image"
-            :src="metadata.image?.startsWith('http') ? metadata.image : '/files/' + metadata.image" 
+            :src="metadata.image?.startsWith('http') ? metadata.image : '/files/' + metadata.image"
             class="w-12 h-16 object-cover rounded flex-shrink-0"
             loading="lazy"
           >
-          <img 
+          <img
             v-else
-            src="../../assets/placeholder_asset.jpg" 
+            src="../../assets/placeholder_asset.jpg"
             class="w-12 h-16 object-cover rounded flex-shrink-0"
           >
           <div class="flex-1 min-w-0">
@@ -188,12 +77,8 @@ const togglePluginsModal = () => {
     </div>
 
     <!-- No results -->
-    <div v-else-if="showResults && searchResults.length === 0" class="text-center py-4">
-      <p>{{ t('labels.no_results_found') }}</p>
-    </div>
-
-    <div class="flex justify-end mt-4">
-      <button @click="close" class="btn">{{ t('labels.cancel') }}</button>
+    <div v-else-if="results && results.length === 0" class="text-center py-8">
+      <p class="opacity-70">{{ t('labels.no_results_found') }}</p>
     </div>
   </section>
 </template>
