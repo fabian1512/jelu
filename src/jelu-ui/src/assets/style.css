@@ -194,6 +194,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 
 .o-taginput .o-taginput__container {
     @apply items-center h-fit;
+    width: auto !important;
 }
 
 .jl-sidebar .label-text {
