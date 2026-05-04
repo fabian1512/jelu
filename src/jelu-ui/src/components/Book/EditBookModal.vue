@@ -329,7 +329,7 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section class="edit-modal p-4">
+  <section class="edit-modal p-4 relative overflow-visible">
     <div class="flex justify-between items-center mb-5">
       <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
@@ -376,7 +376,7 @@ watch(() => sliderPercent.value, (newVal) => {
           <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
         </summary>
         <div class="px-4 pb-3">
-          <textarea v-model="userbook.book.summary" rows="4" class="textarea textarea-sm w-full bg-transparent resize-none" :placeholder="t('book.summary')"></textarea>
+          <textarea v-model="userbook.book.summary" rows="4" class="w-full bg-transparent resize-none outline-none text-sm" :placeholder="t('book.summary')"></textarea>
         </div>
       </details>
     </div>
