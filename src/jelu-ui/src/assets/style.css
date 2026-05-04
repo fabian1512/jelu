@@ -188,6 +188,8 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   outline: none !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+  text-align: right !important;
+  font-size: 0.875rem !important; /* text-sm */
 }
 
 .o-taginput .o-taginput__container {
@@ -471,6 +473,16 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .v3dp__clearable {
   left: -25px!;
   top: 5px!;
+}
+
+/* Right-aligned, transparent datepicker input in row context */
+.v3dp__input_wrapper input {
+  text-align: right;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.875rem;
+  width: 100%;
 }
 /* end clear button */
 

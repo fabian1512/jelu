@@ -11,7 +11,7 @@ const emit = defineEmits<{
 
 <template>
   <div
-    class="badge badge-xl m-0.5"
+    class="badge badge-sm m-0.5"
   >
     {{ content }}
     <svg
@@ -20,7 +20,7 @@ const emit = defineEmits<{
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="size-8 hover:cursor-pointer"
+      class="size-3.5 hover:cursor-pointer"
       @click="emit('closed')"
     >
       <path

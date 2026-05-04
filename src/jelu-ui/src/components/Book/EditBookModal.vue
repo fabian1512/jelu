@@ -457,9 +457,9 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.page_count') }}</label>
           <input v-model.number="userbook.book.pageCount" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.page_count')">
         </div>
-        <div class="px-4 py-3">
-          <label class="text-sm opacity-60 block mb-1">{{ t('book.series') }}</label>
-          <SeriesCompleteInput v-model="seriesCopy" class="w-full borderless-autocomplete" />
+        <div class="flex items-center gap-3 px-4 py-3">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.series') }}</label>
+          <SeriesCompleteInput v-model="seriesCopy" class="flex-1 borderless-autocomplete text-right" />
         </div>
       </div>
     </div>
@@ -580,15 +580,13 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
           <label class="text-sm opacity-60 block mb-1">{{ t('book.personal_notes') }}</label>
           <input v-model="userbook.personalNotes" :placeholder="t('book.personal_notes')" class="w-full bg-transparent outline-none text-sm">
         </div>
-        <div class="px-4 py-3 flex flex-col gap-3">
-          <div>
-            <label class="text-sm opacity-60 block mb-1">{{ t('book.price') }}</label>
-            <input v-model.number="userbook.price" type="number" step="0.01" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.price')">
-          </div>
-          <div>
-            <label class="text-sm opacity-60 block mb-1">{{ t('book.current_page_number') }}</label>
-            <input v-model.number="userbook.currentPageNumber" type="number" class="w-full bg-transparent outline-none text-right text-sm" :placeholder="t('book.current_page_number')">
-          </div>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.price') }}</label>
+          <input v-model.number="userbook.price" type="number" step="0.01" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.price')">
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.current_page_number') }}</label>
+          <input v-model.number="userbook.currentPageNumber" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.current_page_number')">
         </div>
         <div class="px-4 py-3">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.percent_read') }}</label>
