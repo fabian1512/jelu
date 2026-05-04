@@ -245,11 +245,12 @@ class OpenLibraryMetadataProvider(
         if (publishers != null && publishers.isArray && !publishers.isEmpty) {
             // OpenLibrary returns either ["Publisher Name"] or [{"name": "Publisher Name"}]
             val firstPublisher = publishers[0]
-            dto.publisher = if (firstPublisher.isObject) {
-                firstPublisher.get("name")?.asText()
-            } else {
-                firstPublisher.asText()
-            }
+            dto.publisher =
+                if (firstPublisher.isObject) {
+                    firstPublisher.get("name")?.asText()
+                } else {
+                    firstPublisher.asText()
+                }
         }
         dto.publishedDate = node.get("publish_date")?.asText()
         dto.pageCount = node.get("number_of_pages")?.asInt()
@@ -308,11 +309,12 @@ class OpenLibraryMetadataProvider(
                 val publishers = bookNode.get("publishers")
                 if (publishers != null && publishers.isArray && !publishers.isEmpty) {
                     val firstPublisher = publishers[0]
-                    dto.publisher = if (firstPublisher.isObject) {
-                        firstPublisher.get("name")?.asText()
-                    } else {
-                        firstPublisher.asText()
-                    }
+                    dto.publisher =
+                        if (firstPublisher.isObject) {
+                            firstPublisher.get("name")?.asText()
+                        } else {
+                            firstPublisher.asText()
+                        }
                 }
             }
             if (dto.pageCount == null) {
