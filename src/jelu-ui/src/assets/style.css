@@ -469,13 +469,18 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 /* end loader from https://loading.io/css/ */
 
-/* clear button positioning from https://github.com/icehaunter/vue3-datepicker  */
+/* clear button positioning */
 .v3dp__clearable {
-  left: -25px!;
-  top: 5px!;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* Right-aligned, transparent datepicker input in row context */
+.v3dp__input_wrapper {
+  width: 100%;
+}
 .v3dp__input_wrapper input {
   text-align: right;
   background: transparent;
@@ -483,6 +488,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   outline: none;
   font-size: 0.875rem;
   width: 100%;
+  padding-right: 20px; /* leave room for clear button */
 }
 /* end clear button */
 
