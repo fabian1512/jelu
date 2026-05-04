@@ -149,8 +149,10 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
       bookId: null,
       canAddEvent: true
     },
-    onClose: () => {
-      emit('close')
+    onClose: (args: any) => {
+      if (args && args[0] === 'save') {
+        emit('close')
+      }
     }
   })
 }
@@ -294,8 +296,10 @@ function toggleScanModal() {
                     bookId: null,
                     canAddEvent: true
                   },
-                  onClose: () => {
-                    emit('close')
+                  onClose: (args: any) => {
+                    if (args && args[0] === 'save') {
+                      emit('close')
+                    }
                   }
                 })
                 return
@@ -333,8 +337,10 @@ function toggleScanModal() {
                     bookId: null,
                     canAddEvent: true
                   },
-                  onClose: () => {
-                    emit('close')
+                  onClose: (args: any) => {
+                    if (args && args[0] === 'save') {
+                      emit('close')
+                    }
                   }
                 })
               } else {
@@ -406,8 +412,10 @@ const openEmptyEditBook = () => {
       bookId: null,
       canAddEvent: true
     },
-    onClose: () => {
-      emit('close')
+    onClose: (args: any) => {
+      if (args && args[0] === 'save') {
+        emit('close')
+      }
     }
   })
 }

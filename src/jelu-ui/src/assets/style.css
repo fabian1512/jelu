@@ -1,3 +1,23 @@
+@layer ios-zoom {
+  @supports (-webkit-touch-callout: none) {
+    .edit-modal input,
+    .edit-modal select,
+    .edit-modal textarea,
+    .edit-modal .input,
+    .edit-modal .input-sm,
+    .edit-modal .textarea,
+    .edit-modal .textarea-sm,
+    .edit-modal .file-input,
+    .edit-modal .file-input-sm,
+    .edit-modal .select,
+    .edit-modal .o-input__input,
+    .edit-modal .v3dp__input_wrapper input {
+      font-size: 16px !important;
+      line-height: 1.4;
+    }
+  }
+}
+
 @import "tailwindcss" important;
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {

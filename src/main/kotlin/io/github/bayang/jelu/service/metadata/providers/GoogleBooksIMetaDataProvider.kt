@@ -158,6 +158,8 @@ class GoogleBooksIMetaDataProvider(
             image = extractImage(volumeInfo),
             language = volumeInfo.get("language").asText(),
             publishedDate = volumeInfo.get("publishedDate").asText(),
+            publisher = volumeInfo.get("publisher")?.asText(),
+            pageCount = volumeInfo.get("pageCount")?.asInt(),
             summary = summary(node),
         )
     }

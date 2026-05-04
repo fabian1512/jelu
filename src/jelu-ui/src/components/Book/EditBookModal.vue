@@ -29,7 +29,9 @@ const { t } = useI18n({
 
 const props = defineProps<{ bookId: string, book: UserBook | Metadata | null, canAddEvent: boolean }>()
 const oruga = useOruga()
-const emit = defineEmits(['close']);
+const emit = defineEmits<{
+  (e: 'close', reason?: 'save' | 'cancel'): void
+}>();
 
 const filteredAuthors: Ref<Array<Wrapper>> = ref([]);
 const filteredTags: Ref<Array<Wrapper>> = ref([]);
@@ -172,7 +174,7 @@ const importBook = () => {
     .then(res => {
       progress.value = false
       ObjectUtils.toast(oruga, "success", t('labels.book_title_updated', { title : res.book.title}), 4000);
-      emit('close')
+      emit('close', 'save')
     })
     .catch(err => {
       progress.value = false
@@ -197,7 +199,13 @@ function getFilteredTags(text: string) {
 
 function getFilteredPublishers(text: string) {
   userbook.value.book.publisher = text
-  dataService.findPublisherByCriteria(text).then(data => filteredPublishers.value = data.content)
+  dataService.findPublisherByCriteria(text).then(data => {
+    filteredPublishers.value = data.content
+    if (userbook.value.book.publisher != null && userbook.value.book.publisher !== ''
+        && !filteredPublishers.value.includes(userbook.value.book.publisher)) {
+      filteredPublishers.value.push(userbook.value.book.publisher as string)
+    }
+  })
 }
 
 function beforeAdd(item: Author | string, target: Array<Author>) {
@@ -294,7 +302,7 @@ if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '
 <template>
   <section class="edit-modal p-4">
     <div class="flex justify-between items-center mb-5">
-      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
+      <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-ghost">✕</button>
       <h3 class="text-lg font-semibold truncate max-w-[200px]">{{ userbook.book.title || t('labels.edit_book') }}</h3>
       <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
@@ -617,22 +625,6 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
-/* Prevent iOS keyboard zoom on input focus */
-@supports (-webkit-touch-callout: none) {
-  .edit-modal input,
-  .edit-modal select,
-  .edit-modal textarea,
-  .edit-modal .input,
-  .edit-modal .input-sm,
-  .edit-modal .textarea,
-  .edit-modal .textarea-sm,
-  .edit-modal .file-input,
-  .edit-modal .file-input-sm,
-  .edit-modal .select {
-    font-size: 16px !important;
-    line-height: 1.4;
-  }
-}
 
 /* Modal width constraint (desktop only) */
 @media (min-width: 768px) {
