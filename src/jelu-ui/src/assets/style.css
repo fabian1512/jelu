@@ -495,8 +495,9 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 /* end clear button */
 
-/* Ensure Oruga dropdowns appear above modal overlays */
+/* Ensure Oruga dropdowns appear above modal overlays and stay inside viewport */
 .o-dropdown__menu {
+  position: fixed !important;
   z-index: 9999 !important;
 }
 

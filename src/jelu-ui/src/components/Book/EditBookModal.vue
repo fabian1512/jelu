@@ -4,7 +4,7 @@ import { useOruga } from "@oruga-ui/oruga-next";
 import dayjs from "dayjs";
 import { computed, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
-import Datepicker from 'vue3-datepicker';
+
 import { Author } from "../../model/Author";
 import { Wrapper } from "../../model/autocomplete-wrapper";
 import { UserBook } from "../../model/Book";
@@ -44,7 +44,13 @@ const deleteImage: Ref<boolean> = ref(false)
 
 const progress: Ref<boolean> = ref(false)
 
-const publishedDate = ref(userbook.value.book.publishedDate ? new Date(userbook.value.book.publishedDate) : null)
+// Native date input uses YYYY-MM-DD string. Sync with userbook.book.publishedDate.
+const publishedDateString = computed({
+  get: () => userbook.value.book.publishedDate || '',
+  set: (val: string) => {
+    userbook.value.book.publishedDate = val || null
+  }
+})
 
 function copyInput(book: UserBook | Metadata | null): any {
   if (book == null) {
@@ -302,14 +308,7 @@ watch(() => [userbook.value.currentPageNumber, userbook.value.percentRead, userb
   }
 })
 
-watch(() => publishedDate.value, (newVal, oldVal) => {
-    if (newVal == null) {
-        userbook.value.book.publishedDate = null
-    } else {
-        const formatted = dayjs(newVal).format('YYYY-MM-DD')
-        userbook.value.book.publishedDate = formatted
-    }
-})
+
 
 if (userbook.value.book.publisher != null && userbook.value.book.publisher !== '') {
   filteredPublishers.value.push(userbook.value.book.publisher as string) // prefill editor autocomplete. oruga workaround
@@ -459,7 +458,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.published_date') }}</label>
-          <datepicker v-model="publishedDate" class="flex-1 text-right text-sm" :typeable="true" :clearable="true" :placeholder="t('book.published_date')" />
+          <input v-model="publishedDateString" type="date" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.published_date')" />
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.language') }}</label>
@@ -482,7 +481,7 @@ watch(() => sliderPercent.value, (newVal) => {
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="px-4 py-3 space-y-3">
-        <div class="py-3 border-b border-base-200">
+        <div class="flex flex-col gap-1 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.translator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.translators"
@@ -508,7 +507,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="py-3 border-b border-base-200">
+        <div class="flex flex-col gap-1 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.narrator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.narrators"
