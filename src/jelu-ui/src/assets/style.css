@@ -262,6 +262,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     margin: 12px auto;
     padding: 1.5rem;
     width: min(576px, calc(100vw - 24px));
+    background: #ff0000; /* TEST - REMOVE */
     min-height: 12rem;
     max-height: 85vh;
     overflow-y: auto;
