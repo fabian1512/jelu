@@ -475,7 +475,7 @@ watch(() => sliderPercent.value, (newVal) => {
       </div>
     </div>
 
-    <details class="bg-base-100 rounded-xl border border-base-300 mb-4 group">
+    <details class="rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
         <span>{{ t('labels.more_options') }}</span>
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
@@ -654,7 +654,7 @@ details > summary::-webkit-details-marker {
 /* Modal width constraint (desktop only) */
 @media (min-width: 640px) {
   .edit-modal {
-    max-width: 36rem;
+    max-width: 42.5rem;
     margin: 0 auto;
   }
 }
