@@ -335,9 +335,6 @@ if (metadata && metadata.title) {
                   }
                 })
                 return
-              }
-                  }
-                })
               } else {
                 console.log('No metadata found for barcode:', barcode)
                 oruga.info('Keine Metadaten für diesen Barcode gefunden')
