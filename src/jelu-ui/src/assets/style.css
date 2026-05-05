@@ -197,7 +197,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .o-taginput .o-taginput__container * {
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
 .jl-sidebar .label-text {
