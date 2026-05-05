@@ -196,8 +196,8 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     @apply items-center h-fit w-full;
 }
 
-.o-taginput .o-input--expanded .o-input__input {
-    width: unset;
+.o-taginput .o-taginput__container * {
+    box-sizing: border-box;
 }
 
 .jl-sidebar .label-text {
