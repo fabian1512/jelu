@@ -197,15 +197,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .o-taginput .o-input--expanded .o-input__input {
-    width: 100%;
-}
-
-.o-taginput {
-    max-width: 100%;
-}
-
-.o-taginput .o-taginput__container {
-    max-width: 100%;
+    width: unset;
 }
 
 .jl-sidebar .label-text {
