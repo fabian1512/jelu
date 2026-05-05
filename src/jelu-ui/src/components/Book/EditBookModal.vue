@@ -311,6 +311,9 @@ const openMetadataModal = () => {
     active: true,
     cancelable: ['outside'],
     scroll: 'clip',
+    props: {
+      hideBarcodeAndManual: true
+    },
     onClose: () => {}
   });
 }
@@ -396,7 +399,7 @@ watch(() => sliderPercent.value, (newVal) => {
     </div>
 
     <div class="mb-4">
-      <details class="rounded-xl border border-base-300 group">
+      <details open class="rounded-xl border border-base-300 group">
         <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
           <span>{{ t('book.details') }}</span>
           <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>

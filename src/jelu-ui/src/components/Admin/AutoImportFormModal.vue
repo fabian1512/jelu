@@ -29,7 +29,8 @@ const oruga = useOruga();
 const router = useRouter();
 
 const props = defineProps<{
-  book: Book|undefined,
+  book?: Book,
+  hideBarcodeAndManual?: boolean,
 }>()
 
 const form = reactive({
@@ -490,7 +491,7 @@ const { typographyClasses } = useTypography()
     </div>
 
     <!-- BARCODE Section -->
-    <div class="mb-4">
+    <div v-if="!props.hideBarcodeAndManual" class="mb-4">
       <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">Barcode</div>
       <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
         <button
@@ -503,7 +504,7 @@ const { typographyClasses } = useTypography()
     </div>
 
     <!-- MANUELL ERFASSEN Section -->
-    <div class="mb-4">
+    <div v-if="!props.hideBarcodeAndManual" class="mb-4">
       <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">Manuell erfassen</div>
       <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
         <button
