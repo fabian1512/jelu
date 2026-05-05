@@ -28,9 +28,11 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: false
 
       - name: Build with Gradle
-        run: ./gradlew npmBuild copyWebDist processResources bootJar unpack
+        run: ./gradlew clean npmBuild copyWebDist processResources bootJar unpack
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
