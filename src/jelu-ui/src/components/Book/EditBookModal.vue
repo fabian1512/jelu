@@ -441,10 +441,6 @@ watch(() => sliderPercent.value, (newVal) => {
           </o-taginput>
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.isbn10') }}</label>
-          <input v-model="userbook.book.isbn10" class="flex-1 bg-transparent outline-none text-sm text-right font-mono" :placeholder="t('book.isbn10')">
-        </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.isbn13') }}</label>
           <input v-model="userbook.book.isbn13" class="flex-1 bg-transparent outline-none text-sm text-right font-mono" :placeholder="t('book.isbn13')">
         </div>
@@ -467,10 +463,6 @@ watch(() => sliderPercent.value, (newVal) => {
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.page_count') }}</label>
           <input v-model.number="userbook.book.pageCount" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.page_count')">
-        </div>
-        <div class="flex items-center gap-3 px-4 py-3">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.series') }}</label>
-          <SeriesCompleteInput v-model="seriesCopy" class="flex-1 borderless-autocomplete text-right" />
         </div>
       </div>
     </div>
@@ -531,6 +523,14 @@ watch(() => sliderPercent.value, (newVal) => {
               <ClosableBadge v-for="(item, index) in items" :key="item.name" :content="item.name" class="badge-primary badge-sm" @closed="removeItem(index, $event)" />
             </template>
           </o-taginput>
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.isbn10') }}</label>
+          <input v-model="userbook.book.isbn10" class="flex-1 bg-transparent outline-none text-sm text-right font-mono" :placeholder="t('book.isbn10')">
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.series') }}</label>
+          <SeriesCompleteInput v-model="seriesCopy" class="flex-1 borderless-autocomplete text-right" />
         </div>
       <div class="px-4 py-3 grid grid-cols-2 sm:grid-cols-4 gap-2">
           <input v-model="userbook.book.googleId" :placeholder="t('book.google_id')" class="bg-transparent outline-none text-sm py-1 w-full">
