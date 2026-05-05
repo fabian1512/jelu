@@ -481,7 +481,7 @@ watch(() => sliderPercent.value, (newVal) => {
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="px-4 py-3 space-y-3">
-        <div class="py-3 border-b border-base-200">
+        <div class="field px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.translator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.translators"
@@ -507,7 +507,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="py-3 border-b border-base-200">
+        <div class="field px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.narrator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.narrators"
