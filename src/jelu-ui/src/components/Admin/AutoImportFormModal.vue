@@ -145,9 +145,7 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     cancelable: ['outside'],
     scroll: 'clip',
     props: {
-      book: metadataToSend,
-      bookId: null,
-      canAddEvent: true
+      book: metadataToSend
     },
     onClose: (args: any) => {
       if (args && args[0] === 'save') {
@@ -292,9 +290,7 @@ function toggleScanModal() {
                   cancelable: ['outside'],
                   scroll: 'clip',
                   props: {
-                    book: metadata,
-                    bookId: null,
-                    canAddEvent: true
+                    book: metadata
                   },
                   onClose: (args: any) => {
                     if (args && args[0] === 'save') {
@@ -322,7 +318,7 @@ function toggleScanModal() {
                 plugins: plugins,
                 language: storedLanguage.value
               })
-              if (metadata && metadata.title) {
+if (metadata && metadata.title) {
                 oruga.modal.open({
                   component: EditBookModal,
                   trapFocus: true,
@@ -330,14 +326,16 @@ function toggleScanModal() {
                   cancelable: ['outside'],
                   scroll: 'clip',
                   props: {
-                    book: metadata,
-                    bookId: null,
-                    canAddEvent: true
+                    book: metadata
                   },
                   onClose: (args: any) => {
                     if (args && args[0] === 'save') {
                       emit('close')
                     }
+                  }
+                })
+                return
+              }
                   }
                 })
               } else {
@@ -404,11 +402,9 @@ const openEmptyEditBook = () => {
     active: true,
     cancelable: ['outside'],
     scroll: 'clip',
-    props: {
-      book: emptyMetadata,
-      bookId: null,
-      canAddEvent: true
-    },
+props: {
+                    book: metadata
+                  },
     onClose: (args: any) => {
       if (args && args[0] === 'save') {
         emit('close')

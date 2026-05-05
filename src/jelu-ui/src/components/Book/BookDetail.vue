@@ -157,8 +157,7 @@ const toggleEdit = () => {
     cancelable: ['outside'],
     scroll: 'clip',
     props: {
-      "book": book.value,
-      canAddEvent: false
+      "book": book.value
     },
     onClose: modalClosed
   });

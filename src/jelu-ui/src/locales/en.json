@@ -74,6 +74,7 @@
       "edit_author" : "edit author",
       "upload_image" : "upload image",
       "save_changes" : "save changes",
+      "metadata" : "metadata",
       "short_language_code" : "Short language code",
       "back" : "back",
       "author_import_help1" : "Choose in which language the search should happen.",

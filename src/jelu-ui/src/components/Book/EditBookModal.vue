@@ -21,13 +21,14 @@ import SeriesCompleteInput from '../Series/SeriesCompleteInput.vue';
 import ClosableBadge from '../Global/ClosableBadge.vue';
 import FormField from '../Global/FormField.vue';
 import { Role } from "../../model/Role";
+import AutoImportFormModal from '../Admin/AutoImportFormModal.vue';
 
 const { t } = useI18n({
       inheritLocale: true,
       useScope: 'global'
     })
 
-const props = defineProps<{ bookId: string, book: UserBook | Metadata | null, canAddEvent: boolean }>()
+const props = defineProps<{ book: UserBook | Metadata | null }>()
 const oruga = useOruga()
 const emit = defineEmits<{
   (e: 'close', reason?: 'save' | 'cancel'): void
@@ -136,7 +137,7 @@ const seriesCopy: Array<SeriesOrder> = userbook.value.book.series ?? []
 
 const importBook = () => {
   userbook.value.book.series = seriesCopy.filter(s => s.name != null && s.name.trim().length > 0)
-  if (!props.canAddEvent || userbook.value.lastReadingEvent === ReadingEventType.NONE) {
+  if (userbook.value.lastReadingEvent === ReadingEventType.NONE) {
     userbook.value.lastReadingEvent = null
   }
   if (StringUtils.isNotBlank(imageUrl.value)) {
@@ -302,6 +303,18 @@ function toggleRemoveImage() {
   deleteImage.value = !deleteImage.value
 }
 
+const openMetadataModal = () => {
+  oruga.modal.open({
+    parent: this,
+    component: AutoImportFormModal,
+    trapFocus: true,
+    active: true,
+    cancelable: ['outside'],
+    scroll: 'clip',
+    onClose: () => {}
+  });
+}
+
 watch(() => [userbook.value.currentPageNumber, userbook.value.percentRead, userbook.value.book.pageCount],(newVal, oldVal) => {
   if (userbook.value.book.pageCount != null) {
     ObjectUtils.computePages(newVal, oldVal, userbook.value, userbook.value.book.pageCount)
@@ -335,6 +348,7 @@ watch(() => sliderPercent.value, (newVal) => {
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
         <span v-else>{{ t('labels.save_changes') }}</span>
       </button>
+      <button @click="openMetadataModal" class="btn btn-sm btn-secondary">{{ t('labels.metadata') }}</button>
       <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle">✕</button>
     </div>
 
@@ -382,8 +396,12 @@ watch(() => sliderPercent.value, (newVal) => {
     </div>
 
     <div class="mb-4">
-      <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('book.details') }}</div>
-      <div class="bg-base-100 rounded-xl border border-base-300">
+      <details class="rounded-xl border border-base-300 group">
+        <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
+          <span>{{ t('book.details') }}</span>
+          <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+        </summary>
+        <div class="bg-base-100">
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
            <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
           <input v-model="userbook.book.originalTitle" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.original_title')">
@@ -464,7 +482,8 @@ watch(() => sliderPercent.value, (newVal) => {
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.page_count') }}</label>
           <input v-model.number="userbook.book.pageCount" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.page_count')">
         </div>
-      </div>
+        </div>
+      </details>
     </div>
 
     <details class="rounded-xl border border-base-300 mb-4 group">
@@ -472,6 +491,10 @@ watch(() => sliderPercent.value, (newVal) => {
         <span>{{ t('labels.more_options') }}</span>
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.price') }}</label>
+          <input v-model.number="userbook.price" type="number" step="0.01" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.price')">
+        </div>
         <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.translator', 2) }}</label>
           <o-taginput
@@ -544,70 +567,78 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
     </details>
 
-    <div v-if="props.canAddEvent" class="mb-4">
-      <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('book.personal') }}</div>
-      <div class="bg-base-100 rounded-xl border border-base-300">
-        <div class="px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 block mb-2">{{ t('book.status') }}</label>
-          <div class="flex gap-3 flex-wrap">
-            <label class="label cursor-pointer gap-1 mb-0">
-              <input v-model="userbook.lastReadingEvent" type="radio" value="FINISHED" class="radio radio-sm radio-primary">
-              <span class="label-text text-sm">{{ t('reading_events.finished') }}</span>
-            </label>
-            <label class="label cursor-pointer gap-1 mb-0">
-              <input v-model="userbook.lastReadingEvent" type="radio" value="CURRENTLY_READING" class="radio radio-sm radio-primary">
-              <span class="label-text text-sm">{{ t('reading_events.currently_reading') }}</span>
-            </label>
-            <label class="label cursor-pointer gap-1 mb-0">
-              <input v-model="userbook.lastReadingEvent" type="radio" value="DROPPED" class="radio radio-sm radio-primary">
-              <span class="label-text text-sm">{{ t('reading_events.dropped') }}</span>
-            </label>
-            <label class="label cursor-pointer gap-1 mb-0">
-              <input v-model="userbook.lastReadingEvent" type="radio" value="NONE" class="radio radio-sm radio-primary">
-              <span class="label-text text-sm">{{ t('reading_events.none') }}</span>
-            </label>
-          </div>
-        </div>
-        <div class="px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 block mb-2">{{ t('book.properties') }}</label>
-          <div class="flex gap-4 flex-wrap">
-            <label class="label cursor-pointer gap-2 mb-0">
-              <input v-model="userbook.owned" type="checkbox" class="checkbox checkbox-sm checkbox-primary">
-              <span class="label-text text-sm">{{ t('book.owned') }}</span>
-            </label>
-            <label class="label cursor-pointer gap-2 mb-0">
-              <input v-model="userbook.toRead" type="checkbox" class="checkbox checkbox-sm checkbox-primary">
-              <span class="label-text text-sm">{{ t('book.to_read') }}</span>
-            </label>
-            <label class="label cursor-pointer gap-2 mb-0">
-              <input v-model="userbook.borrowed" type="checkbox" class="checkbox checkbox-sm checkbox-primary">
-              <span class="label-text text-sm">{{ t('book.borrowed') }}</span>
-            </label>
-          </div>
-        </div>
-        <div class="px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 block mb-1">{{ t('book.personal_notes') }}</label>
-          <input v-model="userbook.personalNotes" :placeholder="t('book.personal_notes')" class="w-full bg-transparent outline-none text-sm">
-        </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.price') }}</label>
-          <input v-model.number="userbook.price" type="number" step="0.01" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.price')">
-        </div>
-        <div class="flex items-center gap-3 px-4 py-3">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.current_page_number') }}</label>
-          <input v-model.number="userbook.currentPageNumber" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.current_page_number')">
-        </div>
-        <div class="px-4 py-3">
-          <label class="text-sm opacity-60 block mb-1">{{ t('book.percent_read') }}</label>
-          <input v-model.number="sliderPercent" type="range" min="0" max="100" class="w-full range range-primary range-xs">
-          <div class="text-right text-xs opacity-60 mt-1">{{ sliderPercent }}%</div>
+    <!-- Status -->
+    <details class="rounded-xl border border-base-300 mb-4 group">
+      <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
+        <span>{{ t('book.status') }}</span>
+        <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+      </summary>
+      <div class="bg-base-100 px-4 py-3 border-b border-base-200">
+        <div class="flex gap-3 flex-wrap">
+          <label class="label cursor-pointer gap-1 mb-0">
+            <input v-model="userbook.lastReadingEvent" type="radio" value="FINISHED" class="radio radio-sm radio-primary">
+            <span class="label-text text-sm">{{ t('reading_events.finished') }}</span>
+          </label>
+          <label class="label cursor-pointer gap-1 mb-0">
+            <input v-model="userbook.lastReadingEvent" type="radio" value="CURRENTLY_READING" class="radio radio-sm radio-primary">
+            <span class="label-text text-sm">{{ t('reading_events.currently_reading') }}</span>
+          </label>
+          <label class="label cursor-pointer gap-1 mb-0">
+            <input v-model="userbook.lastReadingEvent" type="radio" value="DROPPED" class="radio radio-sm radio-primary">
+            <span class="label-text text-sm">{{ t('reading_events.dropped') }}</span>
+          </label>
+          <label class="label cursor-pointer gap-1 mb-0">
+            <input v-model="userbook.lastReadingEvent" type="radio" value="NONE" class="radio radio-sm radio-primary">
+            <span class="label-text text-sm">{{ t('reading_events.none') }}</span>
+          </label>
         </div>
       </div>
-    </div>
+      <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+        <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.current_page_number') }}</label>
+        <input v-model.number="userbook.currentPageNumber" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.current_page_number')">
+      </div>
+      <div class="px-4 py-3">
+        <label class="text-sm opacity-60 block mb-1">{{ t('book.percent_read') }}</label>
+        <input v-model.number="sliderPercent" type="range" min="0" max="100" class="w-full range range-primary range-xs">
+        <div class="text-right text-xs opacity-60 mt-1">{{ sliderPercent }}%</div>
+      </div>
+    </details>
 
-    <div v-if="!hasImage || deleteImage" class="mb-4">
-      <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('labels.upload_cover') }}</div>
-      <div class="bg-base-100 rounded-xl border border-base-300 overflow-hidden p-4">
+    <!-- Persönlich -->
+    <details class="rounded-xl border border-base-300 mb-4 group">
+      <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
+        <span>{{ t('book.personal') }}</span>
+        <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+      </summary>
+      <div class="bg-base-100 px-4 py-3 border-b border-base-200">
+        <label class="text-sm opacity-60 block mb-2">{{ t('book.properties') }}</label>
+        <div class="flex gap-4 flex-wrap">
+          <label class="label cursor-pointer gap-2 mb-0">
+            <input v-model="userbook.owned" type="checkbox" class="checkbox checkbox-sm checkbox-primary">
+            <span class="label-text text-sm">{{ t('book.owned') }}</span>
+          </label>
+          <label class="label cursor-pointer gap-2 mb-0">
+            <input v-model="userbook.toRead" type="checkbox" class="checkbox checkbox-sm checkbox-primary">
+            <span class="label-text text-sm">{{ t('book.to_read') }}</span>
+          </label>
+          <label class="label cursor-pointer gap-2 mb-0">
+            <input v-model="userbook.borrowed" type="checkbox" class="checkbox checkbox-sm checkbox-primary">
+            <span class="label-text text-sm">{{ t('book.borrowed') }}</span>
+          </label>
+        </div>
+      </div>
+      <div class="px-4 py-3">
+        <label class="text-sm opacity-60 block mb-1">{{ t('book.personal_notes') }}</label>
+        <input v-model="userbook.personalNotes" :placeholder="t('book.personal_notes')" class="w-full bg-transparent outline-none text-sm">
+      </div>
+    </details>
+
+    <details v-if="!hasImage || deleteImage" class="rounded-xl border border-base-300 mb-4 group">
+      <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
+        <span>{{ t('labels.upload_cover') }}</span>
+        <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+      </summary>
+      <div class="bg-base-100 p-4">
         <div class="flex gap-3 mb-3 justify-center">
           <label class="label cursor-pointer gap-1 mb-0">
             <input v-model="uploadType" type="radio" value="web" class="radio radio-sm">
@@ -634,7 +665,7 @@ watch(() => sliderPercent.value, (newVal) => {
           <span v-if="imagePath" class="block text-xs mt-1 opacity-60">{{ imagePath }}</span>
         </div>
       </div>
-    </div>
+    </details>
 
     <p v-if="errorMessage" class="text-error text-center text-sm mb-3">{{ errorMessage }}</p>
     <progress v-if="progress" class="animate-pulse progress progress-success w-full" max="100" />
