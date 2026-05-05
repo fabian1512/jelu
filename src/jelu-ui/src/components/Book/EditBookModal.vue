@@ -312,7 +312,9 @@ const openMetadataModal = () => {
     cancelable: ['outside'],
     scroll: 'clip',
     props: {
-      hideBarcodeAndManual: true
+      book: userbook.book,
+      hideBarcodeAndManual: true,
+      hasExistingBook: true
     },
     onClose: () => {}
   });
@@ -345,7 +347,7 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section id="edit-modal-content" class="edit-modal p-4 relative overflow-visible">
+  <section id="edit-modal-content" class="edit-modal p-4 pb-6 relative overflow-visible">
     <div class="flex justify-between items-center mb-5">
       <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
