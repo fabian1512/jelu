@@ -200,6 +200,14 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     width: 100%;
 }
 
+.o-taginput {
+    max-width: 100%;
+}
+
+.o-taginput .o-taginput__container {
+    max-width: 100%;
+}
+
 .jl-sidebar .label-text {
   @apply ml-2;
 }
