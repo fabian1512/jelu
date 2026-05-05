@@ -654,7 +654,7 @@ details > summary::-webkit-details-marker {
 /* Modal width constraint (desktop only) */
 @media (min-width: 768px) {
   .edit-modal {
-    max-width: 32rem;
+    max-width: 35rem;
     margin: 0 auto;
   }
 }
