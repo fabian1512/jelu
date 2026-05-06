@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { useOruga } from "@oruga-ui/oruga-next";
+import { useRouter } from 'vue-router';
 import dayjs from "dayjs";
 import { computed, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
@@ -31,9 +32,82 @@ const { t } = useI18n({
 
 const props = defineProps<{ book: UserBook | Metadata | null }>()
 const oruga = useOruga()
+const router = useRouter()
 const emit = defineEmits<{
   (e: 'close', reason?: 'save' | 'cancel'): void
 }>();
+
+const deleteBook = async () => {
+  let deleteForUserOnly = true
+
+  if (userbook.value.id) {
+    // First dialog: delete for me or for everyone
+    await oruga.modal.confirm({
+      async onConfirm() {
+        deleteForUserOnly = false
+        await confirmDelete(deleteForUserOnly)
+      },
+      async onCancel() {
+        // do nothing, just close
+      },
+      confirmButtonText: t('labels.delete_for_all'),
+      cancelButtonText: t('labels.delete_for_me_only'),
+      rootClasses: 'confirm-dialog'
+    })
+    if (deleteForUserOnly) {
+      await oruga.modal.confirm({
+        async onConfirm() {
+          await confirmDelete(deleteForUserOnly)
+        },
+        async onCancel() {},
+        confirmButtonText: t('labels.delete'),
+        cancelButtonText: t('labels.dont_delete'),
+        rootClasses: 'confirm-dialog'
+      })
+    }
+  } else {
+    // Just confirm delete for me
+    await oruga.modal.confirm({
+      async onConfirm() {
+        await confirmDelete(true)
+      },
+      async onCancel() {},
+      confirmButtonText: t('labels.delete'),
+      cancelButtonText: t('labels.dont_delete'),
+      rootClasses: 'confirm-dialog'
+    })
+  }
+}
+
+const confirmDelete = async (deleteForUserOnly: boolean) => {
+  let promise: Promise<any>
+  let deleteMessage = t('labels.book_was_deleted')
+
+  if (deleteForUserOnly) {
+    if (userbook.value.id) {
+      promise = dataService.deleteUserBook(userbook.value.id)
+    } else {
+      ObjectUtils.toast(oruga, "danger", t('labels.error_message', {msg: 'No userbook to delete'}), 4000)
+      return
+    }
+  } else {
+    if (userbook.value.book.id) {
+      promise = dataService.deleteBook(userbook.value.book.id)
+    } else {
+      ObjectUtils.toast(oruga, "danger", t('labels.error_message', {msg: 'No book to delete'}), 4000)
+      return
+    }
+  }
+
+  try {
+    await promise
+    ObjectUtils.toast(oruga, "success", deleteMessage, 4000)
+    emit('close', 'cancel')
+    router.push('/books')
+  } catch (e) {
+    ObjectUtils.toast(oruga, "danger", t('labels.error_message', {msg: (e as Error).message}), 4000)
+  }
+}
 
 const filteredAuthors: Ref<Array<Wrapper>> = ref([]);
 const filteredTags: Ref<Array<Wrapper>> = ref([]);
@@ -416,21 +490,37 @@ watch(() => sliderPercent.value, (newVal) => {
 
 <template>
   <section id="edit-modal-content" class="edit-modal p-4 pb-8 relative overflow-visible">
-    <div class="flex justify-between items-center mb-5">
-      <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
-        <span v-if="progress" class="loading loading-spinner loading-xs"></span>
-        <span v-else>{{ t('labels.save_changes') }}</span>
-      </button>
-      <button @click="openMetadataModal" class="btn btn-sm btn-secondary">{{ t('labels.metadata') }}</button>
-      <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle">✕</button>
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-10 bg-base-100 pb-4 -mx-4 px-4 -mt-4 pt-4 border-b border-base-200">
+      <div class="flex justify-between items-center">
+        <div class="flex gap-2">
+          <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
+            <span v-if="progress" class="loading loading-spinner loading-xs"></span>
+            <span v-else>{{ t('labels.save_changes') }}</span>
+          </button>
+          <button v-if="userbook.id || (props.book && 'id' in props.book)" @click="deleteBook" class="btn btn-sm btn-error">
+            {{ t('labels.delete') }}
+          </button>
+        </div>
+        <div class="flex gap-2">
+          <button @click="openMetadataModal" class="btn btn-sm btn-secondary">{{ t('labels.metadata') }}</button>
+          <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle">✕</button>
+        </div>
+      </div>
     </div>
 
-    <div class="flex gap-4 mb-6">
+    <div class="flex gap-4 mb-6 mt-4">
       <div class="shrink-0 relative">
         <figure v-if="userbook.book.image && !deleteImage" class="w-24 h-36 rounded-lg overflow-hidden shadow-md">
           <img :src="smallCoverUrl" class="w-full h-full object-cover" loading="lazy">
         </figure>
         <div v-else class="w-24 h-36 bg-base-200 rounded-lg flex items-center justify-center text-3xl">📖</div>
+        <!-- Stift für Bildänderung -->
+        <button @click="showImagePickerModal = true" class="absolute -top-2 -right-2 btn btn-xs btn-circle btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+        </button>
         <button v-if="userbook.book.image && !deleteImage" @click="toggleRemoveImage" class="absolute -bottom-2 -right-2 btn btn-xs btn-circle btn-error">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
