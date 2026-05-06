@@ -10,7 +10,7 @@ import { Wrapper } from "../../model/autocomplete-wrapper";
 import { UserBook } from "../../model/Book";
 import { Metadata } from "../../model/Metadata";
 import { Path } from "../../model/DirectoryListing";
-import { ReadingEventType } from "../../model/ReadingEvent";
+import { ReadingEventType, CreateReadingEvent } from "../../model/ReadingEvent";
 import { SeriesOrder } from "../../model/Series";
 import { Tag } from "../../model/Tag";
 import dataService from "../../services/DataService";
@@ -41,6 +41,7 @@ const filteredTranslators: Ref<Array<Wrapper>> = ref([]);
 const filteredNarrators: Ref<Array<Wrapper>> = ref([]);
 const filteredPublishers: Ref<Array<string>> = ref([])
 const userbook: Ref<UserBook> = ref(copyInput(props.book))
+const originalLastReadingEvent: Ref<ReadingEventType | null | undefined> = ref(props.book && 'id' in props.book ? (props.book as UserBook).lastReadingEvent : null)
 const hasImage: Ref<boolean> = ref(userbook.value.book.image != null)
 const deleteImage: Ref<boolean> = ref(false)
 
@@ -181,6 +182,20 @@ const importBook = () => {
   promise
     .then(res => {
       progress.value = false
+      const currentStatus = userbook.value.lastReadingEvent
+      const statusChanged = currentStatus !== null && 
+                           currentStatus !== undefined && 
+                           currentStatus !== originalLastReadingEvent.value
+      if (statusChanged && res.id) {
+        const eventToCreate: CreateReadingEvent = {
+          eventType: currentStatus,
+          eventDate: new Date(),
+          bookId: res.book.id
+        }
+        dataService.createReadingEvent(eventToCreate).catch(err => {
+          console.error('Failed to create reading event:', err)
+        })
+      }
       ObjectUtils.toast(oruga, "success", t('labels.book_title_updated', { title : res.book.title}), 4000);
       emit('close', 'save')
     })
