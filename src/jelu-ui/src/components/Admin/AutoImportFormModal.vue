@@ -40,8 +40,6 @@ const form = reactive({
   authors: props.book?.authors?.map((a: any) => a.name).join(', ') || '',
 })
 
-console.log('AutoImportFormModal props:', props)
-
 const serverSettings: ComputedRef<ServerSettings> = computed(() => {
   return store != undefined && store.getters.getSettings
 })
@@ -141,9 +139,47 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     metadataToSend = result as Metadata
   }
   
-  // Emit the metadataReceived event - the parent (EditBookModal) will handle opening MergeBookModal
-  // Pass both the metadata AND whether there's an existing book
-  emit('metadataReceived', { metadata: metadataToSend, hasExistingBook: !!props.book })
+  // Check if there's an existing book (was passed as prop)
+  if (props.book) {
+    // Open MergeBookModal with existing book and fetched metadata
+    oruga.modal.open({
+      component: MergeBookModal,
+      trapFocus: true,
+      active: true,
+      cancelable: ['outside'],
+      scroll: 'clip',
+      props: {
+        book: props.book,
+        metadata: metadataToSend
+      },
+      onClose: (mergedData: any) => {
+        // Transfer merged data back to form - only update non-empty fields
+        if (mergedData) {
+          if (mergedData.title) form.title = mergedData.title
+          if (mergedData.authors?.length) form.authors = mergedData.authors.join(', ')
+          if (mergedData.isbn13) form.isbn = mergedData.isbn13
+          else if (mergedData.isbn10) form.isbn = mergedData.isbn10
+        }
+      }
+    })
+  } else {
+    // No existing book - open EditBookModal directly with new metadata
+    oruga.modal.open({
+      component: EditBookModal,
+      trapFocus: true,
+      active: true,
+      cancelable: ['outside'],
+      scroll: 'clip',
+      props: {
+        book: metadataToSend
+      },
+      onClose: (args: any) => {
+        if (args && args[0] === 'save') {
+          emit('close')
+        }
+      }
+    })
+  }
 }
 
 const discard = () => {

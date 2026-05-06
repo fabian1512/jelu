@@ -313,7 +313,7 @@ const openMetadataModal = () => {
     cancelable: ['outside'],
     scroll: 'clip',
     props: {
-      book: userbook.book,
+      book: userbook.value.book,
       hideBarcodeAndManual: true
     },
     events: {
@@ -328,7 +328,7 @@ const openMetadataModal = () => {
             cancelable: ['outside'],
             scroll: 'clip',
             props: {
-              book: userbook.book,
+              book: userbook.value.book,
               metadata: event.metadata
             },
             onClose: (mergedData: any) => {
