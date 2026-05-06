@@ -209,6 +209,7 @@
         "event_type": "Ereignis-Typ",
         "event_date": "Ereignis-Datum",
         "edit_event": "Ereignis bearbeiten",
+        "add_event": "Ereignis hinzufügen",
         "reading": "Aktuelle Lektüre",
         "start_date": "Beginn",
         "end_date": "Ende",

@@ -643,7 +643,7 @@ watch(() => sliderPercent.value, (newVal) => {
     <!-- Status -->
     <details class="rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
-        <span>{{ t('book.status') }}</span>
+        <span>{{ t('reading_events.event_type') }}</span>
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="bg-base-100 px-4 py-3 border-b border-base-200">
@@ -680,7 +680,7 @@ watch(() => sliderPercent.value, (newVal) => {
     <!-- Persönlich -->
     <details class="rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
-        <span>{{ t('book.personal') }}</span>
+        <span>{{ t('book.status') }}</span>
         <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="bg-base-100 px-4 py-3 border-b border-base-200">

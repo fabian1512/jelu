@@ -209,6 +209,7 @@
         "event_type" : "event type",
         "event_date" : "event date",
         "edit_event" : "edit event",
+        "add_event" : "add event",
         "reading" : "reading",
         "start_date" : "start date",
         "end_date" : "end date",
