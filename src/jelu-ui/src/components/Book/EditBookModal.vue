@@ -313,7 +313,8 @@ const openMetadataModal = () => {
     cancelable: ['outside'],
     scroll: 'clip',
     props: {
-      book: userbook.book
+      book: userbook.book,
+      hideBarcodeAndManual: true
     },
     events: {
       metadataReceived: (event: { metadata: Metadata, hasExistingBook: boolean }) => {

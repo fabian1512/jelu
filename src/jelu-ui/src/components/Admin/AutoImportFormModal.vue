@@ -31,6 +31,7 @@ const router = useRouter();
 
 const props = defineProps<{
   book?: Book,
+  hideBarcodeAndManual?: boolean,
 }>()
 
 const form = reactive({
@@ -38,6 +39,8 @@ const form = reactive({
   isbn: props.book?.isbn13 || props.book?.isbn10 || '',
   authors: props.book?.authors?.map((a: any) => a.name).join(', ') || '',
 })
+
+console.log('AutoImportFormModal props:', props)
 
 const serverSettings: ComputedRef<ServerSettings> = computed(() => {
   return store != undefined && store.getters.getSettings
