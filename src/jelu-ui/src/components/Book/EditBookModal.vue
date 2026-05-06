@@ -313,7 +313,7 @@ const openMetadataModal = () => {
     cancelable: ['outside'],
     scroll: 'clip',
     props: {
-      book: userbook.value.book,
+      book: userbook.value,
       hideBarcodeAndManual: true
     },
     events: {

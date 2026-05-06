@@ -4,7 +4,7 @@ import { ComputedRef, Ref, computed, reactive, ref } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useLocalStorage } from '@vueuse/core';
-import { Book } from "../../model/Book";
+import { Book, UserBook } from "../../model/Book";
 import { Metadata } from "../../model/Metadata";
 import { PluginInfo } from "../../model/PluginInfo";
 import { ServerSettings } from "../../model/ServerSettings";
@@ -30,14 +30,22 @@ const oruga = useOruga();
 const router = useRouter();
 
 const props = defineProps<{
-  book?: Book,
+  book?: Book | UserBook,
   hideBarcodeAndManual?: boolean,
 }>()
 
+const getBookData = (b: Book | UserBook | undefined): Book | undefined => {
+  if (!b) return undefined
+  if ('book' in b) return (b as UserBook).book as Book
+  return b as Book
+}
+
+const bookData = computed(() => getBookData(props.book))
+
 const form = reactive({
-  title: props.book?.title || '',
-  isbn: props.book?.isbn13 || props.book?.isbn10 || '',
-  authors: props.book?.authors?.map((a: any) => a.name).join(', ') || '',
+  title: bookData.value?.title || '',
+  isbn: bookData.value?.isbn13 || bookData.value?.isbn10 || '',
+  authors: bookData.value?.authors?.map((a: any) => a.name).join(', ') || '',
 })
 
 const serverSettings: ComputedRef<ServerSettings> = computed(() => {
@@ -149,7 +157,7 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
       cancelable: ['outside'],
       scroll: 'clip',
       props: {
-        book: props.book,
+        book: bookData.value,
         metadata: metadataToSend
       },
       onClose: (mergedData: any) => {
@@ -160,6 +168,8 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
           if (mergedData.isbn13) form.isbn = mergedData.isbn13
           else if (mergedData.isbn10) form.isbn = mergedData.isbn10
         }
+        // Close AutoImportFormModal after MergeBookModal closes
+        emit('close')
       }
     })
   } else {
