@@ -186,23 +186,13 @@ const importBook = () => {
       const statusChanged = currentStatus !== null && 
                            currentStatus !== undefined && 
                            currentStatus !== originalLastReadingEvent.value
-      console.log('[DEBUG] EditBookModal save:', {
-        currentStatus,
-        originalLastReadingEvent: originalLastReadingEvent.value,
-        statusChanged,
-        resId: res?.id,
-        resBookId: res?.book?.id
-      })
       if (statusChanged && res.id) {
         const eventToCreate: CreateReadingEvent = {
           eventType: currentStatus,
           eventDate: new Date(),
           bookId: res.book.id
         }
-        console.log('[DEBUG] Creating reading event:', eventToCreate)
-        dataService.createReadingEvent(eventToCreate).then(() => {
-          console.log('[DEBUG] Reading event created successfully')
-        }).catch(err => {
+        dataService.createReadingEvent(eventToCreate).catch(err => {
           console.error('Failed to create reading event:', err)
         })
       }
