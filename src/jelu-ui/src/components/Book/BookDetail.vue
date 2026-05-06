@@ -136,7 +136,7 @@ const hasExternalLink = computed(() => book.value?.book.amazonId != null
   || book.value?.book.inventaireId != null)
 
 function modalClosed() {
-  getBook()
+  setTimeout(() => getBook(), 100)
 }
 
 function reviewModalClosed() {
