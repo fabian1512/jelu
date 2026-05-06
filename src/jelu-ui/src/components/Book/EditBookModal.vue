@@ -382,7 +382,7 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section id="edit-modal-content" class="edit-modal p-4 pb-6 relative overflow-visible">
+  <section id="edit-modal-content" class="edit-modal p-4 pb-8 relative overflow-visible">
     <div class="flex justify-between items-center mb-5">
       <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
         <span v-if="progress" class="loading loading-spinner loading-xs"></span>
@@ -725,8 +725,21 @@ details > summary::-webkit-details-marker {
   .edit-modal {
     max-width: 42.5rem;
     margin: 0 auto;
-    padding-bottom: 1.5rem !important;
   }
+}
+
+/* Ensure modal content doesn't get cut off */
+.o-modal__content {
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  padding-bottom: 1.5rem !important;
+}
+
+/* Force bottom padding on modal content */
+#edit-modal-content {
+  padding-bottom: 2rem !important;
+  min-height: 50vh;
+}
 }
 
 /* Ensure modal content doesn't get cut off */
