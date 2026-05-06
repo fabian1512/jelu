@@ -545,7 +545,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.published_date') }}</label>
-          <input v-model="publishedDateString" type="text" class="flex-1 bg-transparent outline-none text-sm text-right" placeholder="YYYY-MM-DD" />
+          <input v-model="publishedDateString" type="date" class="flex-1 bg-transparent outline-none text-sm text-right" />
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.language') }}</label>
