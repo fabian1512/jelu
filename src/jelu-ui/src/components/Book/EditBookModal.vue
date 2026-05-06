@@ -740,11 +740,4 @@ details > summary::-webkit-details-marker {
   padding-bottom: 2rem !important;
   min-height: 50vh;
 }
-}
-
-/* Ensure modal content doesn't get cut off */
-.o-modal__content {
-  max-height: 90vh !important;
-  overflow-y: auto !important;
-}
 </style>
