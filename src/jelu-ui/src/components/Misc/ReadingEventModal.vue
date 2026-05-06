@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Ref, ref, watch } from "vue";
+import { Ref, ref, watch, computed } from "vue";
 import { CreateReadingEvent, ReadingEvent, ReadingEventType } from "../../model/ReadingEvent";
 import dataService from "../../services/DataService";
 import { useI18n } from 'vue-i18n'
-import Datepicker from 'vue3-datepicker'
 import useTypography from "../../composables/typography";
 
 const { t } = useI18n({
@@ -33,6 +32,52 @@ watch(() => currentCreateEvent.value.eventType, (newValue, oldValue) => {
   } else {
     currentCreateEvent.value.startDate = undefined
     currentCreateEvent.value.eventDate = new Date()
+  }
+})
+
+// Date conversion computed properties for edit mode
+const startDateString = computed({
+  get: () => {
+    if (!currentEvent.value.startDate) return ''
+    const d = new Date(currentEvent.value.startDate)
+    return d.toISOString().split('T')[0]
+  },
+  set: (val: string) => {
+    currentEvent.value.startDate = val ? new Date(val + 'T00:00:00') : undefined
+  }
+})
+
+const endDateString = computed({
+  get: () => {
+    if (!currentEvent.value.endDate) return ''
+    const d = new Date(currentEvent.value.endDate)
+    return d.toISOString().split('T')[0]
+  },
+  set: (val: string) => {
+    currentEvent.value.endDate = val ? new Date(val + 'T00:00:00') : undefined
+  }
+})
+
+// Date conversion computed properties for create mode
+const createStartDateString = computed({
+  get: () => {
+    if (!currentCreateEvent.value.startDate) return ''
+    const d = new Date(currentCreateEvent.value.startDate)
+    return d.toISOString().split('T')[0]
+  },
+  set: (val: string) => {
+    currentCreateEvent.value.startDate = val ? new Date(val + 'T00:00:00') : undefined
+  }
+})
+
+const createEventDateString = computed({
+  get: () => {
+    if (!currentCreateEvent.value.eventDate) return ''
+    const d = new Date(currentCreateEvent.value.eventDate)
+    return d.toISOString().split('T')[0]
+  },
+  set: (val: string) => {
+    currentCreateEvent.value.eventDate = val ? new Date(val + 'T00:00:00') : undefined
   }
 })
 
@@ -182,32 +227,12 @@ const { typographyClasses } = useTypography()
           <label class="label">
             <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.start_date') }} : </span>
           </label>
-          <datepicker
+          <input
             v-if="currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
-            v-model="currentEvent.startDate"
-            class="input input-primary"
-            :typeable="true"
-            :clearable="false"
+            v-model="startDateString"
+            type="date"
+            class="input input-primary w-full"
           >
-            <template #clear="{ onClear }">
-              <button @click="onClear">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z"
-                  />
-                </svg>
-              </button>
-            </template>
-          </datepicker>
         </div>
         <div
           v-if="currentEvent.eventType !== ReadingEventType.CURRENTLY_READING && currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
@@ -216,31 +241,11 @@ const { typographyClasses } = useTypography()
           <label class="label">
             <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_date') }} : </span>
           </label>
-          <datepicker
-            v-model="currentEvent.endDate"
-            class="input input-primary"
-            :typeable="true"
-            :clearable="true"
+          <input
+            v-model="endDateString"
+            type="date"
+            class="input input-primary w-full"
           >
-            <template #clear="{ onClear }">
-              <button @click="onClear">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z"
-                  />
-                </svg>
-              </button>
-            </template>
-          </datepicker>
         </div>
         <div class="flex gap-2 mt-3">
           <button
@@ -357,31 +362,11 @@ const { typographyClasses } = useTypography()
           <label class="label">
             <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.start_date') }} :</span>
           </label>
-          <datepicker
-            v-model="currentCreateEvent.startDate"
-            class="input input-primary"
-            :clearable="true"
-            :typeable="true"
+          <input
+            v-model="createStartDateString"
+            type="date"
+            class="input input-primary w-full"
           >
-            <template #clear="{ onClear }">
-              <button @click="onClear">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z"
-                  />
-                </svg>
-              </button>
-            </template>
-          </datepicker>
         </div>
         <div
           v-if="currentCreateEvent.eventType != ReadingEventType.CURRENTLY_READING && currentCreateEvent.eventType != ReadingEventType.MARKED_OWNED && currentCreateEvent.eventType != ReadingEventType.MARKED_TO_READ && currentCreateEvent.eventType != ReadingEventType.MARKED_BORROWED"
@@ -390,31 +375,11 @@ const { typographyClasses } = useTypography()
           <label class="label">
             <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_date') }} :</span>
           </label>
-          <datepicker
-            v-model="currentCreateEvent.eventDate"
-            class="input input-primary"
-            :clearable="true"
-            :typeable="true"
+          <input
+            v-model="createEventDateString"
+            type="date"
+            class="input input-primary w-full"
           >
-            <template #clear="{ onClear }">
-              <button @click="onClear">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z"
-                  />
-                </svg>
-              </button>
-            </template>
-          </datepicker>
         </div>
         <div>
           <button
