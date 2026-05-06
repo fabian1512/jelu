@@ -313,42 +313,59 @@ const openMetadataModal = () => {
     cancelable: ['outside'],
     scroll: 'clip',
     props: {
-      book: userbook.book,
-      hideBarcodeAndManual: true,
-      hasExistingBook: true
+      book: userbook.book
     },
     events: {
-      metadataReceived: (modalMetadata: Metadata) => {
-        // Open MergeBookModal with existing book and fetched metadata
-        oruga.modal.open({
-          parent: this,
-          component: MergeBookModal,
-          trapFocus: true,
-          active: true,
-          cancelable: ['outside'],
-          scroll: 'clip',
-          props: {
-            book: userbook.book,
-            metadata: modalMetadata
-          },
-          onClose: (mergedData: any) => {
-            if (mergedData) {
-              // Update userbook with merged data - only update non-empty fields
-              if (mergedData.title) userbook.value.book.title = mergedData.title
-              if (mergedData.authors?.length) userbook.value.book.authors = mergedData.authors.map((a: string) => ({ name: a }))
-              if (mergedData.isbn13) userbook.value.book.isbn13 = mergedData.isbn13
-              if (mergedData.isbn10) userbook.value.book.isbn10 = mergedData.isbn10
-              if (mergedData.publisher) userbook.value.book.publisher = mergedData.publisher
-              if (mergedData.publishedDate) userbook.value.book.publishedDate = mergedData.publishedDate
-              if (mergedData.pageCount) userbook.value.book.pageCount = mergedData.pageCount
-              if (mergedData.language) userbook.value.book.language = mergedData.language
-              if (mergedData.summary) userbook.value.book.summary = mergedData.summary
-              if (mergedData.image) userbook.value.book.image = mergedData.image
-              if (mergedData.tags?.length) userbook.value.book.tags = mergedData.tags.map((t: string) => ({ name: t }))
-              if (mergedData.series) userbook.value.book.series = [{ name: mergedData.series, numberInSeries: mergedData.numberInSeries || 1 }]
+      metadataReceived: (event: { metadata: Metadata, hasExistingBook: boolean }) => {
+        if (event.hasExistingBook) {
+          // Open MergeBookModal with existing book and fetched metadata
+          oruga.modal.open({
+            parent: this,
+            component: MergeBookModal,
+            trapFocus: true,
+            active: true,
+            cancelable: ['outside'],
+            scroll: 'clip',
+            props: {
+              book: userbook.book,
+              metadata: event.metadata
+            },
+            onClose: (mergedData: any) => {
+              if (mergedData) {
+                // Update userbook with merged data - only update non-empty fields
+                if (mergedData.title) userbook.value.book.title = mergedData.title
+                if (mergedData.authors?.length) userbook.value.book.authors = mergedData.authors.map((a: string) => ({ name: a }))
+                if (mergedData.isbn13) userbook.value.book.isbn13 = mergedData.isbn13
+                if (mergedData.isbn10) userbook.value.book.isbn10 = mergedData.isbn10
+                if (mergedData.publisher) userbook.value.book.publisher = mergedData.publisher
+                if (mergedData.publishedDate) userbook.value.book.publishedDate = mergedData.publishedDate
+                if (mergedData.pageCount) userbook.value.book.pageCount = mergedData.pageCount
+                if (mergedData.language) userbook.value.book.language = mergedData.language
+                if (mergedData.summary) userbook.value.book.summary = mergedData.summary
+                if (mergedData.image) userbook.value.book.image = mergedData.image
+                if (mergedData.tags?.length) userbook.value.book.tags = mergedData.tags.map((t: string) => ({ name: t }))
+                if (mergedData.series) userbook.value.book.series = [{ name: mergedData.series, numberInSeries: mergedData.numberInSeries || 1 }]
+              }
             }
-          }
-        })
+          })
+        } else {
+          // No existing book - just open EditBookModal with the new metadata
+          oruga.modal.open({
+            component: EditBookModal,
+            trapFocus: true,
+            active: true,
+            cancelable: ['outside'],
+            scroll: 'clip',
+            props: {
+              book: event.metadata
+            },
+            onClose: (args: any) => {
+              if (args && args[0] === 'save') {
+                // Close the AutoImportFormModal as well
+              }
+            }
+          })
+        }
       }
     },
     onClose: () => {}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useOruga } from "@oruga-ui/oruga-next";
-import { ComputedRef, Ref, computed, reactive, ref, watch } from "vue";
+import { ComputedRef, Ref, computed, reactive, ref } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useLocalStorage } from '@vueuse/core';
@@ -31,24 +31,13 @@ const router = useRouter();
 
 const props = defineProps<{
   book?: Book,
-  hideBarcodeAndManual?: boolean,
-  hasExistingBook?: boolean,
 }>()
 
 const form = reactive({
-  title: props.book?.title,
-  isbn: props.book?.isbn13?.length != undefined && props.book?.isbn13?.length > 0 ? props.book?.isbn13 : props.book?.isbn10,
-  authors: props.book?.authors?.map(a => a.name).join(','),
-});
-
-// Watch for changes to book prop and update form accordingly
-watch(() => props.book, (newBook) => {
-  if (newBook) {
-    form.title = newBook.title
-    form.isbn = newBook.isbn13 || newBook.isbn10 || ''
-    form.authors = newBook.authors?.map((a: any) => a.name).join(', ') || ''
-  }
-}, { immediate: true })
+  title: props.book?.title || '',
+  isbn: props.book?.isbn13 || props.book?.isbn10 || '',
+  authors: props.book?.authors?.map((a: any) => a.name).join(', ') || '',
+})
 
 const serverSettings: ComputedRef<ServerSettings> = computed(() => {
   return store != undefined && store.getters.getSettings
@@ -150,7 +139,8 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
   }
   
   // Emit the metadataReceived event - the parent (EditBookModal) will handle opening MergeBookModal
-  emit('metadataReceived', metadataToSend)
+  // Pass both the metadata AND whether there's an existing book
+  emit('metadataReceived', { metadata: metadataToSend, hasExistingBook: !!props.book })
 }
 
 const discard = () => {
