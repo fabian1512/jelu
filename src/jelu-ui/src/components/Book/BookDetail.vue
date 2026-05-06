@@ -173,7 +173,11 @@ function toggleReadingEventModal(currentEvent: ReadingEvent, edit: boolean) {
     scroll: 'keep',
     props: {
       "readingEvent": currentEvent,
-      "edit": edit
+      "edit": edit,
+      "userBookId": book.value?.id,
+      "pageCount": book.value?.book?.pageCount,
+      "currentProgress": book.value?.percentRead,
+      "currentPage": book.value?.currentPageNumber
     },
     onClose: modalClosed
   });

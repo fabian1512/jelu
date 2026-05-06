@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Ref, ref, watch, computed } from "vue";
 import { CreateReadingEvent, ReadingEvent, ReadingEventType } from "../../model/ReadingEvent";
+import { UserBookUpdate } from "../../model/Book";
 import dataService from "../../services/DataService";
+import { ObjectUtils } from "../../utils/ObjectUtils";
 import { useI18n } from 'vue-i18n'
 import useTypography from "../../composables/typography";
 
@@ -12,7 +14,11 @@ const { t } = useI18n({
 
 const props = defineProps<{
   readingEvent: ReadingEvent|CreateReadingEvent,
-  edit: boolean
+  edit: boolean,
+  userBookId?: string,
+  pageCount?: number | null,
+  currentProgress?: number | null,
+  currentPage?: number | null,
 }>()
 
 const currentEvent: Ref<ReadingEvent> = ref(props.readingEvent)
@@ -83,6 +89,16 @@ const createEventDateString = computed({
 
 const progress: Ref<boolean> = ref(false)
 
+// Progress tracking
+const percentRead: Ref<number | null> = ref(props.currentProgress ?? null)
+const currentPageNumber: Ref<number | null> = ref(props.currentPage ?? null)
+
+watch([percentRead, currentPageNumber], (newVals, oldVals) => {
+  if (props.pageCount != null) {
+    ObjectUtils.computePages(newVals, oldVals, { percentRead: percentRead.value, currentPageNumber: currentPageNumber.value } as UserBookUpdate, props.pageCount)
+  }
+})
+
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
@@ -91,6 +107,15 @@ const create = () => {
   progress.value = true
   dataService.createReadingEvent(currentCreateEvent.value)
     .then(res => {
+      // Also save progress if userBookId is provided
+      if (props.userBookId && (percentRead.value !== null || currentPageNumber !== null)) {
+        const userBookUpdate: UserBookUpdate = {
+          id: props.userBookId,
+          percentRead: percentRead.value ?? undefined,
+          currentPageNumber: currentPageNumber.value ?? undefined
+        }
+        dataService.updateUserBook(userBookUpdate).catch(e => console.error('Failed to update progress:', e))
+      }
       progress.value = false
       emit('close')
     })
@@ -107,6 +132,15 @@ const update = () => {
   }
   dataService.updateReadingEvent(currentEvent.value)
     .then(res => {
+      // Also save progress if userBookId is provided
+      if (props.userBookId && (percentRead.value !== null || currentPageNumber !== null)) {
+        const userBookUpdate: UserBookUpdate = {
+          id: props.userBookId,
+          percentRead: percentRead.value ?? undefined,
+          currentPageNumber: currentPageNumber.value ?? undefined
+        }
+        dataService.updateUserBook(userBookUpdate).catch(e => console.error('Failed to update progress:', e))
+      }
       progress.value = false
       emit('close')
     })
@@ -255,6 +289,39 @@ const { typographyClasses } = useTypography()
             class="input input-primary w-full"
           >
         </div>
+        <!-- Fortschritt -->
+        <div v-if="props.userBookId" class="rounded-xl border border-base-300 mb-3">
+          <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
+            {{ t('labels.set_progress') }}
+          </div>
+          <div class="bg-base-100 px-4 py-3">
+            <div class="field">
+              <label class="label">
+                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.percent_read') }} : </span>
+              </label>
+              <input
+                v-model="percentRead"
+                type="range"
+                min="0"
+                max="100"
+                :disabled="props.pageCount != null"
+                class="range range-xs range-primary"
+              >
+            </div>
+            <div v-if="props.pageCount != null" class="field mt-2">
+              <label class="label">
+                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
+              </label>
+              <input
+                v-model="currentPageNumber"
+                type="number"
+                min="0"
+                :max="props.pageCount"
+                class="input focus:input-accent"
+              >
+            </div>
+          </div>
+        </div>
         <div class="flex gap-2 mt-3">
           <button
             class="btn btn-secondary flex-1 uppercase"
@@ -388,6 +455,39 @@ const { typographyClasses } = useTypography()
             type="date"
             class="input input-primary w-full"
           >
+        </div>
+        <!-- Fortschritt -->
+        <div v-if="props.userBookId" class="rounded-xl border border-base-300 mb-3">
+          <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
+            {{ t('labels.set_progress') }}
+          </div>
+          <div class="bg-base-100 px-4 py-3">
+            <div class="field">
+              <label class="label">
+                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.percent_read') }} : </span>
+              </label>
+              <input
+                v-model="percentRead"
+                type="range"
+                min="0"
+                max="100"
+                :disabled="props.pageCount != null"
+                class="range range-xs range-primary"
+              >
+            </div>
+            <div v-if="props.pageCount != null" class="field mt-2">
+              <label class="label">
+                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
+              </label>
+              <input
+                v-model="currentPageNumber"
+                type="number"
+                min="0"
+                :max="props.pageCount"
+                class="input focus:input-accent"
+              >
+            </div>
+          </div>
         </div>
         <div>
           <button
