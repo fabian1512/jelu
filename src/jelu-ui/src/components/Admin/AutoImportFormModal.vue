@@ -327,10 +327,8 @@ function toggleScanModal() {
                   props: {
                     book: metadata
                   },
-                  onClose: (args: any) => {
-                    if (args && args[0] === 'save') {
-                      emit('close')
-                    }
+                  onClose: () => {
+                    emit('close')
                   }
                 })
                 return
@@ -363,10 +361,8 @@ if (metadata && metadata.title) {
                   props: {
                     book: metadata
                   },
-                  onClose: (args: any) => {
-                    if (args && args[0] === 'save') {
-                      emit('close')
-                    }
+                  onClose: () => {
+                    emit('close')
                   }
                 })
                 return
