@@ -145,82 +145,80 @@ const { typographyClasses } = useTypography()
       <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
     </div>
     <div v-if="props.edit">
+      <!-- Ereignis -->
       <div class="field">
           <label class="label">
-            <span class="label-text font-semibold">{{ t('reading_events.last_event_type') }} : </span>
+            <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_type') }} : </span>
           </label>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-28"
-              class="radio radio-sm radio-primary my-1"
-              value="FINISHED"
-            >
-            <span class="label-text ml-2">
-              {{ t('reading_events.finished') }}
-            </span>
+          <div class="flex gap-4 flex-wrap">
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-event-edit"
+                class="radio radio-sm radio-primary"
+                value="FINISHED"
+              >
+              <span class="label-text text-sm">{{ t('reading_events.finished') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-event-edit"
+                class="radio radio-sm radio-primary"
+                value="CURRENTLY_READING"
+              >
+              <span class="label-text text-sm">{{ t('reading_events.currently_reading') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-event-edit"
+                class="radio radio-sm radio-primary"
+                value="DROPPED"
+              >
+              <span class="label-text text-sm">{{ t('reading_events.dropped') }}</span>
+            </label>
           </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-28"
-              class="radio radio-sm radio-primary my-1"
-              value="CURRENTLY_READING"
-            >
-            <span class="label-text ml-2">
-              {{ t('reading_events.currently_reading') }}
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-28"
-              class="radio radio-sm radio-primary my-1"
-              value="DROPPED"
-            >
-            <span class="label-text ml-2">
-              {{ t('reading_events.dropped') }}
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-28"
-              class="radio radio-sm radio-primary my-1"
-              value="MARKED_OWNED"
-            >
-            <span class="label-text ml-2">
-              {{ t('book.owned') }}
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-28"
-              class="radio radio-sm radio-primary my-1"
-              value="MARKED_TO_READ"
-            >
-            <span class="label-text ml-2">
-              {{ t('book.in_read_list') }}
-
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-28"
-              class="radio radio-sm radio-primary my-1"
-              value="MARKED_BORROWED"
-            >
-            <span class="label-text ml-2">
-              {{ t('book.borrowed') }}
-            </span>
+      </div>
+      <!-- Status -->
+      <div class="field mt-3">
+          <label class="label">
+            <span class="label-text font-semibold first-letter:capitalize">{{ t('book.status') }} : </span>
+          </label>
+          <div class="flex gap-4 flex-wrap">
+            <label class="label cursor-pointer gap-2 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-status-edit"
+                class="radio radio-sm radio-primary"
+                value="MARKED_OWNED"
+              >
+              <span class="label-text text-sm">{{ t('book.owned') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-2 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-status-edit"
+                class="radio radio-sm radio-primary"
+                value="MARKED_TO_READ"
+              >
+              <span class="label-text text-sm">{{ t('book.in_read_list') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-2 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-status-edit"
+                class="radio radio-sm radio-primary"
+                value="MARKED_BORROWED"
+              >
+              <span class="label-text text-sm">{{ t('book.borrowed') }}</span>
+            </label>
           </div>
         </div>
         <div class="field">
@@ -278,81 +276,80 @@ const { typographyClasses } = useTypography()
         {{ t('reading_events.choose_event') }}
       </h1>
       <div>
+        <!-- Ereignis -->
         <div class="field">
           <label class="label">
             <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_type') }} : </span>
           </label>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-29"
-              class="radio radio-sm radio-primary my-1"
-              value="FINISHED"
-            >
-            <span class="label-text ml-2">
-              {{ t('reading_events.finished') }}
-            </span>
+          <div class="flex gap-4 flex-wrap">
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-event"
+                class="radio radio-sm radio-primary"
+                value="FINISHED"
+              >
+              <span class="label-text text-sm">{{ t('reading_events.finished') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-event"
+                class="radio radio-sm radio-primary"
+                value="CURRENTLY_READING"
+              >
+              <span class="label-text text-sm">{{ t('reading_events.currently_reading') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-1 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-event"
+                class="radio radio-sm radio-primary"
+                value="DROPPED"
+              >
+              <span class="label-text text-sm">{{ t('reading_events.dropped') }}</span>
+            </label>
           </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-29"
-              class="radio radio-sm radio-primary my-1"
-              value="CURRENTLY_READING"
-            >
-            <span class="label-text ml-2">
-              {{ t('reading_events.currently_reading') }}
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-29"
-              class="radio radio-sm radio-primary my-1"
-              value="DROPPED"
-            >
-            <span class="label-text ml-2">
-              {{ t('reading_events.dropped') }}
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-29"
-              class="radio radio-sm radio-primary my-1"
-              value="MARKED_OWNED"
-            >
-            <span class="label-text ml-2">
-              {{ t('book.owned') }}
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-29"
-              class="radio radio-sm radio-primary my-1"
-              value="MARKED_TO_READ"
-            >
-            <span class="label-text ml-2">
-              {{ t('book.in_read_list') }}
-            </span>
-          </div>
-          <div class="field">
-            <input
-              v-model="currentCreateEvent.eventType"
-              type="radio"
-              name="radio-29"
-              class="radio radio-sm radio-primary my-1"
-              value="MARKED_BORROWED"
-            >
-            <span class="label-text ml-2">
-              {{ t('book.borrowed') }}
-            </span>
+        </div>
+        <!-- Status -->
+        <div class="field mt-3">
+          <label class="label">
+            <span class="label-text font-semibold first-letter:capitalize">{{ t('book.status') }} : </span>
+          </label>
+          <div class="flex gap-4 flex-wrap">
+            <label class="label cursor-pointer gap-2 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-status"
+                class="radio radio-sm radio-primary"
+                value="MARKED_OWNED"
+              >
+              <span class="label-text text-sm">{{ t('book.owned') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-2 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-status"
+                class="radio radio-sm radio-primary"
+                value="MARKED_TO_READ"
+              >
+              <span class="label-text text-sm">{{ t('book.in_read_list') }}</span>
+            </label>
+            <label class="label cursor-pointer gap-2 mb-0">
+              <input
+                v-model="currentCreateEvent.eventType"
+                type="radio"
+                name="radio-status"
+                class="radio radio-sm radio-primary"
+                value="MARKED_BORROWED"
+              >
+              <span class="label-text text-sm">{{ t('book.borrowed') }}</span>
+            </label>
           </div>
         </div>
         <div
