@@ -340,9 +340,9 @@ const eventClass = (event: ReadingEvent) => {
   ) {
     return "bg-success";
   } else if (event.eventType === ReadingEventType.MARKED_OWNED) {
-    return "bg-warning";
-  } else if (event.eventType === ReadingEventType.MARKED_TO_READ) {
     return "bg-accent";
+  } else if (event.eventType === ReadingEventType.MARKED_TO_READ) {
+    return "bg-warning";
   } else if (event.eventType === ReadingEventType.MARKED_BORROWED) {
     return "bg-secondary";
   }
@@ -727,15 +727,15 @@ getBook()
         <div v-if="book?.owned || book?.toRead || book?.borrowed">
           <span
             v-if="book?.owned"
-            class="badge badge-info"
+            class="badge badge-accent"
           >{{ t('book.owned') }}</span>
           <span
             v-if="book?.toRead"
-            class="badge badge-info mx-1"
+            class="badge badge-warning mx-1"
           >{{ t('book.to_read') }}</span>
           <span
             v-if="book?.borrowed"
-            class="badge badge-info"
+            class="badge badge-secondary"
           >{{ t('book.borrowed') }}</span>
         </div>
         <div
@@ -743,7 +743,7 @@ getBook()
           class="flex items-center flex-wrap gap-2 mt-4"
         >
           <button
-            class="btn btn-primary btn-outline p-2 uppercase"
+            class="btn btn-primary btn-outline p-2"
             @click="toggleEdit"
           >
             <span class="icon">
@@ -752,7 +752,7 @@ getBook()
             <span>{{ t('labels.edit') }}</span>
           </button>
           <button
-            class="btn btn-error btn-outline p-2 uppercase"
+            class="btn btn-error btn-outline p-2"
             @click="deleteBook"
           >
             <span class="icon">
@@ -761,7 +761,7 @@ getBook()
             <span>{{ t('labels.delete') }}</span>
           </button>
           <button
-            class="btn btn-info btn-outline p-2 uppercase"
+            class="btn btn-info btn-outline p-2"
             @click="toggleReadingEventModal(defaultCreateEvent(), false)"
           >
             <span class="icon">

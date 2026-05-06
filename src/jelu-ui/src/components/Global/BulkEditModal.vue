@@ -87,19 +87,18 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="event-modal">
+  <section class="jl-modal" style="--modal-width: min(450px, calc(100vw - 24px)); --modal-min-height: 8rem;">
     <div class="flex justify-between items-center mb-4">
-      <div></div>
-      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+      <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ t('bulk.bulk_edit_books') }}
-      </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </h2>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
     <div>
       <div class="my-2">
         <div class="field my-2">
           <label class="label">
-            <span class="label-text font-semibold">{{ t('bulk.owned') }} :</span>
+            <span class="text-sm opacity-60">{{ t('bulk.owned') }} :</span>
           </label>
 
           <div class="flex flex-wrap gap-2">
@@ -128,7 +127,7 @@ const { typographyClasses } = useTypography()
         </div>
         <div class="field my-2">
           <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('bulk.toRead') }} :</span>
+            <span class="text-sm opacity-60 first-letter:capitalize">{{ t('bulk.toRead') }} :</span>
           </label>
           <div class="flex flex-wrap gap-2">
             <label>{{ t('labels.yes') }}</label>
@@ -157,7 +156,7 @@ const { typographyClasses } = useTypography()
         <div class="field my-2">
           <label class="label">
             <span
-              class="label-text font-semibold first-letter:capitalize"
+              class="text-sm opacity-60 first-letter:capitalize"
             >{{ t('bulk.add_or_remove') }} :</span>
           </label>
           <input
@@ -246,7 +245,7 @@ const { typographyClasses } = useTypography()
         </div>
         <div class="my-3">
           <button
-            class="btn btn-secondary mr-2 uppercase"
+            class="btn btn-sm btn-primary mr-2"
             @click="submit"
           >
             <span class="icon">

@@ -11,7 +11,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="event-modal">
+  <div class="jl-modal" style="--modal-width: min(450px, calc(100vw - 24px)); --modal-min-height: 8rem;">
     <div class="flex justify-end mb-2">
       <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
     </div>

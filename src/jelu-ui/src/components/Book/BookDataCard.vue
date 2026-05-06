@@ -300,15 +300,15 @@ const { typographyClasses } = useTypography()
         <div v-if="owned || toRead || borrowed">
           <span
             v-if="owned"
-            class="badge badge-info"
+            class="badge badge-accent"
           >{{ t('book.owned') }}</span>
           <span
             v-if="toRead"
-            class="badge badge-info mx-1"
+            class="badge badge-warning mx-1"
           >{{ t('book.to_read') }}</span>
           <span
             v-if="borrowed"
-            class="badge badge-info"
+            class="badge badge-secondary"
           >{{ t('book.borrowed') }}</span>
         </div>
       </div>
@@ -330,7 +330,7 @@ const { typographyClasses } = useTypography()
       <span
         v-for="tag in props.book.tags"
         :key="tag.id"
-        class="badge badge-primary mt-3 m-0.5 hover:font-bold hover:border-4"
+        class="badge badge-primary mt-3 m-1 hover:font-bold hover:border-4"
       >
         <router-link
           v-if="links != null && links === true"

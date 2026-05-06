@@ -482,7 +482,7 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section id="edit-modal-content" class="edit-modal p-4 pb-8 relative overflow-visible">
+  <section id="edit-modal-content" class="jl-modal p-4 pb-8 relative overflow-visible" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
     <!-- Sticky Header -->
     <div class="sticky top-0 z-10 bg-base-100 pb-4 -mx-4 px-4 -mt-4 pt-4 border-b border-base-200">
       <div class="flex justify-between items-center">
@@ -525,7 +525,7 @@ watch(() => sliderPercent.value, (newVal) => {
           <span v-for="author in userbook.book.authors" :key="author.name" class="badge badge-primary badge-sm">{{ author.name }}</span>
         </div>
         <div class="flex flex-wrap gap-1">
-          <span v-for="tag in userbook.book.tags" :key="tag.name" class="badge badge-xs badge-secondary">{{ tag.name }}</span>
+          <span v-for="tag in userbook.book.tags" :key="tag.name" class="badge badge-sm badge-secondary">{{ tag.name }}</span>
         </div>
       </div>
     </div>
@@ -534,10 +534,10 @@ watch(() => sliderPercent.value, (newVal) => {
       <div class="text-xs font-semibold uppercase opacity-60 tracking-wider mb-1 px-1">{{ t('book.summary') }}</div>
       <details class="bg-base-100 rounded-xl border border-base-300 overflow-hidden group">
         <summary class="px-4 py-3 cursor-pointer flex justify-between items-center select-none list-none">
-          <span class="text-sm truncate pr-4 opacity-70">
+          <span class="text-sm truncate pr-4 opacity-60">
             {{ userbook.book.summary ? userbook.book.summary.substring(0, 60) + '...' : t('labels.no_summary') }}
           </span>
-          <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+          <span class="text-base-content/60 transition-transform group-open:rotate-90">›</span>
         </summary>
         <div class="px-4 pb-3">
           <textarea v-model="userbook.book.summary" rows="4" class="w-full bg-transparent resize-none outline-none text-sm" :placeholder="t('book.summary')"></textarea>
@@ -549,7 +549,7 @@ watch(() => sliderPercent.value, (newVal) => {
       <details open class="rounded-xl border border-base-300 group">
         <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
           <span>{{ t('book.details') }}</span>
-          <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+          <span class="text-base-content/60 transition-transform group-open:rotate-90">›</span>
         </summary>
         <div class="bg-base-100">
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
@@ -639,7 +639,7 @@ watch(() => sliderPercent.value, (newVal) => {
     <details class="rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
         <span>{{ t('labels.more_options') }}</span>
-        <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+        <span class="text-base-content/60 transition-transform group-open:rotate-90">›</span>
       </summary>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.price') }}</label>
@@ -721,7 +721,7 @@ watch(() => sliderPercent.value, (newVal) => {
     <details class="rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
         <span>{{ t('reading_events.event_type') }}</span>
-        <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+        <span class="text-base-content/60 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="bg-base-100 px-4 py-3 border-b border-base-200">
         <div class="flex gap-3 flex-wrap">
@@ -758,7 +758,7 @@ watch(() => sliderPercent.value, (newVal) => {
     <details class="rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
         <span>{{ t('book.status') }}</span>
-        <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+        <span class="text-base-content/60 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="bg-base-100 px-4 py-3 border-b border-base-200">
         <label class="text-sm opacity-60 block mb-2">{{ t('book.properties') }}</label>
@@ -786,7 +786,7 @@ watch(() => sliderPercent.value, (newVal) => {
     <details v-if="!hasImage || deleteImage" class="rounded-xl border border-base-300 mb-4 group">
       <summary class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 cursor-pointer flex justify-between items-center select-none bg-base-200 list-none">
         <span>{{ t('labels.upload_cover') }}</span>
-        <span class="text-base-content/40 transition-transform group-open:rotate-90">›</span>
+        <span class="text-base-content/60 transition-transform group-open:rotate-90">›</span>
       </summary>
       <div class="bg-base-100 p-4">
         <div class="flex gap-3 mb-3 justify-center">
@@ -832,7 +832,7 @@ details > summary::-webkit-details-marker {
 
 /* Modal width constraint (desktop only) */
 @media (min-width: 640px) {
-  .edit-modal {
+  .jl-modal {
     max-width: 42.5rem;
     margin: 0 auto;
   }

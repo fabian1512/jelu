@@ -46,7 +46,7 @@ getBook()
 </script>
 
 <template>
-  <div class="card card-side bg-base-100 shadow-2xl shadow-base-300 review-book-card">
+  <div class="card card-side bg-base-100 shadow-md review-book-card">
     <figure
       v-if="book != null"
       class="place-self-start h-full"

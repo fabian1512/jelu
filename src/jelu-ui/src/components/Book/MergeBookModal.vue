@@ -200,13 +200,12 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="review-modal">
+  <section class="jl-modal" style="--modal-width: min(900px, calc(100vw - 24px)); --modal-min-height: 10rem;">
     <div class="flex justify-between items-center mb-4">
-      <div></div>
-      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+      <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ t('book_merge.merge_books') }}
-      </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </h2>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
     <div class="w-full">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
@@ -956,7 +955,7 @@ const { typographyClasses } = useTypography()
         class="flex space-x-5 mt-4 justify-center"
       >
         <button
-          class="btn btn-primary uppercase"
+          class="btn btn-sm btn-primary"
           :disabled="progress"
           @click="importData"
         >
@@ -969,7 +968,7 @@ const { typographyClasses } = useTypography()
           </span><span>{{ t('labels.import') }}</span>
         </button>
         <button
-          class="btn btn-warning uppercase"
+          class="btn btn-sm btn-warning"
           :disabled="progress"
           @click="discard"
         >

@@ -178,7 +178,7 @@ const { typographyClasses } = useTypography()
       {{ t('api_tokens.title') }}
     </h1>
 
-    <p class="text-base-content/70 mb-4 max-w-2xl text-center">
+    <p class="text-base-content/60 mb-4 max-w-2xl text-center">
       {{ t('api_tokens.description') }}
     </p>
 
@@ -224,7 +224,7 @@ const { typographyClasses } = useTypography()
                     {{ t('api_tokens.expired') }}
                   </span>
                 </h3>
-                <p class="text-sm text-base-content/70">
+                <p class="text-sm text-base-content/60">
                   {{ t('api_tokens.scopes') }}: {{ formatScopes(token.scopes) }}
                 </p>
               </div>

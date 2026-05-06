@@ -69,7 +69,7 @@ const { typographyClasses } = useTypography()
       >
         {{ t('settings.profile') }} :
       </h1>
-      <div class="card card-side bg-base-200 shadow-2xl">
+      <div class="card card-side bg-base-200 shadow-md">
         <Avatar
           :username="store != null && store.getters.getUsername"
           class="ml-4 mt-8"

@@ -49,7 +49,7 @@ watch(shiftF, (v) => {
     @close="emit('update:open', false)"
   >
     <div class="p-5 flex flex-col items-start gap-0.5">
-      <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide">{{ t('sorting.sort_order') }}</p>
+      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide">{{ t('sorting.sort_order') }}</p>
       <div class="field">
         <input
           v-model="sortOrder"

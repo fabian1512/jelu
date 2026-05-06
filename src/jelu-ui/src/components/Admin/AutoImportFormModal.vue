@@ -445,12 +445,12 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="edit-modal">
+  <section class="jl-modal" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
     <!-- Header -->
     <div class="flex justify-between items-center mb-5">
-      <h3 class="text-lg font-bold">
+      <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ t('labels.import_book') }}
-      </h3>
+      </h2>
       <div class="flex gap-2">
         <button
           class="btn btn-ghost btn-sm"
@@ -468,7 +468,7 @@ const { typographyClasses } = useTypography()
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
         </button>
-        <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+        <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
       </div>
     </div>
 
@@ -511,7 +511,7 @@ const { typographyClasses } = useTypography()
           @click="fetchMetadata"
           :disabled="!isValid || progress"
           class="w-full py-3 font-medium text-center transition-colors"
-          :class="progress ? 'text-base-content/50 cursor-wait' : 'text-error hover:bg-base-200'"
+          :class="progress ? 'text-base-content/60 cursor-wait' : 'text-error hover:bg-base-200'"
         >
           <span v-if="progress" class="loading loading-spinner loading-sm mr-2"></span>
           <span>Suche starten</span>

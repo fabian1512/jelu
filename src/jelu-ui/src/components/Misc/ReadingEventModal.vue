@@ -167,16 +167,15 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="event-modal">
+  <section class="jl-modal" style="--modal-width: min(450px, calc(100vw - 24px)); --modal-min-height: 8rem;">
     <div class="flex justify-between items-center mb-4">
-      <div></div>
-      <h1 v-if="props.edit" class="text-xl first-letter:capitalize" :class="typographyClasses">
+      <h2 v-if="props.edit" class="text-lg font-semibold" :class="typographyClasses">
         {{ t('reading_events.edit_event') }}
-      </h1>
-      <h1 v-else class="text-xl first-letter:capitalize" :class="typographyClasses">
+      </h2>
+      <h2 v-else class="text-lg font-semibold" :class="typographyClasses">
         {{ t('reading_events.add_event') }}
-      </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </h2>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
     <div v-if="props.edit">
       <!-- Ereignis-Typ -->
@@ -294,7 +293,7 @@ const { typographyClasses } = useTypography()
         <div class="bg-base-100 px-4 py-3">
           <div class="field">
             <label class="label">
-              <span class="label-text font-semibold first-letter:capitalize">{{ t('book.percent_read') }} : </span>
+              <span class="text-sm opacity-60 first-letter:capitalize">{{ t('book.percent_read') }} : </span>
             </label>
             <input
               v-model="percentRead"
@@ -307,7 +306,7 @@ const { typographyClasses } = useTypography()
           </div>
           <div v-if="props.pageCount != null && props.pageCount > 0" class="field mt-2">
             <label class="label">
-              <span class="label-text font-semibold first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
+              <span class="text-sm opacity-60 first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
             </label>
             <input
               v-model="currentPageNumber"
@@ -321,7 +320,7 @@ const { typographyClasses } = useTypography()
       </div>
         <div class="flex gap-2 mt-3">
           <button
-            class="btn btn-secondary flex-1 uppercase"
+            class="btn btn-sm btn-primary"
             @click="update"
           >
             <span class="icon">
@@ -330,7 +329,7 @@ const { typographyClasses } = useTypography()
             <span>{{ t('labels.submit') }}</span>
           </button>
           <button
-            class="btn btn-error flex-1 uppercase"
+            class="btn btn-sm btn-error btn-outline"
             @click="deleteEvent"
           >
             <span class="icon">
@@ -456,7 +455,7 @@ const { typographyClasses } = useTypography()
           <div class="bg-base-100 px-4 py-3">
             <div class="field">
               <label class="label">
-                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.percent_read') }} : </span>
+                <span class="text-sm opacity-60 first-letter:capitalize">{{ t('book.percent_read') }} : </span>
               </label>
               <input
                 v-model="percentRead"
@@ -469,7 +468,7 @@ const { typographyClasses } = useTypography()
             </div>
             <div v-if="props.pageCount != null && props.pageCount > 0" class="field mt-2">
               <label class="label">
-                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
+                <span class="text-sm opacity-60 first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
               </label>
               <input
                 v-model="currentPageNumber"
@@ -483,7 +482,7 @@ const { typographyClasses } = useTypography()
         </div>
         <div>
           <button
-            class="btn btn-secondary btn-outline mt-3 uppercase"
+            class="btn btn-sm btn-primary mt-3"
             @click="create"
           >
             <span class="icon">

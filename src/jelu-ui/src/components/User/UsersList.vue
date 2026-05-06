@@ -80,7 +80,7 @@ getUsers()
         v-for="user in filtered"
         :key="user.id"
       >
-        <div class="card card-side bg-base-200 shadow-2xl">
+        <div class="card card-side bg-base-200 shadow-md">
           <Avatar
             :username="user.login"
             class="ml-4 mt-5"

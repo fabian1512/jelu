@@ -109,7 +109,7 @@ const { typographyClasses } = useTypography()
     @update:sort-order="sortOrderUpdated"
   >
     <template #sort-fields>
-      <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
+      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
       <div class="field">
         <input
           v-model="sortBy"
@@ -172,7 +172,7 @@ const { typographyClasses } = useTypography()
       </div>
     </template>
     <template #filters>
-      <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
+      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
       <div class="field">
         <input
           v-model="libraryFilter"
@@ -203,7 +203,7 @@ const { typographyClasses } = useTypography()
         >
         <span class="label-text">{{ t('filtering.only_not_in_my_list') }}</span>
       </div>
-      <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
+      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
       <div class="field">
         <input
           v-model="eventTypes"

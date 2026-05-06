@@ -5,17 +5,6 @@
 }
 
 @import '@oruga-ui/theme-oruga/dist/oruga.css';
-@theme{
-
-  --jelu_background: #262429;
-  --jelu_background_accent: #262429;
-  --jelu_background_contrast: #f7f5d1;
-
-  --jelu_text_primary : #ffffff;
-  --jelu_text_secondary : #aaaaaa;
-  --jelu_text_accent : #69ea7d;
-
-}
 
 @plugin "daisyui/theme" {
   name: "jelu";
@@ -60,8 +49,6 @@
   --jelu_text_primary : #ffffff;
   --jelu_text_secondary : #aaaaaa;
   --jelu_text_accent : #69ea7d;
-
-  --jelu_test : #69ea7d;
 
   --oruga-checkbox-border-color: var(--color-primary);
   --oruga-checkbox-active-background-color: var(--color-primary);
@@ -262,61 +249,11 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     font-family: 'cormorant', -apple-system, system-ui, serif;
 }
 
-.edit-modal {
+.jl-modal {
     margin: 12px auto;
     padding: 1.5rem;
-    width: min(676px, calc(100vw - 24px));
-    min-height: 12rem;
-    max-height: 85vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.event-modal {
-    margin: 12px auto;
-    padding: 1.5rem;
-    width: min(450px, calc(100vw - 24px));
-    min-height: 8rem;
-    max-height: 85vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.author-modal {
-    margin: 12px auto;
-    padding: 1.5rem;
-    width: min(600px, calc(100vw - 24px));
-    min-height: 8rem;
-    max-height: 85vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.quote-modal {
-    margin: 12px auto;
-    padding: 1.5rem;
-    width: min(900px, calc(100vw - 24px));
-    min-height: 8rem;
-    max-height: 85vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.review-modal {
-    margin: 12px auto;
-    padding: 1.5rem;
-    width: min(900px, calc(100vw - 24px));
-    min-height: 10rem;
-    max-height: 85vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.metadata-modal {
-    margin: 12px auto;
-    padding: 1.5rem;
-    width: min(400px, calc(100vw - 24px));
-    min-height: 8rem;
+    width: var(--modal-width, min(600px, calc(100vw - 24px)));
+    min-height: var(--modal-min-height, 8rem);
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -340,12 +277,6 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   -webkit-filter: blur(4px) invert(38%);
   -moz-filter: blur(4px) invert(38%);
 }
-
-.label {
-  @apply text-lg;
-}
-
-/* // book detail */
 
 .jelu-bordered {
   @apply border-2 rounded-none border-accent;
@@ -413,14 +344,6 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     @apply text-accent-content;
 }
 
-[data-theme="jelu"] .card.card-sm {
-  @apply rounded-none;
-}
-
-.card.card-sm {
-  @apply rounded;
-}
-
 [data-theme="jelu"] .timeline-item {
   @apply bg-neutral rounded-none;
 }
@@ -472,32 +395,6 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   }
 }
 /* end loader from https://loading.io/css/ */
-
-/* clear button positioning */
-.v3dp__clearable {
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* Right-aligned, transparent datepicker input in row context */
-.v3dp__input_wrapper {
-  width: 100%;
-}
-.v3dp__input_wrapper input {
-  text-align: right !important;
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  font-size: 0.875rem !important;
-  width: 100% !important;
-  padding: 0 !important;
-  height: auto !important;
-  margin: 0 !important;
-}
-/* end clear button */
 
 /* Ensure Oruga dropdowns appear above modal overlays */
 .o-dropdown__menu {

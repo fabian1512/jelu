@@ -44,13 +44,12 @@ directories('/')
 </script>
 
 <template>
-  <section class="edit-modal">
+  <section class="jl-modal" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
     <div class="flex justify-between items-center mb-4">
-      <div></div>
-      <h1 class="text-xl font-semibold capitalize" :class="typographyClasses">
+      <h2 class="text-lg font-semibold capitalize" :class="typographyClasses">
         {{ t('labels.import_book') }}
-      </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </h2>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
       <div>
         <div

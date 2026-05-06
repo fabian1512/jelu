@@ -117,7 +117,7 @@ onMounted(() => {
                 class="input input-bordered input-sm w-full"
                 :placeholder="t('metadata.api_key')"
               >
-              <span v-else class="text-base-content/50">&mdash;</span>
+              <span v-else class="text-base-content/60">&mdash;</span>
             </td>
           </tr>
         </tbody>

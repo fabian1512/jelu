@@ -86,13 +86,12 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="review-modal">
+  <section class="jl-modal" style="--modal-width: min(900px, calc(100vw - 24px)); --modal-min-height: 10rem;">
     <div class="flex justify-between items-center mb-4">
-      <div></div>
-      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+      <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ props.edit === true ? t('reviews.edit_review') : t('reviews.add_review') }}
-      </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </h2>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
     <div class="w-full">
       <div>
@@ -157,7 +156,7 @@ const { typographyClasses } = useTypography()
         <div class="my-3">
           <button
             v-if="props.edit == null || props.edit === false"
-            class="btn btn-secondary mr-2 uppercase"
+            class="btn btn-sm btn-primary mr-2"
             :disabled="progress"
             @click="submit"
           >
@@ -172,7 +171,7 @@ const { typographyClasses } = useTypography()
           </button>
           <button
             v-else
-            class="btn btn-secondary mr-2 uppercase"
+            class="btn btn-sm btn-primary mr-2"
             :disabled="progress"
             @click="editReview"
           >

@@ -48,13 +48,12 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="event-modal">
+  <section class="jl-modal" style="--modal-width: min(450px, calc(100vw - 24px)); --modal-min-height: 8rem;">
     <div class="flex justify-between items-center mb-4">
-      <div></div>
-      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+      <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ t('labels.set_progress') }}
-      </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </h2>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
     <div>
       <div class="flex flex-col">
@@ -89,7 +88,7 @@ const { typographyClasses } = useTypography()
         </div>
         <div class="mt-3 place-self-center">
           <button
-            class="btn btn-success mr-2 uppercase"
+            class="btn btn-sm btn-primary mr-2"
             @click="update"
           >
             <span class="icon">

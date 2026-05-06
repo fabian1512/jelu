@@ -29,7 +29,7 @@ const close = () => {
 </script>
 
 <template>
-  <section class="edit-modal">
+  <section class="jl-modal" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-lg font-bold">{{ t('labels.search_results') }}</h3>
       <button @click="close" class="btn btn-sm btn-circle">✕</button>
@@ -43,7 +43,7 @@ const close = () => {
 
     <!-- Search Results -->
     <div v-else-if="results && results.length > 0" class="max-h-80 overflow-y-auto">
-      <h4 class="text-sm font-semibold mb-2 opacity-70">{{ t('labels.search_results') }} ({{ results.length }})</h4>
+      <h4 class="text-sm font-semibold mb-2 opacity-60">{{ t('labels.search_results') }} ({{ results.length }})</h4>
       <div class="space-y-2">
         <div
           v-for="(metadata, index) in results"
@@ -64,7 +64,7 @@ const close = () => {
           >
           <div class="flex-1 min-w-0">
             <p class="text-sm font-bold truncate">{{ metadata.title }}</p>
-            <p class="text-xs opacity-70 truncate">
+            <p class="text-xs opacity-60 truncate">
               {{ metadata.authors?.join(', ') }}
             </p>
           </div>
@@ -78,7 +78,7 @@ const close = () => {
 
     <!-- No results -->
     <div v-else-if="results && results.length === 0" class="text-center py-8">
-      <p class="opacity-70">{{ t('labels.no_results_found') }}</p>
+      <p class="opacity-60">{{ t('labels.no_results_found') }}</p>
     </div>
   </section>
 </template>

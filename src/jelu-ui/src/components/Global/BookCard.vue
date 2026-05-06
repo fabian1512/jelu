@@ -43,15 +43,15 @@ const eventClass = computed(() => {
     } else if (
       props.book.lastReadingEvent === ReadingEventType.MARKED_TO_READ
     ) {
-      return "badge-info";
+      return "badge-warning";
     } else if (
       props.book.lastReadingEvent === ReadingEventType.MARKED_OWNED
     ) {
-      return "badge-success";
+      return "badge-accent";
     } else if (
       props.book.lastReadingEvent === ReadingEventType.MARKED_BORROWED
     ) {
-      return "badge-warning";
+      return "badge-secondary";
     } else return "";
   }
   return "";
@@ -174,7 +174,7 @@ const bookRoute = computed(() => {
           {{ book.book.title }}
         </h2>
       </router-link>
-      <p v-if="book.book.authors != null && book.book.authors.length > 0" class="text-xs opacity-70 line-clamp-1">
+      <p v-if="book.book.authors != null && book.book.authors.length > 0" class="text-xs opacity-60 line-clamp-1">
         <span v-for="author in book.book.authors.slice(0,2)" :key="author.id">
           <router-link v-if="!public" class="link link-hover" :to="{ name: 'author-detail', params: { authorId: author.id } }">{{ author.name }}</router-link>
           <span v-else>{{ author.name }}</span>
@@ -186,7 +186,7 @@ const bookRoute = computed(() => {
         <span v-if="book.lastReadingEvent" :class="eventClass" class="badge badge-sm">{{ eventText }}</span>
         <router-link v-if="currentSeries != null && !props.public" v-tooltip="currentSeries.name" class="badge badge-sm" :to="{ name: 'series', params: { seriesId: currentSeries.seriesId } }">#{{ currentSeries.numberInSeries }}</router-link>
         <span v-if="book.userAvgRating" class="text-xs text-info flex items-center gap-0.5"><i class="mdi mdi-star mdi-18px" />{{ book.userAvgRating }}</span>
-        <span v-if="book.owned" v-tooltip="t('book.owned')" class="icon text-info"><i class="mdi mdi-bookshelf mdi-18px" /></span>
+        <span v-if="book.owned" v-tooltip="t('book.owned')" class="icon text-accent"><i class="mdi mdi-bookshelf mdi-18px" /></span>
 
         <router-link v-if="proposeAdd === true && book.id == null" v-tooltip="t('labels.book_not_yet_in_books')" class="icon text-error" :to="bookRoute"><i class="mdi mdi-plus-circle mdi-18px" /></router-link>
         <slot name="icon" />
@@ -199,7 +199,7 @@ const bookRoute = computed(() => {
   <!-- DESKTOP/TABLET: unveränderte Original-Karte aus Commit 36d1cd2 -->
   <div class="hidden sm:block h-full">
     <div
-    class="card bg-base-100 shadow-2xl shadow-base-300 max-w-56 h-full"
+    class="card bg-base-100 shadow-md max-w-56 h-full"
   >
     <div>
       <router-link
@@ -292,7 +292,7 @@ const bookRoute = computed(() => {
           <span
             v-if="book.userAvgRating"
             v-tooltip="t('labels.user_avg_rating', {rating : book.userAvgRating})"
-            class="icon text-info"
+            class="icon text-accent"
           >
             <i class="mdi mdi-star mdi-18px" />
             {{ book.userAvgRating }}
@@ -300,7 +300,7 @@ const bookRoute = computed(() => {
           <span
             v-if="book.avgRating"
             v-tooltip="t('labels.avg_rating', {rating : book.avgRating})"
-            class="icon text-info"
+            class="icon text-accent"
           >
             <i class="mdi mdi-star-outline mdi-18px" />
             {{ book.avgRating }}
@@ -308,7 +308,7 @@ const bookRoute = computed(() => {
           <span
             v-if="book.owned"
             v-tooltip="t('book.owned')"
-            class="icon text-info"
+            class="icon text-accent"
           >
             <i class="mdi mdi-bookshelf mdi-18px" />
           </span>

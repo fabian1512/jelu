@@ -113,18 +113,17 @@ const { typographyClasses } = useTypography()
 </script>
 
 <template>
-  <section class="author-modal">
+  <section class="jl-modal" style="--modal-width: min(600px, calc(100vw - 24px)); --modal-min-height: 8rem;">
     <div class="flex justify-between items-center mb-4">
-      <div></div>
-      <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
+      <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ t('labels.edit_author') }}
-      </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      </h2>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
     </div>
     <div v-if="currentPhase == FORM">
       <div class="form-control">
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.name') }}
           </legend>
           <input
@@ -136,7 +135,7 @@ const { typographyClasses } = useTypography()
           >
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.date_of_birth') }}
           </legend>
           <o-datepicker
@@ -156,7 +155,7 @@ const { typographyClasses } = useTypography()
           />
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.date_of_death') }}
           </legend>
           <o-datepicker
@@ -176,7 +175,7 @@ const { typographyClasses } = useTypography()
           />
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.biography') }}
           </legend>
           <textarea
@@ -187,7 +186,7 @@ const { typographyClasses } = useTypography()
           />
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.official_page') }}
           </legend>
           <input
@@ -198,7 +197,7 @@ const { typographyClasses } = useTypography()
           >
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.wikipedia_page') }}
           </legend>
           <input
@@ -209,7 +208,7 @@ const { typographyClasses } = useTypography()
           >
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.goodreads_page') }}
           </legend>
           <input
@@ -220,7 +219,7 @@ const { typographyClasses } = useTypography()
           >
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.x_page') }}
           </legend>
           <input
@@ -231,7 +230,7 @@ const { typographyClasses } = useTypography()
           >
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.facebook_page') }}
           </legend>
           <input
@@ -242,7 +241,7 @@ const { typographyClasses } = useTypography()
           >
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.instagram_page') }}
           </legend>
           <input
@@ -253,7 +252,7 @@ const { typographyClasses } = useTypography()
           >
         </fieldset>
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('author.personal_notes') }}
           </legend>
           <textarea
@@ -267,7 +266,7 @@ const { typographyClasses } = useTypography()
           v-if="hasImage"
           class="fieldset"
         >
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('labels.actual_cover') }} :
             <o-tooltip
               v-if="!deleteImage"
@@ -320,7 +319,7 @@ const { typographyClasses } = useTypography()
           class="py-2"
         >
           <fieldset class="fieldset">
-            <legend class="fieldset-legend capitalize">
+            <legend class="text-sm opacity-60 capitalize">
               {{ t('labels.upload_image') }}
             </legend>
             <label class="label">
@@ -336,7 +335,7 @@ const { typographyClasses } = useTypography()
             v-if="uploadFromWeb"
             class="fieldset"
           >
-            <legend class="fieldset-legend capitalize">
+            <legend class="text-sm opacity-60 capitalize">
               {{ t('labels.enter_image_address') }}
             </legend>
             <label class="input validator w-full">
@@ -389,7 +388,7 @@ const { typographyClasses } = useTypography()
             class="file fieldset"
           >
             <legend
-              class="file fieldset-legend"
+              class="file text-sm opacity-60"
             >
               {{ t('labels.choose_file') }}
             </legend>
@@ -410,7 +409,7 @@ const { typographyClasses } = useTypography()
         </div>
         <div class="mt-2 flex flex-row justify-center space-x-8">
           <button
-            class="btn btn-primary button btn-outline uppercase"
+            class="btn btn-sm btn-primary"
             :class="{'btn-disabled' : progress}"
             @click="update"
           >
@@ -424,7 +423,7 @@ const { typographyClasses } = useTypography()
             <span>{{ t('labels.save_changes') }}</span>
           </button>
           <button
-            class="btn btn-info btn-outline uppercase"
+            class="btn btn-sm btn-ghost"
             @click="currentPhase = SEARCH"
           >
             <span class="icon">
@@ -455,7 +454,7 @@ const { typographyClasses } = useTypography()
       </div>
       <div class="mt-2">
         <fieldset class="fieldset">
-          <legend class="fieldset-legend capitalize">
+          <legend class="text-sm opacity-60 capitalize">
             {{ t('labels.short_language_code') }}
           </legend>
           <input
@@ -468,7 +467,7 @@ const { typographyClasses } = useTypography()
         </fieldset>
         <div class="mb-2 flex flex-row justify-center space-x-8 my-4">
           <button
-            class="btn btn-info btn-outline uppercase"
+            class="btn btn-sm btn-primary"
             @click="search"
           >
             <span class="icon">
@@ -477,7 +476,7 @@ const { typographyClasses } = useTypography()
             <span>{{ t('labels.search') }}</span>
           </button>
           <button
-            class="btn btn-warning btn-outline uppercase"
+            class="btn btn-sm btn-ghost"
             @click="currentPhase = FORM"
           >
             <span class="icon">

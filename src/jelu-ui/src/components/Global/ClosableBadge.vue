@@ -11,7 +11,7 @@ const emit = defineEmits<{
 
 <template>
   <div
-    class="badge badge-sm m-0.5"
+    class="badge badge-sm m-1"
   >
     {{ content }}
     <svg

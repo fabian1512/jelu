@@ -149,7 +149,7 @@ const { typographyClasses } = useTypography()
   >
     <template #sort-fields>
       <div class="field flex flex-col items-start gap-1">
-        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
         <div class="">
           <input
             v-model="sortBy"
@@ -204,7 +204,7 @@ const { typographyClasses } = useTypography()
     </template>
     <template #filters>
       <div class="field flex flex-col items-start gap-1">
-        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.books_type') }}</p>
         <div class="">
           <input
             v-model="libraryFilter"
@@ -237,7 +237,7 @@ const { typographyClasses } = useTypography()
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
         <div class="field">
           <input
             v-model="eventTypes"
@@ -276,7 +276,7 @@ const { typographyClasses } = useTypography()
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.book_in_list') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.book_in_list') }}</p>
         <div class="field">
           <input
             v-model="toRead"
@@ -309,7 +309,7 @@ const { typographyClasses } = useTypography()
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
         <div class="field">
           <input
             v-model="owned"
@@ -342,7 +342,7 @@ const { typographyClasses } = useTypography()
         </div>
       </div>
       <div class="field flex flex-col items-start">
-        <p class="px-4 py-2 text-xs font-bold opacity-80 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.borrowed') }}</p>
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.borrowed') }}</p>
         <div class="field">
           <input
             v-model="borrowed"
@@ -583,7 +583,7 @@ const { typographyClasses } = useTypography()
   </div>
   <div
     v-if="convertedBooks.length === 0 && !getPageIsLoading"
-    class="flex flex-col items-center justify-center py-16 text-base-content/50"
+    class="flex flex-col items-center justify-center py-16 text-base-content/60"
   >
     <i class="mdi mdi-book-open-variant text-6xl mb-4" />
     <p class="text-lg">{{ t('labels.library_empty') }}</p>

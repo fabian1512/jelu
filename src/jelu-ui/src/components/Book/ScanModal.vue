@@ -221,7 +221,7 @@ const { typographyClasses } = useTypography();
 </script>
 
 <template>
-  <section class="edit-modal">
+  <section class="jl-modal" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
     <div class="flex justify-between items-center mb-4">
       <div></div>
       <h1 class="text-xl font-semibold capitalize" :class="typographyClasses">
