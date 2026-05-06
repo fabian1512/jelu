@@ -265,63 +265,60 @@ const { typographyClasses } = useTypography()
           </div>
         </div>
       </div>
-      <div class="field">
-        <label class="label">
-          <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.start_date') }} : </span>
-        </label>
-          <input
-            v-if="currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
-            v-model="startDateString"
-            type="date"
-            class="input input-primary w-full"
-          >
-        </div>
-        <div
-          v-if="currentEvent.eventType !== ReadingEventType.CURRENTLY_READING && currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
-          class="field"
+      <div
+        v-if="currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
+        class="flex items-center gap-3 px-4 py-3 border-b border-base-200"
+      >
+        <label class="text-sm opacity-60 w-24 shrink-0">{{ t('reading_events.start_date') }}</label>
+        <input
+          v-model="startDateString"
+          type="date"
+          class="ml-auto w-auto bg-transparent outline-none text-sm text-right"
         >
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_date') }} : </span>
-          </label>
-          <input
-            v-model="endDateString"
-            type="date"
-            class="input input-primary w-full"
-          >
+      </div>
+      <div
+        v-if="currentEvent.eventType !== ReadingEventType.CURRENTLY_READING && currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
+        class="flex items-center gap-3 px-4 py-3 border-b border-base-200"
+      >
+        <label class="text-sm opacity-60 w-24 shrink-0">{{ t('reading_events.event_date') }}</label>
+        <input
+          v-model="endDateString"
+          type="date"
+          class="ml-auto w-auto bg-transparent outline-none text-sm text-right"
+        >
+      </div>
+      <div v-if="props.userBookId" class="rounded-xl border border-base-300 mb-3 mt-3">
+        <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
+          {{ t('labels.set_progress') }}
         </div>
-        <!-- Fortschritt -->
-        <div v-if="props.userBookId" class="rounded-xl border border-base-300 mb-3">
-          <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
-            {{ t('labels.set_progress') }}
+        <div class="bg-base-100 px-4 py-3">
+          <div class="field">
+            <label class="label">
+              <span class="label-text font-semibold first-letter:capitalize">{{ t('book.percent_read') }} : </span>
+            </label>
+            <input
+              v-model="percentRead"
+              type="range"
+              min="0"
+              max="100"
+              :disabled="props.pageCount != null && props.pageCount > 0"
+              class="range range-xs range-primary"
+            >
           </div>
-          <div class="bg-base-100 px-4 py-3">
-            <div class="field">
-              <label class="label">
-                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.percent_read') }} : </span>
-              </label>
-              <input
-                v-model="percentRead"
-                type="range"
-                min="0"
-                max="100"
-                :disabled="props.pageCount != null"
-                class="range range-xs range-primary"
-              >
-            </div>
-            <div v-if="props.pageCount != null" class="field mt-2">
-              <label class="label">
-                <span class="label-text font-semibold first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
-              </label>
-              <input
-                v-model="currentPageNumber"
-                type="number"
-                min="0"
-                :max="props.pageCount"
-                class="input focus:input-accent"
-              >
-            </div>
+          <div v-if="props.pageCount != null && props.pageCount > 0" class="field mt-2">
+            <label class="label">
+              <span class="label-text font-semibold first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
+            </label>
+            <input
+              v-model="currentPageNumber"
+              type="number"
+              min="0"
+              :max="props.pageCount"
+              class="input focus:input-accent"
+            >
           </div>
         </div>
+      </div>
         <div class="flex gap-2 mt-3">
           <button
             class="btn btn-secondary flex-1 uppercase"
@@ -432,32 +429,27 @@ const { typographyClasses } = useTypography()
       </div>
         <div
           v-if="currentCreateEvent.eventType === ReadingEventType.CURRENTLY_READING"
-          class="field"
+          class="flex items-center gap-3 px-4 py-3 border-b border-base-200"
         >
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.start_date') }} :</span>
-          </label>
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('reading_events.start_date') }}</label>
           <input
             v-model="createStartDateString"
             type="date"
-            class="input input-primary w-full"
+            class="ml-auto w-auto bg-transparent outline-none text-sm text-right"
           >
         </div>
         <div
           v-if="currentCreateEvent.eventType != ReadingEventType.CURRENTLY_READING && currentCreateEvent.eventType != ReadingEventType.MARKED_OWNED && currentCreateEvent.eventType != ReadingEventType.MARKED_TO_READ && currentCreateEvent.eventType != ReadingEventType.MARKED_BORROWED"
-          class="field"
+          class="flex items-center gap-3 px-4 py-3 border-b border-base-200"
         >
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_date') }} :</span>
-          </label>
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('reading_events.event_date') }}</label>
           <input
             v-model="createEventDateString"
             type="date"
-            class="input input-primary w-full"
+            class="ml-auto w-auto bg-transparent outline-none text-sm text-right"
           >
         </div>
-        <!-- Fortschritt -->
-        <div v-if="props.userBookId" class="rounded-xl border border-base-300 mb-3">
+        <div v-if="props.userBookId" class="rounded-xl border border-base-300 mb-3 mt-3">
           <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
             {{ t('labels.set_progress') }}
           </div>
@@ -471,11 +463,11 @@ const { typographyClasses } = useTypography()
                 type="range"
                 min="0"
                 max="100"
-                :disabled="props.pageCount != null"
+                :disabled="props.pageCount != null && props.pageCount > 0"
                 class="range range-xs range-primary"
               >
             </div>
-            <div v-if="props.pageCount != null" class="field mt-2">
+            <div v-if="props.pageCount != null && props.pageCount > 0" class="field mt-2">
               <label class="label">
                 <span class="label-text font-semibold first-letter:capitalize">{{ t('book.current_page_number') }} : </span>
               </label>

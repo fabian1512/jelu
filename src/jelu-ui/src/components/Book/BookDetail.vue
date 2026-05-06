@@ -562,7 +562,7 @@ getBook()
         class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6"
       >
       <div class="sm:justify-self-start flex justify-center">
-        <figure class="sm:justify-self-start">
+        <figure class="sm:justify-self-start relative">
           <img
             v-if="book?.book?.image"
             :src="'/files/' + book.book.image + (book.book.modificationDate ? '?v=' + book.book.modificationDate : '')"
@@ -580,6 +580,11 @@ getBook()
             loading="eager"
             decoding="async"
           >
+          <button @click="toggleEdit" class="absolute top-2 right-2 btn btn-xs btn-circle btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </button>
         </figure>
       </div>
       <div class="text-left">
