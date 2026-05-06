@@ -140,7 +140,7 @@ const bookRoute = computed(() => {
   >
     <div
     class="flex flex-row bg-base-100 shadow-md rounded-box w-full"
-    style="height: 334px; min-height: 334px; max-height: 334px"
+    style="height: 144px; min-height: 144px; max-height: 144px"
   >
     <router-link :to="bookRoute" class="shrink-0">
       <figure class="w-24 h-full">

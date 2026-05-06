@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import dayjs from "dayjs";
 import { computed, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
 import { Author } from "../../model/Author";
 import { Wrapper } from "../../model/autocomplete-wrapper";
@@ -24,6 +25,7 @@ import FormField from '../Global/FormField.vue';
 import { Role } from "../../model/Role";
 import AutoImportFormModal from '../Admin/AutoImportFormModal.vue';
 import MergeBookModal from './MergeBookModal.vue';
+import { key } from '../../store';
 
 const { t } = useI18n({
       inheritLocale: true,
@@ -33,80 +35,71 @@ const { t } = useI18n({
 const props = defineProps<{ book: UserBook | Metadata | null }>()
 const oruga = useOruga()
 const router = useRouter()
+const store = useStore(key)
+const isAdmin = computed(() => {
+  return store !== undefined && store.getters.isAdmin
+})
 const emit = defineEmits<{
   (e: 'close', reason?: 'save' | 'cancel'): void
 }>();
 
 const deleteBook = async () => {
   let deleteForUserOnly = true
-
-  if (userbook.value.id) {
-    // First dialog: delete for me or for everyone
-    await oruga.modal.confirm({
-      async onConfirm() {
-        deleteForUserOnly = false
-        await confirmDelete(deleteForUserOnly)
-      },
-      async onCancel() {
-        // do nothing, just close
-      },
-      confirmButtonText: t('labels.delete_for_all'),
-      cancelButtonText: t('labels.delete_for_me_only'),
-      rootClasses: 'confirm-dialog'
-    })
-    if (deleteForUserOnly) {
-      await oruga.modal.confirm({
-        async onConfirm() {
-          await confirmDelete(deleteForUserOnly)
-        },
-        async onCancel() {},
-        confirmButtonText: t('labels.delete'),
-        cancelButtonText: t('labels.dont_delete'),
-        rootClasses: 'confirm-dialog'
-      })
-    }
-  } else {
-    // Just confirm delete for me
-    await oruga.modal.confirm({
-      async onConfirm() {
-        await confirmDelete(true)
-      },
-      async onCancel() {},
-      confirmButtonText: t('labels.delete'),
+  let abort = false
+  if (isAdmin.value === true) {
+    await ObjectUtils.swalMixin.fire({
+      html: `<p>${t('labels.delete_for_all_or_only_you')}</p>`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: t('labels.only_me'),
+      denyButtonText: t('labels.all_users'),
       cancelButtonText: t('labels.dont_delete'),
-      rootClasses: 'confirm-dialog'
+    }).then((result) => {
+      if (result.isDenied) {
+        deleteForUserOnly = false
+      } else if (result.isDismissed) {
+        abort = true
+        return;
+      }
     })
   }
-}
-
-const confirmDelete = async (deleteForUserOnly: boolean) => {
-  let promise: Promise<any>
-  let deleteMessage = t('labels.book_was_deleted')
-
+  else {
+    await ObjectUtils.swalYesNoMixin.fire({
+      html: `<p>${t('labels.delete_this_book')}</p>`,
+      showCancelButton: true,
+      showConfirmButton: true,
+      showDenyButton: false,
+      confirmButtonText: t('labels.delete'),
+      cancelButtonText: t('labels.dont_delete'),
+    }).then((result) => {
+      if (result.isDismissed) {
+        abort = true
+        return;
+      }
+    })
+  }
+  if (abort) {
+    return
+  }
+  let promise
   if (deleteForUserOnly) {
     if (userbook.value.id) {
       promise = dataService.deleteUserBook(userbook.value.id)
-    } else {
-      ObjectUtils.toast(oruga, "danger", t('labels.error_message', {msg: 'No userbook to delete'}), 4000)
-      return
     }
-  } else {
+  }
+  else {
     if (userbook.value.book.id) {
       promise = dataService.deleteBook(userbook.value.book.id)
-    } else {
-      ObjectUtils.toast(oruga, "danger", t('labels.error_message', {msg: 'No book to delete'}), 4000)
-      return
     }
   }
-
-  try {
-    await promise
-    ObjectUtils.toast(oruga, "success", deleteMessage, 4000)
+  promise?.then(res => {
+    ObjectUtils.toast(oruga, "success", t('labels.book_was_deleted'), 4000);
     emit('close', 'cancel')
     router.push('/books')
-  } catch (e) {
-    ObjectUtils.toast(oruga, "danger", t('labels.error_message', {msg: (e as Error).message}), 4000)
-  }
+  })
+    .catch(err => {
+      ObjectUtils.toast(oruga, "danger", t('labels.error_deleting', {msg : err.message}), 4000);
+    })
 }
 
 const filteredAuthors: Ref<Array<Wrapper>> = ref([]);
@@ -516,7 +509,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </figure>
         <div v-else class="w-24 h-36 bg-base-200 rounded-lg flex items-center justify-center text-3xl">📖</div>
         <!-- Stift für Bildänderung -->
-        <button @click="showImagePickerModal = true" class="absolute -top-2 -right-2 btn btn-xs btn-circle btn-primary">
+        <button @click="toggleImagePickerModal" class="absolute -top-2 -right-2 btn btn-xs btn-circle btn-primary">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
           </svg>

@@ -435,7 +435,7 @@ getBooks()
     <div
       v-for="book in convertedBooks"
       :key="book.book.id"
-      class="my-2 h-full"
+      class="h-full"
     >
       <book-card
         :book="book"
