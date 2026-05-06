@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useOruga } from "@oruga-ui/oruga-next";
-import { ComputedRef, Ref, computed, reactive, ref } from "vue";
+import { ComputedRef, Ref, computed, reactive, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useLocalStorage } from '@vueuse/core';
@@ -40,6 +40,15 @@ const form = reactive({
   isbn: props.book?.isbn13?.length != undefined && props.book?.isbn13?.length > 0 ? props.book?.isbn13 : props.book?.isbn10,
   authors: props.book?.authors?.map(a => a.name).join(','),
 });
+
+// Watch for changes to book prop and update form accordingly
+watch(() => props.book, (newBook) => {
+  if (newBook) {
+    form.title = newBook.title
+    form.isbn = newBook.isbn13 || newBook.isbn10 || ''
+    form.authors = newBook.authors?.map((a: any) => a.name).join(', ') || ''
+  }
+}, { immediate: true })
 
 const serverSettings: ComputedRef<ServerSettings> = computed(() => {
   return store != undefined && store.getters.getSettings
@@ -140,55 +149,8 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
     metadataToSend = result as Metadata
   }
   
-  if (props.hasExistingBook && props.book) {
-    // Metadaten-Modus: erst MergeBookModal öffnen
-    oruga.modal.open({
-      component: MergeBookModal,
-      trapFocus: true,
-      active: true,
-      cancelable: ['outside'],
-      scroll: 'clip',
-      props: {
-        book: props.book,
-        metadata: metadataToSend
-      },
-      onClose: (mergedData: any) => {
-        if (mergedData) {
-          // Nur geänderte Daten ins Formular übernehmen
-          if (mergedData.title) form.title = mergedData.title
-          if (mergedData.authors?.length) form.authors = mergedData.authors.join(', ')
-          if (mergedData.isbn13) form.isbn = mergedData.isbn13
-          else if (mergedData.isbn10) form.isbn = mergedData.isbn10
-          if (mergedData.publisher) form.publisher = mergedData.publisher
-          if (mergedData.publishedDate) form.publishedDate = mergedData.publishedDate
-          if (mergedData.pageCount) form.pageCount = mergedData.pageCount
-          if (mergedData.language) form.language = mergedData.language
-          if (mergedData.summary) form.summary = mergedData.summary
-          if (mergedData.image) form.image = mergedData.image
-          if (mergedData.tags?.length) form.tags = mergedData.tags
-          if (mergedData.series) form.series = mergedData.series
-          if (mergedData.numberInSeries) form.numberInSeries = mergedData.numberInSeries
-        }
-      }
-    })
-  } else {
-    // Neu erfassen-Modus: direkt zurück ins EditBookModal
-    oruga.modal.open({
-      component: EditBookModal,
-      trapFocus: true,
-      active: true,
-      cancelable: ['outside'],
-      scroll: 'clip',
-      props: {
-        book: metadataToSend
-      },
-      onClose: (args: any) => {
-        if (args && args[0] === 'save') {
-          emit('close')
-        }
-      }
-    })
-  }
+  // Emit the metadataReceived event - the parent (EditBookModal) will handle opening MergeBookModal
+  emit('metadataReceived', metadataToSend)
 }
 
 const discard = () => {

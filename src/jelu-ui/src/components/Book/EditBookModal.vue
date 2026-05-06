@@ -22,6 +22,7 @@ import ClosableBadge from '../Global/ClosableBadge.vue';
 import FormField from '../Global/FormField.vue';
 import { Role } from "../../model/Role";
 import AutoImportFormModal from '../Admin/AutoImportFormModal.vue';
+import MergeBookModal from './MergeBookModal.vue';
 
 const { t } = useI18n({
       inheritLocale: true,
@@ -315,6 +316,40 @@ const openMetadataModal = () => {
       book: userbook.book,
       hideBarcodeAndManual: true,
       hasExistingBook: true
+    },
+    events: {
+      metadataReceived: (modalMetadata: Metadata) => {
+        // Open MergeBookModal with existing book and fetched metadata
+        oruga.modal.open({
+          parent: this,
+          component: MergeBookModal,
+          trapFocus: true,
+          active: true,
+          cancelable: ['outside'],
+          scroll: 'clip',
+          props: {
+            book: userbook.book,
+            metadata: modalMetadata
+          },
+          onClose: (mergedData: any) => {
+            if (mergedData) {
+              // Update userbook with merged data - only update non-empty fields
+              if (mergedData.title) userbook.value.book.title = mergedData.title
+              if (mergedData.authors?.length) userbook.value.book.authors = mergedData.authors.map((a: string) => ({ name: a }))
+              if (mergedData.isbn13) userbook.value.book.isbn13 = mergedData.isbn13
+              if (mergedData.isbn10) userbook.value.book.isbn10 = mergedData.isbn10
+              if (mergedData.publisher) userbook.value.book.publisher = mergedData.publisher
+              if (mergedData.publishedDate) userbook.value.book.publishedDate = mergedData.publishedDate
+              if (mergedData.pageCount) userbook.value.book.pageCount = mergedData.pageCount
+              if (mergedData.language) userbook.value.book.language = mergedData.language
+              if (mergedData.summary) userbook.value.book.summary = mergedData.summary
+              if (mergedData.image) userbook.value.book.image = mergedData.image
+              if (mergedData.tags?.length) userbook.value.book.tags = mergedData.tags.map((t: string) => ({ name: t }))
+              if (mergedData.series) userbook.value.book.series = [{ name: mergedData.series, numberInSeries: mergedData.numberInSeries || 1 }]
+            }
+          }
+        })
+      }
     },
     onClose: () => {}
   });
@@ -690,6 +725,13 @@ details > summary::-webkit-details-marker {
   .edit-modal {
     max-width: 42.5rem;
     margin: 0 auto;
+    padding-bottom: 1.5rem !important;
   }
+}
+
+/* Ensure modal content doesn't get cut off */
+.o-modal__content {
+  max-height: 90vh !important;
+  overflow-y: auto !important;
 }
 </style>
