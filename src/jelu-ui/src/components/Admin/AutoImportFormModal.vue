@@ -183,10 +183,8 @@ const handleSearchResultSelect = (result: Book | Metadata) => {
       props: {
         book: metadataToSend
       },
-      onClose: (args: any) => {
-        if (args && args[0] === 'save') {
-          emit('close')
-        }
+      onClose: () => {
+        emit('close')
       }
     })
   }

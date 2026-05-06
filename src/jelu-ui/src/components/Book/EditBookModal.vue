@@ -86,7 +86,7 @@ function copyInput(book: UserBook | Metadata | null): any {
         isfdbId: meta.isfdbId,
         openlibraryId: meta.openlibraryId,
       },
-      lastReadingEvent: null,
+      lastReadingEvent: ReadingEventType.FINISHED,
       lastReadingEventDate: null,
       creationDate: null,
       modificationDate: null,
