@@ -145,18 +145,20 @@ const { typographyClasses } = useTypography()
       <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
     </div>
     <div v-if="props.edit">
-      <!-- Ereignis -->
-      <div class="field">
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_type') }} : </span>
-          </label>
-          <div class="flex gap-4 flex-wrap">
+      <!-- Ereignis-Typ -->
+      <div class="rounded-xl border border-base-300 mb-3">
+        <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
+          {{ t('reading_events.last_event_type') }}
+        </div>
+        <div class="bg-base-100 px-4 py-3">
+          <div class="flex gap-3 flex-wrap">
             <label class="label cursor-pointer gap-1 mb-0">
               <input
                 v-model="currentCreateEvent.eventType"
                 type="radio"
                 name="radio-event-edit"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="FINISHED"
               >
               <span class="label-text text-sm">{{ t('reading_events.finished') }}</span>
@@ -167,6 +169,7 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-event-edit"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="CURRENTLY_READING"
               >
               <span class="label-text text-sm">{{ t('reading_events.currently_reading') }}</span>
@@ -177,24 +180,28 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-event-edit"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="DROPPED"
               >
               <span class="label-text text-sm">{{ t('reading_events.dropped') }}</span>
             </label>
           </div>
+        </div>
       </div>
       <!-- Status -->
-      <div class="field mt-3">
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('book.status') }} : </span>
-          </label>
-          <div class="flex gap-4 flex-wrap">
+      <div class="rounded-xl border border-base-300 mb-3">
+        <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
+          {{ t('book.status') }}
+        </div>
+        <div class="bg-base-100 px-4 py-3">
+          <div class="flex gap-3 flex-wrap">
             <label class="label cursor-pointer gap-2 mb-0">
               <input
                 v-model="currentCreateEvent.eventType"
                 type="radio"
                 name="radio-status-edit"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="MARKED_OWNED"
               >
               <span class="label-text text-sm">{{ t('book.owned') }}</span>
@@ -205,6 +212,7 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-status-edit"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="MARKED_TO_READ"
               >
               <span class="label-text text-sm">{{ t('book.in_read_list') }}</span>
@@ -215,16 +223,18 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-status-edit"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="MARKED_BORROWED"
               >
               <span class="label-text text-sm">{{ t('book.borrowed') }}</span>
             </label>
           </div>
         </div>
-        <div class="field">
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.start_date') }} : </span>
-          </label>
+      </div>
+      <div class="field">
+        <label class="label">
+          <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.start_date') }} : </span>
+        </label>
           <input
             v-if="currentEvent.eventType !== ReadingEventType.MARKED_OWNED && currentEvent.eventType !== ReadingEventType.MARKED_TO_READ && currentEvent.eventType !== ReadingEventType.MARKED_BORROWED"
             v-model="startDateString"
@@ -266,28 +276,21 @@ const { typographyClasses } = useTypography()
           </button>
         </div>
     </div>
-    <div
-      v-else
-    >
-      <h1
-        class="text-xl capitalize mb-3"
-        :class="typographyClasses"
-      >
-        {{ t('reading_events.choose_event') }}
-      </h1>
-      <div>
-        <!-- Ereignis -->
-        <div class="field">
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('reading_events.event_type') }} : </span>
-          </label>
-          <div class="flex gap-4 flex-wrap">
+    <div v-else>
+      <!-- Ereignis-Typ -->
+      <div class="rounded-xl border border-base-300 mb-3">
+        <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
+          {{ t('reading_events.last_event_type') }}
+        </div>
+        <div class="bg-base-100 px-4 py-3">
+          <div class="flex gap-3 flex-wrap">
             <label class="label cursor-pointer gap-1 mb-0">
               <input
                 v-model="currentCreateEvent.eventType"
                 type="radio"
                 name="radio-event"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="FINISHED"
               >
               <span class="label-text text-sm">{{ t('reading_events.finished') }}</span>
@@ -298,6 +301,7 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-event"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="CURRENTLY_READING"
               >
               <span class="label-text text-sm">{{ t('reading_events.currently_reading') }}</span>
@@ -308,24 +312,28 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-event"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="DROPPED"
               >
               <span class="label-text text-sm">{{ t('reading_events.dropped') }}</span>
             </label>
           </div>
         </div>
-        <!-- Status -->
-        <div class="field mt-3">
-          <label class="label">
-            <span class="label-text font-semibold first-letter:capitalize">{{ t('book.status') }} : </span>
-          </label>
-          <div class="flex gap-4 flex-wrap">
+      </div>
+      <!-- Status -->
+      <div class="rounded-xl border border-base-300 mb-3">
+        <div class="text-xs font-semibold uppercase opacity-60 tracking-wider px-4 py-2 bg-base-200">
+          {{ t('book.status') }}
+        </div>
+        <div class="bg-base-100 px-4 py-3">
+          <div class="flex gap-3 flex-wrap">
             <label class="label cursor-pointer gap-2 mb-0">
               <input
                 v-model="currentCreateEvent.eventType"
                 type="radio"
                 name="radio-status"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="MARKED_OWNED"
               >
               <span class="label-text text-sm">{{ t('book.owned') }}</span>
@@ -336,6 +344,7 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-status"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="MARKED_TO_READ"
               >
               <span class="label-text text-sm">{{ t('book.in_read_list') }}</span>
@@ -346,12 +355,14 @@ const { typographyClasses } = useTypography()
                 type="radio"
                 name="radio-status"
                 class="radio radio-sm radio-primary"
+                style="width: 18px; height: 18px;"
                 value="MARKED_BORROWED"
               >
               <span class="label-text text-sm">{{ t('book.borrowed') }}</span>
             </label>
           </div>
         </div>
+      </div>
         <div
           v-if="currentCreateEvent.eventType === ReadingEventType.CURRENTLY_READING"
           class="field"
@@ -390,7 +401,6 @@ const { typographyClasses } = useTypography()
           </button>
         </div>
       </div>
-    </div>
     <progress
       v-if="progress"
       class="animate-pulse progress progress-success mt-5"
