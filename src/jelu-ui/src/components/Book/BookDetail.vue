@@ -2,7 +2,7 @@
 import { useOruga } from "@oruga-ui/oruga-next"
 import { until, useClipboard, useLocalStorage, usePermission, useTitle } from '@vueuse/core'
 import dayjs from 'dayjs'
-import { computed, ComputedRef, Ref, ref, watch } from 'vue'
+import { computed, ComputedRef, Ref, ref, watch, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -64,6 +64,23 @@ const showModal: Ref<boolean> = ref(false)
 const getBookIsLoading: Ref<boolean> = ref(false)
 const summaryExpanded: Ref<boolean> = ref(false)
 const showBookMenu: Ref<boolean> = ref(false)
+
+const closeBookMenu = (event: MouseEvent) => {
+  const target = event.target as Node
+  const menuEl = document.querySelector('.book-menu-dropdown')
+  const triggerEl = document.querySelector('.book-menu-trigger')
+  if (showBookMenu.value && menuEl && !menuEl.contains(target) && !triggerEl?.contains(target)) {
+    showBookMenu.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', closeBookMenu)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeBookMenu)
+})
 
 const displaySummary = computed(() => {
   const text = book.value?.book?.summary || ''
@@ -611,14 +628,14 @@ getBook()
           </button>
           <button
             v-tooltip="t('labels.more_options')"
-            class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-primary"
+            class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-primary book-menu-trigger"
             @click="showBookMenu = !showBookMenu"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
             </svg>
           </button>
-          <div v-if="showBookMenu" class="absolute bottom-8 right-2 z-50">
+          <div v-if="showBookMenu" class="absolute bottom-8 right-2 z-50 book-menu-dropdown">
             <ul class="menu p-2 shadow-sm bg-base-100 rounded-box w-52 border border-base-300">
               <li>
                 <button @click="toggleReviewModal(book?.book, false, null); showBookMenu = false">
