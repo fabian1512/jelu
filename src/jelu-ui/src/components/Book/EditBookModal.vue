@@ -489,15 +489,30 @@ watch(() => sliderPercent.value, (newVal) => {
         <div class="flex gap-2">
           <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
             <span v-if="progress" class="loading loading-spinner loading-xs"></span>
-            <span v-else>{{ t('labels.save_changes') }}</span>
+            <span v-else class="hidden sm:inline">{{ t('labels.save_changes') }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
           </button>
-          <button v-if="userbook.id || (props.book && 'id' in props.book)" @click="deleteBook" class="btn btn-sm btn-error">
-            {{ t('labels.delete') }}
+          <button v-if="userbook.id || (props.book && 'id' in props.book)" @click="deleteBook" class="btn btn-sm btn-error btn-outline">
+            <span class="icon">
+              <i class="mdi mdi-delete mdi-18px"></i>
+            </span>
+            <span class="hidden sm:inline">{{ t('labels.delete') }}</span>
           </button>
         </div>
         <div class="flex gap-2">
-          <button @click="openMetadataModal" class="btn btn-sm btn-secondary">{{ t('labels.metadata') }}</button>
-          <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle">✕</button>
+          <button @click="openMetadataModal" class="btn btn-sm btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="hidden sm:inline">{{ t('labels.metadata') }}</span>
+          </button>
+          <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
