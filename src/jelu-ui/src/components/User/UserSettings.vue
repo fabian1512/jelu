@@ -53,6 +53,13 @@ const themes = [
         "silk",
       ];
 
+const handleThemeChange = (event: Event) => {
+  const target = event.target as HTMLSelectElement;
+  if (target.value === "deactivated") {
+    document.documentElement.removeAttribute("data-theme");
+  }
+};
+
 onMounted(() => {
   themeChange(false);
 });
@@ -116,7 +123,11 @@ watch(() => font.value, (newVal, oldVal) => {
     <select
       class="select select-bordered select-primary"
       data-choose-theme
+      @change="handleThemeChange"
     >
+      <option value="deactivated">
+        Deactivated
+      </option>
       <option value="">
         Default
       </option>
