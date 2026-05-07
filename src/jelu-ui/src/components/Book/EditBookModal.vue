@@ -482,9 +482,9 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section id="edit-modal-content" class="jl-modal p-4 pb-8 relative overflow-visible" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
+  <section id="edit-modal-content" class="jl-modal p-0 relative flex flex-col max-h-[85vh]" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
     <!-- Sticky Header -->
-    <div class="sticky top-0 z-10 bg-base-100 pb-4 -mx-4 px-4 -mt-4 pt-4 border-b border-base-200">
+    <div class="sticky top-0 z-10 bg-base-100 pb-4 px-4 pt-4 border-b border-base-200 shrink-0">
       <div class="flex justify-between items-center">
         <div class="flex gap-2">
           <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
@@ -509,6 +509,7 @@ watch(() => sliderPercent.value, (newVal) => {
       </div>
     </div>
 
+    <div class="flex-1 overflow-y-auto px-4 pb-8">
     <div class="flex gap-4 mb-6 mt-4">
       <div class="shrink-0 relative">
         <figure v-if="userbook.book.image && !deleteImage" class="w-24 h-36 rounded-lg overflow-hidden shadow-md">
@@ -826,6 +827,7 @@ watch(() => sliderPercent.value, (newVal) => {
 
     <p v-if="errorMessage" class="text-error text-center text-sm mb-3">{{ errorMessage }}</p>
     <progress v-if="progress" class="animate-pulse progress progress-success w-full" max="100" />
+  </div>
   </section>
 </template>
 
@@ -848,13 +850,12 @@ details > summary::-webkit-details-marker {
 /* Ensure modal content doesn't get cut off */
 .o-modal__content {
   max-height: 90vh !important;
-  overflow-y: auto !important;
   padding-bottom: 1.5rem !important;
 }
 
 /* Force bottom padding on modal content */
 #edit-modal-content {
-  padding-bottom: 2rem !important;
+  padding-bottom: 0 !important;
   min-height: 50vh;
 }
 </style>

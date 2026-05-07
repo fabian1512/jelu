@@ -611,7 +611,7 @@ getBook()
           </button>
           <button
             v-tooltip="t('labels.more_options')"
-            class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-outline"
+            class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-primary"
             @click="showBookMenu = !showBookMenu"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
