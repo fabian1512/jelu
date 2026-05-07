@@ -139,7 +139,9 @@
         "list_empty": "Liste ist leer",
         "edit_book": "Buch bearbeiten",
         "no_summary": "Keine Beschreibung vorhanden",
-        "more_options": "Mehr..."
+        "more_options": "Mehr...",
+        "read_more": "Mehr lesen",
+        "read_less": "Weniger anzeigen"
     },
     "settings": {
         "title": "Einstellungen",

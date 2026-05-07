@@ -177,6 +177,15 @@ const toggleEdit = () => {
   });
 }
 
+const dropdownTrigger = ref<HTMLElement | null>(null)
+
+const toggleDropdown = () => {
+  const label = document.getElementById('book-detail-dropdown')?.querySelector('label')
+  if (label) {
+    (label as HTMLElement).click()
+  }
+}
+
 function toggleReadingEventModal(currentEvent: ReadingEvent, edit: boolean) {
   showModal.value = !showModal.value
   oruga.modal.open({
@@ -602,7 +611,7 @@ getBook()
           <button
             v-tooltip="t('labels.more_options')"
             class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-outline"
-            onclick="document.getElementById('book-detail-dropdown').querySelector('label')?.click()"
+            @click="toggleDropdown"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
@@ -766,7 +775,7 @@ getBook()
           class="flex items-center flex-wrap gap-2 mt-4"
         >
           <div id="book-detail-dropdown" class="dropdown dropdown-hover bg-transparent">
-            <label tabindex="0" class="hidden"></label>
+            <label ref="dropdownTrigger" tabindex="0" class="hidden"></label>
             <ul
               tabindex="0"
               class="dropdown-content menu p-2 shadow-sm bg-base-100 rounded-box w-52"
@@ -865,7 +874,7 @@ getBook()
         class="link link-primary text-sm mt-1"
         @click="summaryExpanded = !summaryExpanded"
       >
-        {{ summaryExpanded ? 'Read Less' : 'Read More' }}
+        {{ summaryExpanded ? t('labels.read_less') : t('labels.read_more') }}
       </button>
     </div>
     <div class="flex flex-wrap justify-center gap-1 mt-2">

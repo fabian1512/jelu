@@ -139,7 +139,9 @@
       "list_empty": "list is empty",
       "edit_book": "Edit book",
       "no_summary": "No summary available",
-      "more_options": "More..."
+      "more_options": "More...",
+      "read_more": "Read more",
+      "read_less": "Read less"
     },
     "settings" : {
         "title" : "Settings",
