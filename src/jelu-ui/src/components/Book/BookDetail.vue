@@ -62,6 +62,20 @@ const edit: Ref<boolean> = ref(false)
 const showModal: Ref<boolean> = ref(false)
 
 const getBookIsLoading: Ref<boolean> = ref(false)
+const summaryExpanded: Ref<boolean> = ref(false)
+
+const displaySummary = computed(() => {
+  const text = book.value?.book?.summary || ''
+  if (!text) return ''
+  const plainText = text.replace(/<[^>]*>/g, '')
+  if (plainText.length <= 300 || summaryExpanded.value) return text
+  return plainText.substring(0, 300) + '...'
+})
+
+const needsReadMore = computed(() => {
+  const plainText = (book.value?.book?.summary || '').replace(/<[^>]*>/g, '')
+  return plainText.length > 300
+})
 
 const userReviews: Ref<Array<Review>> = ref([])
 
@@ -581,8 +595,17 @@ getBook()
             decoding="async"
           >
           <button @click="toggleEdit" class="absolute top-2 right-2 btn btn-xs btn-circle btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </button>
+          <button
+            v-tooltip="t('labels.more_options')"
+            class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-outline"
+            onclick="document.getElementById('book-detail-dropdown').querySelector('label')?.click()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
             </svg>
           </button>
         </figure>
@@ -742,26 +765,8 @@ getBook()
           v-if="book != null"
           class="flex items-center flex-wrap gap-2 mt-4"
         >
-          <div class="dropdown dropdown-hover bg-transparent">
-            <label
-              tabindex="0"
-              class="btn m-1 btn-circle btn-outline border-none"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                />
-              </svg>
-            </label>
+          <div id="book-detail-dropdown" class="dropdown dropdown-hover bg-transparent">
+            <label tabindex="0" class="hidden"></label>
             <ul
               tabindex="0"
               class="dropdown-content menu p-2 shadow-sm bg-base-100 rounded-box w-52"
@@ -849,12 +854,19 @@ getBook()
     </div>
     <div
       v-if="book?.book?.summary"
-      class="jelu-bordered p-2.5"
+      class="card bg-base-100 shadow-md p-2.5"
     >
       <p class="font-semibold capitalize">
         {{ t('book.summary') }} :
       </p>
-      <p v-html="book.book.summary" />
+      <p v-html="displaySummary" />
+      <button
+        v-if="needsReadMore"
+        class="link link-primary text-sm mt-1"
+        @click="summaryExpanded = !summaryExpanded"
+      >
+        {{ summaryExpanded ? 'Read Less' : 'Read More' }}
+      </button>
     </div>
     <div class="flex flex-wrap justify-center gap-1 mt-2">
       <span
