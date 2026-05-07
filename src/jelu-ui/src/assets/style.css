@@ -41,6 +41,41 @@
   --noise: 0;
 }
 
+@plugin "daisyui/theme" {
+  name: "clear";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(1 0 0);
+  --color-base-200: oklch(0.97 0 0);
+  --color-base-300: oklch(0.94 0 0);
+  --color-base-content: oklch(0.2 0 0);
+  --color-primary: #5E9BD1;
+  --color-primary-content: oklch(1 0 0);
+  --color-secondary: #4F89BA;
+  --color-secondary-content: oklch(1 0 0);
+  --color-accent: #A3C9E8;
+  --color-accent-content: oklch(0.2 0 0);
+  --color-neutral: oklch(0.15 0 0);
+  --color-neutral-content: oklch(1 0 0);
+  --color-info: #4A9ED8;
+  --color-info-content: oklch(1 0 0);
+  --color-success: #4CAF50;
+  --color-success-content: oklch(1 0 0);
+  --color-warning: #EAC46B;
+  --color-warning-content: oklch(0.2 0 0);
+  --color-error: #E57373;
+  --color-error-content: oklch(1 0 0);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
 :root {
   --jelu_background: #262429;
   --jelu_background_accent: #262429;
@@ -349,7 +384,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .timeline-item {
-  @apply bg-accent rounded;
+  @apply bg-primary rounded;
 }
 
 /* title search input on search page, make it fill column */

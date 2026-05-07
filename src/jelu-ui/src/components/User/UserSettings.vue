@@ -17,6 +17,7 @@ availableLocales.forEach(locale => {
 const themes = [
         "light",
         "dark",
+        "clear",
         "jelu",
         "cupcake",
         "bumblebee",
