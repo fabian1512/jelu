@@ -608,10 +608,18 @@ getBook()
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
             </svg>
           </button>
+          <button
+            v-tooltip="t('labels.more_options')"
+            class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-outline"
+            onclick="document.getElementById('book-actions-menu')?.classList.toggle('hidden')"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+            </svg>
+          </button>
         </figure>
-      </div>
-      <div class="text-left">
-        <h3
+        <div id="book-actions-menu" class="hidden absolute right-0 top-full mt-1 z-50">
+          <ul class="menu p-2 shadow-sm bg-base-100 rounded-box w-52 border border-base-300">
           class="text-xl sm:text-2xl md:text-3xl"
           :class="typographyClasses"
         >
@@ -852,9 +860,8 @@ getBook()
                 </label>
               </li>
             </ul>
-          </div>
         </div>
-      </div>
+        </div>
     </div>
     <div
       v-if="book?.book?.summary"

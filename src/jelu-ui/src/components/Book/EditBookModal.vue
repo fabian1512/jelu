@@ -489,29 +489,21 @@ watch(() => sliderPercent.value, (newVal) => {
         <div class="flex gap-2">
           <button @click="importBook" class="btn btn-sm btn-primary" :class="{'btn-disabled' : progress}">
             <span v-if="progress" class="loading loading-spinner loading-xs"></span>
-            <span v-else>
-              <span class="icon">
-                <i class="mdi mdi-content-save mdi-18px"></i>
-              </span>
-              <span class="hidden sm:inline">{{ t('labels.save_changes') }}</span>
+            <span v-else class="flex items-center">
+              <i class="mdi mdi-content-save mdi-18px"></i>
+              <span class="hidden sm:inline ml-1">{{ t('labels.save_changes') }}</span>
             </span>
           </button>
-          <button @click="openMetadataModal" class="btn btn-sm btn-secondary">
-            <span class="icon">
-              <i class="mdi mdi-information mdi-18px"></i>
-            </span>
-            <span class="hidden sm:inline">{{ t('labels.metadata') }}</span>
+          <button @click="openMetadataModal" class="btn btn-sm btn-secondary flex items-center">
+            <i class="mdi mdi-information mdi-18px"></i>
+            <span class="hidden sm:inline ml-1">{{ t('labels.metadata') }}</span>
           </button>
-          <button v-if="userbook.id || (props.book && 'id' in props.book)" @click="deleteBook" class="btn btn-sm btn-error btn-outline">
-            <span class="icon">
-              <i class="mdi mdi-delete mdi-18px"></i>
-            </span>
-            <span class="hidden sm:inline">{{ t('labels.delete') }}</span>
+          <button v-if="userbook.id || (props.book && 'id' in props.book)" @click="deleteBook" class="btn btn-sm btn-error btn-outline flex items-center">
+            <i class="mdi mdi-delete mdi-18px"></i>
+            <span class="hidden sm:inline ml-1">{{ t('labels.delete') }}</span>
           </button>
-          <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-ghost">
-            <span class="icon">
-              <i class="mdi mdi-close mdi-18px"></i>
-            </span>
+          <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-outline">
+            <i class="mdi mdi-close mdi-18px"></i>
           </button>
         </div>
       </div>
