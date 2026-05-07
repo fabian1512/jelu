@@ -63,6 +63,7 @@ const showModal: Ref<boolean> = ref(false)
 
 const getBookIsLoading: Ref<boolean> = ref(false)
 const summaryExpanded: Ref<boolean> = ref(false)
+const showBookMenu: Ref<boolean> = ref(false)
 
 const displaySummary = computed(() => {
   const text = book.value?.book?.summary || ''
@@ -611,15 +612,42 @@ getBook()
           <button
             v-tooltip="t('labels.more_options')"
             class="absolute bottom-2 right-2 btn btn-xs btn-circle btn-outline"
-            onclick="document.getElementById('book-actions-menu')?.classList.toggle('hidden')"
+            @click="showBookMenu = !showBookMenu"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
             </svg>
           </button>
+          <div v-if="showBookMenu" class="absolute bottom-8 right-2 z-50">
+            <ul class="menu p-2 shadow-sm bg-base-100 rounded-box w-52 border border-base-300">
+              <li>
+                <button @click="toggleReviewModal(book?.book, false, null); showBookMenu = false">
+                  {{ t('reviews.create_review') }}
+                </button>
+              </li>
+              <li>
+                <button @click="toggleReadProgressModal(book?.id ?? '', book?.book.pageCount ?? null, book?.percentRead ?? null, book?.currentPageNumber ?? null); showBookMenu = false">
+                  {{ t('labels.set_progress') }}
+                </button>
+              </li>
+              <li>
+                <button @click="toggleBookQuoteModal(book?.book, false, null); showBookMenu = false">
+                  {{ t('labels.add_quote') }}
+                </button>
+              </li>
+              <li>
+                <label :for="'my-modal-4'" class="btn btn-circle btn-outline border-none" @click="showBookMenu = false">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                  </svg>
+                </label>
+              </li>
+            </ul>
+          </div>
         </figure>
-        <div id="book-actions-menu" class="hidden absolute right-0 top-full mt-1 z-50">
-          <ul class="menu p-2 shadow-sm bg-base-100 rounded-box w-52 border border-base-300">
+      </div>
+      <div class="text-left">
+        <h3
           class="text-xl sm:text-2xl md:text-3xl"
           :class="typographyClasses"
         >
@@ -769,99 +797,7 @@ getBook()
             class="badge badge-secondary"
           >{{ t('book.borrowed') }}</span>
         </div>
-        <div
-          v-if="book != null"
-          class="flex items-center flex-wrap gap-2 mt-4"
-        >
-          <div id="book-detail-dropdown" class="dropdown dropdown-hover bg-transparent">
-            <label ref="dropdownTrigger" tabindex="0" class="btn btn-xs btn-circle btn-outline absolute bottom-2 right-2 border-none">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-              </svg>
-            </label>
-            <ul
-              tabindex="0"
-              class="dropdown-content menu p-2 shadow-sm bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <button
-                  v-tooltip="t('reviews.create_review')"
-                  class="btn btn-circle btn-outline border-none"
-                  @click="toggleReviewModal(book?.book, false, null)"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <button
-                  v-tooltip="t('labels.set_progress')"
-                  class="btn btn-circle btn-outline border-none"
-                  @click="toggleReadProgressModal(book?.id ?? '', book?.book.pageCount ?? null, book?.percentRead ?? null, book?.currentPageNumber ?? null)"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m9 14.25 6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185ZM9.75 9h.008v.008H9.75V9Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 4.5h.008v.008h-.008V13.5Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <button
-                  v-tooltip="t('labels.add_quote')"
-                  class="btn btn-circle btn-outline border-none"
-                  @click="toggleBookQuoteModal(book?.book, false, null)"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <label
-                  v-tooltip="t('labels.get_embed_code')"
-                  for="my-modal-4"
-                  class="btn btn-circle btn-outline border-none"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                  </svg>
-                </label>
-              </li>
-            </ul>
-        </div>
-        </div>
+      </div>
     </div>
     <div
       v-if="book?.book?.summary"
