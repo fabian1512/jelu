@@ -742,45 +742,6 @@ getBook()
           v-if="book != null"
           class="flex items-center flex-wrap gap-2 mt-4"
         >
-          <button
-            class="btn btn-primary btn-outline p-2"
-            @click="toggleEdit"
-          >
-            <span class="icon">
-              <i class="mdi mdi-pencil mdi-18px" />
-            </span>
-            <span>{{ t('labels.edit') }}</span>
-          </button>
-          <button
-            class="btn btn-error btn-outline p-2"
-            @click="deleteBook"
-          >
-            <span class="icon">
-              <i class="mdi mdi-delete mdi-18px" />
-            </span>
-            <span>{{ t('labels.delete') }}</span>
-          </button>
-          <button
-            class="btn btn-info btn-outline p-2"
-            @click="toggleReadingEventModal(defaultCreateEvent(), false)"
-          >
-            <span class="icon">
-              <i class="mdi mdi-plus mdi-18px" />
-            </span>
-            <span>{{ t('labels.event') }}</span>
-          </button>
-          <label
-            v-tooltip="t('labels.get_embed_code')"
-            for="my-modal-4"
-            class="btn btn-circle btn-outline ml-0 border-none modal-button"
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-          </svg></label>
           <div class="dropdown dropdown-hover bg-transparent">
             <label
               tabindex="0"
@@ -864,6 +825,22 @@ getBook()
                     />
                   </svg>
                 </button>
+              </li>
+              <li>
+                <label
+                  v-tooltip="t('labels.get_embed_code')"
+                  for="my-modal-4"
+                  class="btn btn-circle btn-outline border-none"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                  </svg>
+                </label>
               </li>
             </ul>
           </div>
