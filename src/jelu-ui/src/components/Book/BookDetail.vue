@@ -1034,25 +1034,20 @@ getBook()
             </div>
           </div>
 
-          <!-- Event Card -->
-          <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:mr-auto">
-            <div class="card bg-base-100 shadow-md">
-              <div class="card-body p-3 flex flex-row justify-between items-center gap-2">
-                <div>
-                  <span class="font-semibold capitalize">{{ eventLabel(event.eventType) }}</span>
-                  <span v-if="event.endDate" class="text-xs opacity-60 ml-1">
-                    - {{ d(event.startDate ?? '', 'short') }}
-                  </span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span
-                    class="badge badge-sm"
-                    :class="badgeClass(event)"
-                  >
-                    {{ d(event.startDate ?? event.endDate, 'short') }}
-                  </span>
+          <!-- Alternierendes Layout: Gerade Index = Card links, Datum rechts -->
+          <template v-if="index % 2 === 0">
+            <!-- Card (kompakt, links) -->
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-6rem)] md:mr-auto">
+              <div class="card bg-base-100 shadow-md max-w-sm">
+                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
+                  <div class="min-w-0">
+                    <span class="font-semibold capitalize truncate block">{{ eventLabel(event.eventType) }}</span>
+                    <span v-if="event.endDate" class="text-xs opacity-60">
+                      {{ d(event.startDate ?? '', 'short') }}
+                    </span>
+                  </div>
                   <button
-                    class="btn btn-xs btn-circle btn-ghost"
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
                     @click="toggleReadingEventModal(event, true)"
                   >
                     <i class="mdi mdi-pencil mdi-18px" />
@@ -1060,7 +1055,42 @@ getBook()
                 </div>
               </div>
             </div>
-          </div>
+            <!-- Datum-Chip (rechts, außerhalb der Card) -->
+            <div class="hidden md:block ml-2">
+              <span class="badge badge-sm badge-ghost">
+                {{ d(event.startDate ?? event.endDate, 'short') }}
+              </span>
+            </div>
+          </template>
+
+          <!-- Alternierendes Layout: Ungerade Index = Datum links, Card rechts -->
+          <template v-else>
+            <!-- Datum-Chip (links, außerhalb der Card) -->
+            <div class="hidden md:block ml-0 mr-auto text-right w-[calc(50%-6rem)]">
+              <span class="badge badge-sm badge-ghost">
+                {{ d(event.startDate ?? event.endDate, 'short') }}
+              </span>
+            </div>
+            <!-- Card (kompakt, rechts) -->
+            <div class="ml-12 md:ml-2 md:w-[calc(50%-6rem)]">
+              <div class="card bg-base-100 shadow-md max-w-sm">
+                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
+                  <div class="min-w-0">
+                    <span class="font-semibold capitalize truncate block">{{ eventLabel(event.eventType) }}</span>
+                    <span v-if="event.endDate" class="text-xs opacity-60">
+                      {{ d(event.startDate ?? '', 'short') }}
+                    </span>
+                  </div>
+                  <button
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    @click="toggleReadingEventModal(event, true)"
+                  >
+                    <i class="mdi mdi-pencil mdi-18px" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
