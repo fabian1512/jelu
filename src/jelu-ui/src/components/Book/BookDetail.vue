@@ -86,13 +86,13 @@ const displaySummary = computed(() => {
   const text = book.value?.book?.summary || ''
   if (!text) return ''
   const plainText = text.replace(/<[^>]*>/g, '')
-  if (plainText.length <= 300 || summaryExpanded.value) return text
-  return plainText.substring(0, 300) + '...'
+  if (plainText.length <= 1000 || summaryExpanded.value) return text
+  return plainText.substring(0, 1000) + '...'
 })
 
 const needsReadMore = computed(() => {
   const plainText = (book.value?.book?.summary || '').replace(/<[^>]*>/g, '')
-  return plainText.length > 300
+  return plainText.length > 1000
 })
 
 const userReviews: Ref<Array<Review>> = ref([])
@@ -772,7 +772,7 @@ getBook()
         </p>
         <div
           v-if="book?.book?.summary"
-          class="h-48 overflow-y-auto text-left border border-base-300 rounded"
+          class="h-48 overflow-y-auto text-left"
         >
           <p v-html="displaySummary" />
         </div>
