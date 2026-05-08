@@ -249,20 +249,6 @@ const importBook = () => {
   promise
     .then(res => {
       progress.value = false
-      const currentStatus = userbook.value.lastReadingEvent
-      const statusChanged = currentStatus !== null && 
-                           currentStatus !== undefined && 
-                           currentStatus !== originalLastReadingEvent.value
-      if (statusChanged && res.id) {
-        const eventToCreate: CreateReadingEvent = {
-          eventType: currentStatus,
-          eventDate: new Date(),
-          bookId: res.book.id
-        }
-        dataService.createReadingEvent(eventToCreate).catch(err => {
-          console.error('Failed to create reading event:', err)
-        })
-      }
       ObjectUtils.toast(oruga, "success", t('labels.book_title_updated', { title : res.book.title}), 4000);
       emit('close', 'save')
     })
