@@ -175,7 +175,7 @@ const bookRoute = computed(() => {
         </h2>
       </router-link>
       <p v-if="book.book.authors != null && book.book.authors.length > 0" class="text-xs opacity-60 line-clamp-1">
-        <span v-for="author in book.book.authors.slice(0,2)" :key="author.id">
+        <span v-for="author in book.book.authors.slice(0,1)" :key="author.id">
           <router-link v-if="!public" class="link link-hover" :to="{ name: 'author-detail', params: { authorId: author.id } }">{{ author.name }}</router-link>
           <span v-else>{{ author.name }}</span>
           <span>,&nbsp;</span>
@@ -255,7 +255,7 @@ const bookRoute = computed(() => {
       </router-link>
       <div v-if="book.book.authors != null && book.book.authors.length > 0">
         <span
-          v-for="author in book.book.authors.slice(0,3)"
+          v-for="author in book.book.authors.slice(0,1)"
           :key="author.id"
         >
           <router-link
