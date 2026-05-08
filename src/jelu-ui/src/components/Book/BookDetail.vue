@@ -390,6 +390,23 @@ const eventClass = (event: ReadingEvent) => {
   else return "";
 };
 
+const badgeClass = (event: ReadingEvent) => {
+  if (event.eventType === ReadingEventType.FINISHED) {
+    return "badge-info";
+  } else if (event.eventType === ReadingEventType.DROPPED) {
+    return "badge-error";
+  } else if (event.eventType === ReadingEventType.CURRENTLY_READING) {
+    return "badge-success";
+  } else if (event.eventType === ReadingEventType.MARKED_OWNED) {
+    return "badge-accent";
+  } else if (event.eventType === ReadingEventType.MARKED_TO_READ) {
+    return "badge-warning";
+  } else if (event.eventType === ReadingEventType.MARKED_BORROWED) {
+    return "badge-secondary";
+  }
+  else return "badge-ghost";
+};
+
 const iconClass = (event: ReadingEvent) => {
   if (event.eventType === ReadingEventType.FINISHED) {
     return "mdi-checkbox-marked-circle";
@@ -997,129 +1014,53 @@ getBook()
       >
         {{ t('reading_events.reading_events') }} :
       </p>
-      <div class="grid grid-cols-[1fr_24px_1fr] md:grid-cols-9 mx-auto max-w-full p-2 text-blue-50">
-        <div class="col-span-3 md:col-start-5 mb-3 p-2 font-semibold timeline-item capitalize text-center">
-          {{ t('reading_events.now') }}
-        </div>
+      <div class="relative max-w-2xl mx-auto px-4">
+        <!-- Timeline Linie -->
+        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-base-300 -translate-x-1/2"></div>
 
         <div
           v-for="(event, index) in sortedEvents"
           :key="event.id"
-          class="contents"
+          class="relative mb-6 flex items-center"
         >
-          <div
-            v-if="index % 2 === 0"
-            class="col-start-1 md:col-start-1 md:col-end-5 p-2 my-4 md:ml-auto shadow-md timeline-item"
-          >
+          <!-- Icon auf der Timeline-Linie -->
+          <div class="absolute left-4 md:left-1/2 -translate-x-1/2 z-10">
             <div
-              v-if="event.endDate != null"
-              class="sm:flex sm:gap-2"
-            >
-              <h3 class="font-semibold">
-                {{ d(event.endDate, 'short') }}
-              </h3>
-              <p class="capitalize">
-                {{ eventLabel(event.eventType) }}&nbsp;-
-              </p>
-              <h3 class="font-semibold">
-                {{ d(event.startDate ?? '', 'short') }}
-              </h3>
-              <p class="capitalize">
-                {{ t('reading_events.started') }}
-              </p>
-            </div>
-            <div v-else>
-              <h3 class="font-semibold">
-                {{ d(event.startDate ?? '', 'short') }}
-              </h3>
-              <p class="capitalize">
-                {{ eventLabel(event.eventType) }}
-              </p>
-            </div>
-            <button
-              class="btn btn-md btn-circle btn-outline mb-0 border-0"
-              @click="toggleReadingEventModal(event, true)"
-            >
-              <i class="mdi mdi-pencil mdi-18px" />
-            </button>
-          </div>
-          <div
-            v-if="index % 2 === 0"
-            class="col-start-2 md:col-start-5 md:col-end-6 flex flex-col items-center relative"
-          >
-            <div class="h-full w-6 flex items-center justify-center">
-              <div class="h-full w-1 bg-base-content pointer-events-none" />
-            </div>
-            <div
-              v-tooltip="{ content: t('labels.double_click_to_edit'), delay: { show: 5, hide: 2 } }"
-              class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full shadow"
+              class="w-8 h-8 rounded-full flex items-center justify-center"
               :class="eventClass(event)"
               @dblclick="toggleReadingEventModal(event, true)"
             >
-              <i
-                class="mdi"
-                :class="iconClass(event)"
-              />
+              <i class="mdi text-white" :class="iconClass(event)" />
             </div>
           </div>
-          <div
-            v-if="index % 2 !== 0"
-            class="col-start-2 md:col-start-5 md:col-end-6 flex flex-col items-center relative"
-          >
-            <div class="h-full w-6 flex items-center justify-center">
-              <div class="h-full w-1 bg-base-content pointer-events-none" />
-            </div>
-            <div
-              v-tooltip="{ content: t('labels.double_click_to_edit'), delay: { show: 5, hide: 2 } }"
-              class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full shadow"
-              :class="eventClass(event)"
-              @dblclick="toggleReadingEventModal(event, true)"
-            >
-              <i
-                class="mdi"
-                :class="iconClass(event)"
-              />
+
+          <!-- Event Card -->
+          <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:mr-auto">
+            <div class="card bg-base-100 shadow-md">
+              <div class="card-body p-3 flex flex-row justify-between items-center gap-2">
+                <div>
+                  <span class="font-semibold capitalize">{{ eventLabel(event.eventType) }}</span>
+                  <span v-if="event.endDate" class="text-xs opacity-60 ml-1">
+                    - {{ d(event.startDate ?? '', 'short') }}
+                  </span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span
+                    class="badge badge-sm"
+                    :class="badgeClass(event)"
+                  >
+                    {{ d(event.startDate ?? event.endDate, 'short') }}
+                  </span>
+                  <button
+                    class="btn btn-xs btn-circle btn-ghost"
+                    @click="toggleReadingEventModal(event, true)"
+                  >
+                    <i class="mdi mdi-pencil mdi-18px" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-          <div
-            v-if="index % 2 !== 0"
-            class="col-start-3 md:col-start-6 md:col-end-10 p-2 my-4 md:mr-auto shadow-md timeline-item"
-          >
-            <div
-              v-if="event.endDate != null"
-              class="sm:flex sm:gap-2"
-            >
-              <h3 class="font-semibold">
-                {{ d(event.endDate, 'short') }}
-              </h3>
-              <p class="capitalize">
-                {{ eventLabel(event.eventType) }}&nbsp;-
-              </p>
-              <h3 class="font-semibold">
-                {{ d(event.startDate ?? '', 'short') }}
-              </h3>
-              <p class="capitalize">
-                {{ t('reading_events.started') }}
-              </p>
-            </div>
-            <div v-else>
-              <h3 class="font-semibold">
-                {{ d(event.startDate ?? '', 'short') }}
-              </h3>
-              <p class="capitalize">
-                {{ eventLabel(event.eventType) }}
-              </p>
-            </div>
-            <button
-              class="btn btn-md btn-circle btn-outline mb-0 border-0"
-              @click="toggleReadingEventModal(event, true)"
-            >
-              <i class="mdi mdi-pencil mdi-18px" />
-            </button>
-          </div>
-        </div>
-        <div class="col-span-3 md:col-start-5 mt-3 p-2 font-semibold timeline-item capitalize text-center">
-          {{ t('reading_events.before') }}
         </div>
       </div>
     </div>
