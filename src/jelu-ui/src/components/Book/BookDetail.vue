@@ -678,13 +678,10 @@ getBook()
         </h4>
         <p
           v-if="book != null && book.book != null && book.book.authors != null && book?.book?.authors?.length > 0"
+          class="flex flex-wrap items-center gap-1"
         >
           <span class="font-semibold capitalize">{{ t('book.author', 2) }} :</span>
-        </p>
-        <ul
-          v-if="book != null && book.book != null && book.book.authors != null && book?.book?.authors?.length > 0"
-        >
-          <li
+          <span
             v-for="author in book?.book?.authors"
             :key="author.id"
           >
@@ -692,10 +689,10 @@ getBook()
               class="link hover:underline hover:decoration-4 hover:decoration-secondary"
               :to="{ name: 'author-detail', params: { authorId: author.id } }"
             >
-              {{ author.name }}&nbsp;
+              {{ author.name }}
             </router-link>
-          </li>
-        </ul>
+          </span>
+        </p>
         <p
           v-if="book != null && book.book != null && book.book.translators != null && book?.book?.translators?.length > 0"
         >
@@ -775,7 +772,7 @@ getBook()
         </p>
         <div
           v-if="book?.book?.summary"
-          class="max-h-48 overflow-y-auto text-left"
+          class="h-48 overflow-y-auto text-left border border-base-300 rounded"
         >
           <p v-html="displaySummary" />
         </div>
