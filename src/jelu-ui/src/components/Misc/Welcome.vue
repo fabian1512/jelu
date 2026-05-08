@@ -168,7 +168,7 @@ const { typographyClasses } = useTypography()
       >
         {{ t('home.currently_reading') }} :
       </h2>
-       <div class="grid gap-[12px] grid-cols-1 sm:grid-cols-3 md:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))]">
+       <div class="grid gap-[12px] grid-cols-1 sm:grid-cols-3 md:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] my-3 mt-2">
         <div
           v-for="book in books"
           :key="book.id"
