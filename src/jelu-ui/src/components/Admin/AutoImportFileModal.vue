@@ -87,7 +87,9 @@ directories('/')
       <h1 class="text-xl font-semibold capitalize" :class="typographyClasses">
         {{ t('labels.import_book') }}
       </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-outline ml-auto">
+        <i class="mdi mdi-close mdi-18px"></i>
+      </button>
     </div>
     <div class="grid justify-center justify-items-center">
       <div

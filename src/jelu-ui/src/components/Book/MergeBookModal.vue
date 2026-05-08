@@ -205,7 +205,9 @@ const { typographyClasses } = useTypography()
       <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ t('book_merge.merge_books') }}
       </h2>
-      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-outline ml-auto">
+        <i class="mdi mdi-close mdi-18px"></i>
+      </button>
     </div>
     <div class="w-full">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">

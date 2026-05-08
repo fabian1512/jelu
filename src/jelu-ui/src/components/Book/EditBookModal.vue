@@ -251,7 +251,7 @@ const importBook = () => {
       progress.value = false
       ObjectUtils.toast(oruga, "success", t('labels.book_title_updated', { title : res.book.title}), 4000);
       emit('close', 'save')
-      router.go(0)
+      setTimeout(() => router.go(0), 50)
     })
     .catch(err => {
       progress.value = false
@@ -489,10 +489,10 @@ watch(() => sliderPercent.value, (newVal) => {
             <i class="mdi mdi-delete mdi-18px"></i>
             <span class="hidden sm:inline ml-1">{{ t('labels.delete') }}</span>
           </button>
-          <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-outline ml-auto">
-            <i class="mdi mdi-close mdi-18px"></i>
-          </button>
         </div>
+        <button @click="emit('close', 'cancel')" class="btn btn-sm btn-circle btn-outline ml-auto">
+          <i class="mdi mdi-close mdi-18px"></i>
+        </button>
       </div>
     </div>
 

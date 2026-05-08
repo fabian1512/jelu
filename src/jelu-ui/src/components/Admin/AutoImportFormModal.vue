@@ -468,7 +468,9 @@ const { typographyClasses } = useTypography()
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
         </button>
-        <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
+        <button @click="emit('close')" class="btn btn-sm btn-circle btn-outline ml-auto">
+        <i class="mdi mdi-close mdi-18px"></i>
+      </button>
       </div>
     </div>
 

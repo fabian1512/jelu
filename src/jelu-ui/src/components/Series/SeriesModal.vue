@@ -76,7 +76,9 @@ const { typographyClasses } = useTypography()
       <h2 class="text-lg font-semibold" :class="typographyClasses">
         {{ props.edit === true ? t('series.edit_series') : t('series.create_series') }}
       </h2>
-      <button @click="emit('close')" class="btn btn-sm btn-circle btn-ghost">✕</button>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-outline ml-auto">
+        <i class="mdi mdi-close mdi-18px"></i>
+      </button>
     </div>
     <div class="w-full">
       <div>

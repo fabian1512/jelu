@@ -60,7 +60,9 @@ const { typographyClasses } = useTypography()
       <h1 class="text-xl font-semibold first-letter:capitalize" :class="typographyClasses">
         {{ t('metadata.reorder_plugins') }}
       </h1>
-      <button @click="emit('close')" class="btn btn-sm btn-circle">✕</button>
+      <button @click="emit('close')" class="btn btn-sm btn-circle btn-outline ml-auto">
+        <i class="mdi mdi-close mdi-18px"></i>
+      </button>
     </div>
     <div class="flex flex-col items-center justify-items-center">
       <p class="text-justify my-2">
