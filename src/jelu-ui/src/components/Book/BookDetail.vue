@@ -770,21 +770,14 @@ getBook()
           <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
           {{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}
         </p>
+        <p v-if="book?.book?.summary" class="font-semibold capitalize">
+          {{ t('book.summary') }} :
+        </p>
         <div
           v-if="book?.book?.summary"
-          class="max-h-48 overflow-y-auto text-sm p-2 text-left"
+          class="max-h-48 overflow-y-auto text-left"
         >
-          <p class="font-semibold capitalize">
-            {{ t('book.summary') }} :
-          </p>
           <p v-html="displaySummary" />
-          <button
-            v-if="needsReadMore"
-            class="link link-primary text-sm mt-1"
-            @click="summaryExpanded = !summaryExpanded"
-          >
-            {{ summaryExpanded ? t('labels.read_less') : t('labels.read_more') }}
-          </button>
         </div>
         <p v-if="book?.book?.series && book?.book?.series != null && book?.book?.series.length > 0">
           <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>
@@ -807,10 +800,6 @@ getBook()
               </router-link>
             </li>
           </ul>
-        </p>
-        <p v-if="book?.book?.language">
-          <span class="font-semibold capitalize">{{ t('book.language') }} :</span>
-          {{ book.book.language }}
         </p>
         <p v-if="book?.price">
           <span class="font-semibold capitalize">{{ t('book.price') }} :</span>
