@@ -1078,20 +1078,9 @@ getBook()
         >
           <!-- Alternierendes Layout: Gerade Index = Datum links, Card rechts -->
           <template v-if="index % 2 === 0">
-            <!-- Mobile: Card links | Desktop: Datum links -->
-            <div class="ml-12 md:ml-0 md:flex-1 md:justify-end md:pr-4">
-              <div class="md:hidden card bg-base-100 shadow-md max-w-sm">
-                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
-                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
-                  <button
-                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
-                    @click="toggleReadingEventModal(entry.originalEvent, true)"
-                  >
-                    <i class="mdi mdi-pencil mdi-18px" />
-                  </button>
-                </div>
-              </div>
-              <span class="hidden md:inline badge badge-sm badge-ghost">
+            <!-- Datum links -->
+            <div class="md:flex-1 md:justify-end md:pr-4">
+              <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
             </div>
@@ -1107,12 +1096,9 @@ getBook()
               </div>
             </div>
 
-            <!-- Mobile: Datum rechts | Desktop: Card rechts -->
-            <div class="md:flex-1 md:pl-4">
-              <div class="md:hidden badge badge-sm badge-ghost">
-                {{ d(entry.date, 'short') }}
-              </div>
-              <div class="hidden md:block card bg-base-100 shadow-md max-w-sm">
+            <!-- Card rechts -->
+            <div class="ml-12 md:ml-0 md:flex-1 md:pl-4">
+              <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
@@ -1128,9 +1114,9 @@ getBook()
 
           <!-- Alternierendes Layout: Ungerade Index = Card links, Datum rechts -->
           <template v-else>
-            <!-- Mobile: Card links | Desktop: Card links -->
+            <!-- Card links -->
             <div class="ml-12 md:ml-0 md:flex-1 md:justify-end md:pr-4">
-              <div class="md:hidden card bg-base-100 shadow-md max-w-sm">
+              <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
@@ -1141,9 +1127,6 @@ getBook()
                   </button>
                 </div>
               </div>
-              <span class="hidden md:inline badge badge-sm badge-ghost">
-                {{ d(entry.date, 'short') }}
-              </span>
             </div>
 
             <!-- Icon (Teil des Flex-Layouts) -->
@@ -1157,22 +1140,11 @@ getBook()
               </div>
             </div>
 
-            <!-- Mobile: Datum rechts | Desktop: Datum rechts -->
+            <!-- Datum rechts -->
             <div class="md:flex-1 md:pl-4">
-              <div class="md:hidden badge badge-sm badge-ghost">
+              <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
-              </div>
-              <div class="hidden md:block card bg-base-100 shadow-md max-w-sm">
-                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
-                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
-                  <button
-                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
-                    @click="toggleReadingEventModal(entry.originalEvent, true)"
-                  >
-                    <i class="mdi mdi-pencil mdi-18px" />
-                  </button>
-                </div>
-              </div>
+              </span>
             </div>
           </template>
         </div>
