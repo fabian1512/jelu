@@ -158,6 +158,51 @@ const sortedEvents = computed(() => {
 }
 )
 
+interface TimelineEntry {
+  event: ReadingEvent
+  date: Date
+  label: string
+  originalEvent: ReadingEvent
+}
+
+const timelineEntries = computed((): TimelineEntry[] => {
+  const entries: TimelineEntry[] = []
+  sortedEvents.value.forEach(event => {
+    const hasStart = event.startDate != null
+    const hasEnd = event.endDate != null
+
+    if (hasStart && hasEnd) {
+      entries.push({
+        event: { ...event, eventType: ReadingEventType.CURRENTLY_READING } as ReadingEvent,
+        date: event.startDate as Date,
+        label: 'started',
+        originalEvent: event
+      })
+      entries.push({
+        event: event,
+        date: event.endDate as Date,
+        label: 'finished',
+        originalEvent: event
+      })
+    } else if (hasStart) {
+      entries.push({
+        event: event,
+        date: event.startDate as Date,
+        label: event.eventType,
+        originalEvent: event
+      })
+    } else if (hasEnd) {
+      entries.push({
+        event: event,
+        date: event.endDate as Date,
+        label: event.eventType,
+        originalEvent: event
+      })
+    }
+  })
+  return entries.sort((a, b) => dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1)
+})
+
 const hasExternalLink = computed(() => book.value?.book.amazonId != null
   || book.value?.book.goodreadsId != null
   || book.value?.book.googleId != null
@@ -1004,11 +1049,11 @@ getBook()
     </div>
     <!-- https://tailwindcomponents.com/component/vertical-timeline -->
     <div
-      v-if="book?.readingEvents != null && book?.readingEvents?.length > 0"
+      v-if="timelineEntries.length > 0"
       class="mt-4"
     >
       <p
-        v-if="book?.readingEvents != null && book?.readingEvents?.length > 0"
+        v-if="timelineEntries.length > 0"
         class="text-2xl mb-3 capitalize"
         :class="typographyClasses"
       >
@@ -1019,36 +1064,31 @@ getBook()
         <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-base-300 -translate-x-1/2"></div>
 
         <div
-          v-for="(event, index) in sortedEvents"
-          :key="event.id"
+          v-for="(entry, index) in timelineEntries"
+          :key="`${entry.originalEvent.id}-${entry.label}`"
           class="relative mb-6 flex items-center"
         >
           <!-- Icon auf der Timeline-Linie -->
           <div class="absolute left-4 md:left-1/2 -translate-x-1/2 z-10">
             <div
               class="w-8 h-8 rounded-full flex items-center justify-center"
-              :class="eventClass(event)"
-              @dblclick="toggleReadingEventModal(event, true)"
+              :class="entry.label === 'started' ? 'badge-info' : eventClass(entry.event)"
+              @dblclick="toggleReadingEventModal(entry.originalEvent, true)"
             >
-              <i class="mdi text-white" :class="iconClass(event)" />
+              <i class="mdi text-white" :class="entry.label === 'started' ? 'mdi-play-circle' : iconClass(entry.event)" />
             </div>
           </div>
 
           <!-- Alternierendes Layout: Gerade Index = Card links, Datum rechts -->
           <template v-if="index % 2 === 0">
             <!-- Card (kompakt, links) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-6rem)] md:mr-auto">
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-5rem)] md:mr-4">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
-                  <div class="min-w-0">
-                    <span class="font-semibold capitalize truncate block">{{ eventLabel(event.eventType) }}</span>
-                    <span v-if="event.endDate" class="text-xs opacity-60">
-                      {{ d(event.startDate ?? '', 'short') }}
-                    </span>
-                  </div>
+                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
                     class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
-                    @click="toggleReadingEventModal(event, true)"
+                    @click="toggleReadingEventModal(entry.originalEvent, true)"
                   >
                     <i class="mdi mdi-pencil mdi-18px" />
                   </button>
@@ -1056,9 +1096,9 @@ getBook()
               </div>
             </div>
             <!-- Datum-Chip (rechts, außerhalb der Card) -->
-            <div class="hidden md:block ml-2">
+            <div class="hidden md:block md:w-[calc(50%-5rem)] md:ml-4 text-left">
               <span class="badge badge-sm badge-ghost">
-                {{ d(event.startDate ?? event.endDate, 'short') }}
+                {{ d(entry.date, 'short') }}
               </span>
             </div>
           </template>
@@ -1066,24 +1106,19 @@ getBook()
           <!-- Alternierendes Layout: Ungerade Index = Datum links, Card rechts -->
           <template v-else>
             <!-- Datum-Chip (links, außerhalb der Card) -->
-            <div class="hidden md:block ml-0 mr-auto text-right w-[calc(50%-6rem)]">
+            <div class="hidden md:block md:w-[calc(50%-5rem)] md:mr-4 text-right">
               <span class="badge badge-sm badge-ghost">
-                {{ d(event.startDate ?? event.endDate, 'short') }}
+                {{ d(entry.date, 'short') }}
               </span>
             </div>
             <!-- Card (kompakt, rechts) -->
-            <div class="ml-12 md:ml-2 md:w-[calc(50%-6rem)]">
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-5rem)] md:ml-4">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
-                  <div class="min-w-0">
-                    <span class="font-semibold capitalize truncate block">{{ eventLabel(event.eventType) }}</span>
-                    <span v-if="event.endDate" class="text-xs opacity-60">
-                      {{ d(event.startDate ?? '', 'short') }}
-                    </span>
-                  </div>
+                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
                     class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
-                    @click="toggleReadingEventModal(event, true)"
+                    @click="toggleReadingEventModal(entry.originalEvent, true)"
                   >
                     <i class="mdi mdi-pencil mdi-18px" />
                   </button>
