@@ -150,7 +150,11 @@ watch(() => props.bookId, (newValue, oldValue) => {
 
 const sortedEvents = computed(() => {
   if (book.value && book.value.readingEvents) {
-    return [...book.value.readingEvents].sort((a, b) => dayjs(a.startDate).isAfter(dayjs(b.startDate)) ? -1 : 1)
+    return [...book.value.readingEvents].sort((a, b) => {
+      const dateA = a.startDate ? dayjs(a.startDate) : dayjs(0)
+      const dateB = b.startDate ? dayjs(b.startDate) : dayjs(0)
+      return dateA.isAfter(dateB) ? -1 : 1
+    })
   }
   else {
     return []
@@ -200,7 +204,11 @@ const timelineEntries = computed((): TimelineEntry[] => {
       })
     }
   })
-  return entries.sort((a, b) => dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1)
+  return entries.sort((a, b) => {
+  const dateA = a.date ? dayjs(a.date) : dayjs(0)
+  const dateB = b.date ? dayjs(b.date) : dayjs(0)
+  return dateA.isAfter(dateB) ? -1 : 1
+})
 })
 
 const hasExternalLink = computed(() => book.value?.book.amazonId != null
