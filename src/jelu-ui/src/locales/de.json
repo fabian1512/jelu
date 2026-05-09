@@ -248,6 +248,7 @@
         "openlibrary_id": "Openlibrary Id",
         "noosfere_id": "Noosfere Id",
         "inventaire_id": "inventaire id",
+        "book_id": "Book-ID",
         "publisher": "Verlag",
         "published_date": "Veröffentlichungsdatum",
         "page_count": "Seitenzahl",
