@@ -1076,28 +1076,43 @@ getBook()
           :key="`${entry.originalEvent.id}-${entry.label}`"
           class="relative mb-6 flex items-center"
         >
-          <!-- Icon auf der Timeline-Linie -->
-          <div class="absolute left-4 md:left-1/2 -translate-x-1/2 z-10">
-            <div
-              class="w-8 h-8 rounded-full flex items-center justify-center"
-              :class="entry.label === 'started' ? 'badge-info' : eventClass(entry.event)"
-              @dblclick="toggleReadingEventModal(entry.originalEvent, true)"
-            >
-              <i class="mdi text-white" :class="entry.label === 'started' ? 'mdi-play-circle' : iconClass(entry.event)" />
-            </div>
-          </div>
-
           <!-- Alternierendes Layout: Gerade Index = Datum links, Card rechts -->
           <template v-if="index % 2 === 0">
-            <!-- Datum-Chip (links, zum Icon ausgerichtet) -->
-            <div class="hidden md:flex md:w-[calc(50%-2rem)] md:justify-end md:pr-4">
-              <span class="badge badge-sm badge-ghost">
+            <!-- Mobile: Card links | Desktop: Datum links -->
+            <div class="ml-12 md:ml-0 md:flex-1 md:justify-end md:pr-4">
+              <div class="md:hidden card bg-base-100 shadow-md max-w-sm">
+                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
+                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
+                  <button
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    @click="toggleReadingEventModal(entry.originalEvent, true)"
+                  >
+                    <i class="mdi mdi-pencil mdi-18px" />
+                  </button>
+                </div>
+              </div>
+              <span class="hidden md:inline badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
             </div>
-            <!-- Card (rechts, vom Icon weg) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:justify-start md:pl-4">
-              <div class="card bg-base-100 shadow-md max-w-sm">
+
+            <!-- Icon (Teil des Flex-Layouts) -->
+            <div class="flex-shrink-0">
+              <div
+                class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
+                :class="entry.label === 'started' ? 'badge-info' : eventClass(entry.event)"
+                @dblclick="toggleReadingEventModal(entry.originalEvent, true)"
+              >
+                <i class="mdi text-white" :class="entry.label === 'started' ? 'mdi-play-circle' : iconClass(entry.event)" />
+              </div>
+            </div>
+
+            <!-- Mobile: Datum rechts | Desktop: Card rechts -->
+            <div class="md:flex-1 md:pl-4">
+              <div class="md:hidden badge badge-sm badge-ghost">
+                {{ d(entry.date, 'short') }}
+              </div>
+              <div class="hidden md:block card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
@@ -1113,9 +1128,9 @@ getBook()
 
           <!-- Alternierendes Layout: Ungerade Index = Card links, Datum rechts -->
           <template v-else>
-            <!-- Card (links, zum Icon ausgerichtet) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:justify-end md:pr-4">
-              <div class="card bg-base-100 shadow-md max-w-sm">
+            <!-- Mobile: Card links | Desktop: Card links -->
+            <div class="ml-12 md:ml-0 md:flex-1 md:justify-end md:pr-4">
+              <div class="md:hidden card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
@@ -1126,12 +1141,38 @@ getBook()
                   </button>
                 </div>
               </div>
-            </div>
-            <!-- Datum-Chip (rechts, vom Icon weg) -->
-            <div class="hidden md:flex md:w-[calc(50%-2rem)] md:justify-start md:pl-4">
-              <span class="badge badge-sm badge-ghost">
+              <span class="hidden md:inline badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
+            </div>
+
+            <!-- Icon (Teil des Flex-Layouts) -->
+            <div class="flex-shrink-0">
+              <div
+                class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
+                :class="entry.label === 'started' ? 'badge-info' : eventClass(entry.event)"
+                @dblclick="toggleReadingEventModal(entry.originalEvent, true)"
+              >
+                <i class="mdi text-white" :class="entry.label === 'started' ? 'mdi-play-circle' : iconClass(entry.event)" />
+              </div>
+            </div>
+
+            <!-- Mobile: Datum rechts | Desktop: Datum rechts -->
+            <div class="md:flex-1 md:pl-4">
+              <div class="md:hidden badge badge-sm badge-ghost">
+                {{ d(entry.date, 'short') }}
+              </div>
+              <div class="hidden md:block card bg-base-100 shadow-md max-w-sm">
+                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
+                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
+                  <button
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    @click="toggleReadingEventModal(entry.originalEvent, true)"
+                  >
+                    <i class="mdi mdi-pencil mdi-18px" />
+                  </button>
+                </div>
+              </div>
             </div>
           </template>
         </div>
