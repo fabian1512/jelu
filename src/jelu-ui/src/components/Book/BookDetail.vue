@@ -1076,17 +1076,11 @@ getBook()
           :key="`${entry.originalEvent.id}-${entry.label}`"
           class="relative mb-6 flex items-center"
         >
-          <!-- Alternierendes Layout: Gerade Index = Datum links, Card rechts -->
+          <!-- Mobile: Icon links, Card rechts (wie Mealie) -->
+          <!-- Desktop: alternierend - Datum links/Card rechts ODER Card links/Datum rechts -->
           <template v-if="index % 2 === 0">
-            <!-- Datum links: flex-1, nach rechts ausgerichtet (zum Icon) -->
-            <div class="flex-1 flex justify-end pr-2">
-              <span class="badge badge-sm badge-ghost">
-                {{ d(entry.date, 'short') }}
-              </span>
-            </div>
-
-            <!-- Icon (in der Mitte) -->
-            <div class="flex-shrink-0">
+            <!-- Icon: Mobile links, Desktop in der Mitte -->
+            <div class="flex-shrink-0 md:mx-auto">
               <div
                 class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
                 :class="entry.label === 'started' ? 'bg-info' : eventClass(entry.event)"
@@ -1096,8 +1090,33 @@ getBook()
               </div>
             </div>
 
-            <!-- Card rechts: flex-1, nach links ausgerichtet (zum Icon) -->
-            <div class="flex-1 flex justify-start pl-2">
+            <!-- Mobile: Card rechts vom Icon | Desktop: Datum links ODER Card links -->
+            <div class="flex-1 pl-2 md:pl-0 md:flex-1 md:justify-end md:pr-2">
+              <!-- Mobile: Card mit Datum -->
+              <div class="card bg-base-100 shadow-md w-full md:hidden">
+                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="badge badge-sm badge-ghost w-fit">
+                      {{ d(entry.date, 'short') }}
+                    </span>
+                    <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
+                  </div>
+                  <button
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    @click="toggleReadingEventModal(entry.originalEvent, true)"
+                  >
+                    <i class="mdi mdi-pencil mdi-18px" />
+                  </button>
+                </div>
+              </div>
+              <!-- Desktop: Datum links -->
+              <span class="hidden md:inline badge badge-sm badge-ghost">
+                {{ d(entry.date, 'short') }}
+              </span>
+            </div>
+
+            <!-- Desktop: Card rechts (nur desktop) -->
+            <div class="hidden md:flex flex-1 justify-start pl-2">
               <div class="card bg-base-100 shadow-md w-full">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1114,8 +1133,8 @@ getBook()
 
           <!-- Alternierendes Layout: Ungerade Index = Card links, Datum rechts -->
           <template v-else>
-            <!-- Card links: flex-1, nach rechts ausgerichtet (zum Icon) -->
-            <div class="flex-1 flex justify-end pr-2">
+            <!-- Desktop: Card links -->
+            <div class="hidden md:flex flex-1 justify-end pr-2">
               <div class="card bg-base-100 shadow-md w-full">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1129,8 +1148,8 @@ getBook()
               </div>
             </div>
 
-            <!-- Icon (in der Mitte) -->
-            <div class="flex-shrink-0">
+            <!-- Icon: Mobile links, Desktop in der Mitte -->
+            <div class="flex-shrink-0 md:mx-auto">
               <div
                 class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
                 :class="entry.label === 'started' ? 'bg-info' : eventClass(entry.event)"
@@ -1140,9 +1159,27 @@ getBook()
               </div>
             </div>
 
-            <!-- Datum rechts: flex-1, nach links ausgerichtet (zum Icon) -->
-            <div class="flex-1 flex justify-start pl-2">
-              <span class="badge badge-sm badge-ghost">
+            <!-- Mobile: Card rechts vom Icon | Desktop: Datum rechts -->
+            <div class="flex-1 pl-2 md:pl-0 md:flex-1 md:justify-start md:pl-2">
+              <!-- Mobile: Card mit Datum -->
+              <div class="card bg-base-100 shadow-md w-full md:hidden">
+                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="badge badge-sm badge-ghost w-fit">
+                      {{ d(entry.date, 'short') }}
+                    </span>
+                    <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
+                  </div>
+                  <button
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    @click="toggleReadingEventModal(entry.originalEvent, true)"
+                  >
+                    <i class="mdi mdi-pencil mdi-18px" />
+                  </button>
+                </div>
+              </div>
+              <!-- Desktop: Datum rechts -->
+              <span class="hidden md:inline badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
             </div>
