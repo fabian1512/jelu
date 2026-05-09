@@ -1089,14 +1089,14 @@ getBook()
 
           <!-- Alternierendes Layout: Gerade Index = Datum links, Card rechts -->
           <template v-if="index % 2 === 0">
-            <!-- Datum-Chip (nur md+, links vom Icon) -->
-            <div class="hidden md:block md:w-[calc(50%-5rem)] md:mr-4 text-right">
+            <!-- Datum-Chip (links, zum Icon ausgerichtet) -->
+            <div class="hidden md:flex md:w-[calc(50%-2rem)] md:justify-end md:pr-4">
               <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
             </div>
-            <!-- Card (links auf mobile, rechts auf md+) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-5rem)] md:ml-4">
+            <!-- Card (rechts, vom Icon weg) -->
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:pl-4">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1113,8 +1113,8 @@ getBook()
 
           <!-- Alternierendes Layout: Ungerade Index = Card links, Datum rechts -->
           <template v-else>
-            <!-- Card (links vom Icon) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-5rem)] md:mr-4">
+            <!-- Card (links, vom Icon weg) -->
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:pr-4 md:justify-end">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1127,8 +1127,8 @@ getBook()
                 </div>
               </div>
             </div>
-            <!-- Datum-Chip (rechts vom Icon) -->
-            <div class="hidden md:block md:w-[calc(50%-5rem)] md:ml-4 text-left">
+            <!-- Datum-Chip (rechts, zum Icon ausgerichtet) -->
+            <div class="hidden md:flex md:w-[calc(50%-2rem)] md:justify-start md:pl-4">
               <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
