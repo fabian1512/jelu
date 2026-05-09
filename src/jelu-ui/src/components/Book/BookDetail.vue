@@ -1079,9 +1079,33 @@ getBook()
             </div>
           </div>
 
-          <!-- Alternierendes Layout: Gerade Index = Card links, Datum rechts -->
+          <!-- Alternierendes Layout: Gerade Index = Datum links, Card rechts -->
           <template v-if="index % 2 === 0">
-            <!-- Card (kompakt, links) -->
+            <!-- Datum-Chip (nur md+, links vom Icon) -->
+            <div class="hidden md:block md:w-[calc(50%-5rem)] md:mr-4 text-right">
+              <span class="badge badge-sm badge-ghost">
+                {{ d(entry.date, 'short') }}
+              </span>
+            </div>
+            <!-- Card (links auf mobile, rechts auf md+) -->
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-5rem)] md:ml-4">
+              <div class="card bg-base-100 shadow-md max-w-sm">
+                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
+                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
+                  <button
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    @click="toggleReadingEventModal(entry.originalEvent, true)"
+                  >
+                    <i class="mdi mdi-pencil mdi-18px" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- Alternierendes Layout: Ungerade Index = Card links, Datum rechts -->
+          <template v-else>
+            <!-- Card (links vom Icon) -->
             <div class="ml-12 md:ml-0 md:w-[calc(50%-5rem)] md:mr-4">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
@@ -1095,35 +1119,11 @@ getBook()
                 </div>
               </div>
             </div>
-            <!-- Datum-Chip (rechts, außerhalb der Card) -->
+            <!-- Datum-Chip (rechts vom Icon) -->
             <div class="hidden md:block md:w-[calc(50%-5rem)] md:ml-4 text-left">
               <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
-            </div>
-          </template>
-
-          <!-- Alternierendes Layout: Ungerade Index = Datum links, Card rechts -->
-          <template v-else>
-            <!-- Datum-Chip (links, außerhalb der Card) -->
-            <div class="hidden md:block md:w-[calc(50%-5rem)] md:mr-4 text-right">
-              <span class="badge badge-sm badge-ghost">
-                {{ d(entry.date, 'short') }}
-              </span>
-            </div>
-            <!-- Card (kompakt, rechts) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-5rem)] md:ml-4">
-              <div class="card bg-base-100 shadow-md max-w-sm">
-                <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
-                  <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
-                  <button
-                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
-                    @click="toggleReadingEventModal(entry.originalEvent, true)"
-                  >
-                    <i class="mdi mdi-pencil mdi-18px" />
-                  </button>
-                </div>
-              </div>
             </div>
           </template>
         </div>
