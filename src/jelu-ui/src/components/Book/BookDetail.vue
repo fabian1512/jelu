@@ -1089,7 +1089,7 @@ getBook()
             <div class="flex-shrink-0">
               <div
                 class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
-                :class="entry.label === 'started' ? 'badge-info' : eventClass(entry.event)"
+                :class="entry.label === 'started' ? 'bg-info' : eventClass(entry.event)"
                 @dblclick="toggleReadingEventModal(entry.originalEvent, true)"
               >
                 <i class="mdi text-white" :class="entry.label === 'started' ? 'mdi-play-circle' : iconClass(entry.event)" />
@@ -1098,7 +1098,7 @@ getBook()
 
             <!-- Card rechts: flex-1, nach links ausgerichtet (zum Icon) -->
             <div class="flex-1 flex justify-start pl-2">
-              <div class="card bg-base-100 shadow-md max-w-sm">
+              <div class="card bg-base-100 shadow-md w-full">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
@@ -1116,7 +1116,7 @@ getBook()
           <template v-else>
             <!-- Card links: flex-1, nach rechts ausgerichtet (zum Icon) -->
             <div class="flex-1 flex justify-end pr-2">
-              <div class="card bg-base-100 shadow-md max-w-sm">
+              <div class="card bg-base-100 shadow-md w-full">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
@@ -1133,7 +1133,7 @@ getBook()
             <div class="flex-shrink-0">
               <div
                 class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
-                :class="entry.label === 'started' ? 'badge-info' : eventClass(entry.event)"
+                :class="entry.label === 'started' ? 'bg-info' : eventClass(entry.event)"
                 @dblclick="toggleReadingEventModal(entry.originalEvent, true)"
               >
                 <i class="mdi text-white" :class="entry.label === 'started' ? 'mdi-play-circle' : iconClass(entry.event)" />
