@@ -1131,10 +1131,10 @@ getBook()
             <!-- Desktop: Card rechts -->
             <div class="hidden md:flex md:flex-1 md:justify-start md:pl-2">
               <div class="card bg-base-100 shadow-md w-full">
-                <div class="card-body p-2 flex flex-col md:flex-row justify-between md:justify-center items-center gap-2 text-center">
+                <div class="card-body p-2 flex flex-col md:flex-row justify-center items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
-                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0 ml-auto"
                     @click="toggleReadingEventModal(entry.originalEvent, true)"
                   >
                     <i class="mdi mdi-pencil mdi-18px" />
@@ -1180,10 +1180,10 @@ getBook()
             <!-- Desktop: Card links -->
             <div class="hidden md:flex md:flex-1 md:justify-end md:pr-2">
               <div class="card bg-base-100 shadow-md w-full">
-                <div class="card-body p-2 flex flex-col md:flex-row justify-between md:justify-center items-center gap-2 text-center">
+                <div class="card-body p-2 flex flex-col md:flex-row justify-center items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
                   <button
-                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0"
+                    class="btn btn-xs btn-circle btn-ghost flex-shrink-0 ml-auto"
                     @click="toggleReadingEventModal(entry.originalEvent, true)"
                   >
                     <i class="mdi mdi-pencil mdi-18px" />
