@@ -1089,14 +1089,14 @@ getBook()
 
           <!-- Alternierendes Layout: Gerade Index = Datum links, Card rechts -->
           <template v-if="index % 2 === 0">
-            <!-- Datum-Chip (links, zum Icon ausgerichtet = rechtsbündig) -->
-            <div class="hidden md:flex md:w-[calc(50%-1rem)] md:justify-end md:pr-2">
+            <!-- Datum-Chip (links, zum Icon ausgerichtet) -->
+            <div class="hidden md:flex md:w-[calc(50%-2rem)] md:justify-end md:pr-4">
               <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
             </div>
-            <!-- Card (rechts, vom Icon weg = linksbündig) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-1rem)] md:justify-start md:pl-2">
+            <!-- Card (rechts, vom Icon weg) -->
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:justify-start md:pl-4">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1113,8 +1113,8 @@ getBook()
 
           <!-- Alternierendes Layout: Ungerade Index = Card links, Datum rechts -->
           <template v-else>
-            <!-- Card (links, zum Icon ausgerichtet = rechtsbündig) -->
-            <div class="ml-12 md:ml-0 md:w-[calc(50%-1rem)] md:justify-end md:pr-2">
+            <!-- Card (links, zum Icon ausgerichtet) -->
+            <div class="ml-12 md:ml-0 md:w-[calc(50%-2rem)] md:justify-end md:pr-4">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1127,8 +1127,8 @@ getBook()
                 </div>
               </div>
             </div>
-            <!-- Datum-Chip (rechts, vom Icon weg = linksbündig) -->
-            <div class="hidden md:flex md:w-[calc(50%-1rem)] md:justify-start md:pl-2">
+            <!-- Datum-Chip (rechts, vom Icon weg) -->
+            <div class="hidden md:flex md:w-[calc(50%-2rem)] md:justify-start md:pl-4">
               <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
