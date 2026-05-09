@@ -1078,14 +1078,14 @@ getBook()
         >
           <!-- Alternierendes Layout: Gerade Index = Datum links, Card rechts -->
           <template v-if="index % 2 === 0">
-            <!-- Datum links -->
-            <div class="md:flex-1 md:justify-end md:pr-4">
+            <!-- Datum links: w-auto (nur so breit wie Inhalt), 0.5rem Abstand zum Icon -->
+            <div class="w-auto pr-2">
               <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
             </div>
 
-            <!-- Icon (Teil des Flex-Layouts) -->
+            <!-- Icon -->
             <div class="flex-shrink-0">
               <div
                 class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
@@ -1096,8 +1096,8 @@ getBook()
               </div>
             </div>
 
-            <!-- Card rechts -->
-            <div class="ml-12 md:ml-0 md:flex-1 md:pl-4">
+            <!-- Card rechts: flex-1 (nimm restlichen Platz), 0.5rem Abstand zum Icon -->
+            <div class="flex-1 pl-2">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1114,8 +1114,8 @@ getBook()
 
           <!-- Alternierendes Layout: Ungerade Index = Card links, Datum rechts -->
           <template v-else>
-            <!-- Card links -->
-            <div class="ml-12 md:ml-0 md:flex-1 md:justify-end md:pr-4">
+            <!-- Card links: flex-1 (nimm restlichen Platz), 0.5rem Abstand zum Icon -->
+            <div class="flex-1 pr-2">
               <div class="card bg-base-100 shadow-md max-w-sm">
                 <div class="card-body p-2 flex flex-row justify-between items-center gap-2">
                   <span class="font-semibold capitalize truncate">{{ entry.label === 'started' ? t('reading_events.currently_reading') : eventLabel(entry.event.eventType) }}</span>
@@ -1129,7 +1129,7 @@ getBook()
               </div>
             </div>
 
-            <!-- Icon (Teil des Flex-Layouts) -->
+            <!-- Icon -->
             <div class="flex-shrink-0">
               <div
                 class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
@@ -1140,8 +1140,8 @@ getBook()
               </div>
             </div>
 
-            <!-- Datum rechts -->
-            <div class="md:flex-1 md:pl-4">
+            <!-- Datum rechts: w-auto (nur so breit wie Inhalt), 0.5rem Abstand zum Icon -->
+            <div class="w-auto pl-2">
               <span class="badge badge-sm badge-ghost">
                 {{ d(entry.date, 'short') }}
               </span>
