@@ -736,21 +736,21 @@ getBook()
         >
           {{ book?.book?.title }}
         </h3>
-        <p class="flex flex-wrap items-center gap-1">
-          <span class="font-semibold capitalize">{{ t('book.author', 2) }}:</span>
-          <span v-if="book?.book?.authors && book.book.authors.length > 0">
-            <span v-for="author in book?.book?.authors" :key="author.id">
-              <router-link
-                class="link hover:underline hover:decoration-4 hover:decoration-secondary"
-                :to="{ name: 'author-detail', params: { authorId: author.id } }"
-              >
-                {{ author.name }}
-              </router-link>
+        <div class="space-y-1 mt-2">
+          <p class="flex flex-wrap items-center gap-1">
+            <span class="font-semibold capitalize">{{ t('book.author', 2) }}:</span>
+            <span v-if="book?.book?.authors && book.book.authors.length > 0">
+              <span v-for="author in book?.book?.authors" :key="author.id">
+                <router-link
+                  class="link hover:underline hover:decoration-4 hover:decoration-secondary"
+                  :to="{ name: 'author-detail', params: { authorId: author.id } }"
+                >
+                  {{ author.name }}
+                </router-link>
+              </span>
             </span>
-          </span>
-          <span v-else class="opacity-60">-</span>
-        </p>
-<div class="space-y-1 mt-2">
+            <span v-else class="opacity-60">-</span>
+          </p>
           <p>
             <span class="font-semibold capitalize">{{ t('book.publisher') }}:&nbsp;</span>
             <router-link
