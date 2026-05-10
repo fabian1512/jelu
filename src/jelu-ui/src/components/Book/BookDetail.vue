@@ -274,9 +274,11 @@ function toggleReadingEventModal(currentEvent: ReadingEvent, edit: boolean) {
       "currentProgress": book.value?.percentRead,
       "currentPage": book.value?.currentPageNumber
     },
-    onClose: () => {
-      showModal.value = false
-      modalClosed()
+    events: {
+      close: () => {
+        showModal.value = false
+        modalClosed()
+      }
     }
   });
 }
@@ -967,8 +969,8 @@ getBook()
       </p>
       <div class="relative max-w-2xl mx-auto px-4">
         <!-- Add new event button at top of timeline -->
-        <div class="relative mb-6 flex items-center justify-center z-10">
-          <!-- Mobile: Button left -->
+        <div class="relative mb-6 flex items-center z-10">
+          <!-- Mobile: Button left (same position as other events) -->
           <div class="flex-shrink-0 md:hidden">
             <div
               class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-info"
@@ -978,7 +980,7 @@ getBook()
             </div>
           </div>
           <!-- Desktop: Button in center -->
-          <div class="hidden md:flex md:flex-shrink-0">
+          <div class="hidden md:flex md:flex-1 md:justify-center">
             <div
               class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-info"
               @click="toggleReadingEventModal({} as ReadingEvent, false)"
