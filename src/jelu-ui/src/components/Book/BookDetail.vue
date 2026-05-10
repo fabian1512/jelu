@@ -782,155 +782,96 @@ getBook()
             <span v-if="book?.book?.publishedDate">{{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}</span>
             <span v-else class="opacity-60">-</span>
           </p>
+          <p class="min-h-[1.5rem]">
+            <span class="font-semibold capitalize">{{ t('book.price') }} :</span>
+            <span v-if="book?.price">{{ ObjectUtils.amountInLocale(book.price, storedLanguage, currency) }}</span>
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="min-h-[1.5rem]">
+            <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>
+            <span v-if="book?.book?.series && book?.book?.series.length > 0">
+              <span
+                v-for="seriesItem in book?.book?.series"
+                :key="seriesItem.seriesId"
+                class="badge badge-ghost mr-1"
+                v-tooltip="{
+                  content: () => getSeriesInfo(seriesItem.seriesId as string)
+                }"
+              >
+                <router-link
+                  class="link hover:underline"
+                  :to="{ name: 'series', params: { seriesId: seriesItem.seriesId } }"
+                >
+                  {{ seriesItem.name }}&nbsp;
+                  <span v-if="seriesItem.numberInSeries">- {{ seriesItem.numberInSeries }}</span>
+                </router-link>
+              </span>
+            </span>
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="min-h-[1.5rem]">
+            <span class="font-semibold capitalize">{{ t('labels.status') }} :</span>
+            <span v-if="book?.owned || book?.toRead || book?.borrowed">
+              <span v-if="book?.owned" class="badge badge-accent ml-1">{{ t('book.owned') }}</span>
+              <span v-if="book?.toRead" class="badge badge-warning ml-1">{{ t('book.to_read') }}</span>
+              <span v-if="book?.borrowed" class="badge badge-secondary ml-1">{{ t('book.borrowed') }}</span>
+            </span>
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="min-h-[1.5rem]">
+            <span class="font-semibold capitalize">{{ t('tags.tags') }} :</span>
+            <span v-if="book?.book?.tags && book.book.tags.length > 0" class="flex flex-wrap gap-1 mt-1">
+              <span
+                v-for="tag in book?.book?.tags"
+                :key="tag.id"
+                class="badge badge-primary"
+              >
+                <router-link :to="{ name: 'tag-detail', params: { tagId: tag.id } }">{{ tag.name }}</router-link>
+              </span>
+            </span>
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="min-h-[1.5rem]">
+            <span class="font-semibold capitalize">Extern :</span>
+            <span v-if="hasExternalLink" class="flex flex-wrap gap-1 mt-1">
+              <span v-if="book?.book.goodreadsId" class="badge badge-warning">
+                <a :href="'https://www.goodreads.com/book/show/' + book.book.goodreadsId" target="_blank">goodreads</a>
+              </span>
+              <span v-if="book?.book.googleId" class="badge badge-warning">
+                <a :href="'https://books.google.com/books?id=' + book.book.googleId" target="_blank">google</a>
+              </span>
+              <span v-if="book?.book.amazonId" class="badge badge-warning">
+                <a :href="'https://www.amazon.com/dp/' + book.book.amazonId" target="_blank">amazon</a>
+              </span>
+              <span v-if="book?.book.librarythingId" class="badge badge-warning">
+                <a :href="'https://www.librarything.com/work/' + book.book.librarythingId" target="_blank">librarything</a>
+              </span>
+              <span v-if="book?.book.isfdbId" class="badge badge-warning">
+                <a :href="'https://www.isfdb.org/cgi-bin/title.cgi?' + book.book.isfdbId" target="_blank">ISFDB</a>
+              </span>
+              <span v-if="book?.book.openlibraryId" class="badge badge-warning">
+                <a :href="`https://openlibrary.org/works/${book.book.openlibraryId}?mode=all`" target="_blank">Openlibrary</a>
+              </span>
+              <span v-if="book?.book.noosfereId" class="badge badge-warning">
+                <a :href="'https://www.noosfere.org/livres/EditionsLivre.asp?numitem=' + book.book.noosfereId" target="_blank">Noosfere</a>
+              </span>
+              <span v-if="getIsbn() != null" class="badge badge-warning">
+                <a :href="'https://inventaire.io/entity/isbn:' + getIsbn()" target="_blank">inventaire</a>
+              </span>
+              <span v-if="book?.book.inventaireId && getIsbn() == null" class="badge badge-warning">
+                <a :href="'https://inventaire.io/entity/inv:' + book.book.inventaireId" target="_blank">inventaire</a>
+              </span>
+            </span>
+            <span v-else class="opacity-60">-</span>
+          </p>
         </div>
         <p class="font-semibold capitalize mt-2">
           {{ t('book.summary') }} :
         </p>
-        <div
-          v-if="book?.book?.summary"
-          class="h-[120px] overflow-y-auto text-left"
-        >
-          <p v-html="displaySummary" />
+        <div class="h-[120px] overflow-y-auto text-left">
+          <p v-html="displaySummary || '-'" :class="displaySummary ? '' : 'opacity-60'" />
         </div>
-        <div v-else class="h-[120px] overflow-y-auto text-left opacity-60">
-          -
-        </div>
-        <p v-if="book?.book?.series && book?.book?.series != null && book?.book?.series.length > 0">
-          <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>
-          <ul>
-            <li
-              v-for="seriesItem in book?.book?.series"
-              :key="seriesItem.seriesId"
-              v-tooltip="{
-                content: () => getSeriesInfo(seriesItem.seriesId as string)
-              }"
-            >
-              <router-link
-                class="link hover:underline hover:decoration-4 hover:decoration-secondary"
-                :to="{ name: 'series', params: { seriesId: seriesItem.seriesId } }"
-              >
-                {{ seriesItem.name }}&nbsp;
-                <span
-                  v-if="seriesItem.numberInSeries"
-                >-&nbsp;{{ seriesItem.numberInSeries }}</span>
-              </router-link>
-            </li>
-          </ul>
-        </p>
-        <p v-if="book?.price">
-          <span class="font-semibold capitalize">{{ t('book.price') }} :</span>
-          {{ ObjectUtils.amountInLocale(book.price, storedLanguage, currency) }}
-        </p>
-        <div v-if="book?.owned || book?.toRead || book?.borrowed">
-          <span
-            v-if="book?.owned"
-            class="badge badge-accent"
-          >{{ t('book.owned') }}</span>
-          <span
-            v-if="book?.toRead"
-            class="badge badge-warning mx-1"
-          >{{ t('book.to_read') }}</span>
-          <span
-            v-if="book?.borrowed"
-            class="badge badge-secondary"
-          >{{ t('book.borrowed') }}</span>
-        </div>
-      </div>
     </div>
-    <div class="flex flex-wrap justify-center gap-1 mt-2">
-      <span
-        v-for="tag in book?.book?.tags"
-        :key="tag.id"
-        class="badge badge-primary mt-3 m-1 hover:font-bold hover:border-4"
-      >
-        <router-link :to="{ name: 'tag-detail', params: { tagId: tag.id } }">{{ tag.name }}&nbsp;</router-link>
-      </span>
-    </div>
-    <div
-      v-if="hasExternalLink"
-      class="flex flex-wrap justify-center gap-1 mt-2"
-    >
-      <span
-        v-if="book?.book.goodreadsId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://www.goodreads.com/book/show/' + book.book.goodreadsId"
-          target="_blank"
-        >goodreads</a>
-      </span>
-      <span
-        v-if="book?.book.googleId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://books.google.com/books?id=' + book.book.googleId"
-          target="_blank"
-        >google</a>
-      </span>
-      <span
-        v-if="book?.book.amazonId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://www.amazon.com/dp/' + book.book.amazonId"
-          target="_blank"
-        >amazon</a>
-      </span>
-      <span
-        v-if="book?.book.librarythingId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://www.librarything.com/work/' + book.book.librarythingId"
-          target="_blank"
-        >librarything</a>
-      </span>
-      <span
-        v-if="book?.book.isfdbId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://www.isfdb.org/cgi-bin/title.cgi?' + book.book.isfdbId"
-          target="_blank"
-        >ISFDB</a>
-      </span>
-      <span
-        v-if="book?.book.openlibraryId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="`https://openlibrary.org/works/${book.book.openlibraryId}?mode=all`"
-          target="_blank"
-        >Openlibrary</a>
-      </span>
-      <span
-        v-if="book?.book.noosfereId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://www.noosfere.org/livres/EditionsLivre.asp?numitem=' + book.book.noosfereId"
-          target="_blank"
-        >Noosfere</a>
-      </span>
-      <span
-        v-if="getIsbn() != null"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://inventaire.io/entity/isbn:' + getIsbn()"
-          target="_blank"
-        >inventaire</a>
-      </span>
-      <span
-        v-else-if="book?.book.inventaireId"
-        class="badge badge-warning hover:font-bold"
-      >
-        <a
-          :href="'https://inventaire.io/entity/inv:' + book.book.inventaireId"
-          target="_blank"
-        >inventaire</a>
-      </span>
     </div>
     <div
       v-if="book?.personalNotes"
