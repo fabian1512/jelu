@@ -254,7 +254,12 @@ const toggleDropdown = () => {
 }
 
 function toggleReadingEventModal(currentEvent: ReadingEvent, edit: boolean) {
-  showModal.value = !showModal.value
+  if (showModal.value) {
+    oruga.modal.close()
+    showModal.value = false
+    return
+  }
+  showModal.value = true
   oruga.modal.open({
     component: ReadingEventModalVue,
     trapFocus: true,
@@ -269,7 +274,10 @@ function toggleReadingEventModal(currentEvent: ReadingEvent, edit: boolean) {
       "currentProgress": book.value?.percentRead,
       "currentPage": book.value?.currentPageNumber
     },
-    onClose: modalClosed
+    onClose: () => {
+      showModal.value = false
+      modalClosed()
+    }
   });
 }
 
@@ -959,11 +967,11 @@ getBook()
       </p>
       <div class="relative max-w-2xl mx-auto px-4">
         <!-- Add new event button at top of timeline -->
-        <div class="relative mb-6 flex items-center justify-center">
+        <div class="relative mb-6 flex items-center justify-center z-10">
           <!-- Mobile: Button left -->
           <div class="flex-shrink-0 md:hidden">
             <div
-              class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-base-300 hover:bg-primary"
+              class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-info"
               @click="toggleReadingEventModal({} as ReadingEvent, false)"
             >
               <i class="mdi mdi-pencil text-white" />
@@ -972,7 +980,7 @@ getBook()
           <!-- Desktop: Button in center -->
           <div class="hidden md:flex md:flex-shrink-0">
             <div
-              class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-base-300 hover:bg-primary"
+              class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-info"
               @click="toggleReadingEventModal({} as ReadingEvent, false)"
             >
               <i class="mdi mdi-pencil text-white" />
@@ -980,7 +988,7 @@ getBook()
           </div>
         </div>
         <!-- Timeline Linie -->
-        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-base-300 -translate-x-1/2"></div>
+        <div class="absolute left-4 md:left-1/2 top-10 bottom-0 w-0.5 bg-base-300 -translate-x-1/2"></div>
 
         <div
           v-for="(entry, index) in timelineEntries"
