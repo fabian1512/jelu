@@ -889,7 +889,7 @@ getBook()
     </div>
     <div v-if="totalReviews > 0" class="mt-2">
       <router-link
-        class="link text-2xl"
+        class="link text-lg"
         :class="typographyClasses"
         :to="{ name: 'book-reviews', params: { bookId: book?.book.id } }"
       >
@@ -901,7 +901,7 @@ getBook()
       class="space-y-4"
     >
       <p
-        class="text-2xl capitalize"
+        class="text-lg capitalize"
         :class="typographyClasses"
       >
         {{ t('reviews.my_reviews') }}:
@@ -952,10 +952,16 @@ getBook()
     >
       <p
         v-if="timelineEntries.length > 0"
-        class="text-2xl mb-3 capitalize"
+        class="text-lg mt-6 mb-3 capitalize flex items-center gap-2"
         :class="typographyClasses"
       >
         {{ t('reading_events.reading_events') }}:
+        <button
+          class="btn btn-sm btn-ghost btn-circle"
+          @click="toggleReadingEventModal({} as ReadingEvent, false)"
+        >
+          <i class="mdi mdi-plus" />
+        </button>
       </p>
       <div class="relative max-w-2xl mx-auto px-4">
         <!-- Timeline Linie -->
