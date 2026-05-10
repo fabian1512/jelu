@@ -952,18 +952,33 @@ getBook()
     >
       <p
         v-if="timelineEntries.length > 0"
-        class="text-lg mt-6 mb-3 capitalize flex items-center gap-2"
+        class="text-lg mt-6 mb-3 capitalize text-center"
         :class="typographyClasses"
       >
         {{ t('reading_events.reading_events') }}:
-        <button
-          class="btn btn-sm btn-ghost btn-circle"
-          @click="toggleReadingEventModal({} as ReadingEvent, false)"
-        >
-          <i class="mdi mdi-plus" />
-        </button>
       </p>
       <div class="relative max-w-2xl mx-auto px-4">
+        <!-- Add new event button at top of timeline -->
+        <div class="relative mb-6 flex items-center justify-center">
+          <!-- Mobile: Button left -->
+          <div class="flex-shrink-0 md:hidden">
+            <div
+              class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-base-300 hover:bg-primary"
+              @click="toggleReadingEventModal({} as ReadingEvent, false)"
+            >
+              <i class="mdi mdi-pencil text-white" />
+            </div>
+          </div>
+          <!-- Desktop: Button in center -->
+          <div class="hidden md:flex md:flex-shrink-0">
+            <div
+              class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-base-300 hover:bg-primary"
+              @click="toggleReadingEventModal({} as ReadingEvent, false)"
+            >
+              <i class="mdi mdi-pencil text-white" />
+            </div>
+          </div>
+        </div>
         <!-- Timeline Linie -->
         <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-base-300 -translate-x-1/2"></div>
 
