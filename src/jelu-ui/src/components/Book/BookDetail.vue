@@ -96,6 +96,7 @@ const needsReadMore = computed(() => {
 })
 
 const userReviews: Ref<Array<Review>> = ref([])
+const totalReviews: Ref<number> = ref(0)
 
 const bookQuotes: Ref<Array<BookQuote>> = ref([])
 
@@ -130,6 +131,7 @@ const getUserReviewsForBook = async() => {
   dataService.findReviews(user.value.id, book.value?.book.id, null, null, null, 0, 20)
   .then(res => {
     userReviews.value = res.content
+    totalReviews.value = res.totalElements
   })
   .catch(err => {
   })
@@ -733,118 +735,71 @@ getBook()
           </div>
         </figure>
       </div>
-      <div class="text-left">
-        <h3
-          class="text-xl sm:text-2xl md:text-3xl"
-          :class="typographyClasses"
-        >
-          {{ book?.book?.title }}
-        </h3>
-        <h4
-          v-if="book?.book.originalTitle"
-          :class="typographyClasses"
-        >
-          {{ book.book.originalTitle }}
-        </h4>
-        <p
-          v-if="book != null && book.book != null && book.book.authors != null && book?.book?.authors?.length > 0"
-          class="flex flex-wrap items-center gap-1"
-        >
-          <span class="font-semibold capitalize">{{ t('book.author', 2) }} :</span>
-          <span
-            v-for="author in book?.book?.authors"
-            :key="author.id"
+      <div class="text-left grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+        <div class="contents">
+          <h3
+            class="text-xl sm:text-2xl md:text-3xl col-span-1 sm:col-span-2"
+            :class="typographyClasses"
           >
+            {{ book?.book?.title }}
+          </h3>
+          <p class="flex flex-wrap items-center gap-1 col-span-1 sm:col-span-2">
+            <span class="font-semibold capitalize">{{ t('book.author', 2) }} :</span>
+            <span v-if="book?.book?.authors && book.book.authors.length > 0">
+              <span v-for="author in book?.book?.authors" :key="author.id">
+                <router-link
+                  class="link hover:underline hover:decoration-4 hover:decoration-secondary"
+                  :to="{ name: 'author-detail', params: { authorId: author.id } }"
+                >
+                  {{ author.name }}
+                </router-link>
+              </span>
+            </span>
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="col-span-1">
+            <span class="font-semibold capitalize">{{ t('book.publisher') }} :&nbsp;</span>
             <router-link
+              v-if="book?.book?.publisher"
               class="link hover:underline hover:decoration-4 hover:decoration-secondary"
-              :to="{ name: 'author-detail', params: { authorId: author.id } }"
+              :to="{ name: 'search', query: { q: `publisher:` + publisherQuery } }"
             >
-              {{ author.name }}
+              {{ book.book.publisher }}
             </router-link>
-          </span>
-        </p>
-        <p
-          v-if="book != null && book.book != null && book.book.translators != null && book?.book?.translators?.length > 0"
-        >
-          <span class="font-semibold capitalize">{{ t('book.translator', 2) }} :</span>
-        </p>
-        <ul
-          v-if="book != null && book.book != null && book.book.translators != null && book?.book?.translators?.length > 0"
-        >
-          <li
-            v-for="translator in book?.book?.translators"
-            :key="translator.id"
-          >
-            <router-link
-              class="link hover:underline hover:decoration-4 hover:decoration-secondary"
-              :to="{ name: 'author-detail', params: { authorId: translator.id } }"
-            >
-              {{ translator.name }}&nbsp;
-            </router-link>
-          </li>
-        </ul>
-        <p
-          v-if="book != null && book.book != null && book.book.narrators != null && book?.book?.narrators?.length > 0"
-        >
-          <span class="font-semibold capitalize">{{ t('book.narrator', 2) }} :</span>
-        </p>
-        <ul
-          v-if="book != null && book.book != null && book.book.narrators != null && book?.book?.narrators?.length > 0"
-        >
-          <li
-            v-for="narrator in book?.book?.narrators"
-            :key="narrator.id"
-          >
-            <router-link
-              class="link hover:underline hover:decoration-4 hover:decoration-secondary"
-              :to="{ name: 'author-detail', params: { authorId: narrator.id } }"
-            >
-              {{ narrator.name }}&nbsp;
-            </router-link>
-          </li>
-        </ul>
-        <p v-if="book?.book?.publisher">
-          <span class="font-semibold capitalize">{{ t('book.publisher') }} :&nbsp;</span>
-          <router-link
-            class="link hover:underline hover:decoration-4 hover:decoration-secondary"
-            :to="{ name: 'search', query: { q: `publisher:` + publisherQuery } }"
-          >
-            {{ book.book.publisher }}
-          </router-link>
-        </p>
-        <p v-if="book?.book?.isbn10">
-          <span class="font-semibold uppercase">{{ t('book.isbn10') }} :</span>
-          {{ book.book.isbn10 }}
-        </p>
-        <p v-if="book?.book?.isbn13">
-          <span class="font-semibold uppercase">{{ t('book.isbn13') }} :</span>
-          {{ book.book.isbn13 }}
-        </p>
-        <p v-if="book?.book?.pageCount || book?.currentPageNumber">
-          <span v-if="book?.book?.pageCount">
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="col-span-1">
+            <span class="font-semibold uppercase">{{ t('book.isbn13') }} :</span>
+            <span :class="book?.book?.isbn13 ? '' : 'opacity-60'">{{ book?.book?.isbn13 || '-' }}</span>
+          </p>
+          <p class="col-span-1">
             <span class="font-semibold capitalize">{{ t('book.page', 2) }} :</span>
-            {{ book.book.pageCount }}
-          </span>
-          <span v-if="book?.currentPageNumber">&nbsp;(<span class="font-semibold capitalize">{{ t('labels.current') }}</span> : {{ book.currentPageNumber }})</span>
-        </p>
-        <p
-          v-if="book?.book.pageCount == null && book?.currentPageNumber == null && book?.percentRead != null"
-          class="capitalize"
-        >
-          {{ t('book.percent_read') }} {{ book.percentRead }} %
-        </p>
-        <p v-if="book?.book?.publishedDate">
-          <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
-          {{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}
-        </p>
-        <p v-if="book?.book?.summary" class="font-semibold capitalize">
-          {{ t('book.summary') }} :
-        </p>
-        <div
-          v-if="book?.book?.summary"
-          class="h-48 overflow-y-auto text-left"
-        >
-          <p v-html="displaySummary" />
+            <span v-if="book?.book?.pageCount || book?.currentPageNumber">
+              <span v-if="book?.book?.pageCount">{{ book.book.pageCount }}</span>
+              <span v-if="book?.currentPageNumber">&nbsp;(<span class="font-semibold capitalize">{{ t('labels.current') }}</span> : {{ book.currentPageNumber }})</span>
+            </span>
+            <span v-else-if="book?.percentRead != null" class="capitalize">
+              {{ t('book.percent_read') }} {{ book.percentRead }} %
+            </span>
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="col-span-1">
+            <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
+            <span v-if="book?.book?.publishedDate">{{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}</span>
+            <span v-else class="opacity-60">-</span>
+          </p>
+          <p class="font-semibold capitalize col-span-1 sm:col-span-2">
+            {{ t('book.summary') }} :
+          </p>
+          <div
+            v-if="book?.book?.summary"
+            class="h-48 overflow-y-auto text-left col-span-1 sm:col-span-2"
+          >
+            <p v-html="displaySummary" />
+          </div>
+          <div v-else class="h-48 overflow-y-auto text-left opacity-60 col-span-1 sm:col-span-2">
+            -
+          </div>
         </div>
         <p v-if="book?.book?.series && book?.book?.series != null && book?.book?.series.length > 0">
           <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>
@@ -997,7 +952,7 @@ getBook()
         {{ book.personalNotes }}
       </p>
     </div>
-    <div class="mt-2">
+    <div v-if="totalReviews > 0" class="mt-2">
       <router-link
         class="link text-2xl"
         :class="typographyClasses"
