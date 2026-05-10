@@ -6,12 +6,17 @@
 - **BookDetail.vue**: Removed grid layout - all fields now stack vertically (not side-by-side)
 - **BookDetail.vue**: Added min-height to title (`min-h-[2.5rem]`) for consistent vertical alignment
 - **BookDetail.vue**: Added min-height to info fields (`min-h-[1.5rem]`) for consistent row heights
+- **BookDetail.vue**: Limited summary to 350 characters (was 1000)
+- **BookDetail.vue**: Fixed ISBN3 → ISBN13 translation key
+- **BookDetail.vue/BookReviews.vue**: Reduced summary height from h-48 to h-32
 
 ### Rationale
 User requested:
 1. All fields stacked vertically (not side-by-side)
 2. Title min-height for consistent start position
 3. Info fields min-height for consistent row heights
+4. Summary limited to 350 characters
+5. Correct ISBN13 label
 
 ---
 

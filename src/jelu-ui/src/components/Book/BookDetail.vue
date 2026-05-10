@@ -86,13 +86,13 @@ const displaySummary = computed(() => {
   const text = book.value?.book?.summary || ''
   if (!text) return ''
   const plainText = text.replace(/<[^>]*>/g, '')
-  if (plainText.length <= 1000 || summaryExpanded.value) return text
-  return plainText.substring(0, 1000) + '...'
+  if (plainText.length <= 350 || summaryExpanded.value) return text
+  return plainText.substring(0, 350) + '...'
 })
 
 const needsReadMore = computed(() => {
   const plainText = (book.value?.book?.summary || '').replace(/<[^>]*>/g, '')
-  return plainText.length > 1000
+  return plainText.length > 350
 })
 
 const userReviews: Ref<Array<Review>> = ref([])
@@ -769,7 +769,7 @@ getBook()
             <span v-else class="opacity-60">-</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold uppercase">{{ t('book.isbn3') }} :</span>
+            <span class="font-semibold uppercase">{{ t('book.isbn13') }} :</span>
             <span :class="book?.book?.isbn13 ? '' : 'opacity-60'">{{ book?.book?.isbn13 || '-' }}</span>
           </p>
           <p class="min-h-[1.5rem]">
@@ -794,11 +794,11 @@ getBook()
         </p>
         <div
           v-if="book?.book?.summary"
-          class="h-48 overflow-y-auto text-left"
+          class="h-32 overflow-y-auto text-left"
         >
           <p v-html="displaySummary" />
         </div>
-        <div v-else class="h-48 overflow-y-auto text-left opacity-60">
+        <div v-else class="h-32 overflow-y-auto text-left opacity-60">
           -
         </div>
         <p v-if="book?.book?.series && book?.book?.series != null && book?.book?.series.length > 0">
