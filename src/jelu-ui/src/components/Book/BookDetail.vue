@@ -731,12 +731,12 @@ getBook()
       </div>
       <div class="text-left">
         <h3
-          class="text-xl sm:text-2xl md:text-3xl min-h-[2.5rem]"
+          class="text-xl sm:text-2xl md:text-3xl min-h-[2.5rem] mb-2"
           :class="typographyClasses"
         >
           {{ book?.book?.title }}
         </h3>
-        <div class="space-y-1 mt-2">
+        <div class="space-y-1">
           <p class="flex flex-wrap items-center gap-1">
             <span class="font-semibold capitalize">{{ t('book.author', 2) }}:</span>
             <span v-if="book?.book?.authors && book.book.authors.length > 0">
