@@ -665,6 +665,12 @@ getBook()
 <template>
   <div class="grid grid-cols-1 justify-center">
     <div class="space-y-4 w-full sm:w-3/4 mx-auto">
+      <h3
+        class="text-xl sm:text-2xl md:text-3xl min-h-[2.5rem]"
+        :class="typographyClasses"
+      >
+        {{ book?.book?.title }}
+      </h3>
       <div
         class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6"
       >
@@ -730,13 +736,7 @@ getBook()
         </figure>
       </div>
       <div class="text-left">
-        <h3
-          class="text-xl sm:text-2xl md:text-3xl min-h-[2.5rem] mb-2"
-          :class="typographyClasses"
-        >
-          {{ book?.book?.title }}
-        </h3>
-        <div class="space-y-1">
+        <div class="gap-0">
           <p class="flex flex-wrap items-center gap-1">
             <span class="font-semibold capitalize">{{ t('book.author', 2) }}:</span>
             <span v-if="book?.book?.authors && book.book.authors.length > 0">
@@ -864,12 +864,12 @@ getBook()
             </span>
             <span v-else class="opacity-60">-</span>
           </p>
-        </div>
-        <p class="font-semibold mt-2">
-          {{ t('book.summary') }}:
-        </p>
-        <div class="h-[120px] overflow-y-auto text-left">
-          <p v-html="displaySummary || '-'" :class="displaySummary ? '' : 'opacity-60'" />
+          <p class="font-semibold">
+            {{ t('book.summary') }}:
+          </p>
+          <div class="h-[120px] overflow-y-auto text-left">
+            <p v-html="displaySummary || '-'" :class="displaySummary ? '' : 'opacity-60'" />
+          </div>
         </div>
     </div>
     </div>
