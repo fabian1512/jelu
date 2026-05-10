@@ -568,6 +568,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
             root-class="w-full"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -592,24 +593,21 @@ watch(() => sliderPercent.value, (newVal) => {
             icon-pack="mdi"
             icon="tag-plus"
             :placeholder="t('labels.add_tag')"
-            @input="getFilteredTags"
+@input="getFilteredTags"
             root-class="w-full"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
             </template>
             <template #selected="{ removeItem, items }">
-              <ClosableBadge v-for="(item, index) in items" :key="item.name" :content="item.name" class="badge-secondary badge-sm" @closed="removeItem(index, $event)" />
+              <ClosableBadge v-for="(item, index) in items" :key="item.name" :content="item.name" class="badge-primary badge-sm" @closed="removeItem(index, $event)" />
             </template>
           </o-taginput>
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.isbn13') }}</label>
-          <input v-model="userbook.book.isbn13" class="flex-1 bg-transparent outline-none text-sm text-right font-mono" :placeholder="t('book.isbn13')">
-        </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')">
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')" teleport="#edit-modal-content">
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -655,8 +653,9 @@ watch(() => sliderPercent.value, (newVal) => {
             icon-pack="mdi"
             icon="account-plus"
             :placeholder="t('labels.add_translator')"
-            @input="(v: string) => getFilteredData(v, filteredTranslators)"
+@input="(v: string) => getFilteredData(v, filteredTranslators)"
             root-class="w-full"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -666,7 +665,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-      <div class="px-4 py-3 border-b border-base-200">
+        <div class="px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 block mb-1">{{ t('book.narrator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.narrators"
@@ -681,8 +680,9 @@ watch(() => sliderPercent.value, (newVal) => {
             icon-pack="mdi"
             icon="account-plus"
             :placeholder="t('labels.add_narrator')"
-            @input="(v: string) => getFilteredData(v, filteredNarrators)"
+@input="(v: string) => getFilteredData(v, filteredNarrators)"
             root-class="w-full"
+            teleport="#edit-modal-content"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -692,25 +692,7 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.isbn10') }}</label>
-          <input v-model="userbook.book.isbn10" class="flex-1 bg-transparent outline-none text-sm text-right font-mono" :placeholder="t('book.isbn10')">
-        </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.series') }}</label>
-          <SeriesCompleteInput v-model="seriesCopy" class="flex-1 borderless-autocomplete text-right" />
-        </div>
-      <div class="px-4 py-3 grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <input v-model="userbook.book.googleId" :placeholder="t('book.google_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-          <input v-model="userbook.book.goodreadsId" :placeholder="t('book.goodreads_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-          <input v-model="userbook.book.amazonId" :placeholder="t('book.amazon_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-          <input v-model="userbook.book.openlibraryId" :placeholder="t('book.openlibrary_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-          <input v-model="userbook.book.isfdbId" :placeholder="t('book.isfdb_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-          <input v-model="userbook.book.librarythingId" :placeholder="t('book.librarything_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-          <input v-model="userbook.book.noosfereId" :placeholder="t('book.noosfere_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-          <input v-model="userbook.book.inventaireId" :placeholder="t('book.inventaire_id')" class="bg-transparent outline-none text-sm py-1 w-full">
-        </div>
-    </details>
+      </details>
 
     <!-- Status -->
     <details class="rounded-xl border border-base-300 mb-4 group">
