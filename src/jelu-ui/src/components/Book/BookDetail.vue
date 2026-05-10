@@ -763,11 +763,11 @@ getBook()
             <span v-else class="opacity-60">-</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold uppercase">{{ t('book.isbn13') }}:</span>
+            <span class="font-semibold uppercase">{{ t('book.isbn13') }}:&nbsp;</span>
             <span :class="book?.book?.isbn13 ? '' : 'opacity-60'">{{ book?.book?.isbn13 || '-' }}</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold capitalize">{{ t('book.page', 2) }}:</span>
+            <span class="font-semibold capitalize">{{ t('book.page', 2) }}:&nbsp;</span>
             <span v-if="book?.book?.pageCount || book?.currentPageNumber">
               <span v-if="book?.book?.pageCount">{{ book.book.pageCount }}</span>
               <span v-if="book?.currentPageNumber">&nbsp;(<span class="font-semibold capitalize">{{ t('labels.current') }}</span> : {{ book.currentPageNumber }})</span>
@@ -778,12 +778,12 @@ getBook()
             <span v-else class="opacity-60">-</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
+            <span class="font-semibold capitalize">{{ t('book.published_date') }}:&nbsp;</span>
             <span v-if="book?.book?.publishedDate">{{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}</span>
             <span v-else class="opacity-60">-</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold capitalize">{{ t('book.price') }}:</span>
+            <span class="font-semibold capitalize">{{ t('book.price') }}:&nbsp;</span>
             <span v-if="book?.price">{{ ObjectUtils.amountInLocale(book.price, storedLanguage, currency) }}</span>
             <span v-else class="opacity-60">-</span>
           </p>
@@ -810,7 +810,7 @@ getBook()
             <span v-else class="opacity-60">-</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold capitalize">{{ t('labels.status') }} :</span>
+            <span class="font-semibold capitalize">Status:&nbsp;</span>
             <span v-if="book?.owned || book?.toRead || book?.borrowed">
               <span v-if="book?.owned" class="badge badge-accent ml-1">{{ t('book.owned') }}</span>
               <span v-if="book?.toRead" class="badge badge-warning ml-1">{{ t('book.to_read') }}</span>
@@ -819,7 +819,7 @@ getBook()
             <span v-else class="opacity-60">-</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold capitalize">{{ t('tags.genre') }}:</span>
+            <span class="font-semibold capitalize">Genre:&nbsp;</span>
             <span v-if="book?.book?.tags && book.book.tags.length > 0">
               <span
                 v-for="tag in book?.book?.tags"
