@@ -735,29 +735,29 @@ getBook()
           </div>
         </figure>
       </div>
-      <div class="text-left grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-        <div class="contents">
-          <h3
-            class="text-xl sm:text-2xl md:text-3xl col-span-1 sm:col-span-2"
-            :class="typographyClasses"
-          >
-            {{ book?.book?.title }}
-          </h3>
-          <p class="flex flex-wrap items-center gap-1 col-span-1 sm:col-span-2">
-            <span class="font-semibold capitalize">{{ t('book.author', 2) }} :</span>
-            <span v-if="book?.book?.authors && book.book.authors.length > 0">
-              <span v-for="author in book?.book?.authors" :key="author.id">
-                <router-link
-                  class="link hover:underline hover:decoration-4 hover:decoration-secondary"
-                  :to="{ name: 'author-detail', params: { authorId: author.id } }"
-                >
-                  {{ author.name }}
-                </router-link>
-              </span>
+      <div class="text-left">
+        <h3
+          class="text-xl sm:text-2xl md:text-3xl"
+          :class="typographyClasses"
+        >
+          {{ book?.book?.title }}
+        </h3>
+        <p class="flex flex-wrap items-center gap-1">
+          <span class="font-semibold capitalize">{{ t('book.author', 2) }} :</span>
+          <span v-if="book?.book?.authors && book.book.authors.length > 0">
+            <span v-for="author in book?.book?.authors" :key="author.id">
+              <router-link
+                class="link hover:underline hover:decoration-4 hover:decoration-secondary"
+                :to="{ name: 'author-detail', params: { authorId: author.id } }"
+              >
+                {{ author.name }}
+              </router-link>
             </span>
-            <span v-else class="opacity-60">-</span>
-          </p>
-          <p class="col-span-1">
+          </span>
+          <span v-else class="opacity-60">-</span>
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 mt-2">
+          <p>
             <span class="font-semibold capitalize">{{ t('book.publisher') }} :&nbsp;</span>
             <router-link
               v-if="book?.book?.publisher"
@@ -768,11 +768,11 @@ getBook()
             </router-link>
             <span v-else class="opacity-60">-</span>
           </p>
-          <p class="col-span-1">
+          <p>
             <span class="font-semibold uppercase">{{ t('book.isbn13') }} :</span>
             <span :class="book?.book?.isbn13 ? '' : 'opacity-60'">{{ book?.book?.isbn13 || '-' }}</span>
           </p>
-          <p class="col-span-1">
+          <p>
             <span class="font-semibold capitalize">{{ t('book.page', 2) }} :</span>
             <span v-if="book?.book?.pageCount || book?.currentPageNumber">
               <span v-if="book?.book?.pageCount">{{ book.book.pageCount }}</span>
@@ -783,23 +783,23 @@ getBook()
             </span>
             <span v-else class="opacity-60">-</span>
           </p>
-          <p class="col-span-1">
+          <p>
             <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
             <span v-if="book?.book?.publishedDate">{{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}</span>
             <span v-else class="opacity-60">-</span>
           </p>
-          <p class="font-semibold capitalize col-span-1 sm:col-span-2">
-            {{ t('book.summary') }} :
-          </p>
-          <div
-            v-if="book?.book?.summary"
-            class="h-48 overflow-y-auto text-left col-span-1 sm:col-span-2"
-          >
-            <p v-html="displaySummary" />
-          </div>
-          <div v-else class="h-48 overflow-y-auto text-left opacity-60 col-span-1 sm:col-span-2">
-            -
-          </div>
+        </div>
+        <p class="font-semibold capitalize mt-2">
+          {{ t('book.summary') }} :
+        </p>
+        <div
+          v-if="book?.book?.summary"
+          class="h-48 overflow-y-auto text-left"
+        >
+          <p v-html="displaySummary" />
+        </div>
+        <div v-else class="h-48 overflow-y-auto text-left opacity-60">
+          -
         </div>
         <p v-if="book?.book?.series && book?.book?.series != null && book?.book?.series.length > 0">
           <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>
