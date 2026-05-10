@@ -737,7 +737,7 @@ getBook()
           {{ book?.book?.title }}
         </h3>
         <p class="flex flex-wrap items-center gap-1">
-          <span class="font-semibold capitalize">{{ t('book.author', 2) }} :</span>
+          <span class="font-semibold capitalize">{{ t('book.author', 2) }}:</span>
           <span v-if="book?.book?.authors && book.book.authors.length > 0">
             <span v-for="author in book?.book?.authors" :key="author.id">
               <router-link
@@ -752,7 +752,7 @@ getBook()
         </p>
 <div class="space-y-2 mt-2">
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold capitalize">{{ t('book.publisher') }} :&nbsp;</span>
+            <span class="font-semibold capitalize">{{ t('book.publisher') }}:&nbsp;</span>
             <router-link
               v-if="book?.book?.publisher"
               class="link hover:underline hover:decoration-4 hover:decoration-secondary"
@@ -770,7 +770,7 @@ getBook()
             <span class="font-semibold capitalize">{{ t('book.page', 2) }}:&nbsp;</span>
             <span v-if="book?.book?.pageCount || book?.currentPageNumber">
               <span v-if="book?.book?.pageCount">{{ book.book.pageCount }}</span>
-              <span v-if="book?.currentPageNumber">&nbsp;(<span class="font-semibold capitalize">{{ t('labels.current') }}</span> : {{ book.currentPageNumber }})</span>
+              <span v-if="book?.currentPageNumber">&nbsp;(<span class="font-semibold capitalize">{{ t('labels.current') }}:</span> {{ book.currentPageNumber }})</span>
             </span>
             <span v-else-if="book?.percentRead != null" class="capitalize">
               {{ t('book.percent_read') }} {{ book.percentRead }} %
@@ -788,7 +788,7 @@ getBook()
             <span v-else class="opacity-60">-</span>
           </p>
           <p class="min-h-[1.5rem]">
-            <span class="font-semibold capitalize">{{ t('book.series') }} :&nbsp;</span>
+            <span class="font-semibold capitalize">{{ t('book.series') }}:&nbsp;</span>
             <span v-if="book?.book?.series && book?.book?.series.length > 0">
               <span
                 v-for="seriesItem in book?.book?.series"
@@ -866,7 +866,7 @@ getBook()
           </p>
         </div>
         <p class="font-semibold capitalize mt-2">
-          {{ t('book.summary') }} :
+          {{ t('book.summary') }}:
         </p>
         <div class="h-[120px] overflow-y-auto text-left">
           <p v-html="displaySummary || '-'" :class="displaySummary ? '' : 'opacity-60'" />
@@ -881,7 +881,7 @@ getBook()
         v-if="book?.personalNotes"
         class="font-semibold capitalize"
       >
-        {{ t('book.personal_notes') }} :
+        {{ t('book.personal_notes') }}:
       </p>
       <p v-if="book?.personalNotes">
         {{ book.personalNotes }}
@@ -904,7 +904,7 @@ getBook()
         class="text-2xl capitalize"
         :class="typographyClasses"
       >
-        {{ t('reviews.my_reviews') }} :
+        {{ t('reviews.my_reviews') }}:
       </p>
       <div
         v-for="review in userReviews"
@@ -955,7 +955,7 @@ getBook()
         class="text-2xl mb-3 capitalize"
         :class="typographyClasses"
       >
-        {{ t('reading_events.reading_events') }} :
+        {{ t('reading_events.reading_events') }}:
       </p>
       <div class="relative max-w-2xl mx-auto px-4">
         <!-- Timeline Linie -->
@@ -1145,7 +1145,7 @@ getBook()
         </svg></button>
       </div>
       <div class="py-4 prose overflow-x-auto"><pre><code>{{ embedCode }}</code></pre></div>
-      <div class="mt-2 capitalize">{{ t('labels.preview') }} : </div>
+      <div class="mt-2 capitalize">{{ t('labels.preview') }}:</div>
       <div
         class="inline-block mt-2"
         v-html="embedCode"
