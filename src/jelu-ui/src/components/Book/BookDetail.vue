@@ -737,7 +737,7 @@ getBook()
       </div>
       <div class="text-left">
         <h3
-          class="text-xl sm:text-2xl md:text-3xl"
+          class="text-xl sm:text-2xl md:text-3xl min-h-[2.5rem]"
           :class="typographyClasses"
         >
           {{ book?.book?.title }}
@@ -756,8 +756,8 @@ getBook()
           </span>
           <span v-else class="opacity-60">-</span>
         </p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 mt-2">
-          <p>
+<div class="space-y-2 mt-2">
+          <p class="min-h-[1.5rem]">
             <span class="font-semibold capitalize">{{ t('book.publisher') }} :&nbsp;</span>
             <router-link
               v-if="book?.book?.publisher"
@@ -768,11 +768,11 @@ getBook()
             </router-link>
             <span v-else class="opacity-60">-</span>
           </p>
-          <p>
-            <span class="font-semibold uppercase">{{ t('book.isbn13') }} :</span>
+          <p class="min-h-[1.5rem]">
+            <span class="font-semibold uppercase">{{ t('book.isbn3') }} :</span>
             <span :class="book?.book?.isbn13 ? '' : 'opacity-60'">{{ book?.book?.isbn13 || '-' }}</span>
           </p>
-          <p>
+          <p class="min-h-[1.5rem]">
             <span class="font-semibold capitalize">{{ t('book.page', 2) }} :</span>
             <span v-if="book?.book?.pageCount || book?.currentPageNumber">
               <span v-if="book?.book?.pageCount">{{ book.book.pageCount }}</span>
@@ -783,7 +783,7 @@ getBook()
             </span>
             <span v-else class="opacity-60">-</span>
           </p>
-          <p>
+          <p class="min-h-[1.5rem]">
             <span class="font-semibold capitalize">{{ t('book.published_date') }} :</span>
             <span v-if="book?.book?.publishedDate">{{ d(stringToDate(book.book.publishedDate) ?? '', 'short') }}</span>
             <span v-else class="opacity-60">-</span>
