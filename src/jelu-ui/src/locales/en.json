@@ -444,6 +444,7 @@
         "actionable" : "actionable",
         "actionable_desc" : "Items in an actionable list can be clicked to be removed.",
         "tags" : "tags",
+        "genre" : "genre",
         "tags_desc" : "The list will display the items that match all the chosen tags.",
         "create" : "create",
         "remove" : "remove selected",

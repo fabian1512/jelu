@@ -441,6 +441,7 @@
         "actionable": "aktionsfähig",
         "actionable_desc": "Elemente in einer aktionsfähigen Liste können entfernt werden.",
         "tags": "Tags",
+        "genre": "Genre",
         "tags_desc": "Die Liste zeigt die Elemente, die zu allen ausgewählten Tags passen.",
         "create": "Erstellen",
         "remove": "Auswahl entfernen",
