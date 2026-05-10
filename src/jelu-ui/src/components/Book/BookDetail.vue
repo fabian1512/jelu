@@ -974,7 +974,7 @@ getBook()
           <div class="flex-shrink-0 md:hidden">
             <div
               class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-info"
-              @click="toggleReadingEventModal({} as ReadingEvent, false)"
+              @click="toggleReadingEventModal(defaultCreateEvent() as ReadingEvent, false)"
             >
               <i class="mdi mdi-pencil text-white" />
             </div>
@@ -983,7 +983,7 @@ getBook()
           <div class="hidden md:flex md:flex-1 md:justify-center">
             <div
               class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-info"
-              @click="toggleReadingEventModal({} as ReadingEvent, false)"
+              @click="toggleReadingEventModal(defaultCreateEvent() as ReadingEvent, false)"
             >
               <i class="mdi mdi-pencil text-white" />
             </div>
