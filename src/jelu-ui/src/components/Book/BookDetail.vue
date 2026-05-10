@@ -62,7 +62,6 @@ const edit: Ref<boolean> = ref(false)
 const showModal: Ref<boolean> = ref(false)
 
 const getBookIsLoading: Ref<boolean> = ref(false)
-const summaryExpanded: Ref<boolean> = ref(false)
 const showBookMenu: Ref<boolean> = ref(false)
 
 const closeBookMenu = (event: MouseEvent) => {
@@ -83,16 +82,11 @@ onUnmounted(() => {
 })
 
 const displaySummary = computed(() => {
-  const text = book.value?.book?.summary || ''
-  if (!text) return ''
-  const plainText = text.replace(/<[^>]*>/g, '')
-  if (plainText.length <= 350 || summaryExpanded.value) return text
-  return plainText.substring(0, 350) + '...'
+  return book.value?.book?.summary || ''
 })
 
 const needsReadMore = computed(() => {
-  const plainText = (book.value?.book?.summary || '').replace(/<[^>]*>/g, '')
-  return plainText.length > 350
+  return false
 })
 
 const userReviews: Ref<Array<Review>> = ref([])
@@ -794,11 +788,11 @@ getBook()
         </p>
         <div
           v-if="book?.book?.summary"
-          class="h-32 overflow-y-auto text-left"
+          class="h-[120px] overflow-y-auto text-left"
         >
           <p v-html="displaySummary" />
         </div>
-        <div v-else class="h-32 overflow-y-auto text-left opacity-60">
+        <div v-else class="h-[120px] overflow-y-auto text-left opacity-60">
           -
         </div>
         <p v-if="book?.book?.series && book?.book?.series != null && book?.book?.series.length > 0">

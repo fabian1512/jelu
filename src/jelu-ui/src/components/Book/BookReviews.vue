@@ -171,11 +171,11 @@ getReviews()
         </p>
         <div
           v-if="book?.summary"
-          class="h-32 overflow-y-auto text-left"
+          class="h-[120px] overflow-y-auto text-left"
         >
           <p v-html="displaySummary" />
         </div>
-        <div v-else class="h-32 overflow-y-auto text-left opacity-60">
+        <div v-else class="h-[120px] overflow-y-auto text-left opacity-60">
           -
         </div>
       </div>
