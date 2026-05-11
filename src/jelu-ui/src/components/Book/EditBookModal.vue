@@ -592,6 +592,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon-pack="mdi"
             icon="tag-plus"
             :placeholder="t('labels.add_tag')"
+            @input="getFilteredTags"
             root-class="flex-1 borderless-autocomplete"
           >
             <template #default="{ value }">

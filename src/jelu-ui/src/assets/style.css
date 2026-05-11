@@ -504,36 +504,33 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
    Override via CSS variables - immune to Tailwind's cascade
    ============================================================ */
 
-/* Override Oruga CSS variables at the root element level.
-   All child elements that use these vars will inherit them. */
+/* Override Oruga CSS variables - inherited by all child elements */
 .borderless-autocomplete {
   --oruga-input-border-width: 0px;
   --oruga-input-box-shadow: none;
   --oruga-input-background-color: transparent;
   --oruga-input-border-color: transparent;
   --oruga-input-border-style: none;
-  --oruga-input-height: auto;
 }
 
-/* text-align right on actual input elements - outside @layer beats @layer */
+/* taginput container: no border, fill available space */
+.borderless-autocomplete .o-taginput__container {
+  width: 100%;
+}
+
+/* autocomplete input (Verlag): text right-aligned */
 .borderless-autocomplete .o-input__input {
   text-align: right;
-  padding-left: 0;
-  padding-right: 0;
   font-size: 0.875rem;
+  width: 100%;
 }
 
+/* taginput text input: text right-aligned, grow to fill */
 .borderless-autocomplete .o-taginput__input {
   text-align: right;
   font-size: 0.875rem;
-  margin-left: auto;
-}
-
-/* Push taginput's autocomplete wrapper to the right */
-.borderless-autocomplete .o-taginput__autocomplete {
   flex: 1;
-  display: flex;
-  justify-content: flex-end;
+  min-width: 8rem;
 }
 
 /* iOS Safari keyboard zoom prevention - must be OUTSIDE @layer to win cascade.
