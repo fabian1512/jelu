@@ -817,6 +817,7 @@ details > summary::-webkit-details-marker {
   max-height: 90vh !important;
   padding-bottom: 1.5rem !important;
   overflow: visible !important;
+  width: auto !important;
 }
 
 /* Force bottom padding on modal content */

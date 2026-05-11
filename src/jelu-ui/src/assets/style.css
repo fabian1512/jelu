@@ -436,13 +436,6 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   z-index: 9999 !important;
 }
 
-/* Fix dropdown positioning - use fixed to avoid centering issues */
-.o-dropdown__menu,
-.o-autocomplete__menu,
-.o-taginput .o-dropdown__menu {
-  position: fixed !important;
-}
-
 /* vue markdown editor textarea color */
 .v-md-textarea-editor pre, .v-md-textarea-editor textarea {
   @apply text-accent-content;
