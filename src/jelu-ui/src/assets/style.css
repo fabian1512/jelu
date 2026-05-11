@@ -289,6 +289,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
+    position: relative;
 }
 
 .review-book-card {
@@ -431,6 +432,13 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 /* Ensure Oruga dropdowns appear above modal overlays */
 .o-dropdown__menu {
   z-index: 9999 !important;
+}
+
+/* Force dropdowns to use fixed positioning for correct placement */
+.o-dropdown__menu,
+.o-autocomplete__menu,
+.o-taginput .o-dropdown__menu {
+  position: fixed !important;
 }
 
 /* vue markdown editor textarea color */
