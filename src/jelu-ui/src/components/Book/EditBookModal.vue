@@ -568,6 +568,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
             root-class="w-full"
+            :teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -594,6 +595,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_tag')"
 @input="getFilteredTags"
             root-class="w-full"
+            :teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -605,7 +607,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')">
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')" :teleport="false">
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -653,6 +655,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_translator')"
 @input="(v: string) => getFilteredData(v, filteredTranslators)"
             root-class="w-full"
+            :teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -679,6 +682,7 @@ watch(() => sliderPercent.value, (newVal) => {
             :placeholder="t('labels.add_narrator')"
 @input="(v: string) => getFilteredData(v, filteredNarrators)"
             root-class="w-full"
+            :teleport="false"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -822,5 +826,13 @@ details > summary::-webkit-details-marker {
 #edit-modal-content {
   padding-bottom: 0 !important;
   min-height: 50vh;
+  position: relative;
+}
+
+#edit-modal-content .o-dropdown__menu,
+#edit-modal-content .o-autocomplete__menu,
+#edit-modal-content .o-taginput .o-dropdown__menu {
+  position: absolute !important;
+  z-index: 9999 !important;
 }
 </style>
