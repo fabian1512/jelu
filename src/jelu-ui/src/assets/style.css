@@ -168,17 +168,6 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply w-fit sm:w-full bg-base-100 text-base-content focus:input-accent;
 }
 
-/* o-input container: transparent border keeps dropdown positioning context */
-.o-input {
-  background-color: var(--color-base-100);
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-}
-
-.o-input:focus-within {
-  border-color: transparent;
-}
-
 /* left icon color in autocomplete and taginput */
 .o-icon.o-input__icon-left {
     @apply text-accent-content;
@@ -212,29 +201,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply hover:bg-accent;
 }
 
-/* Borderless variant for inline autocomplete/taginput fields (used in EditBookModal) */
-.borderless-autocomplete .o-input__input,
-.borderless-autocomplete .o-taginput__input {
-  border: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  outline: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  text-align: right !important;
-  font-size: 0.875rem !important; /* text-sm */
-}
 
-/* TagInput Container: kein Rahmen, Badges links, Input rechts */
-.borderless-autocomplete .o-taginput__container {
-  border: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-}
 
 .o-taginput .o-taginput__container {
     @apply items-center h-fit;
@@ -530,6 +497,51 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 .navbar.sticky {
   @apply z-30;
 }
+}
+
+/* ============================================================
+   Borderless autocomplete/taginput fields (EditBookModal)
+   MUST be outside @layer to win cascade over Oruga's unlayered CSS
+   ============================================================ */
+
+/* Remove border+shadow from o-input container inside borderless fields */
+.borderless-autocomplete .o-input {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Remove border+shadow from o-input__input (autocomplete text input) */
+.borderless-autocomplete .o-input__input {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  outline: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  font-size: 0.875rem !important;
+}
+
+/* Remove border from taginput container, align content right */
+.borderless-autocomplete .o-taginput__container {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+}
+
+/* Taginput text input: no border, right-aligned */
+.borderless-autocomplete .o-taginput__input {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  outline: none !important;
+  text-align: right !important;
+  font-size: 0.875rem !important;
 }
 
 /* iOS Safari keyboard zoom prevention - must be OUTSIDE @layer to win cascade.
