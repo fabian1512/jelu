@@ -816,11 +816,21 @@ details > summary::-webkit-details-marker {
 .o-modal__content {
   max-height: 90vh !important;
   padding-bottom: 1.5rem !important;
+  overflow: visible !important;
 }
 
 /* Force bottom padding on modal content */
 #edit-modal-content {
   padding-bottom: 0 !important;
   min-height: 50vh;
+}
+
+/* Fix dropdown positioning on desktop */
+@media (min-width: 768px) {
+  #edit-modal-content .o-dropdown__menu,
+  #edit-modal-content .o-autocomplete__menu,
+  #edit-modal-content .o-taginput .o-dropdown__menu {
+    position: absolute !important;
+  }
 }
 </style>
