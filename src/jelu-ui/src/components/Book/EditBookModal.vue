@@ -823,14 +823,6 @@ details > summary::-webkit-details-marker {
 #edit-modal-content {
   padding-bottom: 0 !important;
   min-height: 50vh;
-}
-
-/* Fix dropdown positioning on desktop */
-@media (min-width: 768px) {
-  #edit-modal-content .o-dropdown__menu,
-  #edit-modal-content .o-autocomplete__menu,
-  #edit-modal-content .o-taginput .o-dropdown__menu {
-    position: absolute !important;
-  }
+  position: relative;
 }
 </style>
