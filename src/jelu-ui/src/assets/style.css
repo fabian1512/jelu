@@ -190,7 +190,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .o-dropdown__menu {
-    @apply w-full grow;
+    min-width: 12rem;
 }
 
 .o-datepicker .o-input {
@@ -523,15 +523,16 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   font-size: 0.875rem !important;
 }
 
-/* Remove border from taginput container, align content right */
+/* Remove border from taginput container */
 .borderless-autocomplete .o-taginput__container {
   border: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
+}
+
+/* Taginput autocomplete wrapper: push to right with margin-left auto */
+.borderless-autocomplete .o-taginput__autocomplete {
+  margin-left: auto !important;
 }
 
 /* Taginput text input: no border, right-aligned */
