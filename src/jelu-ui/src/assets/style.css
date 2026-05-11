@@ -285,7 +285,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .jl-modal {
-    margin: 12px;
+    margin: 12px auto;
     padding: 1.5rem;
     width: var(--modal-width, min(600px, calc(100vw - 24px)));
     min-height: var(--modal-min-height, 8rem);
