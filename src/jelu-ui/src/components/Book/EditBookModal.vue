@@ -567,7 +567,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
-            root-class="w-full"
+            root-class="w-full borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -593,7 +593,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="tag-plus"
             :placeholder="t('labels.add_tag')"
 @input="getFilteredTags"
-            root-class="w-full"
+            root-class="w-full borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -652,7 +652,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_translator')"
 @input="(v: string) => getFilteredData(v, filteredTranslators)"
-            root-class="w-full"
+            root-class="w-full borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -678,7 +678,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_narrator')"
 @input="(v: string) => getFilteredData(v, filteredNarrators)"
-            root-class="w-full"
+            root-class="w-full borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
