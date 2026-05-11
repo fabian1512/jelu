@@ -551,8 +551,8 @@ watch(() => sliderPercent.value, (newVal) => {
            <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
           <input v-model="userbook.book.originalTitle" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.original_title')">
         </div>
-        <div class="px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 block mb-1">{{ t('book.author', 2) }}</label>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.author', 2) }}</label>
           <o-taginput
             v-model="userbook.book.authors"
             :options="filteredAuthors"
@@ -567,7 +567,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
-            root-class="w-full borderless-autocomplete"
+            class="flex-1 borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -577,8 +577,8 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 block mb-1">{{ t('book.tag', 2) }}</label>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.tag', 2) }}</label>
           <o-taginput
             v-model="userbook.book.tags"
             :options="filteredTags"
@@ -592,8 +592,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon-pack="mdi"
             icon="tag-plus"
             :placeholder="t('labels.add_tag')"
-@input="getFilteredTags"
-            root-class="w-full borderless-autocomplete"
+            class="flex-1 borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -605,7 +604,7 @@ watch(() => sliderPercent.value, (newVal) => {
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.publisher') }}</label>
-          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" root-class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')">
+          <o-autocomplete :model-value="publisherInput" :options="filteredPublishers" :clear-on-select="false" :debounce="100" @input="getFilteredPublishers" @select="selectPublisher" class="flex-1 borderless-autocomplete" expanded :placeholder="t('book.publisher')">
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value }}</div>
             </template>
@@ -636,8 +635,8 @@ watch(() => sliderPercent.value, (newVal) => {
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.price') }}</label>
           <input v-model.number="userbook.price" type="number" step="0.01" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.price')">
         </div>
-        <div class="px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 block mb-1">{{ t('book.translator', 2) }}</label>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.translator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.translators"
             :options="filteredTranslators"
@@ -652,7 +651,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_translator')"
 @input="(v: string) => getFilteredData(v, filteredTranslators)"
-            root-class="w-full borderless-autocomplete"
+            class="flex-1 borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
@@ -662,8 +661,8 @@ watch(() => sliderPercent.value, (newVal) => {
             </template>
           </o-taginput>
         </div>
-        <div class="px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 block mb-1">{{ t('book.narrator', 2) }}</label>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.narrator', 2) }}</label>
           <o-taginput
             v-model="userbook.book.narrators"
             :options="filteredNarrators"
@@ -678,7 +677,7 @@ watch(() => sliderPercent.value, (newVal) => {
             icon="account-plus"
             :placeholder="t('labels.add_narrator')"
 @input="(v: string) => getFilteredData(v, filteredNarrators)"
-            root-class="w-full borderless-autocomplete"
+            class="flex-1 borderless-autocomplete"
           >
             <template #default="{ value }">
               <div class="jl-taginput-item">{{ value.name }}</div>
