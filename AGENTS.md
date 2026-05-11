@@ -10,6 +10,11 @@
 | LXC 101 (docker) | - | Build environment, Docker host |
 | LXC 201 | - | Backup source |
 
+
+Zugang zum server über
+ssh -i ~/.ssh/id_rsa_nopass root@192.168.1.12 und pct enter 101
+
+
 ### Directory Structure
 
 | Path | Location | Purpose |
