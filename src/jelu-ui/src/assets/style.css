@@ -190,7 +190,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 .o-dropdown__menu {
-    min-width: 12rem;
+    @apply w-full grow;
 }
 
 .o-datepicker .o-input {
