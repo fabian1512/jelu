@@ -469,7 +469,7 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section id="edit-modal-content" class="jl-modal p-0 relative flex flex-col max-h-[85vh] overflow-visible" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
+  <section id="edit-modal-content" class="jl-modal p-0 relative flex flex-col max-h-[85vh]" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
     <!-- Sticky Header -->
     <div class="sticky top-0 z-10 bg-base-100 pb-4 px-4 pt-4 border-b border-base-200 shrink-0">
       <div class="flex justify-between items-center">
@@ -822,12 +822,5 @@ details > summary::-webkit-details-marker {
 #edit-modal-content {
   padding-bottom: 0 !important;
   min-height: 50vh;
-}
-
-/* Ensure Oruga dropdowns appear above modal overlays and are not clipped */
-#edit-modal-content .o-dropdown__menu,
-#edit-modal-content .o-autocomplete__menu,
-#edit-modal-content .o-taginput .o-dropdown__menu {
-  z-index: 9999 !important;
 }
 </style>
