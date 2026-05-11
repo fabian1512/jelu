@@ -469,7 +469,7 @@ watch(() => sliderPercent.value, (newVal) => {
 </script>
 
 <template>
-  <section id="edit-modal-content" class="jl-modal p-0 relative flex flex-col max-h-[85vh]" style="--modal-width: min(676px, calc(100vw - 24px)); --modal-min-height: 12rem;">
+  <section id="edit-modal-content" class="edit-modal p-0 relative flex flex-col max-h-[85vh] overflow-visible">
     <!-- Sticky Header -->
     <div class="sticky top-0 z-10 bg-base-100 pb-4 px-4 pt-4 border-b border-base-200 shrink-0">
       <div class="flex justify-between items-center">
