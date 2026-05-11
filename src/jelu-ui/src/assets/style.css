@@ -202,8 +202,13 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 
 /* Borderless variant for inline autocomplete fields (used in EditBookModal) */
-.borderless-autocomplete .o-input__input,
-.borderless-autocomplete .o-input:focus-within .o-input__input {
+.borderless-autocomplete .o-input {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.borderless-autocomplete .o-input__input {
   border: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
@@ -212,6 +217,16 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   padding-right: 0 !important;
   text-align: right !important;
   font-size: 0.875rem !important; /* text-sm */
+}
+
+/* Borderless variant for taginput */
+.borderless-autocomplete.o-taginput .o-taginput__container {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.borderless-autocomplete .o-taginput__input {
+  text-align: right !important;
 }
 
 .o-taginput .o-taginput__container {
