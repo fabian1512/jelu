@@ -501,48 +501,39 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 
 /* ============================================================
    Borderless autocomplete/taginput fields (EditBookModal)
-   MUST be outside @layer to win cascade over Oruga's unlayered CSS
+   Override via CSS variables - immune to Tailwind's cascade
    ============================================================ */
 
-/* Remove border+shadow from o-input container inside borderless fields */
-.borderless-autocomplete .o-input {
-  border: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
+/* Override Oruga CSS variables at the root element level.
+   All child elements that use these vars will inherit them. */
+.borderless-autocomplete {
+  --oruga-input-border-width: 0px;
+  --oruga-input-box-shadow: none;
+  --oruga-input-background-color: transparent;
+  --oruga-input-border-color: transparent;
+  --oruga-input-border-style: none;
+  --oruga-input-height: auto;
 }
 
-/* Remove border+shadow from o-input__input (autocomplete text input) */
+/* text-align right on actual input elements - outside @layer beats @layer */
 .borderless-autocomplete .o-input__input {
-  border: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  outline: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  text-align: right !important;
-  font-size: 0.875rem !important;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 0.875rem;
 }
 
-/* Remove border from taginput container */
-.borderless-autocomplete .o-taginput__container {
-  border: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-}
-
-/* Taginput autocomplete wrapper: push to right with margin-left auto */
-.borderless-autocomplete .o-taginput__autocomplete {
-  margin-left: auto !important;
-}
-
-/* Taginput text input: no border, right-aligned */
 .borderless-autocomplete .o-taginput__input {
-  border: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  outline: none !important;
-  text-align: right !important;
-  font-size: 0.875rem !important;
+  text-align: right;
+  font-size: 0.875rem;
+  margin-left: auto;
+}
+
+/* Push taginput's autocomplete wrapper to the right */
+.borderless-autocomplete .o-taginput__autocomplete {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* iOS Safari keyboard zoom prevention - must be OUTSIDE @layer to win cascade.
