@@ -517,7 +517,7 @@ watch(() => sliderPercent.value, (newVal) => {
       <div class="flex-1 min-w-0">
         <input v-model="userbook.book.title" :placeholder="t('book.title')" class="text-xl font-bold bg-transparent w-full outline-none mb-2 block border-b border-base-300 focus:border-primary pb-1">
         <div class="flex flex-wrap gap-1 mb-2">
-          <span v-for="author in userbook.book.authors" :key="author.name" class="badge badge-primary badge-sm">{{ author.name }}</span>
+          <span v-for="author in userbook.book.authors" :key="author.name" class="text-sm">{{ author.name }}</span>
         </div>
         <div class="flex flex-wrap gap-1">
           <span v-for="tag in userbook.book.tags" :key="tag.name" class="badge badge-sm badge-secondary">{{ tag.name }}</span>
