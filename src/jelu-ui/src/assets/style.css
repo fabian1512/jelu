@@ -168,6 +168,15 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply w-fit sm:w-full bg-base-100 text-base-content focus:input-accent;
 }
 
+/* Ensure o-input container has proper styling */
+.o-input {
+  @apply bg-base-100 border border-base-300 rounded-md;
+}
+
+.o-input:focus-within {
+  @apply border-primary;
+}
+
 /* left icon color in autocomplete and taginput */
 .o-icon.o-input__icon-left {
     @apply text-accent-content;
