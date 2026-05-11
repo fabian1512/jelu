@@ -168,6 +168,17 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply w-fit sm:w-full bg-base-100 text-base-content focus:input-accent;
 }
 
+/* o-input container: transparent border keeps dropdown positioning context */
+.o-input {
+  background-color: var(--color-base-100);
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.o-input:focus-within {
+  border-color: transparent;
+}
+
 /* left icon color in autocomplete and taginput */
 .o-icon.o-input__icon-left {
     @apply text-accent-content;
@@ -201,25 +212,28 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   @apply hover:bg-accent;
 }
 
-/* Borderless variant for inline autocomplete fields (used in EditBookModal) */
-.o-autocomplete.borderless-autocomplete .o-input__input {
+/* Borderless variant for inline autocomplete/taginput fields (used in EditBookModal) */
+.borderless-autocomplete .o-input__input,
+.borderless-autocomplete .o-taginput__input {
   border: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
   outline: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   text-align: right !important;
   font-size: 0.875rem !important; /* text-sm */
 }
 
-/* Borderless variant for taginput */
-.o-taginput.borderless-autocomplete .o-taginput__container {
+/* TagInput Container: kein Rahmen, Badges links, Input rechts */
+.borderless-autocomplete .o-taginput__container {
   border: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
-}
-
-.o-taginput.borderless-autocomplete .o-taginput__input {
-  text-align: right !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
 }
 
 .o-taginput .o-taginput__container {
