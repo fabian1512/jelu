@@ -294,13 +294,6 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
     overflow-x: hidden;
 }
 
-/* Center modal on medium screens only (not on very large screens) */
-@media (min-width: 768px) and (max-width: 1200px) {
-  .jl-modal {
-    margin: 12px auto;
-  }
-}
-
 .review-book-card {
   @apply h-72;
   width: min(300px, 85vw);
