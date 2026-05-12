@@ -830,13 +830,13 @@ details > summary::-webkit-details-marker {
   --oruga-input-border-style: none;
 }
 
-/* taginput container: badges left, input inline */
+/* taginput container: badges left, input inline, wrap on multiple badges */
 .borderless-autocomplete .o-taginput__container {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
   display: flex !important;
-  flex-wrap: nowrap !important;
+  flex-wrap: wrap !important;
   align-items: center !important;
   gap: 0.25rem !important;
   max-width: 100% !important;
