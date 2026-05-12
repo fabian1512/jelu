@@ -823,4 +823,39 @@ details > summary::-webkit-details-marker {
   padding-bottom: 0 !important;
   min-height: 50vh;
 }
+
+/* Borderless taginput/autocomplete: no borders, right-aligned */
+.borderless-autocomplete {
+  --oruga-input-border-width: 0px;
+  --oruga-input-box-shadow: none;
+  --oruga-input-background-color: transparent;
+  --oruga-input-border-color: transparent;
+  --oruga-input-border-style: none;
+}
+
+.borderless-autocomplete .o-taginput__container {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Push the taginput/autocomplete block to the right within the row */
+.borderless-autocomplete.flex-1 {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.borderless-autocomplete .o-input__input {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  text-align: right !important;
+  font-size: 0.875rem !important;
+}
+
+.borderless-autocomplete .o-taginput__input {
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 0.875rem !important;
+}
 </style>

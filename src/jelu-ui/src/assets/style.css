@@ -499,36 +499,7 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
 }
 }
 
-/* ============================================================
-   Borderless autocomplete/taginput fields (EditBookModal)
-   Override via CSS variables - immune to Tailwind's cascade
-   ============================================================ */
 
-/* Override Oruga CSS variables - inherited by all child elements */
-.borderless-autocomplete {
-  --oruga-input-border-width: 0px;
-  --oruga-input-box-shadow: none;
-  --oruga-input-background-color: transparent;
-  --oruga-input-border-color: transparent;
-  --oruga-input-border-style: none;
-}
-
-/* taginput container: no border, natural width */
-.borderless-autocomplete .o-taginput__container {
-  width: auto;
-}
-
-/* autocomplete input (Verlag): text right-aligned */
-.borderless-autocomplete .o-input__input {
-  text-align: right;
-  font-size: 0.875rem;
-  width: 100%;
-}
-
-/* taginput text input: natural size, no special alignment */
-.borderless-autocomplete .o-taginput__input {
-  font-size: 0.875rem;
-}
 
 /* iOS Safari keyboard zoom prevention - must be OUTSIDE @layer to win cascade.
    Defense in depth: viewport meta uses maximum-scale=1.0 (primary fix),
