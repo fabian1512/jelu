@@ -563,8 +563,6 @@ watch(() => sliderPercent.value, (newVal) => {
             :open-on-focus="true"
             :validate-item="(item: Author|string) => beforeAdd(item, userbook.book.authors as Array<Author>)"
             :create-item="ObjectUtils.createNamedItem"
-            icon-pack="mdi"
-            icon="account-plus"
             :placeholder="t('labels.add_author')"
             @input="(v: string) => getFilteredData(v, filteredAuthors)"
             root-class="flex-1 borderless-autocomplete"
@@ -589,8 +587,6 @@ watch(() => sliderPercent.value, (newVal) => {
             :open-on-focus="true"
             :validate-item="beforeAddTag"
             :create-item="ObjectUtils.createNamedItem"
-            icon-pack="mdi"
-            icon="tag-plus"
             :placeholder="t('labels.add_tag')"
             @input="getFilteredTags"
             root-class="flex-1 borderless-autocomplete"
@@ -648,8 +644,6 @@ watch(() => sliderPercent.value, (newVal) => {
             :open-on-focus="true"
             :validate-item="(item: Author|string) => beforeAdd(item, userbook.book.translators as Array<Author>)"
             :create-item="ObjectUtils.createNamedItem"
-            icon-pack="mdi"
-            icon="account-plus"
             :placeholder="t('labels.add_translator')"
 @input="(v: string) => getFilteredData(v, filteredTranslators)"
             root-class="flex-1 borderless-autocomplete"
@@ -674,8 +668,6 @@ watch(() => sliderPercent.value, (newVal) => {
             :open-on-focus="true"
             :validate-item="(item: Author|string) => beforeAdd(item, userbook.book.narrators as Array<Author>)"
             :create-item="ObjectUtils.createNamedItem"
-            icon-pack="mdi"
-            icon="account-plus"
             :placeholder="t('labels.add_narrator')"
 @input="(v: string) => getFilteredData(v, filteredNarrators)"
             root-class="flex-1 borderless-autocomplete"
@@ -825,6 +817,7 @@ details > summary::-webkit-details-marker {
 }
 
 /* Borderless taginput/autocomplete: no borders, right-aligned */
+/* CSS variables: remove borders on all Oruga inputs inside borderless fields */
 .borderless-autocomplete {
   --oruga-input-border-width: 0px;
   --oruga-input-box-shadow: none;
@@ -833,18 +826,21 @@ details > summary::-webkit-details-marker {
   --oruga-input-border-style: none;
 }
 
+/* taginput container: no border */
 .borderless-autocomplete .o-taginput__container {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
 }
 
-/* Push the taginput/autocomplete block to the right within the row */
+/* Push badges+input block to the right */
 .borderless-autocomplete.flex-1 {
   display: flex !important;
   justify-content: flex-end !important;
+  position: relative !important;
 }
 
+/* Autocomplete input: right-aligned text */
 .borderless-autocomplete .o-input__input {
   border: none !important;
   box-shadow: none !important;
@@ -853,9 +849,19 @@ details > summary::-webkit-details-marker {
   font-size: 0.875rem !important;
 }
 
+/* Taginput text input */
 .borderless-autocomplete .o-taginput__input {
   border: none !important;
   box-shadow: none !important;
   font-size: 0.875rem !important;
+}
+
+/* Dropdown menu: align to right edge of the borderless wrapper */
+.borderless-autocomplete .o-dropdown__menu {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+  width: auto !important;
+  min-width: 12rem !important;
 }
 </style>
