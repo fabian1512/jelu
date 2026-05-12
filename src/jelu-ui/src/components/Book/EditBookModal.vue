@@ -547,11 +547,7 @@ watch(() => sliderPercent.value, (newVal) => {
           <span class="text-base-content/60 transition-transform group-open:rotate-90">›</span>
         </summary>
         <div class="bg-base-100">
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
-          <input v-model="userbook.book.originalTitle" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.original_title')">
-        </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+<div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.author', 2) }}</label>
           <o-taginput
             v-model="userbook.book.authors"
@@ -616,10 +612,6 @@ watch(() => sliderPercent.value, (newVal) => {
            <input v-model="userbook.book.isbn13" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" placeholder="ISBN13">
          </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-           <label class="text-sm opacity-60 w-24 shrink-0">ISBN10</label>
-           <input v-model="userbook.book.isbn10" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" placeholder="ISBN10">
-         </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.page_count') }}</label>
           <input v-model.number="userbook.book.pageCount" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.page_count')">
         </div>
@@ -635,6 +627,14 @@ watch(() => sliderPercent.value, (newVal) => {
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.price') }}</label>
           <input v-model.number="userbook.price" type="number" step="0.01" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.price')">
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">ISBN10</label>
+          <input v-model="userbook.book.isbn10" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" placeholder="ISBN10">
+        </div>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
+          <input v-model="userbook.book.originalTitle" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" :placeholder="t('book.original_title')">
         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.translator', 2) }}</label>
