@@ -1,4 +1,5 @@
-name: Crowdin Sync 
+# Jelu Localization Sync - Uploads source translations to Crowdin and pulls translations back
+name: Crowdin Sync
 
 on:
   schedule:
