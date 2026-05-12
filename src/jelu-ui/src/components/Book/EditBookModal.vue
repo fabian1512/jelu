@@ -830,32 +830,48 @@ details > summary::-webkit-details-marker {
   --oruga-input-border-style: none;
 }
 
-/* taginput container: badges left, input fills remaining space */
+/* taginput container: badges left, input inline */
 .borderless-autocomplete .o-taginput__container {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
-  display: flex !important;
-  flex-direction: row !important;
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
   align-items: center !important;
   gap: 0.25rem !important;
+  max-width: 100% !important;
 }
 
-/* Push badges+input block to the right - removed, now left-aligned */
-/* Badge wrapper: keeps badges together */
+/* Badge: don't shrink */
 .borderless-autocomplete .o-taginput__container > .badge {
   flex-shrink: 0;
 }
 
-/* Input field: auto-width, not full remaining space */
+/* All wrapper divs inside container: inline */
+.borderless-autocomplete .o-taginput__container > * {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Actual input element */
 .borderless-autocomplete .o-taginput__input {
   border: none !important;
   box-shadow: none !important;
+  background: transparent !important;
   font-size: 0.875rem !important;
   text-align: left !important;
-  flex: 0 0 auto !important;
   min-width: 8rem !important;
-  max-width: 12rem !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+}
+
+/* Input wrapper divs */
+.borderless-autocomplete .o-taginput__autocomplete,
+.borderless-autocomplete .o-dropdown__trigger,
+.borderless-autocomplete .o-input {
+  display: inline-flex !important;
+  width: auto !important;
+  min-width: 8rem !important;
 }
 
 /* Push badges+input block to the right */
