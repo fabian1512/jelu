@@ -830,11 +830,16 @@ details > summary::-webkit-details-marker {
   --oruga-input-border-style: none;
 }
 
-/* taginput container: no border */
+/* taginput container: no border, allow wrapping for multiple badges */
 .borderless-autocomplete .o-taginput__container {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.25rem !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
 }
 
 /* Push badges+input block to the right */
@@ -853,11 +858,19 @@ details > summary::-webkit-details-marker {
   font-size: 0.875rem !important;
 }
 
-/* Taginput text input */
+/* Taginput text input - left aligned for proper placeholder position */
 .borderless-autocomplete .o-taginput__input {
   border: none !important;
   box-shadow: none !important;
   font-size: 0.875rem !important;
+  text-align: left !important;
+  flex: 0 0 auto !important;
+  min-width: 8rem !important;
+}
+
+/* Taginput placeholder: left aligned */
+.borderless-autocomplete .o-taginput__input::placeholder {
+  text-align: left !important;
 }
 
 /* Dropdown menu: align to right edge of the borderless wrapper */
