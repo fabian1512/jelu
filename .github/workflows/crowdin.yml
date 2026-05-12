@@ -1,4 +1,4 @@
-name: Crowdin Sync #
+name: Crowdin Sync 
 
 on:
   schedule:
