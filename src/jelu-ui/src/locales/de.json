@@ -141,7 +141,9 @@
         "no_summary": "Keine Beschreibung vorhanden",
         "more_options": "Mehr...",
         "read_more": "Mehr lesen",
-        "read_less": "Weniger anzeigen"
+        "read_less": "Weniger anzeigen",
+        "plugins": "Plugins",
+        "shelves-changed": "Regale wurden aktualisiert"
     },
     "settings": {
         "title": "Einstellungen",
@@ -196,7 +198,9 @@
         "page_count": "Anzahl der Seiten",
         "user_avg_rating": "Meine durchschnittliche Bewertung",
         "avg_rating": "durchschnittliche Bewertung",
-        "name": "Name"
+        "name": "Name",
+        "rating": "Bewertung",
+        "review_date": "Rezensionsdatum"
     },
     "reading_events": {
         "finished": "beendet",
@@ -269,7 +273,8 @@
         "price": "Preis",
         "properties": "Eigenschaften",
         "details": "Details",
-        "personal": "Persönlich"
+        "personal": "Persönlich",
+        "detail": "Buchdetail"
     },
     "authors_merge": {
         "authors_merging_utility": "Autor:innen zusammenführen",
@@ -385,6 +390,7 @@
     },
     "reviews": {
         "create_review": "Rezension erstellen",
+        "add_review": "Rezension hinzufügen",
         "edit_review": "Rezension bearbeiten",
         "visibility": "Sichtbarkeit",
         "private": "Privat",
@@ -405,10 +411,15 @@
         "reorder_plugins": "Plugins neu sortieren",
         "description": "Plugins werden von oben nach unten ausgeführt, deaktivierte Plugins werden nicht verwendet.",
         "default_priority": "Standardpriorität",
-        "note": "Diese Änderung ist nur vorübergehend, wenn du die Plugins permanent neu ordnen möchtest, musst du die Konfiguration ändern."
+        "note": "Diese Änderung ist nur vorübergehend, wenn du die Plugins permanent neu ordnen möchtest, musst du die Konfiguration ändern.",
+        "provider": "Anbieter",
+        "order": "Priorität",
+        "enabled": "Aktiv",
+        "api_key": "API-Schlüssel"
     },
     "book_quotes": {
         "edit_quote": "Buchzitat bearbeiten",
+        "add_quote": "Zitat hinzufügen",
         "create": "Zitat posten",
         "quote": "Zitat | Zitate",
         "position": "Position",
