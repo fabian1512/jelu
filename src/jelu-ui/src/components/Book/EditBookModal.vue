@@ -835,22 +835,17 @@ details > summary::-webkit-details-marker {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
-  display: inline-flex !important;
+  display: flex !important;
   flex-wrap: nowrap !important;
   align-items: center !important;
   gap: 0.25rem !important;
   max-width: 100% !important;
+  overflow: visible !important;
 }
 
 /* Badge: don't shrink */
 .borderless-autocomplete .o-taginput__container > .badge {
   flex-shrink: 0;
-}
-
-/* All wrapper divs inside container: inline */
-.borderless-autocomplete .o-taginput__container > * {
-  display: inline-flex !important;
-  align-items: center !important;
 }
 
 /* Actual input element */
@@ -860,9 +855,9 @@ details > summary::-webkit-details-marker {
   background: transparent !important;
   font-size: 0.875rem !important;
   text-align: left !important;
-  min-width: 8rem !important;
-  width: auto !important;
-  flex: 0 0 auto !important;
+  min-width: 6rem !important;
+  width: 8rem !important;
+  flex: none !important;
 }
 
 /* Input wrapper divs */
@@ -870,8 +865,8 @@ details > summary::-webkit-details-marker {
 .borderless-autocomplete .o-dropdown__trigger,
 .borderless-autocomplete .o-input {
   display: inline-flex !important;
-  width: auto !important;
-  min-width: 8rem !important;
+  width: 8rem !important;
+  flex: none !important;
 }
 
 /* Push badges+input block to the right */
