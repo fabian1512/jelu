@@ -830,7 +830,7 @@ details > summary::-webkit-details-marker {
   --oruga-input-border-style: none;
 }
 
-/* taginput container: no border, allow wrapping for multiple badges */
+/* taginput container: no border, smart wrapping for badges */
 .borderless-autocomplete .o-taginput__container {
   border: none !important;
   box-shadow: none !important;
@@ -840,6 +840,30 @@ details > summary::-webkit-details-marker {
   gap: 0.25rem !important;
   justify-content: flex-end !important;
   align-items: center !important;
+}
+
+/* Badge wrapper: keeps badges together on one line, wraps as a group */
+.borderless-autocomplete .o-taginput__container > .badge {
+  flex-shrink: 0;
+}
+
+/* Input field: full width on new line when badges wrap, otherwise auto-width */
+.borderless-autocomplete .o-taginput__input {
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 0.875rem !important;
+  text-align: left !important;
+  flex: 1 1 100% !important;
+  min-width: 6rem !important;
+  order: 10;
+}
+
+/* When badges fit on one line, input stays inline */
+@media (min-width: 640px) {
+  .borderless-autocomplete .o-taginput__input {
+    flex: 0 0 auto !important;
+    order: 0;
+  }
 }
 
 /* Push badges+input block to the right */
@@ -856,16 +880,6 @@ details > summary::-webkit-details-marker {
   background: transparent !important;
   text-align: right !important;
   font-size: 0.875rem !important;
-}
-
-/* Taginput text input - left aligned for proper placeholder position */
-.borderless-autocomplete .o-taginput__input {
-  border: none !important;
-  box-shadow: none !important;
-  font-size: 0.875rem !important;
-  text-align: left !important;
-  flex: 0 0 auto !important;
-  min-width: 8rem !important;
 }
 
 /* Taginput placeholder: left aligned */
