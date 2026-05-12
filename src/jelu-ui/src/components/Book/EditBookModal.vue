@@ -830,40 +830,31 @@ details > summary::-webkit-details-marker {
   --oruga-input-border-style: none;
 }
 
-/* taginput container: no border, smart wrapping for badges */
+/* taginput container: badges left, input fills remaining space */
 .borderless-autocomplete .o-taginput__container {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
   display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 0.25rem !important;
-  justify-content: flex-end !important;
+  flex-direction: row !important;
   align-items: center !important;
+  gap: 0.25rem !important;
 }
 
-/* Badge wrapper: keeps badges together on one line, wraps as a group */
+/* Push badges+input block to the right - removed, now left-aligned */
+/* Badge wrapper: keeps badges together */
 .borderless-autocomplete .o-taginput__container > .badge {
   flex-shrink: 0;
 }
 
-/* Input field: full width on new line when badges wrap, otherwise auto-width */
+/* Input field: fills remaining space */
 .borderless-autocomplete .o-taginput__input {
   border: none !important;
   box-shadow: none !important;
   font-size: 0.875rem !important;
   text-align: left !important;
-  flex: 1 1 100% !important;
+  flex: 1 !important;
   min-width: 6rem !important;
-  order: 10;
-}
-
-/* When badges fit on one line, input stays inline */
-@media (min-width: 640px) {
-  .borderless-autocomplete .o-taginput__input {
-    flex: 0 0 auto !important;
-    order: 0;
-  }
 }
 
 /* Push badges+input block to the right */
