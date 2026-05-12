@@ -126,6 +126,7 @@
       "description" : "description",
       "user_rating" : "my rating : {rating}",
       "apply" : "apply",
+      "apply_cover": "apply cover",
       "loading": "loading",
       "pick_camera": "pick camera",
       "add_narrator": "Add a narrator",

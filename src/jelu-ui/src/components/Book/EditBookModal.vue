@@ -373,6 +373,51 @@ function toggleRemoveImage() {
   deleteImage.value = !deleteImage.value
 }
 
+const canApplyUpload = computed(() => {
+  return (StringUtils.isNotBlank(imageUrl.value) && uploadType.value === 'web') ||
+         (StringUtils.isNotBlank(imagePath.value) && uploadType.value === 'server') ||
+         (file.value != null && uploadType.value === 'computer')
+})
+
+const applyCoverUpload = () => {
+  if (!canApplyUpload.value) return
+  
+  if (uploadType.value === 'web' && StringUtils.isNotBlank(imageUrl.value)) {
+    userbook.value.book.image = imageUrl.value
+    hasImage.value = true
+    deleteImage.value = false
+    imageUrl.value = ''
+  } else if (uploadType.value === 'computer' && file.value != null) {
+    // Upload file immediately
+    progress.value = true
+    dataService.saveUserBookImage(
+      userbook.value,
+      file.value,
+      (event: { loaded: number; total: number }) => {
+        const percent = Math.round((100 * event.loaded) / event.total);
+        uploadPercentage.value = percent;
+      }
+    ).then((result) => {
+      userbook.value = result
+      hasImage.value = true
+      deleteImage.value = false
+      file.value = null
+      uploadPercentage.value = 0
+      progress.value = false
+    }).catch((error) => {
+      progress.value = false
+      uploadPercentage.value = 0
+      errorMessage.value = error.message || 'Upload failed'
+    })
+    return
+  } else if (uploadType.value === 'server' && StringUtils.isNotBlank(imagePath.value)) {
+    userbook.value.book.image = imagePath.value
+    hasImage.value = true
+    deleteImage.value = false
+    imagePath.value = ''
+  }
+}
+
 const openMetadataModal = () => {
   oruga.modal.open({
     parent: this,
@@ -782,6 +827,12 @@ watch(() => sliderPercent.value, (newVal) => {
         <div v-else class="mt-2 text-center">
           <button @click="toggleImagePickerModal" class="btn btn-sm btn-primary">{{ t('labels.choose_file') }}</button>
           <span v-if="imagePath" class="block text-xs mt-1 opacity-60">{{ imagePath }}</span>
+        </div>
+        <div class="mt-3 flex justify-end gap-2">
+          <button @click="applyCoverUpload" class="btn btn-sm btn-success" :disabled="!canApplyUpload">
+            <i class="mdi mdi-check mdi-18px"></i>
+            <span class="ml-1">{{ t('labels.apply_cover') }}</span>
+          </button>
         </div>
       </div>
     </details>

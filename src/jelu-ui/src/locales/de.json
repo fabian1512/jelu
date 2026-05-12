@@ -126,6 +126,7 @@
         "description": "Beschreibung",
         "user_rating": "meine Bewertung : {rating}",
         "apply": "übernehmen",
+        "apply_cover": "Cover übernehmen",
         "loading": "Lädt",
         "pick_camera": "Kamera auswählen",
         "add_narrator": "Erzähler:in hinzufügen",
