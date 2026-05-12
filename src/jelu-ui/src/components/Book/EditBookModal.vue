@@ -620,10 +620,6 @@ watch(() => sliderPercent.value, (newVal) => {
            <input v-model="userbook.book.isbn10" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" placeholder="ISBN10">
          </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
-           <input v-model="userbook.book.originalTitle" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" :placeholder="t('book.original_title')">
-         </div>
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.page_count') }}</label>
           <input v-model.number="userbook.book.pageCount" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.page_count')">
         </div>
