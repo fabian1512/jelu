@@ -611,10 +611,18 @@ watch(() => sliderPercent.value, (newVal) => {
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.published_date') }}</label>
           <input v-model="publishedDateString" type="date" class="ml-auto w-auto bg-transparent outline-none text-sm text-right" />
         </div>
+<div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+           <label class="text-sm opacity-60 w-24 shrink-0">ISBN13</label>
+           <input v-model="userbook.book.isbn13" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" placeholder="ISBN13">
+         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
-          <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.language') }}</label>
-          <input v-model="userbook.book.language" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.language')">
-        </div>
+           <label class="text-sm opacity-60 w-24 shrink-0">ISBN10</label>
+           <input v-model="userbook.book.isbn10" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" placeholder="ISBN10">
+         </div>
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
+           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.original_title') }}</label>
+           <input v-model="userbook.book.originalTitle" class="flex-1 bg-transparent outline-none text-sm text-right uniform-input" :placeholder="t('book.original_title')">
+         </div>
         <div class="flex items-center gap-3 px-4 py-3 border-b border-base-200">
           <label class="text-sm opacity-60 w-24 shrink-0">{{ t('book.page_count') }}</label>
           <input v-model.number="userbook.book.pageCount" type="number" class="flex-1 bg-transparent outline-none text-sm text-right" :placeholder="t('book.page_count')">
@@ -863,5 +871,22 @@ details > summary::-webkit-details-marker {
   transform: none !important;
   width: auto !important;
   min-width: 12rem !important;
+}
+
+/* Uniform input height - match the height of simple text inputs */
+.uniform-input,
+.o-input__input,
+.o-taginput__input {
+  min-height: 1.5rem !important;
+  height: 1.5rem !important;
+  line-height: 1.5rem !important;
+}
+
+/* Ensure taginput and autocomplete containers have same height as inputs */
+.borderless-autocomplete .o-taginput__container,
+.borderless-autocomplete .o-dropdown__trigger {
+  min-height: 1.5rem !important;
+  height: 1.5rem !important;
+  align-items: center !important;
 }
 </style>
