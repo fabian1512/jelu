@@ -513,9 +513,9 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   --oruga-input-border-style: none;
 }
 
-/* taginput container: no border, fill available space */
+/* taginput container: no border, natural width */
 .borderless-autocomplete .o-taginput__container {
-  width: 100%;
+  width: auto;
 }
 
 /* autocomplete input (Verlag): text right-aligned */
@@ -525,12 +525,9 @@ li.o-pagination__item button.o-pagination__button.o-pagination__button--current 
   width: 100%;
 }
 
-/* taginput text input: text right-aligned, grow to fill */
+/* taginput text input: natural size, no special alignment */
 .borderless-autocomplete .o-taginput__input {
-  text-align: right;
   font-size: 0.875rem;
-  flex: 1;
-  min-width: 8rem;
 }
 
 /* iOS Safari keyboard zoom prevention - must be OUTSIDE @layer to win cascade.
