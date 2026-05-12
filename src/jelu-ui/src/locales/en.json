@@ -139,9 +139,11 @@
       "list_empty": "list is empty",
       "edit_book": "Edit book",
       "no_summary": "No summary available",
-      "more_options": "More...",
-      "read_more": "Read more",
-      "read_less": "Read less"
+"more_options": "More...",
+        "read_more": "Read more",
+        "read_less": "Read less",
+        "plugins": "Plugins",
+        "shelves-changed": "Shelves have been updated"
     },
     "settings" : {
         "title" : "Settings",
@@ -196,7 +198,9 @@
         "page_count" : "Page count",
         "user_avg_rating" : "my average rating",
         "avg_rating" : "average rating",
-        "name": "name"
+        "name": "name",
+        "rating": "Rating",
+        "review_date": "Review date"
     },
     "reading_events" : {
         "finished" : "finished",
@@ -269,7 +273,8 @@
         "price": "price",
         "properties": "Properties",
         "details": "Details",
-        "personal": "Personal"
+        "personal": "Personal",
+        "detail": "Book detail"
     },
     "authors_merge" : {
         "authors_merging_utility" : "Authors merging utility",
@@ -385,6 +390,7 @@
     },
     "reviews" : {
         "create_review" : "Create review",
+        "add_review" : "Add review",
         "edit_review" : "Edit review",
         "visibility" : "visibility",
         "private" : "private",
@@ -408,10 +414,12 @@
         "note" : "This change is only temporary, if you want to permanently reorder the plugins you have to edit the config.",
         "provider" : "Provider",
         "order" : "Priority",
-        "enabled" : "Active"
+        "enabled" : "Active",
+        "api_key" : "API Key"
     },
     "book_quotes" : {
         "edit_quote" : "Edit book quote",
+        "add_quote" : "Add quote",
         "create" : "Post a quote",
         "quote" : "quote | quotes",
         "position" : "position",
