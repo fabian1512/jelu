@@ -847,14 +847,15 @@ details > summary::-webkit-details-marker {
   flex-shrink: 0;
 }
 
-/* Input field: fills remaining space */
+/* Input field: auto-width, not full remaining space */
 .borderless-autocomplete .o-taginput__input {
   border: none !important;
   box-shadow: none !important;
   font-size: 0.875rem !important;
   text-align: left !important;
-  flex: 1 !important;
-  min-width: 6rem !important;
+  flex: 0 0 auto !important;
+  min-width: 8rem !important;
+  max-width: 12rem !important;
 }
 
 /* Push badges+input block to the right */
