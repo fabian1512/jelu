@@ -130,6 +130,7 @@
         "list_empty": "list is empty"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Vælg dit sprog",
         "pick_theme": "Vælg et tema",
         "theme_warning": "Beta. Standardtemaet er 'mørkt'",

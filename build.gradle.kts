@@ -156,12 +156,19 @@ val buildTaskUsingNpm =
     tasks.register<NpmTask>("npmBuild") {
         npmCommand.set(listOf("run", "install-build"))
         args.set(listOf("--", "--out-dir", "${layout.buildDirectory.get()}/npm-output"))
-        inputs.dir("src")
+        inputs.dir("src/jelu-ui/src")
+        inputs.file("src/jelu-ui/package.json")
+        inputs.file("src/jelu-ui/vite.config.mts")
         outputs.dir("${layout.buildDirectory.get()}/npm-output")
+        outputs.cacheIf { false }
     }
 
 tasks.register<Sync>("copyWebDist") {
     dependsOn("npmBuild")
     from("${layout.buildDirectory.get()}/npm-output")
     into("$projectDir/src/main/resources/public/")
+}
+
+tasks.named("processResources") {
+    dependsOn("copyWebDist")
 }

@@ -130,6 +130,7 @@
         "list_empty": "Zoznam je prázdny"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Vyberte svoj jazyk",
         "pick_theme": "Vybrať tému",
         "theme_warning": "Beta. Predvolená téma je 'dark'",

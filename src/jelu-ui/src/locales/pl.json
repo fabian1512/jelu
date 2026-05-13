@@ -130,6 +130,7 @@
         "list_empty": "list is empty"
     },
     "settings": {
+        "title": "Settings",
         "pick_language": "Wybierz język",
         "pick_theme": "Wybierz motyw",
         "theme_warning": "Testowy. Domyślny motyw to 'ciemny'",
