@@ -59,8 +59,6 @@ export class ObjectUtils {
         ...book,
         userbook: undefined
       }
-      console.log('ub')
-      console.log(userbook)
       return userbook
     } else {
       const converted = {
@@ -118,10 +116,7 @@ export class ObjectUtils {
    */
   public static computePages = (newVals: Array<number | string | null | undefined>, oldVals: Array<number | string | null | undefined>,
     target: { currentPageNumber?: number | null, percentRead?: number | null }, pageCount: number | null) => {
-    console.log("pagecount " + pageCount)
     if (pageCount != null) {
-      console.log(newVals)
-      console.log(oldVals)
       if (newVals[0] as number >= pageCount) {
         target.currentPageNumber = pageCount
         target.percentRead = 100
@@ -151,8 +146,6 @@ export class ObjectUtils {
   }
 
   public static createNamedItem(item: Author | Tag | string) {
-  console.log("create")
-  console.log(item)
   if (typeof item === 'string') {
     return {"name": item}
   } else {
@@ -165,9 +158,7 @@ public static timestamp = () => new Date().toISOString().substring(0,16)
 
 public static amountInLocale = (amount: number, locale: string, currency: string) => {
   let localCurrency = currency
-  console.log("amount " + amount + " locale " + locale + " currency " + currency)
   if (currency.length !== 3) {
-    console.log("wrong currency " + currency + " , go set it in the settings page, it should be the currency code, ie EUR")
     localCurrency = "EUR"
   }
   return amount.toLocaleString(locale, {
