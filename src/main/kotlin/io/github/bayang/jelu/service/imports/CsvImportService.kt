@@ -30,7 +30,6 @@ import io.github.bayang.jelu.service.ReviewService
 import io.github.bayang.jelu.service.UserMessageService
 import io.github.bayang.jelu.service.UserService
 import io.github.bayang.jelu.service.metadata.FetchMetadataService
-import io.github.bayang.jelu.service.metadata.providers.CalibreMetadataProvider
 import io.github.bayang.jelu.utils.toInstant
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.csv.CSVFormat
@@ -168,18 +167,12 @@ class CsvImportService(
         try {
             importService.updateStatus(importEntity.id.value, ProcessingStatus.PROCESSING)
             var metadata = MetadataDto()
-            if (importEntity.shouldFetchMetadata &&
-                !properties.metadata.calibre.path
-                    .isNullOrBlank()
-            ) {
+            if (importEntity.shouldFetchMetadata) {
                 val isbn: String = getIsbn(importEntity)
                 if (isbn.isNotBlank()) {
-                    var config = mutableMapOf<String, String>()
-                    config[CalibreMetadataProvider.ONLY_USE_CORE_PLUGINS] = "true"
-                    config[CalibreMetadataProvider.FETCH_COVER] = importConfig.shouldFetchCovers.toString()
                     metadata =
                         fetchMetadataService
-                            .fetchMetadata(MetadataRequestDto(isbn), config)
+                            .fetchMetadata(MetadataRequestDto(isbn))
                 } else {
                     logger.debug { "no isbn on entity ${importEntity.id}, not fetching metadata" }
                 }

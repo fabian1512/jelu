@@ -206,16 +206,31 @@ class ReadingEventRepository {
         userBook: UserBook,
     ) {
         if (createReadingEventDto.eventType == ReadingEventType.CURRENTLY_READING) {
-            // we start a book, for the first time or it is a re-read
-            // set the progress to zero
             userBook.percentRead = 0
             userBook.currentPageNumber = 0
         } else if (createReadingEventDto.eventType == ReadingEventType.FINISHED) {
-            // and if we mark a book as read set progress to 100 and current page to last page
             userBook.percentRead = 100
             if (userBook.book.pageCount != null) {
                 userBook.currentPageNumber = userBook.book.pageCount
             }
+            userBook.toRead = null
+        }
+        if (createReadingEventDto.eventType == ReadingEventType.DROPPED) {
+            userBook.toRead = null
+        }
+        when (createReadingEventDto.eventType) {
+            ReadingEventType.MARKED_OWNED -> {
+                userBook.owned = true
+                userBook.borrowed = false
+            }
+            ReadingEventType.MARKED_TO_READ -> {
+                userBook.toRead = true
+            }
+            ReadingEventType.MARKED_BORROWED -> {
+                userBook.borrowed = true
+                userBook.owned = false
+            }
+            else -> {}
         }
     }
 
@@ -284,6 +299,18 @@ class ReadingEventRepository {
                 this.startDate = updateReadingEventDto.startDate
             }
             this.eventType = updateReadingEventDto.eventType
+            when (updateReadingEventDto.eventType) {
+                ReadingEventType.MARKED_TO_READ -> this.userBook.toRead = true
+                ReadingEventType.MARKED_OWNED -> {
+                    this.userBook.owned = true
+                    this.userBook.borrowed = false
+                }
+                ReadingEventType.MARKED_BORROWED -> {
+                    this.userBook.borrowed = true
+                    this.userBook.owned = false
+                }
+                else -> {}
+            }
             val lastEvent =
                 this.userBook.readingEvents
                     .maxByOrNull { e -> e.lastEventDate }
@@ -307,6 +334,12 @@ class ReadingEventRepository {
     fun deleteReadingEventById(eventId: UUID) {
         val entity: ReadingEvent = ReadingEvent[eventId]
         val userbook = entity.userBook
+        when (entity.eventType) {
+            ReadingEventType.MARKED_OWNED -> userbook.owned = false
+            ReadingEventType.MARKED_TO_READ -> userbook.toRead = null
+            ReadingEventType.MARKED_BORROWED -> userbook.borrowed = false
+            else -> {}
+        }
         entity.delete()
         val lastEvent =
             userbook.readingEvents

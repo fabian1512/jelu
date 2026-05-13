@@ -86,6 +86,12 @@ class BooksController(
         @PathVariable("id") userbookId: UUID,
     ) = repository.findUserBookById(userbookId)
 
+    @GetMapping(path = ["/userbooks/from-book/{bookId}"])
+    fun userbookByBookId(
+        @PathVariable("bookId") bookId: UUID,
+        principal: Authentication,
+    ) = repository.findBookAsUserBook(bookId, (principal.principal as JeluUser).user.id!!)
+
     @ApiResponse(responseCode = "204", description = "Deleted the userbook")
     @DeleteMapping(path = ["/userbooks/{id}"])
     fun deleteUserbookById(
@@ -190,7 +196,7 @@ class BooksController(
         @RequestParam(name = "owned", required = false) owned: Boolean?,
         @RequestParam(name = "borrowed", required = false) borrowed: Boolean?,
         @RequestParam(name = "userId", required = false) userId: UUID?,
-        @PageableDefault(page = 0, size = 20, direction = Sort.Direction.DESC, sort = ["modificationDate"]) @ParameterObject pageable:
+        @PageableDefault(page = 0, size = 20, direction = Sort.Direction.DESC, sort = ["lastReadingEventDate"]) @ParameterObject pageable:
             Pageable,
     ): Page<UserBookWithoutEventsAndUserDto> {
         assertIsJeluUser(principal.principal)
@@ -202,8 +208,13 @@ class BooksController(
     fun authors(
         @RequestParam(name = "name", required = false) name: String?,
         @RequestParam(name = "role", required = false) role: Role = Role.ANY,
+        @RequestParam(name = "libraryFilter", required = false) libraryFilter: LibraryFilter?,
         @PageableDefault(page = 0, size = 20, direction = Sort.Direction.ASC, sort = ["name"]) @ParameterObject pageable: Pageable,
-    ): Page<AuthorDto> = repository.findAllAuthors(name, role = role, pageable = pageable)
+        principal: Authentication,
+    ): Page<AuthorDto> {
+        assertIsJeluUser(principal.principal)
+        return repository.findAllAuthors(name, role, libraryFilter ?: LibraryFilter.ANY, (principal.principal as JeluUser).user, pageable)
+    }
 
     @GetMapping(path = ["/tags"])
     fun tags(

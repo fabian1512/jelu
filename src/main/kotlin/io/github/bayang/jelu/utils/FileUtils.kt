@@ -4,4 +4,7 @@ fun imageName(
     title: String,
     bookId: String,
     extension: String,
-): String = "$title-$bookId.$extension"
+): String {
+    val ext = extension.ifBlank { "jpg" }
+    return "$title-$bookId.$ext"
+}

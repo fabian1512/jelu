@@ -11,7 +11,7 @@ spring:
     drop-first: false
     change-log: classpath:liquibase.xml
   datasource:
-    url: jdbc:sqlite::memory:?foreign_keys=on;
+    url: jdbc:sqlite:file:test?mode=memory&cache=shared&foreign_keys=on
     username: test
     password: test
     driver-class-name: org.sqlite.JDBC

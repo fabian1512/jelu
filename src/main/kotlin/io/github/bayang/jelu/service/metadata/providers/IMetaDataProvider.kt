@@ -10,5 +10,10 @@ interface IMetaDataProvider {
         config: Map<String, String> = mapOf(),
     ): Optional<MetadataDto>?
 
+    fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String> = mapOf(),
+    ): List<MetadataDto>
+
     fun name(): String
 }

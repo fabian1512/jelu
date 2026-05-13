@@ -459,6 +459,8 @@ class BookRepository(
     fun findAllAuthors(
         name: String?,
         role: Role = Role.ANY,
+        libraryFilter: LibraryFilter = LibraryFilter.ANY,
+        user: UserDto? = null,
         pageable: Pageable,
     ): Page<Author> {
         val query =
@@ -479,6 +481,15 @@ class BookRepository(
                 }
         name?.let {
             query.andWhere { AuthorTable.name like "%$name%" }
+        }
+        if (libraryFilter != LibraryFilter.ANY && user?.id != null) {
+            val userBookSubQuery =
+                UserBookTable.select(UserBookTable.book).where { UserBookTable.user eq user.id }
+            if (libraryFilter == LibraryFilter.ONLY_USER_BOOKS) {
+                query.andWhere { BookAuthors.book inSubQuery userBookSubQuery }
+            } else if (libraryFilter == LibraryFilter.ONLY_NON_USER_BOOKS) {
+                query.andWhere { BookAuthors.book notInSubQuery userBookSubQuery }
+            }
         }
         query.withDistinct(true)
         val total = query.count()
@@ -1030,7 +1041,7 @@ class BookRepository(
                 authorsList.add(save(it))
             }
         }
-        if (authorsList.isNotEmpty()) {
+        if (book.authors != null) {
             updated.authors = SizedCollection(authorsList)
         }
         val translatorsList = mutableListOf<Author>()
@@ -1083,7 +1094,7 @@ class BookRepository(
                 tagsList.add(save(it))
             }
         }
-        if (tagsList.isNotEmpty()) {
+        if (book.tags != null) {
             updated.tags = SizedCollection(tagsList)
         }
         book.series?.forEach {
@@ -1147,11 +1158,12 @@ class BookRepository(
             found.priceInCents = floatingPriceToLong(book.price)
         }
         var bookFinished = false
-        if (book.percentRead != null && book.percentRead >= 100) {
+        if (book.percentRead != null && book.percentRead >= 100 && found.percentRead != 100) {
             bookFinished = true
         }
         found.percentRead = book.percentRead
         val current = book.currentPageNumber
+        val previousPage = found.currentPageNumber
         found.currentPageNumber = current
         var total = found.book.pageCount
         if (total == null && book.book?.pageCount != null) {
@@ -1164,7 +1176,7 @@ class BookRepository(
                 } else {
                     found.percentRead = 0
                 }
-            } else if (current >= total) {
+            } else if (current >= total && previousPage != total) {
                 bookFinished = true
                 found.percentRead = 100
             } else {
@@ -1174,22 +1186,7 @@ class BookRepository(
         if (book.book != null) {
             update(found.book, fromBookCreateDto(book.book))
         }
-        if (book.lastReadingEvent != null) {
-            readingEventRepository.save(
-                found,
-                CreateReadingEventDto(
-                    eventType = book.lastReadingEvent,
-                    bookId = null,
-                    eventDate = null,
-                    startDate = null,
-                ),
-            )
-            if (bookFinished && book.lastReadingEvent == ReadingEventType.FINISHED) {
-                bookFinished = false
-            }
-        }
-        // the book was set as finished vioa current page number or percent read
-        // and an event was not already sent above
+        // the book was set as finished via current page number or percent read
         if (bookFinished) {
             readingEventRepository.save(
                 found,
@@ -1546,6 +1543,11 @@ class BookRepository(
 
     fun findUserBookByIdInList(userbookIds: List<UUID>): SizedIterable<UserBook> = UserBook.forIds(userbookIds)
 
+    fun findUserBookByBookAndUser(
+        bookId: UUID,
+        userId: UUID,
+    ): UserBook? = UserBook.find { UserBookTable.user eq userId and (UserBookTable.book eq bookId) }.firstOrNull()
+
     fun findUserBookByCriteria(
         userID: UUID,
         bookId: UUID?,
@@ -1634,9 +1636,14 @@ class BookRepository(
         } else {
             query.limit(pageable.pageSize)
             query.offset(pageable.offset)
-            val orders: Array<Pair<Expression<*>, SortOrder>> =
-                parseSorts(pageable.sort, Pair(UserBookTable.lastReadingEventDate, SortOrder.DESC_NULLS_LAST), cols)
-            query.orderBy(*orders)
+            val orders =
+                parseSorts(
+                    pageable.sort,
+                    Pair(UserBookTable.lastReadingEventDate, SortOrder.DESC_NULLS_LAST),
+                    cols,
+                ).toMutableList()
+            orders.add(Pair(UserBookTable.modificationDate, SortOrder.DESC_NULLS_LAST))
+            query.orderBy(*orders.toTypedArray())
         }
         val res = query.map { resultRow -> wrapUserBookRow(resultRow, ratingAlias, userRatingAlias) }
         return PageImpl(

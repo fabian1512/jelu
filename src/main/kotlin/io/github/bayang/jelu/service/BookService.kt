@@ -121,8 +121,13 @@ class BookService(
     fun findAllAuthors(
         name: String?,
         role: Role = Role.ANY,
+        libraryFilter: LibraryFilter = LibraryFilter.ANY,
+        user: UserDto? = null,
         pageable: Pageable,
-    ): Page<AuthorDto> = bookRepository.findAllAuthors(name, role = role, pageable = pageable).map { it.toAuthorDto() }
+    ): Page<AuthorDto> =
+        bookRepository
+            .findAllAuthors(name, role = role, libraryFilter = libraryFilter, user = user, pageable = pageable)
+            .map { it.toAuthorDto() }
 
     @Transactional
     fun findAllTags(
@@ -483,6 +488,34 @@ class BookService(
 
     @Transactional
     fun findUserBookById(userbookId: UUID): UserBookLightDto = bookRepository.findUserBookById(userbookId).toUserBookLightDto()
+
+    fun findBookAsUserBook(
+        bookId: UUID,
+        userId: UUID,
+    ): UserBookLightDto {
+        val existing = bookRepository.findUserBookByBookAndUser(bookId, userId)
+        if (existing != null) {
+            return existing.toUserBookLightDto()
+        }
+        val book = bookRepository.findBookById(bookId)
+        val bookDto = book.toBookDto()
+        return UserBookLightDto(
+            id = null,
+            creationDate = null,
+            modificationDate = null,
+            book = bookDto,
+            owned = null,
+            toRead = null,
+            personalNotes = null,
+            lastReadingEvent = null,
+            lastReadingEventDate = null,
+            percentRead = null,
+            currentPageNumber = null,
+            borrowed = null,
+            readingEvents = null,
+            price = null,
+        )
+    }
 
     @Transactional
     fun findUserBookByCriteria(

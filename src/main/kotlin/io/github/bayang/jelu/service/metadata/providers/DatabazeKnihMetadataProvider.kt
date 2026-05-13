@@ -80,6 +80,63 @@ class DatabazeKnihMetadataProvider : IMetaDataProvider {
     }
 
     /**
+     * Search databazeknih.cz and return multiple metadata DTOs
+     */
+    private fun searchDatabazeKnihMulti(query: String): List<MetadataDto> {
+        val url = "https://www.databazeknih.cz/search?in=books&q=${URLEncoder.encode(query, "UTF-8")}"
+        logger.debug("Fetching search URL for multi results: $url")
+
+        val doc = fetchDocument(url) ?: return emptyList()
+
+        // If search result page lists multiple books, collect all links
+        if (doc.title().startsWith("Vyhledávání")) {
+            val bookLinks = doc.select("p.new a.new").map { it.attr("href") }.take(10)
+            if (bookLinks.isEmpty()) {
+                return emptyList()
+            }
+            return bookLinks.mapNotNull { link ->
+                try {
+                    val bookUrl = "https://www.databazeknih.cz$link"
+                    val bookDoc = fetchDocument(bookUrl)
+                    if (bookDoc != null) {
+                        parseBookPage(bookDoc)
+                    } else {
+                        null
+                    }
+                } catch (e: Exception) {
+                    logger.warn("failed to fetch book from $link: ${e.message}")
+                    null
+                }
+            }
+        }
+
+        // Direct hit - return single result
+        val dto = parseBookPage(doc)
+        return if (dto?.title != null) listOf(dto) else emptyList()
+    }
+
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        val query =
+            when {
+                !metadataRequestDto.isbn.isNullOrBlank() -> metadataRequestDto.isbn
+                !metadataRequestDto.title.isNullOrBlank() && !metadataRequestDto.authors.isNullOrBlank() ->
+                    "${metadataRequestDto.title} ${metadataRequestDto.authors}"
+                !metadataRequestDto.title.isNullOrBlank() -> metadataRequestDto.title
+                !metadataRequestDto.authors.isNullOrBlank() -> metadataRequestDto.authors
+                else -> {
+                    logger.debug("No valid query for DatabazeKnih search")
+                    return emptyList()
+                }
+            }
+
+        logger.debug("Searching DatabazeKnih with query: \"$query\"")
+        return searchDatabazeKnihMulti(query)
+    }
+
+    /**
      * Extract SID from URL using regex.
      */
     private fun extractSidFromUrl(url: String): String? {

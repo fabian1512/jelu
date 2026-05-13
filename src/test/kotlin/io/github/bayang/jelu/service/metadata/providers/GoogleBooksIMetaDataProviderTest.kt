@@ -2,8 +2,10 @@ package io.github.bayang.jelu.service.metadata.providers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.bayang.jelu.config.JeluProperties
+import io.github.bayang.jelu.dao.MetadataProviderSettingRepository
 import io.github.bayang.jelu.dto.MetadataDto
 import io.github.bayang.jelu.dto.MetadataRequestDto
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
@@ -119,7 +121,8 @@ class GoogleBooksIMetaDataProviderTest {
                 JeluProperties.Auth(JeluProperties.Ldap(), JeluProperties.Proxy()),
                 listOf(JeluProperties.MetaDataProvider("google", true, "fake-google-api-key")),
             )
-        val service = GoogleBooksIMetaDataProvider(webClient, jeluProperties, ObjectMapper())
+        val settingsRepo = mockk<MetadataProviderSettingRepository>(relaxed = true)
+        val service = GoogleBooksIMetaDataProvider(webClient, jeluProperties, ObjectMapper(), settingsRepo)
 
         // When
         val result: MetadataDto =

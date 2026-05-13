@@ -707,4 +707,19 @@
             <column name="user_id" />
         </createIndex>
     </changeSet>
+    <changeSet id="create_metadata_provider_setting" author="frontend-refactor">
+        <createTable tableName="metadata_provider_setting">
+            <column name="name" type="varchar(200)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="is_enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
+            <column name="provider_order" type="int" defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="api_key" type="varchar(500)"/>
+            <column name="config" type="varchar(5000)"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

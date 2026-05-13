@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
+import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.codec.ClientCodecConfigurer
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -38,7 +39,12 @@ class GlobalConfig {
     }
 
     @Bean("springRestClient")
-    fun springRestClient(): RestClient = RestClient.create()
+    fun springRestClient(): RestClient {
+        val factory = SimpleClientHttpRequestFactory()
+        factory.setConnectTimeout(10_000)
+        factory.setReadTimeout(15_000)
+        return RestClient.builder().requestFactory(factory).build()
+    }
 
     @Bean("passwordEncoder")
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()

@@ -3,6 +3,7 @@ package io.github.bayang.jelu.service.metadata.providers
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.bayang.jelu.config.JeluProperties
+import io.github.bayang.jelu.dao.MetadataProviderSettingRepository
 import io.github.bayang.jelu.dto.MetadataDto
 import io.github.bayang.jelu.dto.MetadataRequestDto
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -21,6 +22,7 @@ class GoogleBooksIMetaDataProvider(
     @Resource(name = "restClient") private val restClient: WebClient,
     private val properties: JeluProperties,
     private val objectMapper: ObjectMapper,
+    private val settingsRepository: MetadataProviderSettingRepository,
 ) : IMetaDataProvider {
     private val name = "google"
 
@@ -69,6 +71,52 @@ class GoogleBooksIMetaDataProvider(
         return res
     }
 
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        val googleProviderApiKey = getGoogleProviderApiKey()
+        if (googleProviderApiKey.isNullOrBlank()) {
+            logger.warn { "missing google books API key" }
+            return emptyList()
+        }
+        val res =
+            restClient
+                .get()
+                .uri { uriBuilder: UriBuilder ->
+                    uriBuilder
+                        .scheme("https")
+                        .host("www.googleapis.com")
+                        .path("/books/v1/volumes")
+                        .queryParam("q", query(metadataRequestDto))
+                        .queryParam("maxResults", 10)
+                        .queryParam("key", googleProviderApiKey)
+                        .build()
+                }.exchangeToMono {
+                    if (it.statusCode() == HttpStatus.OK) {
+                        it.bodyToMono(String::class.java).map { bodyString ->
+                            val r = objectMapper.readTree(bodyString).get("items")
+                            if (r == null) {
+                                emptyList()
+                            } else {
+                                r.mapNotNull { item ->
+                                    try {
+                                        parseBook(item)
+                                    } catch (e: Exception) {
+                                        logger.warn { "failed to parse book: ${e.message}" }
+                                        null
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        logger.error { "error searching metadata from google : ${it.statusCode()}" }
+                        null
+                    }
+                }.block(Duration.ofSeconds(60))
+        return res ?: emptyList()
+    }
+
     private fun query(metadataRequestDto: MetadataRequestDto): String {
         if (!metadataRequestDto.isbn.isNullOrBlank()) {
             return "isbn:${metadataRequestDto.isbn}"
@@ -86,15 +134,21 @@ class GoogleBooksIMetaDataProvider(
 
     override fun name(): String = name
 
-    private fun getGoogleProviderApiKey(): String? =
-        properties
+    private fun getGoogleProviderApiKey(): String? {
+        val dbSetting =
+            settingsRepository.findAll().find { it.name.equals(name, true) }
+        if (dbSetting != null && !dbSetting.apiKey.isNullOrBlank()) {
+            return dbSetting.apiKey
+        }
+        return properties
             .metadataProviders
             ?.find { it.isEnabled && it.name == name }
             ?.apiKey
+    }
 
     private fun parseBook(node: JsonNode): MetadataDto {
         val volumeInfo = node.get("volumeInfo")
-        val identifiers = volumeInfo.get("industryIdentifiers").asIterable()
+        val identifiers = volumeInfo.get("industryIdentifiers")?.asIterable() ?: emptyList()
         return MetadataDto(
             title = volumeInfo.get("title").asText(),
             googleId = node.get("id").asText(),
@@ -104,6 +158,8 @@ class GoogleBooksIMetaDataProvider(
             image = extractImage(volumeInfo),
             language = volumeInfo.get("language").asText(),
             publishedDate = volumeInfo.get("publishedDate").asText(),
+            publisher = volumeInfo.get("publisher")?.asText(),
+            pageCount = volumeInfo.get("pageCount")?.asInt(),
             summary = summary(node),
         )
     }

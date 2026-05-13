@@ -22,5 +22,16 @@ class DebugMetadataProvider : IMetaDataProvider {
         return Optional.empty()
     }
 
+    override fun searchMetadata(
+        metadataRequestDto: MetadataRequestDto,
+        config: Map<String, String>,
+    ): List<MetadataDto> {
+        logger.debug {
+            "debug plugin search called with isbn ${metadataRequestDto.isbn}, title ${metadataRequestDto.title}, " +
+                "authors ${metadataRequestDto.authors}, config $config, plugins ${metadataRequestDto.plugins}"
+        }
+        return emptyList()
+    }
+
     override fun name(): String = PluginInfoHolder.JELU_DEBUG
 }

@@ -31,4 +31,5 @@ data class MetadataRequestDto(
     val title: String? = null,
     val authors: String? = null,
     val plugins: List<PluginInfo>? = null,
+    val language: String? = null,
 )
