@@ -38,8 +38,6 @@ import { usePreferredLanguages } from '@vueuse/core'
 import { useLocalStorage } from '@vueuse/core'
 
 const languages = usePreferredLanguages()
-console.log("languages : ")
-console.log(languages)
 let preferredLanguage = 'en'
 if (languages.value && languages.value.length > 0) {
   const candidate = languages.value[0]
@@ -49,9 +47,7 @@ if (languages.value && languages.value.length > 0) {
     preferredLanguage = candidate
   }
 }
-console.log(`favourite language fetched from browser is : ${preferredLanguage}`)
 const storedLanguage = useLocalStorage("jelu_language", preferredLanguage)
-console.log(`favourite language fetched from storage is : ${storedLanguage.value}`)
   const i18n = createI18n({
     legacy: false,
     locale: storedLanguage.value,

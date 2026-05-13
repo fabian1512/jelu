@@ -1,0 +1,563 @@
+<script setup lang="ts">
+import { useThrottleFn, useTitle } from '@vueuse/core';
+import { useRouteQuery } from '@vueuse/router';
+import { computed, onMounted, Ref, ref, watch } from "vue";
+import { useI18n } from 'vue-i18n';
+import useBulkEdition from '../../composables/bulkEdition';
+import usePagination from '../../composables/pagination';
+import useSort from "../../composables/sort";
+import { UserBook } from "../../model/Book";
+import { ReadingEventType } from "../../model/ReadingEvent";
+import dataService from "../../services/DataService";
+import BookCard from '../Global/BookCard.vue';
+import SortFilterBarVue from '../Global/SortFilterBar.vue';
+import useTypography from '../../composables/typography';
+
+const { t } = useI18n({
+  inheritLocale: true,
+  useScope: 'global'
+})
+
+useTitle('Jelu | ' + t('nav.my_books'))
+
+const books: Ref<Array<UserBook>> = ref([]);
+
+const { total, page, pageAsNumber, perPage, updatePage, getPageIsLoading, updatePageLoading, pageCount } = usePagination()
+
+const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('lastReadingEventDate,desc')
+
+const { showSelect, selectAll, checkedCards, cardChecked, toggleEdit } = useBulkEdition(modalClosed)
+
+const open = ref(false)
+
+const getBookIsLoading: Ref<boolean> = ref(false)
+
+// Filters
+const toRead: Ref<string|null> = useRouteQuery('toRead', "null")
+const owned: Ref<string|null> = useRouteQuery('owned', "null")
+const borrowed: Ref<string|null> = useRouteQuery('borrowed', "null")
+const userId: Ref<string|null> = useRouteQuery('userId', null)
+const eventTypes: Ref<Array<ReadingEventType>> = useRouteQuery('lastEventTypes', [])
+const username = ref("")
+
+// --- LocalStorage keys ---
+const EVENT_TYPES_KEY = "bookEventTypes";
+const TO_READ_KEY = "bookToRead";
+const OWNED_KEY = "bookOwned";
+const BORROWED_KEY = "bookBorrowed";
+
+// Restore saved settings
+onMounted(() => {
+  const savedEventTypes = localStorage.getItem(EVENT_TYPES_KEY);
+  if (savedEventTypes) {
+    try {
+      eventTypes.value = JSON.parse(savedEventTypes);
+    } catch {}
+  }
+
+  const savedToRead = localStorage.getItem(TO_READ_KEY);
+  if (savedToRead) toRead.value = savedToRead;
+
+  const savedOwned = localStorage.getItem(OWNED_KEY);
+  if (savedOwned) owned.value = savedOwned;
+
+  const savedBorrowed = localStorage.getItem(BORROWED_KEY);
+  if (savedBorrowed) borrowed.value = savedBorrowed;
+});
+
+// Persist changes
+watch(eventTypes, (newVal) => {
+  localStorage.setItem(EVENT_TYPES_KEY, JSON.stringify(newVal));
+}, { deep: true });
+watch(toRead, (newVal) => {
+  localStorage.setItem(TO_READ_KEY, newVal ?? "null");
+});
+watch(owned, (newVal) => {
+  localStorage.setItem(OWNED_KEY, newVal ?? "null");
+});
+watch(borrowed, (newVal) => {
+  localStorage.setItem(BORROWED_KEY, newVal ?? "null");
+});
+
+
+const getUsername = async () => {
+  if (userId.value != null) {
+    username.value = await dataService.usernameById(userId.value)
+  }
+}
+
+getUsername()
+
+watch([page, eventTypes, toRead, owned, borrowed, sortQuery], (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    throttledGetBooks()
+  }
+})
+
+const message = computed(() => {
+  if (userId.value != null) {
+    return t('labels.books_from_name', { name: username.value })
+  } else {
+    return t('nav.my_books')
+  }
+} )
+
+const toReadAsBool = computed(() => {
+  if (toRead.value?.toLowerCase() === "null") {
+    return null
+  } else if (toRead.value?.toLowerCase() === "true") {
+    return true
+  } else {
+    return false
+  }
+  }
+)
+
+const ownedAsBool = computed(() => {
+  if (owned.value?.toLowerCase() === "null") {
+    return null
+  } else if (owned.value?.toLowerCase() === "true") {
+    return true
+  } else {
+    return false
+  }
+  }
+)
+
+const borrowedAsBool = computed(() => {
+  if (borrowed.value?.toLowerCase() === "null") {
+    return null
+  } else if (borrowed.value?.toLowerCase() === "true") {
+    return true
+  } else {
+    return false
+  }
+  }
+)
+
+const getBooks = () => {
+  getBookIsLoading.value = true
+  dataService.findUserBookByCriteria(eventTypes.value, null, userId.value,
+  toReadAsBool.value, ownedAsBool.value, borrowedAsBool.value,
+  pageAsNumber.value - 1, perPage.value, sortQuery.value)
+  .then(res => {
+          total.value = res.totalElements
+          books.value = res.content
+        if (! res.empty) {
+          page.value =  (res.number + 1).toString(10)
+        }
+        else {
+          page.value = "1"
+        }
+        getBookIsLoading.value = false
+        updatePageLoading(false)
+        removeIds()
+    }
+    )
+    .catch(e => {
+      getBookIsLoading.value = false
+      updatePageLoading(false)
+    })
+
+};
+
+const removeIds = () => {
+  if (userId.value != null) {
+    books.value.forEach(b => b.id = undefined)
+  }
+}
+
+// watches set above sometimes called twice
+// so getBooks was sometimes called twice at the same instant
+const throttledGetBooks = useThrottleFn(() => {
+  getBooks()
+}, 100, false)
+
+onMounted(() => {
+});
+
+function modalClosed() {
+  throttledGetBooks()
+}
+
+const { typographyClasses } = useTypography()
+
+try {
+  getBooks();
+} catch (error) {
+}
+
+</script>
+
+<template>
+  <sort-filter-bar-vue
+    :open="open"
+    :order="sortOrder"
+    @update:open="open = $event"
+    @update:sort-order="sortOrderUpdated"
+  >
+    <template #sort-fields>
+      <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('sorting.sort_by') }}</p>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="lastReadingEventDate"
+        >
+        <span class="label-text">{{ t('sorting.last_reading_event_date') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="creationDate"
+        >
+        <span class="label-text">{{ t('sorting.date_added') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="title"
+        >
+        <span class="label-text">{{ t('sorting.title') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="publisher"
+        >
+        <span class="label-text">{{ t('sorting.publisher') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="pageCount"
+        >
+        <span class="label-text">{{ t('sorting.page_count') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="usrAvgRating"
+        >
+        <span class="label-text">{{ t('sorting.user_avg_rating') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="avgRating"
+        >
+        <span class="label-text">{{ t('sorting.avg_rating') }}</span>
+      </div>
+      <div class="field">
+        <input
+          v-model="sortBy"
+          type="radio"
+          name="radio-20"
+          class="radio radio-primary"
+          value="random"
+        >
+        <span class="label-text">{{ t('sorting.random') }}</span>
+      </div>
+    </template>
+    <template #filters>
+      <div class="field flex flex-col items-start">
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('reading_events.last_event_type') }}</p>
+        <div class="field">
+          <input
+            v-model="eventTypes"
+            type="checkbox"
+            class="checkbox checkbox-primary"
+            value="FINISHED"
+          >
+          <span class="label-text">{{ t('reading_events.finished') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="eventTypes"
+            type="checkbox"
+            class="checkbox checkbox-primary"
+            value="CURRENTLY_READING"
+          >
+          <span class="label-text">{{ t('reading_events.currently_reading') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="eventTypes"
+            type="checkbox"
+            class="checkbox checkbox-primary"
+            value="DROPPED"
+          >
+          <span class="label-text">{{ t('reading_events.dropped') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="eventTypes"
+            type="checkbox"
+            class="checkbox checkbox-primary"
+            value="NONE"
+          >
+          <span class="label-text">{{ t('reading_events.none') }}</span>
+        </div>
+      </div>
+      <div class="field flex flex-col items-start">
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.book_in_list') }}</p>
+        <div class="field">
+          <input
+            v-model="toRead"
+            type="radio"
+            name="radio-28"
+            class="radio radio-primary"
+            value="null"
+          >
+          <span class="label-text">{{ t('filtering.unset') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="toRead"
+            type="radio"
+            name="radio-28"
+            class="radio radio-primary"
+            value="false"
+          >
+          <span class="label-text">{{ t('labels.false') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="toRead"
+            type="radio"
+            name="radio-28"
+            class="radio radio-primary"
+            value="true"
+          >
+          <span class="label-text">{{ t('labels.true') }}</span>
+        </div>
+      </div>
+      <div class="field flex flex-col items-start">
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.owned') }}</p>
+        <div class="field">
+          <input
+            v-model="owned"
+            type="radio"
+            name="radio-31"
+            class="radio radio-primary"
+            value="null"
+          >
+          <span class="label-text">{{ t('filtering.unset') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="owned"
+            type="radio"
+            name="radio-31"
+            class="radio radio-primary"
+            value="false"
+          >
+          <span class="label-text">{{ t('labels.false') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="owned"
+            type="radio"
+            name="radio-31"
+            class="radio radio-primary"
+            value="true"
+          >
+          <span class="label-text">{{ t('labels.true') }}</span>
+        </div>
+      </div>
+      <div class="field flex flex-col items-start">
+        <p class="px-4 py-2 text-xs font-bold opacity-60 uppercase tracking-wide border-t border-base-300 mt-2">{{ t('filtering.borrowed') }}</p>
+        <div class="field">
+          <input
+            v-model="borrowed"
+            type="radio"
+            name="radio-34"
+            class="radio radio-primary"
+            value="null"
+          >
+          <span class="label-text">{{ t('filtering.unset') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="borrowed"
+            type="radio"
+            name="radio-34"
+            class="radio radio-primary"
+            value="false"
+          >
+          <span class="label-text">{{ t('labels.false') }}</span>
+        </div>
+        <div class="field">
+          <input
+            v-model="borrowed"
+            type="radio"
+            name="radio-34"
+            class="radio radio-primary"
+            value="true"
+          >
+          <span class="label-text">{{ t('labels.true') }}</span>
+        </div>
+      </div>
+    </template>
+  </sort-filter-bar-vue>
+  <div class="flex flex-row justify-between mb-2">
+    <h2
+      class="text-xl sm:text-2xl md:text-3xl capitalize truncate min-w-0 flex-1"
+      :class="typographyClasses"
+    >
+      <span class="icon">
+        <i class="mdi mdi-bookshelf" />
+      </span>
+      &nbsp; {{ message }} :
+    </h2>
+    <div class="flex flex-row gap-1">
+      <button
+        class="btn btn-outline btn-success"
+        @click="open = !open"
+      >
+        <span class="icon text-lg">
+          <i class="mdi mdi-filter-variant" />
+        </span>
+      </button>
+      <button
+        v-tooltip="t('bulk.toggle')"
+        class="btn btn-outline btn-primary"
+        @click="showSelect = !showSelect"
+      >
+        <span class="icon text-lg">
+          <i class="mdi mdi-pencil" />
+        </span>
+      </button>
+      <button
+        v-if="showSelect"
+        v-tooltip="t('bulk.select_all')"
+        class="btn btn-outline btn-accent"
+        @click="selectAll = !selectAll"
+      >
+        <span class="icon text-lg">
+          <i class="mdi mdi-checkbox-multiple-marked" />
+        </span>
+      </button>
+      <button
+        v-if="showSelect && checkedCards.length > 0"
+        v-tooltip="t('bulk.edit')"
+        class="btn btn-outline btn-info"
+        @click="toggleEdit(checkedCards)"
+      >
+        <span class="icon text-lg">
+          <i class="mdi mdi-book-edit" />
+        </span>
+      </button>
+    </div>
+  </div>
+  <o-pagination
+    v-if="books.length > 0 && pageCount > 1"
+    class="hidden sm:block"
+    :current="pageAsNumber"
+    :total="total"
+    order="centered"
+    :per-page="perPage"
+    @change="updatePage"
+  />
+  <div
+    v-if="books.length > 0"
+    class="grid gap-[12px] grid-cols-1 sm:grid-cols-3 md:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] my-3 mt-2"
+  >
+    <TransitionGroup name="list">
+      <div
+        v-for="book in books"
+        :key="book.id"
+        class="h-full"
+      >
+        <book-card
+          :book="book"
+          :force-select="selectAll"
+          :show-select="showSelect"
+          :public="false"
+          :propose-add="userId == null"
+          class="h-full"
+          @update:modal-closed="modalClosed"
+          @update:checked="cardChecked"
+        />
+      </div>
+    </TransitionGroup>
+  </div>
+  <div
+    v-else-if="getBookIsLoading"
+    class="flex flex-row flex-wrap justify-center justify-items-center gap-3"
+  >
+    <o-skeleton
+      class="justify-self-center basis-36"
+      height="250px"
+      :animated="true"
+    />
+    <o-skeleton
+      class="justify-self-center basis-36 hidden sm:block"
+      height="250px"
+      :animated="true"
+    />
+    <o-skeleton
+      class="justify-self-center basis-36 hidden md:block"
+      height="250px"
+      :animated="true"
+    />
+  </div>
+  <div v-else class="flex flex-col items-center justify-center py-16 text-center">
+    <h2
+      class="text-xl sm:text-2xl md:text-3xl capitalize mb-4"
+      :class="typographyClasses"
+    >
+      {{ t('labels.library_empty') }}
+    </h2>
+    <span class="icon">
+      <i class="mdi mdi-book-open-page-variant-outline text-4xl sm:text-6xl" />
+    </span>
+  </div>
+
+  <o-pagination
+    v-if="books.length > 0"
+    :current="pageAsNumber"
+    :total="total"
+    order="centered"
+    :per-page="perPage"
+    @change="updatePage"
+  />
+  <o-loading
+    v-model:active="getPageIsLoading"
+    :full-page="true"
+    :cancelable="true"
+  />
+</template>
+
+<style scoped>
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.2s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+}
+
+</style>
